@@ -9,6 +9,7 @@ import { SidebarService } from './sidebar/sidebar.service';
 export class PartialLayoutComponent implements OnInit {
 
   constructor(public sidebarservice: SidebarService) { }
+  
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
   }
