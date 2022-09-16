@@ -6,12 +6,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule,  MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 import { FooterComponent } from './partial/partial-layout/footer/footer.component';
 import { HeaderComponent } from './partial/partial-layout/header/header.component';
 import { SidebarComponent } from './partial/partial-layout/sidebar/sidebar.component';
-import { MaterialModule } from './shared/angularMaterialModule/material.module';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -32,17 +31,16 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     PerfectScrollbarModule
   ],
-  providers: [ Title,
+  providers: [Title,
     {
-    provide: PERFECT_SCROLLBAR_CONFIG,
-    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }],
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

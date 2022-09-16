@@ -9,7 +9,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { PartialLayoutRoutes } from './partial-layout.routing';
-import { MaterialModule } from 'src/app/shared/angularMaterialModule/material.module';
 
 
 
@@ -29,7 +28,6 @@ import { MaterialModule } from 'src/app/shared/angularMaterialModule/material.mo
     MatFormFieldModule,
     MatTooltipModule,
     MatSelectModule,
-    MaterialModule
   ]  
 })
 export class PartialLayoutModule { }
