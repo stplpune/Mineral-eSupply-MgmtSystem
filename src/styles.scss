@@ -1,1 +1,166 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Rubik', "Helvetica Neue", sans-serif;
+}
+.page-wrapper.toggled .sidebar {
+  left: -300px;
+}
+// angular perfect scrollbar style
+.sidebar .ps.ps--scrolling-y>.ps__rail-y,
+.sidebar>.ps.ps--scrolling-x>.ps__rail-x,
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: transparent !important;
+}
+.sidebar .ps.ps--active-y>.ps__rail-y:hover,
+.sidebar>.ps.ps--active-y>.ps__rail-y.ps--clicking {
+  width: 10px !important;
+}
+.ps__thumb-y {
+  background-color: #fff !important;
+  width: 6px !important;
+  border-radius: 0px !important;
+  opacity: .5;
+}
+:root{
+  --main-color:rgb(36, 68, 242);
+  --main-light-color:rgb(202, 210, 255);
+  --main-dark-color:rgb(28, 54, 193);
+}
+.text-main{
+  color:var(--main-color);
+  text-decoration: none;
+}
+.bg-main,
+.btn-main{
+  background-color:var(--main-color);
+  color: #fff;
+  font-size: 0.85rem;
+}
+.btn-main:hover{
+  background-color:var(--main-dark-color) !important;
+  color: #fff !important;
+}
+.btn-outline-main{
+  font-size: 0.85rem;
+  color: var(--main-color);
+  background-color: transparent;
+  border: solid 1px var(--main-color) !important;
+}
+.btn-outline-main:hover{
+  color: #fff !important;
+  background-color: var(--main-color) !important;
+  border: solid 1px var(--main-color) !important;
+}
+.main-card .card-header{
+  font-size: 0.85rem;
+}
+.form-container .input-group{
+  border-radius: 0.375rem;
+  border:solid 1px rgba(0,0,0,0.125);
+}
+.form-container .input-group .form-control,
+.form-container .input-group .btn{
+  border:none;
+  box-shadow: none;
+  font-size: 0.85rem;
+  background-color: #fff;
+}
+.form-container .form-label{
+  font-size: 0.75rem;
+  color: #777;
+  margin-bottom: 0;
+}
+.form-container .form-data{
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+.form-container .form-check,
+.form-container .form-control,
+.form-container .form-select,
+.form-container .btn{
+  box-shadow: none;
+  font-size: 0.85rem;
+}
+.dashboard-table{
+  font-size: 0.85rem;
+}
+.dashboard-table th{
+  font-weight: 500;
+  background-color:#eee;
+}
+.dashboard-table th,.dashboard-table td{
+  vertical-align: middle;
+}
+.dashboard-table td img{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  object-position:top;
+}
+.dashboard-table td .btn-group .btn{
+  font-size: 0.75rem;
+  box-shadow: none;
+  margin-right: 5px;
+  border-radius: 0.375rem !important;
+}
+.modal .modal-content{
+  border: none;
+}
+.modal .modal-header{
+  font-size: 1rem;
+  font-weight: 400;
+  background-color:var(--main-color);
+  color: #fff;
+  padding: 10px;
+}
+.modal .modal-footer{
+  padding: 10px;
+}
+.upload-image{
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-image img{
+  width: 100%;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: contain;
+  object-position: middle;
+}
+.upload-image .btn{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: #eee;
+  border-radius: 50%;
+  padding: 0;
+  height: 28px;
+  width: 28px;
+  line-height: 28px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.upload-image .btn:hover{
+  background: #ddd;
+}
+.upload-image input[type=file] {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,13 @@
+<div class="page-wrapper" [ngClass]="{'toggled' : getSideBarState()}">
+    <app-sidebar></app-sidebar>
+    <main class="page-content">
+        <app-header></app-header>
+        <div class="main-content">
+            <router-outlet></router-outlet>
+        </div>
+        <footer>
+            <app-footer></app-footer>
+        </footer>
+        <div class="overlay" (click)="toggleSidebar()" [ngClass]="{'show' : !getSideBarState()}"></div>
+    </main>
+</div>

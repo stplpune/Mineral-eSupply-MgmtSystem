@@ -31,6 +31,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -99,6 +100,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -107,5 +109,8 @@
       }
     }
   },
-  "defaultProject": "Mineral-eSupply-MgmtSystem"
+  "defaultProject": "Mineral-eSupply-MgmtSystem",
+  "cli": {
+    "analytics": "82ef3e4d-2387-4fe1-9156-f2132dfd7896"
+  }
 }

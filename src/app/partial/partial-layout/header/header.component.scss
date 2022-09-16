@@ -1,0 +1,25 @@
+.avatar{
+    width: 34px;
+    border-radius: 50%;
+}
+.navbar .btn{
+    font-size: 0.85rem;
+    color: #757575;
+}
+.navbar .btn:active,
+.navbar .btn:focus,
+.navbar .btn.show,
+.navbar .btn:hover{
+    color: #000;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+.navbar .dropdown-menu{
+    padding: 10px;
+    font-size: 0.85rem;
+    border: none;
+}
+.navbar .dropdown-menu .dropdown-item{
+    padding: 10px 15px;
+    border-radius: 5px;
+}
