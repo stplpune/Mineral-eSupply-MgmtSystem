@@ -304,7 +304,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #2444f2;
+  background-color: var(--sidebar-color);
   color: #fff;
 }
 
@@ -332,7 +332,7 @@
 
 .sidebar.sidebar-bg .sidebar-search,
 .sidebar.sidebar-bg .sidebar-menu {
-  border-top: 1px solid #203dd9;
+  border-top: 1px solid var(--sidebar-border-color);
   color: #353535;
 }
 
@@ -347,6 +347,6 @@
 .sidebar.sidebar-bg .sidebar-menu .sidebar-dropdown div,
 .sidebar.sidebar-bg .sidebar-search input.search-menu,
 .sidebar.sidebar-bg .sidebar-search .btn {
-  background-color: #1c36c1;
+  background-color: var(--sidebar-dark-color);
   color: #fff;
 }
