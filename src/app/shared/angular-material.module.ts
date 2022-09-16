@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AngularMaterialRoutingModule } from './angular-material-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // material modules
@@ -36,7 +34,6 @@ import {MatBadgeModule} from '@angular/material/badge';
   declarations: [],
   imports: [
     CommonModule,
-    AngularMaterialRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     // Material moment date module
