@@ -7,6 +7,7 @@ import { ErrorHandlerService } from 'src/app/core/services/error-handler.service
 import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { FileUploadService } from 'src/app/core/services/file-upload.service';
+import { ExcelService } from 'src/app/core/services/pdf-excel.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class DemoBidderRegComponent implements OnInit {
     public commonApiCallService: CommonApiCallService,
     public webStorageService: WebStorageService,
     public fileUploadService: FileUploadService,
+    public excelService:ExcelService
 
   ) { }
 

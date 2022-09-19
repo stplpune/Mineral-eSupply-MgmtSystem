@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class CommonMethodsService {
   codecareerPage!: string;
 
-  constructor(private snackBar: MatSnackBar, public location: Location,   public datePipe: DatePipe, private router:Router) { }
+  constructor(private snackBar: MatSnackBar, public location: Location,   private datePipe: DatePipe, private router:Router) { }
 
   createCaptchaCarrerPage() {
     //clear the contents of captcha div first
