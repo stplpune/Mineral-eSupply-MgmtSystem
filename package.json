@@ -24,6 +24,7 @@
     "agm-direction": "^0.8.10",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
+    "ng-apexcharts": "^1.7.1",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-spinner": "^12.0.0",
     "rxjs": "~7.5.6",

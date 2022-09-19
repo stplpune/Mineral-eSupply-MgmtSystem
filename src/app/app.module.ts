@@ -22,6 +22,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ConfigService } from './configs/config.service';
 import { ChangePasswordComponent } from './dialogs/change-password/change-password.component';
 import { DatePipe } from '@angular/common';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -46,7 +47,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HttpClientModule,
     AngularMaterialModule,
     NgxSpinnerModule,
-   
+    NgApexchartsModule,
     AgmCoreModule.forRoot(ConfigService.googleApiObj),
   ],
   providers: [Title,
