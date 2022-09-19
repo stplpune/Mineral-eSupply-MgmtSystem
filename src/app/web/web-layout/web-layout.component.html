@@ -1,5 +1,7 @@
-<app-web-header *ngIf="hideHeader"></app-web-header>
+<app-web-header ></app-web-header>
 <div class="home-top" [class.mt-0]="!hideHeader">
     <router-outlet></router-outlet>
 </div>
-<app-web-footer *ngIf="hideFooter"></app-web-footer>
+<app-web-footer></app-web-footer>
+<!-- *ngIf="hideHeader"
+*ngIf="hideFooter" -->
