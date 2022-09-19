@@ -10,6 +10,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb:FormBuilder) { }
   loginFrm !:FormGroup;
+  hide = true;
+
   ngOnInit(): void {
     this.defaultForm();
   }
