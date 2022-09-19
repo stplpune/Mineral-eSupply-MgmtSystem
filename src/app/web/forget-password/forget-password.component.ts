@@ -38,7 +38,7 @@ export class ForgetPasswordComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === "200") {
         this.forgetFrm.controls['mobileNumber'].setValue('');
-          this.router.navigate('login')
+          this.router.navigate(['/login']);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
