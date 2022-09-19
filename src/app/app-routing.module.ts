@@ -4,7 +4,7 @@ import { WebLayoutComponent } from './web/web-layout/web-layout.component';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'demo', pathMatch: 'full' },
   {
     path: '',
     component: WebLayoutComponent,
@@ -17,9 +17,13 @@ const routes: Routes = [
     component: PartialLayoutComponent,
     children: [
       { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule), data: { title: 'Login' } },
+      { path: 'demo', loadChildren: () => import('./partial/demo/demo.module').then(m => m.DemoModule) },
     ]
+    
   },
-  { path: 'demo', loadChildren: () => import('./partial/demo/demo.module').then(m => m.DemoModule) },
+ 
+  { path: 'demo-bidder-reg', loadChildren: () => import('./web/demo-bidder-reg/demo-bidder-reg.module').then(m => m.DemoBidderRegModule) },
+ 
   
   
   

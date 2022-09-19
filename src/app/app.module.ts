@@ -18,6 +18,8 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AgmCoreModule } from '@agm/core';
+import { ConfigService } from './configs/config.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -40,7 +42,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     HttpClientModule,
     AngularMaterialModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+   
+    AgmCoreModule.forRoot(ConfigService.googleApiObj),
   ],
   providers: [Title,
     {
