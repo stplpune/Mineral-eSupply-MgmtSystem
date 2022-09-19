@@ -4,6 +4,10 @@
     font-size: 0.75rem;
     padding-block: 0.5rem;
 }
+#topbar a{
+    color: var(--text-color);
+    text-decoration: none;
+}
 #topbar .btn-color{
     border: none;
     width: 16px;
