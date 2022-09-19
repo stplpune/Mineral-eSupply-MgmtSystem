@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularMaterialModule } from '../../shared/angular-material.module'
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',

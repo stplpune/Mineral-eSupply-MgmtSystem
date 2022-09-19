@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ChangePasswordComponent } from 'src/app/dialogs/change-password/change-password.component';
+import { ChangePasswordComponent } from '../../dialogs/change-password/change-password.component';
+import { LogoutComponent } from '../../dialogs/logout/logout.component';
 import { SidebarService } from '../sidebar/sidebar.service';
 
 @Component({
@@ -33,12 +34,20 @@ export class HeaderComponent implements OnInit {
       width: '350px',
       data: '',
     });
-
     dialogRef.afterClosed().subscribe((result:any) => {
-      // console.log('The dialog was closed');
-      // this.animal = result;
     });
   }
+
+
+  logOut(){
+    const dialogRef = this.dialog.open(LogoutComponent, {
+      width: '350px',
+      data: '',
+    });
+    dialogRef.afterClosed().subscribe((result:any) => {
+    });
+  }
+
 
 
 }
