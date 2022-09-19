@@ -16,7 +16,6 @@ export const PartialLayoutRoutes: Routes = [
   // -------------------------Application  routing  use for Admin,MSME,  WBMDTCL--------------------------------------------------------//
   { path: 'application', loadChildren: () => import('../../partial/application/application/application.module').then(m => m.ApplicationModule), data: { title: 'Application' },  canActivate: [ExpenseGuard]  },
   { path: 'approval', loadChildren: () => import('../../partial/application/approval/approval.module').then(m => m.ApprovalModule), data: { title: 'Approval' },  canActivate: [ExpenseGuard]  },
-  { path: 'acoal-allocation', loadChildren: () => import('../../partial/application/coal-allocation/coal-allocation.module').then(m => m.CoalAllocationModule), data: { title: 'Coal Allocation' },  canActivate: [ExpenseGuard]  },
 
   //---------------------------- Coal Allocation-----------------------------------------------------//
   { path: 'coal-allocation', loadChildren: () => import('../../partial/coal-allocation/coal-allocation/coal-allocation.module').then(m => m.CoalAllocationModule), data: { title: 'Coal Allocation' },  canActivate: [ExpenseGuard]  },

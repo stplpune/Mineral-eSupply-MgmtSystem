@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     component: WebLayoutComponent,
     children: [
-      { path: '', loadChildren: () => import('./web/web-layout/web-layout.module').then(m => m.WebLayoutModule), canActivate: [CheckLoggedInGuard] },
+      { path: '', loadChildren: () => import('./web/web-layout/web-layout.module').then(m => m.WebLayoutModule)},
     ]
   },
   {
