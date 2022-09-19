@@ -2,14 +2,21 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { MapsAPILoader } from '@agm/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonMethodsService {
   codecareerPage!: string;
+  geocoder:any;
 
-  constructor(private snackBar: MatSnackBar, public location: Location,    private router:Router) { }
+  constructor(private snackBar: MatSnackBar, public location: Location,   private datePipe: DatePipe, private router:Router,
+    public mapsApiLoader: MapsAPILoader){
+      this.mapsApiLoader.load().then(() => {
+        this.geocoder = new google.maps.Geocoder();
+      });
+    }
 
   createCaptchaCarrerPage() {
     //clear the contents of captcha div first
@@ -99,4 +106,25 @@ export class CommonMethodsService {
   redToNextPageWithPar(id: any, link: string, label: string) {
    //this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
   }
+
+
+  getAddressBylat_lng(latitude: number, longitude: number) { // get Address Using Latitude & logitude
+    let address_pincodeObj = {'pinCode':'','address':''};
+    this.geocoder.geocode(
+      { location: { lat: latitude, lng: longitude, } },
+      (results: any) => {
+        address_pincodeObj.address = results[3].formatted_address;
+        results[0].address_components.forEach((element: any) => {
+          if (element.types[0] == 'postal_code') {
+            address_pincodeObj.pinCode = element.long_name;
+          }
+        });
+      });
+     return address_pincodeObj;
+  }
+
+
+
+
+
 }

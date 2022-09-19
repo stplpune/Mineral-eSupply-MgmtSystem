@@ -70,5 +70,4 @@ export class DemoBidderRegComponent implements OnInit {
       partnershipDeedCerti_No: [''],
     })
   }
-
 }
