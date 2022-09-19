@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExcelService {
+export class PDFExcelService {
+
+  downloadPDF() {
+    const doc = new jsPDF();
+    doc.text("Hello world!", 10, 10);
+    doc.save("a4.pdf");
+  }
 
  downloadExcel(){
   let workbook = new Workbook();
