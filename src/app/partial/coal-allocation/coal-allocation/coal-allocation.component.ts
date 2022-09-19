@@ -8,6 +8,8 @@ import { CommonApiCallService } from 'src/app/core/services/common-api-call.serv
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { FileUploadService } from 'src/app/core/services/file-upload.service';
 import { PDFExcelService } from 'src/app/core/services/pdf-excel.service';
+import { Observable, of, timer } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-coal-allocation',
@@ -17,6 +19,28 @@ import { PDFExcelService } from 'src/app/core/services/pdf-excel.service';
 export class CoalAllocationComponent implements OnInit {
 
   bidderRegiForm:FormGroup | any;
+  bidderTypeArray = ['Individual', 'Organization'];
+  hideIndividual: boolean = true;
+  hideOrganization: boolean = false;
+  organTypeArray: any[] = [];
+  districtArray: any[] = [];
+  DesignationArray: any[] = [];
+  bidderTypeName = 'Individual';
+
+  panSymbolHide: boolean = false;
+  aadharSymbolHide: boolean = false;
+  gstSymbolHide: boolean = false;
+  incCertiSymbolHide: boolean = false;
+  SALBodyCertiSymbolHide: boolean = false;
+  PDCertiSymbolHide: boolean = false;
+
+  @ViewChild('fileInputPan', { static: false }) fileInputPan: ElementRef | any;
+  @ViewChild('fileInputAadhar', { static: false }) fileInputAadhar: ElementRef | any;
+  @ViewChild('fileInputGst', { static: false }) fileInputGst: ElementRef | any;
+  @ViewChild('fileInputIC', { static: false }) fileInputIC: ElementRef | any;
+  @ViewChild('fileInputSALBC', { static: false }) fileInputSALBC: ElementRef | any;
+  @ViewChild('fileInputPDC', { static: false }) fileInputPDC: ElementRef | any;
+
 
   constructor(
     public commonService: CommonMethodsService,
@@ -27,7 +51,7 @@ export class CoalAllocationComponent implements OnInit {
     public commonApiCallService: CommonApiCallService,
     public webStorageService: WebStorageService,
     public fileUploadService: FileUploadService,
-    public pdf_excelService:PDFExcelService
+    public pdf_excelService:PDFExcelService,
 
   ) { }
 
@@ -68,6 +92,26 @@ export class CoalAllocationComponent implements OnInit {
       SALocalBodyCerti_No: [''],
       partnershipDeedCerti_No: [''],
     })
+  }
+
+  defaultDocSymbolHide() {
+    this.panSymbolHide = false;
+    this.aadharSymbolHide = false;
+    this.gstSymbolHide = false;
+    this.incCertiSymbolHide = false;
+    this.SALBodyCertiSymbolHide = false;
+    this.PDCertiSymbolHide = false;
+  }
+
+  defaultfilenativeElementClear() {
+    if (this.fileInputPan?.nativeElement.value || this.fileInputAadhar?.nativeElement.value || this.fileInputGst?.nativeElement.value || this.fileInputIC?.nativeElement.value || this.fileInputSALBC?.nativeElement?.value || this.fileInputPDC?.nativeElement.value) {
+      this.commonService.checkDataType(this.fileInputPan?.nativeElement.value) == true ? this.fileInputPan.nativeElement.value = '' : '';
+      this.commonService.checkDataType(this.fileInputAadhar?.nativeElement.value) == true ? this.fileInputAadhar.nativeElement.value = '' : '';
+      this.commonService.checkDataType(this.fileInputGst?.nativeElement.value) == true ? this.fileInputGst.nativeElement.value = '' : '';
+      this.commonService.checkDataType(this.fileInputIC?.nativeElement.value) == true ? this.fileInputIC.nativeElement.value = '' : '';
+      this.commonService.checkDataType(this.fileInputSALBC?.nativeElement.value) == true ? this.fileInputSALBC.nativeElement.value = '' : '';
+      this.commonService.checkDataType(this.fileInputPDC?.nativeElement.value) == true ? this.fileInputPDC.nativeElement.value = '' : '';
+    }
   }
 
 }
