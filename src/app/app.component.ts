@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { filter } from 'rxjs/operators';
+import { ShareDataService } from './core/services/share-data.service';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +12,28 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'HRMS-Project';
+  offline: Boolean = true;
 
-  constructor(private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title) {
-
-  }
+  constructor(private router: Router, private sharedataService: ShareDataService,
+    private activatedRoute: ActivatedRoute, private titleService: Title, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.scrollTop();
+    this.setTitleName();
+
+    this.onNetworkStatusChange();
+    window.addEventListener('online', this.onNetworkStatusChange.bind(this));
+    window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
+    window.addEventListener("beforeunload", () => console.log('check'));
+  }
+
+  scrollTop() {
+    if (event instanceof NavigationEnd) {
+      window.scroll(0, 0);
+    }
+  }
+
+  setTitleName() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
     ).subscribe(() => {
@@ -34,6 +50,15 @@ export class AppComponent {
     } else {
       return activatedRoute;
     }
+  }
+
+  onNetworkStatusChange() {
+    this.offline = !navigator.onLine;
+    this.offline ? this.successDialog() : this.sharedataService.checkInternetStatus.next(true);
+  }
+
+  successDialog() {
 
   }
+
 }
