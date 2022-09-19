@@ -11,7 +11,7 @@ import { ShareDataService } from './core/services/share-data.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'HRMS-Project';
+  title = 'Mineral-eSupply-MgmtSystem';
   offline: Boolean = true;
 
   constructor(private router: Router, private sharedataService: ShareDataService,
