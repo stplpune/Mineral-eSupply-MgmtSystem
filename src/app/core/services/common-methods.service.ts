@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MapsAPILoader } from '@agm/core';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -93,20 +94,19 @@ export class CommonMethodsService {
     return index
   }
 
-  // dateWithTimeFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
-  //   let dateWithTime = this.datePipe.transform(dateTime, 'yyyy-MM-dd' + 'T' + 'hh:mm:ss.ms');
-  //   return dateWithTime + "Z";
-  // }
-
-  // dateFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
-  //   let date = this.datePipe.transform(dateTime, 'yyyy-MM-dd');
-  //   return date;
-  // }
-
-  redToNextPageWithPar(id: any, link: string, label: string) {
-   //this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
+  dateWithTimeFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
+    let dateWithTime = this.datePipe.transform(dateTime, 'yyyy-MM-dd' + 'T' + 'hh:mm:ss.ms');
+    return dateWithTime + "Z";
   }
 
+  dateFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
+    let date = this.datePipe.transform(dateTime, 'yyyy-MM-dd');
+    return date;
+  }
+
+  redToNextPageWithPar(id: any, link: string, label: string) {
+   this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
+  }
 
   getAddressBylat_lng(latitude: number, longitude: number) { // get Address Using Latitude & logitude
     let address_pincodeObj = {'pinCode':'','address':''};
@@ -122,9 +122,4 @@ export class CommonMethodsService {
       });
      return address_pincodeObj;
   }
-
-
-
-
-
 }

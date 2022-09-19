@@ -51,7 +51,6 @@ export class FileUploadService {
         }
       }
       else {
-        obj.next('error');
         obj.error("Only " + allowedDocTypes + " file format allowed.");   
         this.commonService.matSnackBar('Only Supported file Types... pdf, jpg, png, jpeg', 1)
       }
