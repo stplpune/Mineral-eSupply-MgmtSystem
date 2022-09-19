@@ -55,6 +55,9 @@ const routes: Routes = [
       // ------------------------- consumers Management----------------------------------------------------------//
       { path: 'consumers', loadChildren: () => import('./partial/consumers/consumers.module').then(m => m.ConsumersModule) },
 
+      // ------------------------- Profile page ----------------------------------------------------------//
+      { path: 'my_profile', loadChildren: () => import('./partial/my-profile/my-profile.module').then(m => m.MyProfileModule) },
+
       // --------------------------------------MIS Reports----------------------------------------------------------//
       { path: 'daily-lifting-chart', loadChildren: () => import('./partial/mis-reports/daily-lifting-chart/daily-lifting-chart.module').then(m => m.DailyLiftingChartModule) },
       { path: 'monthly-allocation-to-msme', loadChildren: () => import('./partial/mis-reports/monthly-allocation-to-msme/monthly-allocation-to-msme.module').then(m => m.MonthlyAllocationToMsmeModule) },
@@ -65,6 +68,7 @@ const routes: Routes = [
     ]
 
   },
+
 ];
 
 @NgModule({
