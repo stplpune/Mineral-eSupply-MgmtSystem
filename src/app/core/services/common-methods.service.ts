@@ -4,7 +4,6 @@ import { DatePipe, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MapsAPILoader } from '@agm/core';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +17,6 @@ export class CommonMethodsService {
         this.geocoder = new google.maps.Geocoder();
       });
     }
-  constructor(private snackBar: MatSnackBar, public location: Location,    private router:Router) { }
 
   createCaptchaCarrerPage() {
     //clear the contents of captcha div first
