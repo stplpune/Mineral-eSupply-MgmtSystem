@@ -1,4 +1,4 @@
 <div class="d-flex justify-content-between">
-    <button mat-button class="btn-outline-main">Cancel</button>
-    <button mat-button class="btn-main" (click)="logOut()">Change Password</button>
+    <button mat-button class="btn-outline-main" (click)=" dialogRef.close('No')">Cancel</button>
+    <button mat-button class="btn-main" (click)=" dialogRef.close('Yes')">Change Password</button>
 </div>

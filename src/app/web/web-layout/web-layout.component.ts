@@ -19,7 +19,7 @@ export class WebLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
-      if (event.url === '/login') {
+      if (event.url === '/login' || event.url === '/forget-password') {
         this.hideHeader = false;
         this.hideFooter = false;
       } else {
