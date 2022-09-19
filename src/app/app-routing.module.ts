@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'demo', loadChildren: () => import('./partial/demo/demo.module').then(m => m.DemoModule) },
   
   
+  
 ];
 
 @NgModule({
