@@ -22,6 +22,9 @@ const routes: Routes = [
     
   },
  
+  { path: 'demo-bidder-reg', loadChildren: () => import('./web/demo-bidder-reg/demo-bidder-reg.module').then(m => m.DemoBidderRegModule) },
+ 
+  
   
   
 ];
