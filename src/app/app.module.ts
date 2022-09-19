@@ -20,9 +20,9 @@ import { AngularMaterialModule } from './shared/angular-material.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AgmCoreModule } from '@agm/core';
 import { ConfigService } from './configs/config.service';
-import { ChangePasswordComponent } from './dialogs/change-password/change-password.component';
 import { DatePipe } from '@angular/common';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChangePasswordComponent } from './partial/dialogs/change-password/change-password.component';
+import { LogoutComponent } from './partial/dialogs/logout/logout.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -34,7 +34,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FooterComponent,
     HeaderComponent,
     SidebarComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
