@@ -22,4 +22,9 @@
 .navbar .dropdown-menu .dropdown-item{
     padding: 10px 15px;
     border-radius: 5px;
+    cursor: pointer;
+}
+.navbar .dropdown-menu .dropdown-item:active,
+.navbar .dropdown-menu .dropdown-item:focus{
+    background-color:var(--main-color);
 }

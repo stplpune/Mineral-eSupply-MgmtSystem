@@ -5,6 +5,17 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from "@angu
   providedIn: 'root'
 })
 export class FormsValidationService {
+  
+  excludeZeroAtStart = '^(?!0+$)[0-9]{0,20}$';
+  // onlyAlphabets = '^[a-zA-Z]+$';
+  // alphabetsWithSpaces = '^[a-zA-Z][a-zA-Z ]*$';
+  // alphaNumeric = '^[a-zA-Z0-9]*$';
+  alphaNumericWithSpace = '^[a-zA-Z0-9][a-zA-Z0-9 ]*$';
+  alphaNumericWithSpaceAndSpecialChar = '^[a-zA-Z0-9 /(,)&.+-@#$]*$';
+  // onlyDigits = '^[0-9]*$';
+  numbersWithDot = '^[0-9\s]*\.?[0-9\s]+$'
+
+  constructor() { }
 
    //------------------------------- validation Pattern use for globally-------------------------- //
 
