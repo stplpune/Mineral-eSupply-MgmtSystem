@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class CommonMethodsService {
   codecareerPage!: string;
 
-  constructor(private snackBar: MatSnackBar, public location: Location,   private datePipe: DatePipe, private router:Router) { }
+  constructor(private snackBar: MatSnackBar, public location: Location,    private router:Router) { }
 
   createCaptchaCarrerPage() {
     //clear the contents of captcha div first
@@ -17,7 +17,7 @@ export class CommonMethodsService {
     id.innerHTML = "";
     // "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
 
-    var charsArray = "0123456789";
+    var charsArray = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#";
     var lengthOtp = 4;
     var captcha = [];
     for (var i = 0; i < lengthOtp; i++) {
@@ -81,20 +81,20 @@ export class CommonMethodsService {
     return flag
   }
 
-  findIndexOfArrayValue(array: any, val: any) { // find index of array value [1,2,3,4] 
+  findIndexOfArrayValue(array: any, val: any) { // find index of array value [1,2,3,4]
     let index = array.indexOf(val);
     return index
   }
 
-  dateWithTimeFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
-    let dateWithTime = this.datePipe.transform(dateTime, 'yyyy-MM-dd' + 'T' + 'hh:mm:ss.ms');
-    return dateWithTime + "Z";
-  }
+  // dateWithTimeFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
+  //   let dateWithTime = this.datePipe.transform(dateTime, 'yyyy-MM-dd' + 'T' + 'hh:mm:ss.ms');
+  //   return dateWithTime + "Z";
+  // }
 
-  dateFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
-    let date = this.datePipe.transform(dateTime, 'yyyy-MM-dd');
-    return date;
-  }
+  // dateFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
+  //   let date = this.datePipe.transform(dateTime, 'yyyy-MM-dd');
+  //   return date;
+  // }
 
   redToNextPageWithPar(id: any, link: string, label: string) {
    //this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);

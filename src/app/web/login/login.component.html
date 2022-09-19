@@ -3,17 +3,27 @@
         <div class="row justify-content-center">
             <div class="col-sm-4">
                 <div class="card card-body">
+                  <form [formGroup]="loginFrm" (ngSubmit)="onSubmit()">
                     <h5>Login</h5>
                     <div class="mb-0">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Enter Username</mat-label>
-                            <input matInput>
+                            <input matInput formControlName="userName" (keyup)="validation.removeSpaceAtBegining($event)">
+                            <mat-error *ngIf="loginFormControls.userName.errors">
+                              <span *ngIf="loginFormControls.userName?.hasError('required')"> Please Enter UserName</span>
+                              <span *ngIf="loginFormControls.userName?.hasError('pattern')"> Please Enter Valid UserName</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="mb-0">
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Enter your password</mat-label>
-                            <input matInput [type]="hide ? 'password' : 'text'">
+                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="passWord" (keyup)="validation.removeSpaceAtBegining($event)">
+                            <mat-error *ngIf="loginFormControls.passWord.errors">
+                              <span *ngIf="loginFormControls.passWord?.hasError('required')"> Please Enter Password</span>
+                              <span *ngIf="loginFormControls.passWord?.hasError('pattern')"> Please Enter Valid Password</span>
+                            </mat-error>
+
                             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                                 [attr.aria-pressed]="hide">
                                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -22,26 +32,33 @@
                     </div>
                     <div class="mb-0 row gx-1">
                         <div class="col-sm-5">
-                            asdf
+                          <div id="captcha"></div>
                         </div>
                         <div class="col-sm-2">
-                            <button class="btn-refresh">
+                            <button class="btn-refresh" type="button" (click)="commonMethod.createCaptchaCarrerPage()">
                                 <mat-icon>sync</mat-icon>
+
                             </button>
                         </div>
                         <div class="col-sm-5">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Enter Captcha</mat-label>
-                                <input matInput>
+                                <input matInput formControlName="captcha" type="text" maxlength="4">
+                                <mat-error *ngIf="loginFormControls.captcha.errors">
+                                  <span *ngIf="loginFormControls.captcha?.hasError('required')"> Please Enter Captcha</span>
+                                  <!-- <span *ngIf="loginFormControls.captcha?.hasError('pattern')"> Please Enter Valid UserName</span> -->
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="mb-0">
-                        <button mat-raised-button class="btn-main w-100 py-1">LOGIN</button>
+                        <button  type ="submit" class="btn-main w-100 py-1">LOGIN</button>
                         <div class="text-end mt-1">
-                            <a class="text-main" href="forget-password">Forgot password?</a>
+                            <a class="text-main" routerLink="forget-password">Forgot password?</a>
                         </div>
                     </div>
+                  </form>
+
                 </div>
             </div>
         </div>

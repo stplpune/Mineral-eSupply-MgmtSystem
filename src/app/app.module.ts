@@ -20,6 +20,7 @@ import { AngularMaterialModule } from './shared/angular-material.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AgmCoreModule } from '@agm/core';
 import { ConfigService } from './configs/config.service';
+import { ChangePasswordComponent } from './dialogs/change-password/change-password.component';
 import { DatePipe } from '@angular/common';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -31,7 +32,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PartialLayoutComponent,
     FooterComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
