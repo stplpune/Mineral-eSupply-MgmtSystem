@@ -97,6 +97,6 @@ export class CommonMethodsService {
   }
 
   redToNextPageWithPar(id: any, link: string, label: string) {
-    // this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
+   //this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
   }
 }
