@@ -20,6 +20,9 @@ export class CallApiService {
       //live server base url
       case 'ncpServiceForWeb': return 'http://ncpwebservice.ncpyouths.com/Service.asmx/'; break;
       //development server base url
+      //live server base url
+      case 'stplVtsTrackingBaseUrlAPI': return 'http://mahakhanij.maharashtra.gov.in/vehicle-tracking/'; break;
+      //development server base url
       //case 'ncpServiceForWeb': return 'http://ncpserviceweb.eanifarm.com/Service.asmx/'; break;
       default: return ''; break;
     }

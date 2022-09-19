@@ -13,11 +13,23 @@ export class ConfigService {
 
   matFormField: string | any = 'outline'; // Reactive form fill appearance
 
+  //------------------------------------------ Maps Settings  starte heare -------------------------------------------//
+
+  lat = 20.879865;
+
+  long = 78.905043;
+
+  zoom: number = 12;
+
+  viewType: string = 'roadmap';
+
   static googleApiObj: object = { // google api key 
     apiKey: 'AIzaSyAkNBALkBX7trFQFCrcHO2I85Re2MmzTo8',
     language: 'en',
     libraries: ['places', 'geometry'],
   };
 
+  //------------------------------------------ Maps Settings  starte heare -------------------------------------------//
+  
   constructor() { }
 }
