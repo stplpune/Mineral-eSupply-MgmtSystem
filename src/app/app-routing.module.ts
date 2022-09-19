@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule), data: { title: 'Login' } },
     ]
   },
+  { path: 'demo-bidder-reg', loadChildren: () => import('./web/demo-bidder-reg/demo-bidder-reg.module').then(m => m.DemoBidderRegModule) },
   
   
 ];
