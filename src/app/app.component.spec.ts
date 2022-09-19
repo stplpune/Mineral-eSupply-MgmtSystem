@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'HRMS-Project'`, () => {
+  it(`should have as title 'Mineral-eSupply-MgmtSystem'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('HRMS-Project');
+    expect(app.title).toEqual('Mineral-eSupply-MgmtSystem');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('HRMS-Project app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Mineral-eSupply-MgmtSystem app is running!');
   });
 });

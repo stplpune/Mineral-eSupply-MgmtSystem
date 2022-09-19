@@ -19,14 +19,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: PartialLayoutComponent,
     children: [
-      { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule), data: { title: 'Login' } },
-    ]
+      { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule)},
+     ]
 
   },
-
-  { path: 'demo-bidder-reg', loadChildren: () => import('./web/demo-bidder-reg/demo-bidder-reg.module').then(m => m.DemoBidderRegModule) },
-
-
 
 ];
 

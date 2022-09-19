@@ -6,6 +6,7 @@ import { CommonApiCallService } from 'src/app/core/services/common-api-call.serv
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,12 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
-    public commonMethod:CommonMethodsService,
-    public apiService:CallApiService,
-    public validation:FormsValidationService,
-    public error:ErrorHandlerService,
-    private spinner: NgxSpinnerService,) { }
-  loginFrm !:FormGroup;
+    public commonMethod: CommonMethodsService,
+    public apiService: CallApiService,
+    public validation: FormsValidationService,
+    public error: ErrorHandlerService,
+    private spinner: NgxSpinnerService, private router: Router) { }
+  loginFrm !: FormGroup;
   hide = true;
 
   ngOnInit(): void {
@@ -32,14 +33,20 @@ export class LoginComponent implements OnInit {
     this.loginFrm = this.fb.group({
       userName: ['', [Validators.required, Validators.pattern('^[^\\s\\[\\[`&._@#%*!+"\'\/\\]\\]{}][0-9a-zA-Z&s\\s]+$')],],
       passWord: ['', [Validators.required]],
-      captcha: ['',Validators.required]
+      captcha: ['', Validators.required]
     });
   }
 
 
-  get loginFormControls():any { return this.loginFrm.controls }
+  get loginFormControls(): any { return this.loginFrm.controls }
 
   onSubmit() {
+    // demo
+    localStorage.setItem('user', 'true');
+    sessionStorage.setItem('loggedIn', 'true');
+    this.router.navigate(['dashboard']);
+
+
     const formValue = this.loginFrm.value;
 
     if (this.loginFrm.invalid) {
@@ -49,7 +56,7 @@ export class LoginComponent implements OnInit {
       this.commonMethod.createCaptchaCarrerPage();
       return;
     }
-    this.apiService.setHttp('get', "user-registration/" + formValue.userName.trim() + "/" + formValue.passWord.trim() , false, false, false, 'masterUrl');
+    this.apiService.setHttp('get', "user-registration/" + formValue.userName.trim() + "/" + formValue.passWord.trim(), false, false, false, 'masterUrl');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
@@ -62,7 +69,7 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  clearAll(){
+  clearAll() {
     this.loginFrm.reset();
   }
 }
