@@ -4,6 +4,7 @@ import { WebLayoutComponent } from './web/web-layout/web-layout.component';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { CheckLoggedInGuard } from './core/guards/check-logged-in.guard';
+import { ExpenseGuard } from './core/guards/expense.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'demo', pathMatch: 'full' },
@@ -19,13 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: PartialLayoutComponent,
     children: [
-      { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule), data: { title: 'Login' } },
+      { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule), data: { title: 'Login' }, canActivate: [ExpenseGuard] },
 
-      { path: 'dashboard', loadChildren: () => import('./partial/dashboard/dashboard.module').then(m => m.DashboardModule) },
+      { path: 'dashboard', loadChildren: () => import('./partial/dashboard/dashboard.module').then(m => m.DashboardModule), data: { title: 'Dashboard' },  canActivate: [ExpenseGuard]  },
 
       // -------------------------Master routing  use for Admin, WBMDTCL--------------------------------------------------------//
-
-      { path: 'demo-bidder-reg', loadChildren: () => import('./web/demo-bidder-reg/demo-bidder-reg.module').then(m => m.DemoBidderRegModule) },
       { path: 'register-user', loadChildren: () => import('./partial/master/register-user/register-user.module').then(m => m.RegisterUserModule) },
       { path: 'register-collary', loadChildren: () => import('./partial/master/register-collary/register-collary.module').then(m => m.RegisterCollaryModule) },
       { path: 'coal-grade-master', loadChildren: () => import('./partial/master/coal-grade-master/coal-grade-master.module').then(m => m.CoalGradeMasterModule) },
