@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   }
   openChangePasswordModal(){
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
-      width: '250px',
+      width: '350px',
       data: '',
     });
 
