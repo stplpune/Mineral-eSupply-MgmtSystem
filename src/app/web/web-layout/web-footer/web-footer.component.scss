@@ -1,0 +1,16 @@
+footer{
+    background-color: var(--top-bg-color) !important;
+    font-size: 0.75rem;
+    padding-block: 7px;
+    position:fixed;
+    bottom:0;
+    width: 100%;
+}
+footer a{
+    color: var(--text-color);
+    text-decoration: none !important;
+    margin-left: 10px;
+}
+footer a:hover{
+    color: var(--main-color);
+}
