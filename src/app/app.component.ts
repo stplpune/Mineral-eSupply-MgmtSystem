@@ -58,7 +58,6 @@ export class AppComponent {
   }
 
   successDialog() {
-
   }
 
 }
