@@ -11,8 +11,9 @@ import { EventEmitter } from '@angular/core';
 })
 // child component
 export class AgmMapComponent implements OnInit {
-  // @Input() customer:any;
-  @Output() bookTitleCreated = new EventEmitter();
+  @Input() sendSelGeoFanceObj:any;
+  @Output() geoFanceData = new EventEmitter();
+
   map: any;
   drawingManager: any;
   centerMarker: any = undefined;
@@ -38,14 +39,14 @@ export class AgmMapComponent implements OnInit {
   };
 
   isShapeDrawn: boolean = false;
-  @ViewChild('search') public searchElementRef?: ElementRef;
+  @ViewChild('search') public searchElementRef!: ElementRef;
 
   constructor(private ngZone: NgZone, public configService: ConfigService,
     private mapsAPILoader: MapsAPILoader,) {
 
   }
   ngOnInit(): void {
-    // console.log(this.customer);
+     console.log(this.sendSelGeoFanceObj);
     // this.data = {
     //   newRecord: {
     //     "latLng": '85.74184845,22.82044971',
@@ -57,7 +58,7 @@ export class AgmMapComponent implements OnInit {
   }
 
   onMapReady(map: any) {
-    console.log(this.searchElementRef)
+  
     this.isHide = this.data?.isHide || false;
     let self = this;
     this.map = map;
@@ -236,12 +237,15 @@ export class AgmMapComponent implements OnInit {
 
     this.newRecord.latLng = this.newRecord?.centerMarkerLatLng;
     let obj = {
+      "collieryAddress":this.searchElementRef.nativeElement.value,
       "latitude": +this.newRecord.latLng.split(",")[1],
       "longitude": +this.newRecord.latLng.split(",")[0],
       "polygonText": this.newRecord?.polygontext,
       "geofenceType": this.newRecord?.geofenceType== "circle" ? 2 : 1,
       "distance": this.newRecord?.radius,
     }
+
+    this.geoFanceData.emit(obj);
   }
 
   clearSelection(isAllClear: any) {
