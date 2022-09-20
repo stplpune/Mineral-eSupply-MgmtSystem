@@ -114,7 +114,7 @@
                             </mat-error>
                         </mat-form-field> -->
                         <div class="mb-3">                  
-                            <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map>
+                            <app-agm-map (geoFanceData)="getSelFanceData($event)" [sendSelGeoFanceObj]="updateObj"></app-agm-map>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <button mat-raised-button class="btn-outline-main">Cancel</button>

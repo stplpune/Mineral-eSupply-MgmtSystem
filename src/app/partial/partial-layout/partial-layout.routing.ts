@@ -2,7 +2,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ExpenseGuard } from 'src/app/core/guards/expense.guard';
 
 export const PartialLayoutRoutes: Routes = [
-  { path: 'dashboard', loadChildren: () => import('../../partial/dashboard/dashboard.module').then(m => m.DashboardModule), data: { title: 'Dashboard' },  canActivate: [ExpenseGuard]  },
+  { path: 'dashboard', loadChildren: () => import('../../partial/dashboards/dashboard/dashboard.module').then(m => m.DashboardModule), data: { title: 'Dashboard' },  canActivate: [ExpenseGuard]  },
+  { path: 'consumer-dashboard', loadChildren: () => import('../../partial/dashboards/consumer-dashboard/consumer-dashboard.module').then(m => m.ConsumerDashboardModule), data: { title: 'Dashboard' },  canActivate: [ExpenseGuard]  },
 
   // -------------------------Master routing  use for Admin, WBMDTCL--------------------------------------------------------//
   { path: 'register-user', loadChildren: () => import('../../partial/master/register-user/register-user.module').then(m => m.RegisterUserModule), data: { title: 'Register User' },  canActivate: [ExpenseGuard] },

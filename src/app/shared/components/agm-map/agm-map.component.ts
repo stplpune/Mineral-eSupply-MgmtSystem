@@ -11,7 +11,7 @@ import { EventEmitter } from '@angular/core';
 })
 // child component
 export class AgmMapComponent implements OnInit {
-  @Input() customer:any;
+  @Input() sendSelGeoFanceObj:any;
   @Output() geoFanceData = new EventEmitter();
 
   map: any;
@@ -39,14 +39,14 @@ export class AgmMapComponent implements OnInit {
   };
 
   isShapeDrawn: boolean = false;
-  @ViewChild('search') public searchElementRef?: ElementRef;
+  @ViewChild('search') public searchElementRef!: ElementRef;
 
   constructor(private ngZone: NgZone, public configService: ConfigService,
     private mapsAPILoader: MapsAPILoader,) {
 
   }
   ngOnInit(): void {
-     console.log(this.customer);
+     console.log(this.sendSelGeoFanceObj);
     // this.data = {
     //   newRecord: {
     //     "latLng": '85.74184845,22.82044971',
@@ -236,8 +236,8 @@ export class AgmMapComponent implements OnInit {
     catch (e) { }
 
     this.newRecord.latLng = this.newRecord?.centerMarkerLatLng;
-    console.log(this.searchElementRef)
     let obj = {
+      "collieryAddress":this.searchElementRef.nativeElement.value,
       "latitude": +this.newRecord.latLng.split(",")[1],
       "longitude": +this.newRecord.latLng.split(",")[0],
       "polygonText": this.newRecord?.polygontext,

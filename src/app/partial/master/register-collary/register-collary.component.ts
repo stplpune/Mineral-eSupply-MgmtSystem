@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfigService } from 'src/app/configs/config.service';
@@ -6,6 +6,7 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
 
 @Component({
   selector: 'app-register-collary',
@@ -26,13 +27,15 @@ export class RegisterCollaryComponent implements OnInit {
   get fc() { return this.frmCollary.controls };
   isEdit: boolean = false;
   updateId: any;
+  updateObj:any;
+  @Output() geoFanceData1 = new EventEmitter();
 
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
     public apiService: CallApiService,
     public frmValid: FormsValidationService,
     public commonMethod: CommonMethodsService,
-    public error: ErrorHandlerService) { }
+    public error: ErrorHandlerService, private webStorageService:WebStorageService) { }
 
   ngOnInit(): void {
     this.createFilterForm();
@@ -46,7 +49,7 @@ export class RegisterCollaryComponent implements OnInit {
       districtIdFltr: [''],
       collaryNameFltr: ['', [Validators.pattern(this.frmValid.alphabetsWithSpace)]]
     })
-    this.selectedCustomer = this.frm.value;
+
   }
 
   createCollaryForm(){
@@ -58,7 +61,7 @@ export class RegisterCollaryComponent implements OnInit {
       polygonText: ['', [Validators.required]],
       geofenceType: ['', [Validators.required]],
       distance: ['', [Validators.required]],
-      createdBy: ['', [Validators.required]],
+      createdBy: [this.webStorageService.getUserId(), [Validators.required]],
     })
   }
 
@@ -105,8 +108,9 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   editCollaryRecord(row: any){
-    console.log(row)
     this.isEdit = true;
+    this.updateObj = row;
+    this.geoFanceData1.emit(this.updateObj)
     this.updateId = row.id;
     this.frmCollary.patchValue({
       collieryName: row.collieryName,
@@ -129,11 +133,13 @@ export class RegisterCollaryComponent implements OnInit {
 
   onSubmitCollary(){
     if (this.frmCollary.invalid) {
+      console.log(this.frmCollary.value)
       return;
     }else{
       var req = {
         "id" : this.isEdit == true ? this.updateId : 0,
-        ...this.frmCollary.value
+        ...this.frmCollary.value,
+        "createdBy": "1"
       }
       this.apiService.setHttp((this.isEdit == true ? 'put' : 'post'), "CollieryMaster", false, req, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
@@ -156,8 +162,8 @@ export class RegisterCollaryComponent implements OnInit {
       polygonText:data.polygonText,
       geofenceType:data.geofenceType,
       distance:data.distance,
+      collieryAddress:data.collieryAddress
     })
-    console.log(this.frmCollary.value);
   }
 
 }
