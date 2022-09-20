@@ -8,15 +8,15 @@
                     <div class="d-flex align-items-center">
                         <span class="me-2">Color -</span>
                         <div class="btn-group btn-group-sm ms-2" role="group" aria-label="Theme">
-                        <button type="button" class="btn btn-link py-0" (click)="onClickThemeChange('light')">
-                            <i class="fas fa-check-square white" *ngIf="activeTheme === 'light'; else elseBlockLight"></i>
-                            <ng-template #elseBlockLight><i class="fas fa-square-full white"></i>
-                            </ng-template>
+                        <button type="button" class="btn-color white" (click)="onClickThemeChange('light')">
+                            <!-- <i class="fas fa-check-square white" *ngIf="activeTheme === 'light'; else elseBlockLight"></i>
+                            <ng-template #elseBlockLight><i class="fas fa-square-full"></i>
+                            </ng-template> -->
                         </button>
-                        <button type="button" class="btn btn-link py-0" (click)="onClickThemeChange('dark')">
-                            <i class="fas fa-check-square dark" *ngIf="activeTheme === 'dark'; else elseBlockDark"></i>
-                            <ng-template #elseBlockDark><i class="fas fa-square-full dark"></i>
-                            </ng-template>
+                        <button type="button" class="btn-color black" (click)="onClickThemeChange('dark')">
+                            <!-- <i class="fas fa-check-square dark" *ngIf="activeTheme === 'dark'; else elseBlockDark"></i>
+                            <ng-template #elseBlockDark><i class="fas fa-square-full"></i>
+                            </ng-template> -->
                         </button>
                     </div>
                     </div>

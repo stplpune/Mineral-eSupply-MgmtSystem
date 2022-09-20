@@ -9,10 +9,12 @@
     text-decoration: none;
 }
 #topbar .btn-color{
-    border: none;
-    width: 16px;
-    height: 16px;
+    border: solid 1px #aaa;
+    width: 18px;
+    height: 18px;
     border-radius: 3px;
+    padding: 0 !important;
+    margin-right: 5px;
 }
 #topbar .btn-color.white{
     background-color:#fff;
