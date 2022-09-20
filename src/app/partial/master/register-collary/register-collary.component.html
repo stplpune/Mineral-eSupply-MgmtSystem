@@ -4,33 +4,35 @@
         <div class="col-sm-8">
             <div class="card plain-card">
                 <div class="card-header py-0">
-                    <div class="row align-items-center">
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
-                                        <mat-label>Select District</mat-label>
-                                        <mat-select>
-                                            <mat-option value="one">First option</mat-option>
-                                            <mat-option value="two">Second option</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                    <form [formGroup]="frm" (ngSubmit)="onSearch()" autocomplete="off">
+                        <div class="row align-items-center">
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
+                                            <mat-label>Select District</mat-label>
+                                            <mat-select formControlName="districtId">
+                                                <mat-option value="one">First option</mat-option>
+                                                <mat-option value="two">Second option</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
+                                            <mat-label> Name</mat-label>
+                                            <input matInput formControlName="collaryName">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm"></div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
-                                        <mat-label> Name</mat-label>
-                                        <input matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-sm"></div>
+                            </div>
+                            <div class="col-sm">
+                                <button mat-raised-button class="btn btn-secondary w-100" type="submit">
+                                    <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                                </button>
                             </div>
                         </div>
-                        <div class="col-sm">
-                            <button mat-raised-button class="btn btn-secondary w-100">
-                                <i class="fa-solid fa-magnifying-glass me-2"></i>Search
-                            </button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="card-body">
                     <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
@@ -96,8 +98,8 @@
                         <mat-label>Address</mat-label>
                         <textarea matInput></textarea>
                     </mat-form-field>
-                    <div class="">
-                        <p>Geofence Map</p>
+                    <div class="mb-3">                  
+                        <app-agm-map></app-agm-map>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <button mat-raised-button class="btn-outline-main">Cancel</button>
