@@ -145,7 +145,6 @@
 }
 
 .sidebar .sidebar-content .sidebar-menu ul li a {
-  display: inline-block;
   width: 100%;
   text-decoration: none;
   position: relative;
@@ -154,11 +153,12 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  font-size: 0.85rem;
 }
 
 .sidebar .sidebar-content .sidebar-menu ul li a i {
   margin-right: 15px;
-  font-size: 12px;
+  font-size: 0.85rem;
   width: 36px;
   height: 36px;
   line-height: 36px;
