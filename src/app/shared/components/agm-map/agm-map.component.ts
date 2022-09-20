@@ -1,6 +1,8 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ConfigService } from 'src/app/configs/config.service';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-agm-map',
@@ -8,6 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./agm-map.component.scss']
 })
 export class AgmMapComponent implements OnInit {
+
   map: any;
   drawingManager: any;
   centerMarker: any = undefined;
@@ -30,18 +33,19 @@ export class AgmMapComponent implements OnInit {
       this.radius = 0;
     }
   };
+
   isShapeDrawn: boolean = false;
   @ViewChild('search') public searchElementRef?: ElementRef;
 
-  constructor(private ngZone: NgZone,
+
+  constructor(private ngZone: NgZone, public configService:ConfigService,
     private mapsAPILoader: MapsAPILoader,) { }
 
   ngOnInit(): void {
-
   }
 
   onMapReady(map: any) {
-    this.isHide = this.data.isHide || false;
+    // this.isHide = this.data?.isHide || false;
     let self = this;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -92,87 +96,14 @@ export class AgmMapComponent implements OnInit {
       });
     })
 
-    //self.updatePointList(this.data.selectedRecord.polygonText);
+    //self.updatePointList(this.data?.selectedRecord.polygonText);
 
-    if (this.data.selectedRecord && this.data.selectedRecord.geofenceType == 1) {
-      try {
-        var OBJ_fitBounds = new google.maps.LatLngBounds();
-        const path = this.data.selectedRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[0]), lat: Number(x.split(' ')[1]) }; OBJ_fitBounds.extend(obj); return obj });
-        const existingShape = new google.maps.Polygon({ paths: path, map: map, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false });
-        let latLng = this.FN_CN_poly2latLang(existingShape);
-        map.setCenter(latLng); map.fitBounds(OBJ_fitBounds);
-        const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latLng });
-
-        let hc = "<table><tbody>";
-        hc += '<tr><td colspan="2"><h4>Selected Thana details</h4></td></tr>';
-        hc += '<tr><td>Thana Name</td><td>: ' + (this.data.selectedRecord.thanaName || "-") + '</td></tr>';
-        hc += '<tr><td>Zone Name</td><td>: ' + (this.data.selectedRecord.zoneName || "-") + '</td></tr>';
-        hc += '<tr><td>Division</td><td>: ' + (this.data.selectedRecord.division || "-") + '</td></tr>';
-        hc += '<tr><td>Contact No.</td><td>: ' + (this.data.selectedRecord.contactNo || "-") + '</td></tr>';
-        hc += '<tr><td>Email Id</td><td>: ' + (this.data.selectedRecord.emailId || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Name</td><td>: ' + (this.data.selectedRecord.inchargeName || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Contact No.</td><td>: ' + (this.data.selectedRecord.inchargeContactNo || "-") + '</td></tr>';
-        hc += '<tr><td>latitude</td><td>: ' + (this.data.selectedRecord.latitude || "-") + '</td></tr>';
-        hc += '<tr><td>longitude</td><td>: ' + (this.data.selectedRecord.longitude || "-") + '</td></tr>';
-        hc += '<tr><td>polygonText</td><td>: ' + (this.data.selectedRecord.polygonText || "-") + '</td></tr>';
-        hc += "</tbody></table>";
-
-        const info = new google.maps.InfoWindow({
-          content: hc
-        })
-        existingMarker.addListener('click', () => {
-          info.open(this.map, existingMarker);
-        })
-
-      } catch (e) { }
-    }
-    if (this.data.selectedRecord && this.data.selectedRecord.geofenceType == 2) {
-      try {
-        let latlng = new google.maps.LatLng(this.data.selectedRecord.polygonText.split(" ")[1], this.data.selectedRecord.polygonText.split(" ")[0]);
-        const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latlng });
-        let circle = new google.maps.Circle({
-          strokeColor: '#FF0000',
-          fillColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillOpacity: 0.35,
-          map: map,
-          //position: latlng,
-          center: latlng,
-          radius: this.data.selectedRecord.distance,
-        });
-        map.panTo(latlng);
-        this.setZoomLevel(this.data.selectedRecord.distance);
-
-        let hc = "<table><tbody>";
-        hc += '<tr><td colspan="2"><h4>Selected Thana details</h4></td></tr>';
-        hc += '<tr><td>Thana Name</td><td>: ' + (this.data.selectedRecord.thanaName || "-") + '</td></tr>';
-        hc += '<tr><td>Zone Name</td><td>: ' + (this.data.selectedRecord.zoneName || "-") + '</td></tr>';
-        hc += '<tr><td>Division</td><td>: ' + (this.data.selectedRecord.division || "-") + '</td></tr>';
-        hc += '<tr><td>Contact No.</td><td>: ' + (this.data.selectedRecord.contactNo || "-") + '</td></tr>';
-        hc += '<tr><td>Email Id</td><td>: ' + (this.data.selectedRecord.emailId || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Name</td><td>: ' + (this.data.selectedRecord.inchargeName || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Contact No.</td><td>: ' + (this.data.selectedRecord.inchargeContactNo || "-") + '</td></tr>';
-        hc += '<tr><td>latitude</td><td>: ' + (this.data.selectedRecord.latitude || "-") + '</td></tr>';
-        hc += '<tr><td>longitude</td><td>: ' + (this.data.selectedRecord.longitude || "-") + '</td></tr>';
-        hc += '<tr><td>polygonText</td><td>: ' + (this.data.selectedRecord.polygonText || "-") + '</td></tr>';
-        hc += "</tbody></table>";
-
-        const info = new google.maps.InfoWindow({
-          content: hc
-        })
-        existingMarker.addListener('click', () => {
-          info.open(this.map, existingMarker);
-        })
-
-      } catch (e) { }
-    }
 
     //debugger
-    if (this.data.newRecord.geofenceType == 1) {
-      //this.pointList.drawnPolytext = this.data.drawnPolytext;
+    if (this.data?.newRecord.geofenceType == 1) {
+      //this.pointList.drawnPolytext = this.data?.drawnPolytext;
       var OBJ_fitBounds = new google.maps.LatLngBounds();
-      const path = this.data.newRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[0]), lat: Number(x.split(' ')[1]) }; OBJ_fitBounds.extend(obj); return obj });
+      const path = this.data?.newRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[0]), lat: Number(x.split(' ')[1]) }; OBJ_fitBounds.extend(obj); return obj });
       const existingShape = new google.maps.Polygon({ paths: path, strokeColor: "#00FF00", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#00FF00", fillOpacity: 0.35, editable: true, draggable: true });
       existingShape.setMap(map);
       map.setCenter(this.FN_CN_poly2latLang(existingShape));
@@ -181,32 +112,27 @@ export class AgmMapComponent implements OnInit {
 
       google.maps.event.addListener(existingShape, 'dragend', (e) => {
         this.ngZone.run(() => {
-          debugger
           this.setSelection(existingShape, "polygon")
         })
       });
       google.maps.event.addListener(existingShape.getPath(), 'set_at', (e) => {
         this.ngZone.run(() => {
-          debugger
           this.setSelection(existingShape, "polygon")
         })
       })
       google.maps.event.addListener(existingShape.getPath(), 'insert_at', (e) => {
         this.ngZone.run(() => {
-          debugger
           this.setSelection(existingShape, "polygon")
         })
       })
       google.maps.event.addListener(existingShape.getPath(), 'remove_at', (e) => {
         this.ngZone.run(() => {
-          debugger
           this.setSelection(existingShape, "polygon")
         })
       })
     }
-
-    if (this.data.newRecord.geofenceType == 2) {
-      let latlng = new google.maps.LatLng(this.data.newRecord.latLng.split(",")[1], this.data.newRecord.latLng.split(",")[0]);
+    if (this.data?.newRecord.geofenceType == 2) {
+      let latlng = new google.maps.LatLng(this.data?.newRecord.latLng.split(",")[1], this.data?.newRecord.latLng.split(",")[0]);
       let circle = new google.maps.Circle({
         strokeColor: '#00FF00',
         fillColor: '#00FF00',
@@ -216,11 +142,11 @@ export class AgmMapComponent implements OnInit {
         map: map,
         //position: latlng,
         center: latlng,
-        radius: this.data.newRecord.radius,
+        radius: this.data?.newRecord.radius,
         draggable: true,
         editable: true
       });
-      this.setZoomLevel(this.data.newRecord.radius)
+      this.setZoomLevel(this.data?.newRecord.radius)
       map.panTo(latlng);
       google.maps.event.addListener(circle, 'radius_changed', () => {
         this.ngZone.run(() => {
@@ -242,9 +168,9 @@ export class AgmMapComponent implements OnInit {
 
     }
 
-    if (this.data.alreadyExistMapAryObj.length > 0) {
+    if (this.data?.alreadyExistMapAryObj.length > 0) {
       var OBJ_fitBounds = new google.maps.LatLngBounds();
-      this.data.alreadyExistMapAryObj.forEach((obj: any) => {
+      this.data?.alreadyExistMapAryObj.forEach((obj: any) => {
         let hc = "<table><tbody>";
         hc += '<tr><td colspan="2"><h4>Existing Thana details</h4></td></tr>';
         hc += '<tr><td>Thana Name</td><td>: ' + (obj.thanaName || "-") + '</td></tr>';
@@ -429,4 +355,18 @@ export class AgmMapComponent implements OnInit {
     this.isShapeDrawn = false;
     this.clearSelection(false);
   }
+
+  ngSubmit(){
+    this.newRecord.latLng =  this.newRecord?.centerMarkerLatLng;
+    let obj = {
+      "latitude": +this.newRecord.latLng.split(",")[1],
+      "longitude": +this.newRecord.latLng.split(",")[0],
+      "polygonText": this.newRecord?.polygontext,
+      "geofenceType": this.newRecord?.geofenceType,
+      "distance": this.newRecord?.radius,
+    }
+    console.log(obj);
+  }
+
+  
 }
