@@ -5,11 +5,24 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './document-master.component.html',
   styleUrls: ['./document-master.component.scss']
 })
-export class DocumentMasterComponent implements OnInit {
+export class DocumentMasterComponent implements OnInit {displayedColumns: string[] = ['position','sr', 'Mandatory','web',];
+dataSource = ELEMENT_DATA;
 
-  constructor() { }
+constructor() { }
 
-  ngOnInit(): void {
-  }
+ngOnInit(): void {
+}
+
+
+}
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, sr: '', Mandatory:'', web: '', },
+ 
+];
+export interface PeriodicElement {
+position:number;
+sr: string;
+Mandatory: string;
+web: string;
 
 }
