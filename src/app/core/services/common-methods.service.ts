@@ -10,14 +10,14 @@ import * as CryptoJS from 'crypto-js';
 })
 export class CommonMethodsService {
   codecareerPage!: string;
-  geocoder:any;
+  geocoder: any;
 
-  constructor(private snackBar: MatSnackBar, public location: Location,   private datePipe: DatePipe, private router:Router,
-    public mapsApiLoader: MapsAPILoader){
-      this.mapsApiLoader.load().then(() => {
-        this.geocoder = new google.maps.Geocoder();
-      });
-    }
+  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private router: Router,
+    public mapsApiLoader: MapsAPILoader) {
+    this.mapsApiLoader.load().then(() => {
+      this.geocoder = new google.maps.Geocoder();
+    });
+  }
 
   createCaptchaCarrerPage() {
     //clear the contents of captcha div first
@@ -94,6 +94,15 @@ export class CommonMethodsService {
     return index
   }
 
+  filterArrayByVal(array: any, val: any, key:any) { // find index of array value [1,2,3,4]
+    array.filter((ele: any) => {
+      if(ele[key] == val){
+        return ele
+      }
+    })
+    return
+  }
+
   dateWithTimeFormat(dateTime: any) { // 2022-05-11T13:01:46.067Z
     let dateWithTime = this.datePipe.transform(dateTime, 'yyyy-MM-dd' + 'T' + 'hh:mm:ss.ms');
     return dateWithTime + "Z";
@@ -105,11 +114,11 @@ export class CommonMethodsService {
   }
 
   redToNextPageWithPar(id: any, link: string, label: string) {
-   this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
+    this.router.navigate([link + encodeURIComponent(CryptoJS.AES.encrypt(id.toString(), label).toString())]);
   }
 
   getAddressBylat_lng(latitude: number, longitude: number) { // get Address Using Latitude & logitude
-    let address_pincodeObj = {'pinCode':'','address':''};
+    let address_pincodeObj = { 'pinCode': '', 'address': '' };
     this.geocoder.geocode(
       { location: { lat: latitude, lng: longitude, } },
       (results: any) => {
@@ -120,6 +129,6 @@ export class CommonMethodsService {
           }
         });
       });
-     return address_pincodeObj;
+    return address_pincodeObj;
   }
 }
