@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CoalGradeMasterRoutingModule } from './coal-grade-master-routing.module';
 import { CoalGradeMasterComponent } from './coal-grade-master.component';
-
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { CoalGradeMasterComponent } from './coal-grade-master.component';
   ],
   imports: [
     CommonModule,
-    CoalGradeMasterRoutingModule
+    CoalGradeMasterRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class CoalGradeMasterModule { }
