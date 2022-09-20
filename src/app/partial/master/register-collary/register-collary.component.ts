@@ -6,6 +6,7 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
 
 @Component({
   selector: 'app-register-collary',
@@ -34,7 +35,7 @@ export class RegisterCollaryComponent implements OnInit {
     public apiService: CallApiService,
     public frmValid: FormsValidationService,
     public commonMethod: CommonMethodsService,
-    public error: ErrorHandlerService) { }
+    public error: ErrorHandlerService, private webStorageService:WebStorageService) { }
 
   ngOnInit(): void {
     this.createFilterForm();
@@ -60,7 +61,7 @@ export class RegisterCollaryComponent implements OnInit {
       polygonText: ['', [Validators.required]],
       geofenceType: ['', [Validators.required]],
       distance: ['', [Validators.required]],
-      createdBy: ['1', [Validators.required]],
+      createdBy: [this.webStorageService.getUserId(), [Validators.required]],
     })
   }
 

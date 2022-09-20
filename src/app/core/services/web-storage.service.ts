@@ -13,4 +13,8 @@ export class WebStorageService {
     if (localStorage.getItem('user') && sessionData == 'true') return true;
     else return false;
   }
+
+  getUserId(){
+    return 1;
+  }
 }
