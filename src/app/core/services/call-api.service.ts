@@ -17,13 +17,7 @@ export class CallApiService {
 
   getBaseurl(url: string) {
     switch (url) {
-      //live server base url
-      case 'ncpServiceForWeb': return 'http://ncpwebservice.ncpyouths.com/Service.asmx/'; break;
-      //development server base url
-      //live server base url
-      case 'stplVtsTrackingBaseUrlAPI': return 'http://mahakhanij.maharashtra.gov.in/vehicle-tracking/'; break;
-      //development server base url
-      //case 'ncpServiceForWeb': return 'http://ncpserviceweb.eanifarm.com/Service.asmx/'; break;
+      case 'WBMiningService': return 'https://wbminingservices.mahamining.com/WBMiningService/'; break;
       default: return ''; break;
     }
   }
