@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, NgZone, OnInit, Optional, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
@@ -17,6 +17,8 @@ import { take, map } from 'rxjs/operators';
   styleUrls: ['./coal-allocation.component.scss']
 })
 export class CoalAllocationComponent implements OnInit {
+
+  verifyPANNumber = new FormControl('');
 
   bidderRegiForm:FormGroup | any;
   bidderTypeArray = ['Individual', 'Organization'];
