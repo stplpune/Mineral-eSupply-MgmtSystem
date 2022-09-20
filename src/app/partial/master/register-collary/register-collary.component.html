@@ -98,15 +98,15 @@
                         <mat-label>Address</mat-label>
                         <textarea matInput></textarea>
                     </mat-form-field>
-                    <div class="mb-3">                  
-                        <app-agm-map></app-agm-map>
+                    <div class="mb-3">
+                      <app-agm-map (bookTitleCreated)="onBookAdded($event)"></app-agm-map>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <button mat-raised-button class="btn-outline-main">Cancel</button>
                         <button mat-raised-button class="btn-main">Submit</button>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

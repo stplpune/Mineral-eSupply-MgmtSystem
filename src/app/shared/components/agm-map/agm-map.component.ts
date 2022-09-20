@@ -2,15 +2,17 @@ import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConfigService } from 'src/app/configs/config.service';
-import { EventEmitter } from 'stream';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-agm-map',
   templateUrl: './agm-map.component.html',
   styleUrls: ['./agm-map.component.scss']
 })
+// child component
 export class AgmMapComponent implements OnInit {
-
+  // @Input() customer:any;
+  @Output() bookTitleCreated = new EventEmitter();
   map: any;
   drawingManager: any;
   centerMarker: any = undefined;
@@ -43,6 +45,7 @@ export class AgmMapComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    // console.log(this.customer);
     // this.data = {
     //   newRecord: {
     //     "latLng": '85.74184845,22.82044971',
