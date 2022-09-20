@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ConfigService {
 
+  constructor() { }
+
   dialogBoxWidth = ['320px', '400px', '700px', '1024px'];  // Set angular material dialog box width
 
   disableCloseBtnFlag: boolean = true// When click on body material dialog box is not closed flag 
@@ -33,5 +35,17 @@ export class ConfigService {
 
   //------------------------------------------ Maps Settings  starte heare -------------------------------------------//
   
-  constructor() { }
+  //--------------------------------------- dialog Data obj start heare ------------------------------------------//
+  
+  static dialogObj: object = {
+    p1:'',
+    p2:'',
+    cardTitle:'',
+    successBtnText:'',
+    cancelBtnText:'',
+    dialogIconClose:'',
+    inputType:false,
+    inputTypeLable:''
+  }
+
 }

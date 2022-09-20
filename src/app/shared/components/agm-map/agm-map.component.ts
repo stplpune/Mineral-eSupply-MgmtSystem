@@ -3,6 +3,7 @@ import { Component, ElementRef, Input, NgZone, OnInit, Output, ViewChild } from 
 import { Subscription } from 'rxjs';
 import { ConfigService } from 'src/app/configs/config.service';
 import { EventEmitter } from '@angular/core';
+import { ShareDataService } from 'src/app/core/services/share-data.service';
 
 @Component({
   selector: 'app-agm-map',
@@ -11,7 +12,7 @@ import { EventEmitter } from '@angular/core';
 })
 // child component
 export class AgmMapComponent implements OnInit {
-  @Input() customer:any;
+  @Input() sendSelGeoFanceObj:any;
   @Output() geoFanceData = new EventEmitter();
 
   map: any;
@@ -39,14 +40,30 @@ export class AgmMapComponent implements OnInit {
   };
 
   isShapeDrawn: boolean = false;
-  @ViewChild('search') public searchElementRef?: ElementRef;
+  @ViewChild('search') public searchElementRef!: ElementRef;
 
   constructor(private ngZone: NgZone, public configService: ConfigService,
-    private mapsAPILoader: MapsAPILoader,) {
+    private mapsAPILoader: MapsAPILoader,
+    private shareDataService: ShareDataService) {
 
   }
   ngOnInit(): void {
-     console.log(this.customer);
+     console.log(this.sendSelGeoFanceObj);
+    this.shareDataService.geoFenceData.subscribe(
+      (res: any) => {
+        console.log('message', res);
+        this.searchElementRef.nativeElement.value = res.collieryAddress,
+        this.data = {
+          newRecord : {
+            latLng: res.latitude + ',' + res.longitude,
+            polygonText: res.polygonText,
+            geofenceType: res.geofenceType,
+            distance: res.distance
+          }
+        }
+        console.log(this.data)
+      }
+    )
     // this.data = {
     //   newRecord: {
     //     "latLng": '85.74184845,22.82044971',
@@ -59,7 +76,7 @@ export class AgmMapComponent implements OnInit {
 
   onMapReady(map: any) {
   
-    this.isHide = this.data?.isHide || false;
+    // this.isHide = this.data?.isHide || false;
     let self = this;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -225,6 +242,7 @@ export class AgmMapComponent implements OnInit {
   }
 
   setSelection(shape: any, type: string) {
+    console.log(shape)
     this.clearSelection(false);
     this.newRecord.geofenceType = type;
     type == 'circle' && (this.newRecord.circle = shape, this.newRecord.circle.setMap(this.map), this.newRecord.circle.setEditable(true), this.newRecord.centerMarkerLatLng = this.getLanLongFromCircle(shape), this.newRecord.radius = +shape.getRadius().toFixed(2))
@@ -236,8 +254,8 @@ export class AgmMapComponent implements OnInit {
     catch (e) { }
 
     this.newRecord.latLng = this.newRecord?.centerMarkerLatLng;
-    console.log(this.searchElementRef)
     let obj = {
+      "collieryAddress":this.searchElementRef.nativeElement.value,
       "latitude": +this.newRecord.latLng.split(",")[1],
       "longitude": +this.newRecord.latLng.split(",")[0],
       "polygonText": this.newRecord?.polygontext,
