@@ -12,7 +12,7 @@ export class FileUploadService {
 
   constructor(private apiService: CallApiService, private spinner: NgxSpinnerService, private error: ErrorHandlerService, private commonService: CommonMethodsService) { }
 
-  uploadDocuments(event: any, folderName?: any, allowedDocTypes?: any, _minsize?: any, maxsize?: any) {
+  uploadDocuments(event: any, DocumentTypeId?: any, docTypeName?:any,allowedDocTypes?: any, _minsize?: any, maxsize?: any) {
     return new Observable(obj => {
       const selResult = event.target.value.split('.');
       const docExt = selResult.pop();
@@ -27,10 +27,10 @@ export class FileUploadService {
             const reader: any = new FileReader();
             reader.onload = () => {
               const formData = new FormData();
-              formData.append('FolderName', folderName);
-              formData.append('DocumentType', docExt);
-              formData.append('UploadDocPath', file);
-              this.apiService.setHttp('post', 'document/UploadFile', false, formData, false, 'masterUrl');
+              formData.append('DocumentTypeId', DocumentTypeId);
+              formData.append('DocumentName', docTypeName);
+              formData.append('DocumentData', file);
+              this.apiService.setHttp('post', 'CoalApplication/UploadCoalApplicationDocuments', false, formData, false, 'WBMiningService');
               this.apiService.getHttp().subscribe({
                 next: (res: any) => {
                   this.spinner.hide();

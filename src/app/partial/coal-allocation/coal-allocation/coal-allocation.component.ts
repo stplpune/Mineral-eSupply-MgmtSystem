@@ -221,4 +221,16 @@ export class CoalAllocationComponent implements OnInit {
 
   //.........................................Address to get Pincode Code End Here ....................................//
 
+  documentUpload(event: any, docTypeId: any, docTypeName: any) {
+    let documentUrlUploaed: any;
+    let documentUrl: any = this.fileUploadService.uploadDocuments(event, docTypeId,docTypeName, "png,jpg,jpeg,pdf", 5, 5000)
+    console.log(documentUrl)
+    documentUrl.subscribe({
+      next: (ele: any) => {
+        documentUrlUploaed = ele.responseData.documentWebURL;
+        console.log(ele)
+      },
+    })
+  }
+
 }
