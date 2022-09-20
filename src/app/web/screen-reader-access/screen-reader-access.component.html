@@ -1,9 +1,9 @@
 <div class="container">
     <div class="my-3">
-        <h5 class="page-heading text-primary">SCREEN READER ACCESS</h5>
+        <h5 class="page-heading">SCREEN READER ACCESS</h5>
     </div>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm">
             <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
 
                 <ng-container matColumnDef="sr">
@@ -24,8 +24,6 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-        </div>
-        <div class="col-sm-4">
         </div>
     </div>
 </div>
