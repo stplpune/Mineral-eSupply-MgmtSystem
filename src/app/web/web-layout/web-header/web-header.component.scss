@@ -38,6 +38,7 @@
 }
 #menubar{
     background-color:var(--bg-color);
+    border-bottom: solid 1px var(--top-bg-color);
 }
 #menubar .navbar{
     padding-block: 5px;

@@ -11,7 +11,9 @@ export class ConfigService {
 
   pageSize: number = 10; // Angular material data table page size limt
 
-  matFormField: string | any = 'outline'; // Reactive form fill appearance
+  matFormField: string | any = 'legacy'; // Reactive form fill appearance
+
+  matFormFieldFilter: string | any = 'legacy'; // Reactive form fill filter appearance
 
   //------------------------------------------ Maps Settings  starte heare -------------------------------------------//
 
@@ -26,7 +28,7 @@ export class ConfigService {
   static googleApiObj: object = { // google api key 
     apiKey: 'AIzaSyAkNBALkBX7trFQFCrcHO2I85Re2MmzTo8',
     language: 'en',
-    libraries: ['places', 'geometry'],
+    libraries: ['drawing', 'places']
   };
 
   //------------------------------------------ Maps Settings  starte heare -------------------------------------------//
