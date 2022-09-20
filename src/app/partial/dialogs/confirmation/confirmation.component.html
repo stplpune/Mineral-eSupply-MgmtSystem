@@ -1,1 +1,46 @@
-<p>confirmation works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 px-0">
+            <div class="dialog card border-0">
+                <div class="card-header border-bottom-0 bg-main">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col fw-bold">
+                            {{dialogData?.cardTitle}}
+                        </div>
+                        <div class="col text-end">
+                            <button type="button" class="dlg-close mnw-auto lh-sm" mat-button mat-dialog-close><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="card-body text-center px-3">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="text-center">
+                                <p class="mb-0" *ngIf="dialogData?.p1">{{dialogData?.p1}}</p>
+                                <p class="mb-0" *ngIf="dialogData?.p2">{{dialogData?.p2}}</p>
+                                <div *ngIf="data.inputType">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Remark</mat-label>                                    
+                                        <textarea matInput [formControl]="remark" rows="4"> </textarea>                                       
+                                      </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button  type="button" mat-stroked-button class="me-2" type="button" mat-dialog-close
+                                (click)="onNoClick('No')"
+                                *ngIf="dialogData?.cancelBtnText">{{dialogData?.cancelBtnText}}</button>
+                            <button mat-raised-button  cdkFocusInitial
+                                (click)="onNoClick('Yes')" class="btn-main" type="submit"
+                                *ngIf="dialogData?.successBtnText">{{dialogData?.successBtnText}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

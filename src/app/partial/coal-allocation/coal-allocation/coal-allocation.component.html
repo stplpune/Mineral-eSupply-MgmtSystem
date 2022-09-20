@@ -310,7 +310,7 @@
                     <td>
                         <div class="upload-btn-wrapper">
                             <button class="btn"><i class="fa-solid fa-upload me-2"></i>Upload a file</button>
-                            <input type="file" name="myfile" />
+                            <input type="file" name="myfile" (change)="documentUpload($event,1,'PAN')" />
                         </div>
                     </td>
                 </tr>
