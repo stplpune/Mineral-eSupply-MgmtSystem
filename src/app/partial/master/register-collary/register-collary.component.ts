@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigService } from 'src/app/configs/config.service';
 
 @Component({
   selector: 'app-register-collary',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class RegisterCollaryComponent implements OnInit {displayedColumns: string[] = ['position','sr','dist', 'add','action',];
 dataSource = ELEMENT_DATA;
 
-constructor() { }
+constructor(public configService:ConfigService) { }
 
 ngOnInit(): void {
 }

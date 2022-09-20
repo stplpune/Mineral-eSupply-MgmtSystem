@@ -8,7 +8,7 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                    <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
                                         <mat-label>Select District</mat-label>
                                         <mat-select>
                                             <mat-option value="one">First option</mat-option>
@@ -17,7 +17,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-4">
-                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                    <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
                                         <mat-label> Name</mat-label>
                                         <input matInput>
                                     </mat-form-field>
@@ -81,18 +81,18 @@
                     Register Colleries
                 </div>
                 <div class="card-body">
-                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                    <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">
                         <mat-label>Collary Name</mat-label>
                         <input matInput>
                     </mat-form-field>
-                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                    <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">
                         <mat-label>Select District</mat-label>
                         <mat-select>
                             <mat-option value="one">Jalgaon</mat-option>
                             <mat-option value="two">Dhule</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                    <mat-form-field class="example-full-width"[appearance]="configService.matFormField" class="w-100">
                         <mat-label>Address</mat-label>
                         <textarea matInput></textarea>
                     </mat-form-field>
