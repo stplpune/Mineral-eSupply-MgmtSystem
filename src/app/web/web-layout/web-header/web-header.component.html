@@ -7,8 +7,18 @@
                     <a class="me-4 pe-4 border-end border-secondary" routerLink="#">Skip to Main Content</a>
                     <div class="d-flex align-items-center">
                         <span class="me-2">Color -</span>
-                        <button type="button" class="btn-color white me-1"></button>
-                        <button type="button" class="btn-color black"></button>
+                        <div class="btn-group btn-group-sm ms-2" role="group" aria-label="Theme">
+                        <button type="button" class="btn btn-link py-0" (click)="onClickThemeChange('light')">
+                            <i class="fas fa-check-square white" *ngIf="activeTheme === 'light'; else elseBlockLight"></i>
+                            <ng-template #elseBlockLight><i class="fas fa-square-full white"></i>
+                            </ng-template>
+                        </button>
+                        <button type="button" class="btn btn-link py-0" (click)="onClickThemeChange('dark')">
+                            <i class="fas fa-check-square dark" *ngIf="activeTheme === 'dark'; else elseBlockDark"></i>
+                            <ng-template #elseBlockDark><i class="fas fa-square-full dark"></i>
+                            </ng-template>
+                        </button>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -16,9 +26,9 @@
                 <div class="d-flex align-items-center justify-content-end">
                     <div class="d-flex align-items-center me-4 pe-4 border-end border-secondary">
                         <span class="me-2">Font Size -</span>
-                        <button type="button" class="btn-font">A-</button>
-                        <button type="button" class="btn-font mx-2">A</button>
-                        <button type="button" class="btn-font white">A+</button>
+                        <button type="button" class="btn-font" id="smallSize" (click)="onChangeFontSize('small')">A-</button>
+                        <button type="button" class="btn-font mx-2" (click)="onChangeFontSize('medium')">A</button>
+                        <button type="button" class="btn-font white" (click)="onChangeFontSize('large')">A+</button>
                     </div>
                     <div class="d-flex align-items-center">
                         <span class="me-2">Languages : </span>

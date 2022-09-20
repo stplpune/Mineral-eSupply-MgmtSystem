@@ -5,6 +5,7 @@ import { WebLayoutRoutingModule } from './web-layout-routing.module';
 import { WebLayoutComponent } from './web-layout.component';
 import { WebHeaderComponent } from './web-header/web-header.component';
 import { WebFooterComponent } from './web-footer/web-footer.component';
+import { ThemeModule } from 'src/app/theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { WebFooterComponent } from './web-footer/web-footer.component';
   ],
   imports: [
     CommonModule,
-    WebLayoutRoutingModule
+    WebLayoutRoutingModule,
+    ThemeModule
   ]
 })
 export class WebLayoutModule { }
