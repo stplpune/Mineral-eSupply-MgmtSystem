@@ -28,7 +28,7 @@ export class ConfigService {
   static googleApiObj: object = { // google api key 
     apiKey: 'AIzaSyAkNBALkBX7trFQFCrcHO2I85Re2MmzTo8',
     language: 'en',
-    libraries: ['places', 'geometry'],
+    libraries: ['drawing', 'places']
   };
 
   //------------------------------------------ Maps Settings  starte heare -------------------------------------------//

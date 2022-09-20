@@ -1,2 +1,7 @@
-<agm-map [latitude]="23.7541318" [zoom]="6" [longitude]="80.3681253" (mapReady)="onMapReady($event)">
-</agm-map>
+<agm-map [latitude]="23.7541318" [zoom]="6" [longitude]="80.3681253" (mapReady)="onMapReady($event)"></agm-map>
+<button mat-mini-fab color="warn" (click)="removeShape()" *ngIf="isShapeDrawn" aria-label="Remove Shape" style="position: absolute;
+z-index: 1;
+margin-top: 34px;
+margin-left: 4px;">
+   <!-- <mat-icon>close</mat-icon> -->
+</button>
