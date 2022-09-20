@@ -41,20 +41,29 @@
                     Document List
                 </div>
                 <div class="card-body">
+                  <form [formGroup]="documentFrm" (ngSubmit)="onSubmit()">
                     <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                        <mat-label>Document Name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                        <mat-label>Select Mandatory</mat-label>
-                        <mat-select>
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="text-end p-3">
+                      <mat-label>Document Name</mat-label>
+                      <input matInput formControlName="documentType">
+                      <mat-error *ngIf="documentFrm.controls['documentType'].errors">
+                        <span *ngIf="documentFrm.controls['documentType']?.hasError('required')"> Please Enter UserName</span>
+                        <span *ngIf="documentFrm.controls['documentType'].hasError('pattern')"> Please Enter Valid UserName</span>
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                      <mat-label>Select Mandatory</mat-label>
+                      <mat-select formControlName="isMandatory">
+                          <mat-option value="one">First option</mat-option>
+                          <mat-option value="two">Second option</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="documentFrm.controls['isMandatory'].errors">
+                        <span *ngIf="documentFrm.controls['isMandatory']?.hasError('required')"> Please Enter UserName</span>
+                      </mat-error>
+                  </mat-form-field>
+                  <div class="text-end p-3">
                     <button mat-raised-button class="btn-main">ADD</button>
+                </div>
+                  </form>
                 </div>
             </div>
         </div>
