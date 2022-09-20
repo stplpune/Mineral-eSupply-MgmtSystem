@@ -25,6 +25,7 @@ export class RegisterCollaryComponent implements OnInit {
   get fc() { return this.frmCollary.controls };
   isEdit: boolean = false;
   updateId: any;
+  selectedCustomer="data"
 
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
@@ -141,6 +142,11 @@ export class RegisterCollaryComponent implements OnInit {
         error: ((error: any) => { this.error.handelError(error.status) })
       })
     }
+  }
+
+  onBookAdded(data:any) {
+
+    console.log(data);
   }
 
 }

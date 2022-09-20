@@ -2,15 +2,26 @@
     width: 34px;
     border-radius: 50%;
 }
+.navbar{
+    background-color:var(--bg-color);
+    border-bottom: solid 1px var(--top-bg-color);
+    color: var(--text-color);
+}
+.navbar mat-icon{
+    font-size: 1.3rem;
+}
 .navbar .btn{
     font-size: 0.85rem;
-    color: #757575;
+    color: var(--text-color);
+    background-color: transparent;
+    border:none !important;
+    line-height: 0.3rem;
 }
 .navbar .btn:active,
 .navbar .btn:focus,
 .navbar .btn.show,
 .navbar .btn:hover{
-    color: #000;
+    color: var(--text-color);
     background-color: transparent;
     border: 1px solid transparent;
 }
@@ -18,12 +29,15 @@
     padding: 10px;
     font-size: 0.85rem;
     border: none;
+    background-color:var(--bg-color);
 }
 .navbar .dropdown-menu .dropdown-item{
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    color: var(--text-color);
 }
+.navbar .dropdown-menu .dropdown-item:hover,
 .navbar .dropdown-menu .dropdown-item:active,
 .navbar .dropdown-menu .dropdown-item:focus{
     background-color:var(--main-color);

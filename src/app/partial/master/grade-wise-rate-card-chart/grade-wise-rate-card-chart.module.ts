@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GradeWiseRateCardChartRoutingModule } from './grade-wise-rate-card-chart-routing.module';
 import { GradeWiseRateCardChartComponent } from './grade-wise-rate-card-chart.component';
-
+import { AngularMaterialModule} from 'src/app/shared/angular-material.module'
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { GradeWiseRateCardChartComponent } from './grade-wise-rate-card-chart.co
   ],
   imports: [
     CommonModule,
-    GradeWiseRateCardChartRoutingModule
+    GradeWiseRateCardChartRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class GradeWiseRateCardChartModule { }
