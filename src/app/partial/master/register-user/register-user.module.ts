@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { RegisterUserRoutingModule } from './register-user-routing.module';
 import { RegisterUserComponent } from './register-user.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { RegisterUserComponent } from './register-user.component';
   ],
   imports: [
     CommonModule,
-    RegisterUserRoutingModule
+    RegisterUserRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class RegisterUserModule { }

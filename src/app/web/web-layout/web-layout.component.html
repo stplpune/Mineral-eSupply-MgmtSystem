@@ -1,9 +1,7 @@
 <div appTheme>
     <app-web-header *ngIf="hideHeader"></app-web-header>
-    <div class="home-top" [class.mt-0]="!hideHeader">
-        <div class="pb-5">
-            <router-outlet></router-outlet>
-        </div>
+    <div [class.mt-0]="!hideHeader" class="container-fluid" id="wrapper">
+        <router-outlet></router-outlet>
     </div>
     <app-web-footer *ngIf="hideFooter"></app-web-footer>
 </div>
