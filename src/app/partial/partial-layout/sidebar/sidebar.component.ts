@@ -18,294 +18,76 @@ export class SidebarComponent implements OnInit {
   menus:any = [];
 
   loginPages: any = [];
+  loginAfterPages:any;
 
   constructor(public sidebarservice: SidebarService) {
-    this.menus = sidebarservice.getMenuList();
-    let data  =[
-      {
-          "pageId": "1",
-          "pageType": "1",
-          "pageURL": "dashboard",
-          "pageName": "Dashboard",
-          "pageGroup": "Dashboard",
-          "pageIcon": "assets/images/menu-icons/Dashboard.svg",
-          "sortOrder": 1,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "2",
-          "pageType": "1",
-          "pageURL": "ministries",
-          "pageName": "Ministries",
-          "pageGroup": "Masters",
-          "pageIcon": "assets/images/menu-icons/Master.svg",
-          "sortOrder": 2,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "3",
-          "pageType": "1",
-          "pageURL": "zone-region",
-          "pageName": "Zone/Region",
-          "pageGroup": "Masters",
-          "pageIcon": "assets/images/menu-icons/Master.svg",
-          "sortOrder": 3,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "4",
-          "pageType": "1",
-          "pageURL": "dist-division",
-          "pageName": "District/Division",
-          "pageGroup": "Masters",
-          "pageIcon": "assets/images/menu-icons/Master.svg",
-          "sortOrder": 4,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "5",
-          "pageType": "1",
-          "pageURL": "category",
-          "pageName": "Category",
-          "pageGroup": "Masters",
-          "pageIcon": "assets/images/menu-icons/Master.svg",
-          "sortOrder": 5,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "6",
-          "pageType": "1",
-          "pageURL": "expertise-area",
-          "pageName": "Expertise Area",
-          "pageGroup": "Masters",
-          "pageIcon": "assets/images/menu-icons/Master.svg",
-          "sortOrder": 6,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "7",
-          "pageType": "1",
-          "pageURL": "packages",
-          "pageName": "Packages",
-          "pageGroup": "Masters",
-          "pageIcon": "assets/images/menu-icons/Master.svg",
-          "sortOrder": 7,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "8",
-          "pageType": "1",
-          "pageURL": "bidders",
-          "pageName": "Bidders",
-          "pageGroup": "Users",
-          "pageIcon": "assets/images/menu-icons/Users.svg",
-          "sortOrder": 8,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "9",
-          "pageType": "1",
-          "pageURL": "consultants",
-          "pageName": "Consultants",
-          "pageGroup": "Users",
-          "pageIcon": "assets/images/menu-icons/Users.svg",
-          "sortOrder": 9,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "10",
-          "pageType": "1",
-          "pageURL": "cb-Team",
-          "pageName": "CB/Team",
-          "pageGroup": "Users",
-          "pageIcon": "assets/images/menu-icons/Users.svg",
-          "sortOrder": 10,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "11",
-          "pageType": "1",
-          "pageURL": "permission",
-          "pageName": "Permission",
-          "pageGroup": "Users",
-          "pageIcon": "assets/images/menu-icons/Users.svg",
-          "sortOrder": 11,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "12",
-          "pageType": "1",
-          "pageURL": "tenders",
-          "pageName": "Tenders",
-          "pageGroup": "Tender",
-          "pageIcon": "assets/images/menu-icons/Tenders.svg",
-          "sortOrder": 11,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "33",
-          "pageType": "1",
-          "pageURL": "booklets",
-          "pageName": "Booklets",
-          "pageGroup": "Tender",
-          "pageIcon": "assets/images/menu-icons/Tenders.svg",
-          "sortOrder": 12,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "14",
-          "pageType": "1",
-          "pageURL": "appointments",
-          "pageName": "Appointments",
-          "pageGroup": "Appointments",
-          "pageIcon": "assets/images/menu-icons/Appointments.svg",
-          "sortOrder": 14,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "15",
-          "pageType": "1",
-          "pageURL": "payments",
-          "pageName": "Payments",
-          "pageGroup": "Payments",
-          "pageIcon": "assets/images/menu-icons/Payments.svg",
-          "sortOrder": 15,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "16",
-          "pageType": "1",
-          "pageURL": "feedback",
-          "pageName": "Feedback",
-          "pageGroup": "Feedback",
-          "pageIcon": "assets/images/menu-icons/feedback.svg",
-          "sortOrder": 16,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "17",
-          "pageType": "1",
-          "pageURL": "report",
-          "pageName": "Reports",
-          "pageGroup": "Reports",
-          "pageIcon": "assets/images/menu-icons/Reports.svg",
-          "sortOrder": 17,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "35",
-          "pageType": "0",
-          "pageURL": "add-tenders",
-          "pageName": "Add Tender",
-          "pageGroup": "Other",
-          "pageIcon": "assets/images/menu-icons/feedback.svg",
-          "sortOrder": 35,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "36",
-          "pageType": "0",
-          "pageURL": "edit-tenders/:id",
-          "pageName": "Edit Tender",
-          "pageGroup": "Other",
-          "pageIcon": "assets/images/menu-icons/feedback.svg",
-          "sortOrder": 36,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "37",
-          "pageType": "0",
-          "pageURL": "booklet/:id",
-          "pageName": "Booklet",
-          "pageGroup": "Other",
-          "pageIcon": "assets/images/menu-icons/feedback.svg",
-          "sortOrder": 37,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "38",
-          "pageType": "0",
-          "pageURL": "edit-booklet/:id/:id",
-          "pageName": "Booklet",
-          "pageGroup": "Other",
-          "pageIcon": "assets/images/menu-icons/feedback.svg",
-          "sortOrder": 38,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "50",
-          "pageType": "0",
-          "pageURL": "question-bank-list",
-          "pageName": "Question Bank List",
-          "pageGroup": "Tender",
-          "pageIcon": "assets/images/menu-icons/Appointments.svg",
-          "sortOrder": 50,
-          "isSidebarMenu": true
-      },
-      {
-          "pageId": "51",
-          "pageType": "0",
-          "pageURL": "add-question",
-          "pageName": "Add-Question",
-          "pageGroup": "Tender",
-          "pageIcon": "assets/images/menu-icons/Appointments.svg",
-          "sortOrder": 51,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "52",
-          "pageType": "0",
-          "pageURL": "edit-question/:id",
-          "pageName": "Edit Question",
-          "pageGroup": "Tender",
-          "pageIcon": "assets/images/menu-icons/Appointments.svg",
-          "sortOrder": 52,
-          "isSidebarMenu": false
-      },
-      {
-          "pageId": "53",
-          "pageType": "0",
-          "pageURL": "view-question/:id",
-          "pageName": "view  Question",
-          "pageGroup": "Tender",
-          "pageIcon": "assets/images/menu-icons/Appointments.svg",
-          "sortOrder": 53,
-          "isSidebarMenu": false
-      }
-    ]
-    this.sideBarMenu(data)
+    // this.menus = sidebarservice.getMenuList();
    }
 
   ngOnInit(): void {
+    let data  =[
+      {"pageId": "1", "pageType": "1", "pageURL": "dashboard", "pageName": "Dashboard", "pageGroup": "Dashboard", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "2", "pageType": "1", "pageURL": "register-user", "pageName": "Register User", "pageGroup": "Master", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "3", "pageType": "1", "pageURL": "register-collary", "pageName": "Register Collary", "pageGroup": "Master", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "4", "pageType": "1", "pageURL": "coal-grade-master", "pageName": "Coal Grade master", "pageGroup": "Master", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "5", "pageType": "1", "pageURL": "document-master", "pageName": "Document master", "pageGroup": "Master", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "6", "pageType": "1", "pageURL": "grade-wise-rate-card-chart", "pageName": "Grade wse Rate card Chart", "pageGroup": "Master", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "7", "pageType": "1", "pageURL": "consumer-registration", "pageName": "Consumer Registrattion", "pageGroup": "Master", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+  
+      {"pageId": "8", "pageType": "1", "pageURL": "application", "pageName": "Application", "pageGroup": "Application", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "9", "pageType": "1", "pageURL": "approval", "pageName": "Approval", "pageGroup": "Application", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+      {"pageId": "10", "pageType": "1", "pageURL": "coal-allocation", "pageName": "Coal Allocation", "pageGroup": "Coal Allocation", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "11", "pageType": "1", "pageURL": "booking_payment", "pageName": "Booking & Payment", "pageGroup": "Coal Allocation", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "12", "pageType": "1", "pageURL": "delivery-order", "pageName": "Delivery Order", "pageGroup": "Coal Allocation", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+      {"pageId": "13", "pageType": "1", "pageURL": "loading-slip", "pageName": "Loading Slip", "pageGroup": "Coal Lifting", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "14", "pageType": "1", "pageURL": "challan_nnvoice-request", "pageName": "Challan/Invoice Request", "pageGroup": "Coal Lifting", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "15", "pageType": "1", "pageURL": "generate_msme_invoice-challan", "pageName": "Generate MSME Invoice/Challan", "pageGroup": "Coal Lifting", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+  
+      {"pageId": "16", "pageType": "1", "pageURL": "register-vehicle", "pageName": "Register Vehicle", "pageGroup": "Vehicle Management", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "17", "pageType": "1", "pageURL": "vehicle-tracking", "pageName": "Vehicle Tracking", "pageGroup": "Vehicle Management", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+      {"pageId": "18", "pageType": "1", "pageURL": "consumers", "pageName": "Consumers", "pageGroup": "Consumer Management", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+      {"pageId": "19", "pageType": "1", "pageURL": "my_profile", "pageName": "My Profile", "pageGroup": "My Profile", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+      {"pageId": "20", "pageType": "1", "pageURL": "daily-lifting-chart", "pageName": "Daily Lifting chart", "pageGroup": "MIS Reports", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "21", "pageType": "1", "pageURL": "monthly-allocation-to-msme", "pageName": "Monthly Allocation to MSME", "pageGroup": "MIS Reports", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+      {"pageId": "22", "pageType": "1", "pageURL": "etp_report", "pageName": "eTP report", "pageGroup": "MIS Reports", "pageIcon": "<i  class='ng-tns-c105-1 fa fa-tachometer-alt'></i>", "sortOrder": 1, "isSidebarMenu": true},
+  
+      
+  ]
+    this.sideBarMenu(data)
   }
 
   
   sideBarMenu(data: any) {
-    this.loginPages = [];
-    let items: any = data.filter((ele: any) => {
-      debugger;
-      if (ele['isSideBarMenu'] == true) {
-        console.log(ele);
+    this.loginAfterPages = data.filter((ele:any)=>{
+      if(ele.isSidebarMenu == true){
         return ele;
       }
     })
-    console.log(items);
-    // items.forEach((item: any) => {
-    //   let existing: any = this.loginPages.filter((v: any) => {
-    //     return v.module == item.module;
-    //   });
-    //   if (existing.length) {
-    //     let existingIndex: any = this.loginPages.indexOf(existing[0]);
-    //     this.loginPages[existingIndex].pageURL = this.loginPages[existingIndex].pageURL.concat(item.pageURL);
-    //     this.loginPages[existingIndex].pageName = this.loginPages[existingIndex].pageName.concat(item.pageName);
-    //   } else {
-    //     if (typeof item.pageName == 'string')
-    //       item.pageURL = [item.pageURL];
-    //     item.pageName = [item.pageName];
-    //     this.loginPages.push(item);
-    //   }
-    // });
-  
+
+    this.loginAfterPages.forEach((item: any) => {
+      let existing: any = this.loginPages.filter((v: any) => {
+        return v.pageGroup == item.pageGroup;
+      });
+      if (existing.length) {
+        let existingIndex: any = this.loginPages.indexOf(existing[0]);
+        this.loginPages[existingIndex].pageURL = this.loginPages[existingIndex].pageURL.concat(item.pageURL);
+        this.loginPages[existingIndex].pageName = this.loginPages[existingIndex].pageName.concat(item.pageName);
+        this.loginPages[existingIndex].type = 'dropdown';
+      } else {
+        if (typeof item.pageName == 'string')
+          item.pageURL = [item.pageURL];
+        item.pageName = [item.pageName];
+
+        this.loginPages.push(item);
+      }
+    });
   }
 
   getSideBarState() {
@@ -314,7 +96,7 @@ export class SidebarComponent implements OnInit {
 
   toggle(currentMenu:any) {
     if (currentMenu.type === 'dropdown') {
-      this.menus.forEach((element:any) => {
+      this.loginPages.forEach((element:any) => {
         if (element === currentMenu) {
           currentMenu.active = !currentMenu.active;
         } else {
