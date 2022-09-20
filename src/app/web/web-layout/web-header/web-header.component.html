@@ -9,14 +9,8 @@
                         <span class="me-2">Color -</span>
                         <div class="btn-group btn-group-sm ms-2" role="group" aria-label="Theme">
                         <button type="button" class="btn-color white" (click)="onClickThemeChange('light')">
-                            <!-- <i class="fas fa-check-square white" *ngIf="activeTheme === 'light'; else elseBlockLight"></i>
-                            <ng-template #elseBlockLight><i class="fas fa-square-full"></i>
-                            </ng-template> -->
                         </button>
                         <button type="button" class="btn-color black" (click)="onClickThemeChange('dark')">
-                            <!-- <i class="fas fa-check-square dark" *ngIf="activeTheme === 'dark'; else elseBlockDark"></i>
-                            <ng-template #elseBlockDark><i class="fas fa-square-full"></i>
-                            </ng-template> -->
                         </button>
                     </div>
                     </div>
@@ -44,13 +38,13 @@
 <div class="container-fluid shadow-sm" id="menubar">
     <div class="container">
         <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
+            <div class="container-fluid px-0">
                 <a class="navbar-brand" href="#">
                     <div class="d-flex align-items-center">
                         <img src="assets/images/WBMDTCL_Logo.png">
                         <div class="logo-right">
                             <h5>WBMDTCL</h5>
-                            <p>West Bengal Mineral Development & Trading Corporation Ltd.</p>
+                            <p>West Bengal Mineral Development<br>& Trading Corporation Ltd.</p>
                         </div>
                     </div>
                 </a>
@@ -82,8 +76,8 @@
                             <a class="nav-link login" routerLink="#"><i class="fa-solid fa-user me-2"></i>Login</a>
                         </li>
                     </ul>
-                    <div class="d-flex text-muted">
-                        Monday, Sep 19 2022 11:09 AM
+                    <div class="d-flex current-date text-end">
+                        Monday, Sep 19 2022<br>11:09 AM
                     </div>
                 </div>
             </div>
