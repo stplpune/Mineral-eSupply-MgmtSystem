@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfigService } from 'src/app/configs/config.service';
+import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-grade-wise-rate-card-chart',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GradeWiseRateCardChartComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog, public configService:ConfigService) { }
 
   ngOnInit(): void {
   }
 
+
+  deleteRecord() {
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: '',
+      disableClose: this.configService.disableCloseBtnFlag,
+    })
+    dialog.afterClosed().subscribe(res => {
+      
+    })
+  }
 }
