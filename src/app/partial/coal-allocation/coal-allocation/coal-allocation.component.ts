@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, NgZone, OnInit, Optional, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
@@ -11,12 +11,24 @@ import { PDFExcelService } from 'src/app/core/services/pdf-excel.service';
 import { Observable, of, timer } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
+interface Food {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-coal-allocation',
   templateUrl: './coal-allocation.component.html',
   styleUrls: ['./coal-allocation.component.scss']
 })
 export class CoalAllocationComponent implements OnInit {
+
+  verifyPANNumber = new FormControl('');
+
+  foods: Food[] = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'},
+  ];
 
   bidderRegiForm:FormGroup | any;
   bidderTypeArray = ['Individual', 'Organization'];
