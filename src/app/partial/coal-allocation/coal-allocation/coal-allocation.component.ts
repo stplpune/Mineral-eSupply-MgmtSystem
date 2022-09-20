@@ -22,13 +22,14 @@ interface Food {
 })
 export class CoalAllocationComponent implements OnInit {
 
-  verifyPANNumber = new FormControl('');
-
   foods: Food[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
     {value: 'tacos-2', viewValue: 'Tacos'},
   ];
+
+  verifyPANForm:FormGroup | any;
+  
 
   bidderRegiForm:FormGroup | any;
   bidderTypeArray = ['Individual', 'Organization'];
@@ -68,11 +69,17 @@ export class CoalAllocationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.verifyPanForm();
     this.defaultMainForm();
   }
 
-  get f() { return this.bidderRegiForm.controls }
+  
+  get p() { return this.verifyPANForm.controls }
+  verifyPanForm(){
+    this.verifyPANForm = this.fb.group({  verifyPANNumber: ['',[Validators.required, Validators.pattern('[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}')]]})
+  }
 
+  get f() { return this.bidderRegiForm.controls }
   defaultMainForm() {
     this.bidderRegiForm = this.fb.group({  
       id: [0],
@@ -123,6 +130,15 @@ export class CoalAllocationComponent implements OnInit {
       this.commonService.checkDataType(this.fileInputIC?.nativeElement.value) == true ? this.fileInputIC.nativeElement.value = '' : '';
       this.commonService.checkDataType(this.fileInputSALBC?.nativeElement.value) == true ? this.fileInputSALBC.nativeElement.value = '' : '';
       this.commonService.checkDataType(this.fileInputPDC?.nativeElement.value) == true ? this.fileInputPDC.nativeElement.value = '' : '';
+    }
+  }
+
+
+
+  verifyByPANNumber() {
+
+    if (this.verifyPANForm.invalid) {
+      return;
     }
   }
 

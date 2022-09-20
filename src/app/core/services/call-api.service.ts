@@ -17,7 +17,7 @@ export class CallApiService {
 
   getBaseurl(url: string) {
     switch (url) {
-      case 'WBMiningService': return 'https://wbminingservices.mahamining.com/WBMiningService/'; break;
+      case 'WBMiningService': return 'https://wbminingservices.mahamining.com/'; break;
       default: return ''; break;
     }
   }
