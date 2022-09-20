@@ -60,7 +60,7 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('get', "DropdownService/GetUserTypeDetails", false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => { if (res.length) { this.userType = res; obj.next(this.userType); } else { obj.error(res); } },
+        next: (res: any) => { if (res.statusCode == 200) { this.userType = res.responseData; obj.next(this.userType); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })
@@ -68,9 +68,9 @@ export class CommonApiCallService {
 
   getSubuserType(id:any) {
     return new Observable((obj) => {
-      this.apiService.setHttp('get', "DropdownService/GetSubUserTypeDetails?userTypeId=" +id, false, false, false, 'WBMiningService');
+      this.apiService.setHttp('get', "DropdownService/GetSubUserTypeDetails?userTypeId=" + id, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => { if (res.length) { this.subuserType = res; obj.next(this.subuserType); } else { obj.error(res); } },
+        next: (res: any) => { if (res.statusCode == 200) { this.subuserType = res.responseData; obj.next(this.subuserType); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })

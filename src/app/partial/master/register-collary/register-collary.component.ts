@@ -6,6 +6,7 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
+import { ShareDataService } from 'src/app/core/services/share-data.service';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 
 @Component({
@@ -27,15 +28,15 @@ export class RegisterCollaryComponent implements OnInit {
   get fc() { return this.frmCollary.controls };
   isEdit: boolean = false;
   updateId: any;
-  updateObj:any;
-  @Output() geoFanceData1 = new EventEmitter();
 
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
     public apiService: CallApiService,
     public frmValid: FormsValidationService,
     public commonMethod: CommonMethodsService,
-    public error: ErrorHandlerService, private webStorageService:WebStorageService) { }
+    public error: ErrorHandlerService, 
+    private webStorageService:WebStorageService,
+    private shareDataService: ShareDataService) { }
 
   ngOnInit(): void {
     this.createFilterForm();
@@ -107,14 +108,21 @@ export class RegisterCollaryComponent implements OnInit {
     }
   }
 
-  editCollaryRecord(row: any){
-    this.isEdit = true;
-    this.updateObj = row;
-    this.geoFanceData1.emit(this.updateObj)
-    this.updateId = row.id;
-    this.frmCollary.patchValue({
-      collieryName: row.collieryName,
-      districtId: row.districtId
+  editCollaryRecord(rowId: any){
+    this.apiService.setHttp('get', "CollieryMaster/" + rowId, false, false, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          this.isEdit = true;
+          this.shareDataService.setGeofence(res.responseData);
+          this.updateId = res.responseData.id;
+          this.frmCollary.patchValue({
+            collieryName: res.responseData.collieryName,
+            districtId: res.responseData.districtId
+          })
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
     })
   }
 
@@ -138,8 +146,7 @@ export class RegisterCollaryComponent implements OnInit {
     }else{
       var req = {
         "id" : this.isEdit == true ? this.updateId : 0,
-        ...this.frmCollary.value,
-        "createdBy": "1"
+        ...this.frmCollary.value
       }
       this.apiService.setHttp((this.isEdit == true ? 'put' : 'post'), "CollieryMaster", false, req, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
