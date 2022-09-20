@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ApplicationRoutingModule } from './application-routing.module';
 import { ApplicationComponent } from './application.component';
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,9 @@ import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
   imports: [
     CommonModule,
     ApplicationRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ApplicationModule { }
