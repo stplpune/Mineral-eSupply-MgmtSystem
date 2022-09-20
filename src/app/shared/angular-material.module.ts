@@ -30,6 +30,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [],
   imports: [
@@ -64,7 +65,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatStepperModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSlideToggleModule
   ],
   exports: [
     CommonModule,
@@ -101,7 +103,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatDividerModule,
     MatStepperModule,
     MatAutocompleteModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSlideToggleModule
   ],
 })
 export class AngularMaterialModule {}
