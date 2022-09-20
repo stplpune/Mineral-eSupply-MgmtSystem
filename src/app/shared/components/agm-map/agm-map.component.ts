@@ -38,14 +38,24 @@ export class AgmMapComponent implements OnInit {
   @ViewChild('search') public searchElementRef?: ElementRef;
 
 
-  constructor(private ngZone: NgZone, public configService:ConfigService,
-    private mapsAPILoader: MapsAPILoader,) { }
+  constructor(private ngZone: NgZone, public configService: ConfigService,
+    private mapsAPILoader: MapsAPILoader,) {
+
+  }
 
   ngOnInit(): void {
+    // this.data = {
+    //   newRecord: {
+    //     "latLng": '85.74184845,22.82044971',
+    //     "polygonText": "84.95083282 24.93995190",
+    //     "geofenceType": 1,
+    //     "distance": 95145.8,
+    //   }
+    // }
   }
 
   onMapReady(map: any) {
-    // this.isHide = this.data?.isHide || false;
+    this.isHide = this.data?.isHide || false;
     let self = this;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -100,6 +110,7 @@ export class AgmMapComponent implements OnInit {
 
 
     //debugger
+
     if (this.data?.newRecord.geofenceType == 1) {
       //this.pointList.drawnPolytext = this.data?.drawnPolytext;
       var OBJ_fitBounds = new google.maps.LatLngBounds();
@@ -356,8 +367,8 @@ export class AgmMapComponent implements OnInit {
     this.clearSelection(false);
   }
 
-  ngSubmit(){
-    this.newRecord.latLng =  this.newRecord?.centerMarkerLatLng;
+  ngSubmit() {
+    this.newRecord.latLng = this.newRecord?.centerMarkerLatLng;
     let obj = {
       "latitude": +this.newRecord.latLng.split(",")[1],
       "longitude": +this.newRecord.latLng.split(",")[0],
@@ -365,8 +376,8 @@ export class AgmMapComponent implements OnInit {
       "geofenceType": this.newRecord?.geofenceType,
       "distance": this.newRecord?.radius,
     }
-    console.log(obj);
+
   }
 
-  
+
 }
