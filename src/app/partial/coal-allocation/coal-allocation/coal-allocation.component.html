@@ -2,8 +2,9 @@
     <h5 class="page-heading">Application for Coal Allocation</h5>
 
     <div class="form-container">
+        <form [formGroup]="verifyPANForm">
         <div class="row align-items-center">
-            <form [formGroup]="verifyPANForm">
+            
             <div class="col-sm-2">
                 <div class="form-label">Enter PAN Number</div>
             </div>
@@ -21,135 +22,214 @@
                 </mat-error>
                 </mat-form-field>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-auto ps-0">
                 <button mat-button type="submit" class="btn btn-main" (click)="verifyByPANNumber()">Search</button>
             </div>
-        </form>
+        
         </div>
-
+    </form>
         <hr class="mt-1 mb-3">
+        <form [formGroup]="coalAllocationRegiForm" enctype="multipart/form-data">
         <div class="row align-items-center mb-2">
             <div class="col-sm-2">
                 <div class="form-label">Application Type</div>
             </div>
             <div class="col-sm-10">
-                <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1" class="me-3">Individual / Proprietorship</mat-radio-button>
-                    <mat-radio-button value="2">Organization</mat-radio-button>
-                </mat-radio-group>
+                <ng-container *ngFor="let appliType of applicationTypeArray">
+                    <mat-radio-button name="appType"
+                        [checked]="applicationTypeName == appliType ? true :  false" value="appType" (change)="applicationTypeCheck(appliType)" class="me-3">
+                        {{appliType == 'Individual' ? 'Individual / Proprietorship' : 'Organization'}}
+                    </mat-radio-button>
+                </ng-container>
             </div>
         </div>
         <div class="row align-items-center mb-2">
+            <ng-container *ngIf="hideIndividual">
+                <div class="col-sm-2">
+                    <div class="form-label">Individual Name</div>
+                </div>
+                <div class="col-sm-4">
+                    <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
+                        <mat-label>Individual Name</mat-label>
+                        <input matInput class="text-capitalize" autocomplete="nope" value="" maxlength="50"
+                            (keyup)="validationService.removeSpaceAtBegining($event)" formControlName="applicantName">
+                        <mat-error *ngIf="f.applicantName.errors">
+                            <span class="text-danger" *ngIf="f.applicantName.errors?.required">
+                                Individual Name is required.</span>
+                            <span class="text-danger" *ngIf="f.applicantName.errors?.pattern">
+                                Please enter Valid Individual Name</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+              </ng-container>
+          <ng-container *ngIf="hideOrganization">
             <div class="col-sm-2">
                 <div class="form-label">Organization Name</div>
             </div>
             <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
+                <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
                     <mat-label>Organization Name</mat-label>
-                    <input matInput>
+                    <input matInput class="text-capitalize" autocomplete="nope" value="" maxlength="50"
+                        formControlName="applicantName" (keyup)="validationService.removeSpaceAtBegining($event)">
+                    <mat-error *ngIf="f.applicantName.errors">
+                        <span class="text-danger" *ngIf="f.applicantName.errors?.required">
+                            Organization Name is required.</span>
+                        <span class="text-danger" *ngIf="f.applicantName.errors?.pattern">
+                            Please enter Valid Organization Name</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+          </ng-container>
+          <div class="col-sm-2">
+            <div class="form-label">Mobile Number</div>
+        </div>
+        <div class="col-sm-4">
+            <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
+                <mat-label>Mobile Number</mat-label>
+                <input matInput type="text" formControlName="applicantMobileNo" autocomplete="nope"
+                    (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10" autocomplete="off">
+                <mat-error *ngIf="f.applicantMobileNo.errors">
+                    <span class="text-danger" *ngIf="f.applicantMobileNo.errors?.required">
+                        Mobile Number is required.</span>
+                    <span class="text-danger" *ngIf="f.applicantMobileNo.errors?.pattern">
+                        Please enter Valid Mobile Number</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        </div>
+
+        <div class="row align-items-center mb-2">
+            <div class="col-sm-2">
+                <div class="form-label">E-mail ID</div>
+            </div>
+            <div class="col-sm-4">
+                <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
+                    <mat-label>E-mail ID</mat-label>
+                    <input matInput type="text" formControlName="applicantEmailId" autocomplete="nope" maxlength="50"
+                         (keypress)="validationService.emailRegex($event)">
+                    <mat-error *ngIf="f.applicantEmailId.errors">
+                        <span class="text-danger" *ngIf="f.applicantEmailId.errors?.required">E-mail ID is
+                            required</span>
+                        <span class="text-danger" *ngIf="f.applicantEmailId.errors?.pattern">Please Enter Valid
+                            Email
+                            Id</span>
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm-2">
-                <div class="form-label">Organization Type</div>
+                <div class="form-label">Address</div>
             </div>
             <div class="col-sm-4">
                 <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Favorite food</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let food of foods" [value]="food.value">
-                            {{food.viewValue}}
+                    <mat-label>Address</mat-label>
+                    <input matInput type="address" autocapitalize="off" spellcheck="off" maxlength="200" formControlName="address"
+                        autocomplete="nope" #search (keyup)="validationService.removeSpaceAtBegining($event)">
+                    <mat-error *ngIf="f.address.errors">
+                        <span class="text-danger" *ngIf="f.address.errors?.required">Address is required
+                        </span>
+                        <span class="text-danger" *ngIf="f.address.errors?.pattern">Please
+                            Enter Valid Address </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-2">
+            <div class="col-sm-2">
+                <div class="form-label">State</div>
+            </div>
+            <div class="col-sm-4">
+                <mat-form-field appearance="legacy" class="w-100">
+                    <mat-label>State</mat-label>
+                    <mat-select formControlName="stateId" (selectionChange)="coalAllocationRegiForm.controls['districtId'].setValue('');getDistrict(coalAllocationRegiForm.value.stateId)">
+                        <mat-option *ngFor="let stateObj of stateArray" [disabled]="stateObj.value == 0" [value]="stateObj.value">
+                            {{stateObj.text}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="row align-items-center mb-2">
-            <div class="col-sm-2">
-                <div class="form-label">Organization Number</div>
-            </div>
-            <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Organization Number</mat-label>
-                    <input matInput>
+                    <mat-error *ngIf="f.stateId.errors?.required"> State is required</mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm-2">
-                <div class="form-label">Organization Email ID</div>
+                <div class="form-label">District</div>
             </div>
             <div class="col-sm-4">
                 <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Organization Email ID</mat-label>
-                    <input matInput>
+                    <mat-label>District</mat-label> 
+                    <mat-select formControlName="districtId" [disabled]="!coalAllocationRegiForm.value.stateId || coalAllocationRegiForm.value.stateId != 36">
+                        <mat-option *ngFor="let districtObj of districtArray" [disabled]="districtObj.value == 0" [value]="districtObj.value">
+                            {{districtObj.text}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="f.districtId.errors?.required"> District is required</mat-error>
                 </mat-form-field>
             </div>
         </div>
-        <div class="row align-items-center mb-2">
+
+        <div class="row align-items-center mb-2" *ngIf="hideOrganization">
             <div class="col-sm-2">
                 <div class="form-label">Contact Person Name</div>
             </div>
             <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
+                <mat-form-field [appearance]=configService.matFormField class="w-100">
                     <mat-label>Contact Person Name</mat-label>
-                    <input matInput>
+                    <input matInput formControlName="contactPersonName" autocomplete="nope" maxlength="50"
+                        (keyup)="validationService.removeSpaceAtBegining($event)">
+                    <mat-error *ngIf="f.contactPersonName.errors">
+                        <span class="text-danger" *ngIf="f.contactPersonName.errors?.required">
+                            Contact Person Name is required.</span>
+                        <span class="text-danger" *ngIf="f.contactPersonName.errors?.pattern">
+                            Please Enter Valid Contact Person Name</span>
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm-2">
                 <div class="form-label">Contact Person Mob. No.</div>
             </div>
             <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Contact Person Mob. No.</mat-label>
-                    <input matInput>
+                <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
+                    <mat-label>Contact Person Mobile No.</mat-label>
+                    <input matInput type="text" formControlName="contactPersonMobileName"
+                        autocomplete="nope" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10">
+                    <mat-error *ngIf="f.contactPersonMobileName.errors?.pattern"> Please enter Valid Contact
+                        Person Mobile No.</mat-error>
                 </mat-form-field>
             </div>
         </div>
+
         <div class="row align-items-center mb-2">
             <div class="col-sm-2">
-                <div class="form-label">Organization Address</div>
+                <div class="form-label">Pincode</div>
             </div>
             <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Organization Address</mat-label>
-                    <input matInput>
+                <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
+                    <mat-label>PinCode</mat-label>
+                    <input matInput type="text" formControlName="pinCode" autocomplete="nope"
+                        (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
+                    <mat-error *ngIf="f.pinCode.errors">
+                        <span class="text-danger" *ngIf="f.pinCode.errors?.required">PinCode is
+                            required</span>
+                        <span class="text-danger" *ngIf="f.pinCode.errors?.pattern">Please Enter Valid
+                            PinCode</span>
+                    </mat-error>
                 </mat-form-field>
             </div>
-            <div class="col-sm-2">
-                <div class="form-label">Organization Pincode</div>
-            </div>
-            <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Organization Pincode</mat-label>
-                    <input matInput>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="row align-items-center mb-2">
-            <div class="col-sm-2">
-                <div class="form-label">Organization State</div>
-            </div>
-            <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Organization State</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let food of foods" [value]="food.value">
-                            {{food.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-label">Organization District</div>
-            </div>
-            <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
-                    <mat-label>Organization District</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let food of foods" [value]="food.value">
-                            {{food.viewValue}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            <ng-container *ngIf="hideOrganization">
+                <div class="col-sm-2">
+                    <div class="form-label">Organization Type</div>
+                </div>
+                <div class="col-sm-4">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Organization Type</mat-label>
+                        <mat-select formControlName="organizationType">
+                            <mat-option *ngFor="let organType of organTypeArray" [disabled]="organType.value == 0"
+                                [value]="organType.value">
+                                {{organType.text}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="f.organizationType.errors?.required"> Organization Type is required</mat-error>
+                    </mat-form-field>
+                </div>
+            </ng-container>
         </div>
 
         <h6>Application Details</h6>
@@ -162,9 +242,10 @@
                     <div class="col-sm-8">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Select Year</mat-label>
-                            <input matInput [matDatepicker]="picker">
+                            <input matInput [matDatepicker]="picker" formControlName="applicationYear">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="f.applicationYear.errors?.required"> Year is required</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -175,8 +256,14 @@
                     <div class="col-sm-8">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Font size</mat-label>
-                            <input matInput type="text" placeholder="Quantity">
+                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty">
                             <span matSuffix>Tonnes</span>
+                            <mat-error *ngIf="f.allocatedQty.errors">
+                                <span class="text-danger" *ngIf="f.allocatedQty.errors?.required">Allocated Quantity is
+                                    required</span>
+                                <span class="text-danger" *ngIf="f.allocatedQty.errors?.pattern">Please Enter Valid
+                                    Allocated Quantity</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -189,7 +276,13 @@
                     <div class="col-sm-8">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Reason for Applying</mat-label>
-                            <textarea matInput rows="5"></textarea>
+                            <textarea matInput rows="5" formControlName="reasonForApply"></textarea>
+                            <mat-error *ngIf="f.reasonForApply.errors">
+                                <span class="text-danger" *ngIf="f.reasonForApply.errors?.required">Reason is
+                                    required</span>
+                                <span class="text-danger" *ngIf="f.reasonForApply.errors?.pattern">Please Enter Valid
+                                    Reason</span>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -237,13 +330,30 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Incorporation Certificate</td>
+                    <td>Aadhar</td>
                     <td>
                         <mat-form-field appearance="legacy" class="w-100">
+                            <mat-label>Aadhar Number</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <div class="upload-btn-wrapper">
+                            <button class="btn"><i class="fa-solid fa-upload me-2"></i>Upload a file</button>
+                            <input type="file" name="myfile" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Incorporation Certificate</td>
+                    <td>
+                        <mat-form-field [appearance]=configService.matFormField class="w-100">
                             <mat-label>Certificate Issue Date</mat-label>
-                            <input matInput [matDatepicker]="picker">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
+                            <input matInput [matDatepicker]="picker1" [max]="maxDate"
+                                formControlName="incorporation_Date">
+                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
                         </mat-form-field>
                     </td>
                     <td>
@@ -288,7 +398,8 @@
         <hr>
         <div class="d-flex justify-content-between">
             <button class="btn btn-secondary"><i class="fa-regular fa-circle-xmark me-2"></i>Cancel</button>
-            <button class="btn btn-success"><i class="fa-solid fa-upload me-2"></i>Submit</button>
+            <button class="btn btn-success" type="submit" (click)="onSubmit()"><i class="fa-solid fa-upload me-2"></i>Submit</button>
         </div>
+    </form>
     </div>
 </div>
