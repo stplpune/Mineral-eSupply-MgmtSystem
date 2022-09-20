@@ -12,141 +12,98 @@ export class SidebarService {
       type: 'header'
     },
     {
-      title: 'Masters',
-      icon: 'fa fa-tachometer-alt',
+      title: 'Dashboard',
+      icon: 'fa-solid fa-chart-line',
+      active: true,
+      type: 'simple',
+    },
+    {
+      title: 'Master',
+      icon: 'fa-solid fa-paper-plane',
       active: false,
       type: 'dropdown',
       submenus: [
         {
-          title: 'Organization Registration',
-          url:'organization-registration'
+          title: 'Register User',
+          url:'register-user'
         },
         {
-          title: 'Company Registration',
-          url:'company-registration'
+          title: 'Register Collary',
+          url:'register-collary'
         },
         {
-          title: 'Department Registration',
-          url:'department-registration'
+          title: 'Coal Grade master',
+          url:'cola-grade-master'
         },
         {
-          title: 'Designation Registration',
-          url:'designation-registration'
+          title: 'Document master',
+          url:'document-master'
         },
         {
-          title: 'Holiday Master',
-          url:'holiday-master'
+          title: 'Grade wse Rate card Chart',
+          url:'grade-wise-rate-card-chart'
         },
         {
-          title: 'Leave Type Registration',
-          url:'leave-type-registration'
+          title: 'Consumer Registration',
+          url:'consumer-registration'
         },
-        {
-          title: 'Salary Type Registration',
-          url:'salary-type-registration'
-        },
-        {
-          title: 'Bank Registration',
-          url:'bank-registration'
-        },
-        {
-          title: 'Bank Branch Registration',
-          url:'bank-branch-registration'
-        },
-        {
-          title: 'Company Bank Account Registration',
-          url:'company-bank-registration'
-        },
-        {
-          title: 'Document Type Registration',
-          url:'document-type-registration'
-        }
       ]
     },
     {
-      title: 'Register',
+      title: 'Application',
       icon: 'fa fa-shopping-cart',
       active: false,
       type: 'dropdown',
       submenus: [
         {
-          title: 'Employee Registration',
-          url:'employee-registration'
+          title: 'Application',
+          url:'application'
         },
         {
-          title: 'Employee Salary Details',
-          url:'employee-salary-details'
-        },
-        {
-          title: 'Assign Reporting Person',
-          url:'assign-reporting-person'
-        },
-        {
-          title: 'Leave Assignment',
-          url:'leave-assignment'
+          title: 'Approval',
+          url:'approval'
         }
       ]
     },
     {
-      title: 'Components',
+      title: 'Coal Allocation',
       icon: 'far fa-gem',
       active: false,
       type: 'dropdown',
       submenus: [
         {
-          title: 'General',
-        },
-        {
-          title: 'Panels'
-        },
-        {
-          title: 'Tables'
-        },
-        {
-          title: 'Icons'
-        },
-        {
-          title: 'Forms'
+          title: 'Coal Allocation',
+          url:'coal-allocation'
         }
       ]
     },
     {
-      title: 'Charts',
+      title: 'Coal Lifting',
       icon: 'fa fa-chart-line',
       active: false,
       type: 'dropdown',
       submenus: [
         {
-          title: 'Pie chart',
-        },
-        {
-          title: 'Line chart'
-        },
-        {
-          title: 'Bar chart'
-        },
-        {
-          title: 'Histogram'
+          title: 'Generate MSME Invoice/Challan',
+          url:'generate-msme-invoice-challan'
         }
       ]
     },
     {
-      title: 'Maps',
+      title: 'Vehicle Management',
       icon: 'fa fa-globe',
       active: false,
       type: 'dropdown',
       submenus: [
         {
-          title: 'Google maps',
+          title: 'Register Vehicle',
+          url:'register-vehicle'
         },
         {
-          title: 'Open street map'
+          title: 'Vehicle Tracking',
+          url:'vehicle-tracking'
         }
       ]
-    },
-    {
-      title: 'Extra',
-      type: 'header'
     },
     {
       title: 'Documentation',
