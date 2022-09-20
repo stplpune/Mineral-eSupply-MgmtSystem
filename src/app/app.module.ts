@@ -25,6 +25,7 @@ import { ChangePasswordComponent } from './partial/dialogs/change-password/chang
 import { LogoutComponent } from './partial/dialogs/logout/logout.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ThemeModule } from './theme/theme.module';
+import { AgmDrawingModule } from '@agm/drawing';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -52,6 +53,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AngularMaterialModule,
     NgxSpinnerModule,
     NgApexchartsModule,
+    AgmDrawingModule,
     AgmCoreModule.forRoot(ConfigService.googleApiObj),
   ],
   providers: [Title,
