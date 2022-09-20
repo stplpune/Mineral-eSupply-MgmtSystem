@@ -58,7 +58,7 @@ export class AgmMapComponent implements OnInit {
   }
 
   onMapReady(map: any) {
-    console.log(this.searchElementRef)
+  
     this.isHide = this.data?.isHide || false;
     let self = this;
     this.map = map;
@@ -236,6 +236,7 @@ export class AgmMapComponent implements OnInit {
     catch (e) { }
 
     this.newRecord.latLng = this.newRecord?.centerMarkerLatLng;
+    console.log(this.searchElementRef)
     let obj = {
       "latitude": +this.newRecord.latLng.split(",")[1],
       "longitude": +this.newRecord.latLng.split(",")[0],

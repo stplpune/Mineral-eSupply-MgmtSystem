@@ -53,7 +53,12 @@ export class RegisterCollaryComponent implements OnInit {
     this.frmCollary = this.fb.group({
       districtId: ['', [Validators.required]],
       collieryName: ['', [Validators.required, Validators.pattern(this.frmValid.alphabetsWithSpace)]],
-      collieryAddress: ['', [Validators.required]]
+      collieryAddress: ['', [Validators.required]],
+      latitude: ['', [Validators.required]],
+      polygonText: ['', [Validators.required]],
+      geofenceType: ['', [Validators.required]],
+      distance: ['', [Validators.required]],
+      createdBy: ['', [Validators.required]],
     })
   }
 
@@ -145,9 +150,14 @@ export class RegisterCollaryComponent implements OnInit {
     }
   }
 
-  getFanceData(data:any) {
-
-    console.log(data);
+  getSelFanceData(data:any) {
+    this.frmCollary.patchValue({
+      latitude:data.latitude,
+      polygonText:data.polygonText,
+      geofenceType:data.geofenceType,
+      distance:data.distance,
+    })
+    console.log(this.frmCollary.value);
   }
 
 }
