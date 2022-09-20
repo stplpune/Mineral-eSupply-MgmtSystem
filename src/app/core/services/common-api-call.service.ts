@@ -18,8 +18,9 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('get', "DropdownService/GetOrganizationType", false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => {if (res.statusCode == 200) { this.OrganizationType = res.responseData;  obj.next(this.OrganizationType); } else { obj.error(res); } },
-        error: (e: any) => { obj.error(e) }  })
+        next: (res: any) => { if (res.statusCode == 200) { this.OrganizationType = res.responseData; obj.next(this.OrganizationType); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
     })
   }
 
@@ -27,17 +28,19 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('get', "DropdownService/GetStateDetails", false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => {if (res.statusCode == 200) { this.stateArray = res.responseData;  obj.next(this.stateArray); } else { obj.error(res); } },
-        error: (e: any) => { obj.error(e) }  })
+        next: (res: any) => { if (res.statusCode == 200) { this.stateArray = res.responseData; obj.next(this.stateArray); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
     })
   }
 
-  getDistrictByStateId(id:any) {
+  getDistrictByStateId(id: any) {
     return new Observable((obj) => {
-      this.apiService.setHttp('get', "DropdownService/GetDistrictDetails?stateId="+id, false, false, false, 'WBMiningService');
+      this.apiService.setHttp('get', "DropdownService/GetDistrictDetails?stateId=" + id, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => {if (res.statusCode == 200) { this.districtArray = res.responseData;  obj.next(this.districtArray); } else { obj.error(res); } },
-        error: (e: any) => { obj.error(e) }  })
+        next: (res: any) => { if (res.statusCode == 200) { this.districtArray = res.responseData; obj.next(this.districtArray); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
     })
   }
 
@@ -45,8 +48,9 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('get', "WeatherForecast", false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => {if (res.length) { this.Forecast = res;  obj.next(this.Forecast); } else { obj.error(res); } },
-        error: (e: any) => { obj.error(e) }  })
+        next: (res: any) => { if (res.length) { this.Forecast = res; obj.next(this.Forecast); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
     })
   }
 
