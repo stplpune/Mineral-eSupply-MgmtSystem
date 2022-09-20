@@ -17,9 +17,16 @@ export class GradeWiseRateCardChartComponent implements OnInit {
 
 
   deleteRecord() {
+    let obj:any = ConfigService.dialogObj;
+    
+    obj['p1'] = 'Are you sure you want to delete this record?';
+    obj['cardTitle'] = 'Delete';
+    obj['successBtnText'] = 'Delete';
+    obj['cancelBtnText'] =  'Cancel';
+
     const dialog = this.dialog.open(ConfirmationComponent, {
-      width: '400px',
-      data: '',
+      width:this.configService.dialogBoxWidth[0],
+      data: obj,
       disableClose: this.configService.disableCloseBtnFlag,
     })
     dialog.afterClosed().subscribe(res => {

@@ -42,8 +42,10 @@ export class ConfigService {
     p2:'',
     cardTitle:'',
     successBtnText:'',
-    dialogIcon:'',
     cancelBtnText:'',
+    dialogIconClose:'',
+    inputType:false,
+    inputTypeLable:''
   }
 
 }
