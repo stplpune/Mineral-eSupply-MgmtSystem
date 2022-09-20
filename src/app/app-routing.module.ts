@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { WebLayoutComponent } from './web/web-layout/web-layout.component';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { CheckLoggedInGuard } from './core/guards/check-logged-in.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'demo', pathMatch: 'full' },
@@ -23,6 +22,7 @@ const routes: Routes = [
      ]
 
   },
+  
   
 
 ];
