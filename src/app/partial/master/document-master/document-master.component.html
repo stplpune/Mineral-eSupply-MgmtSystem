@@ -41,20 +41,31 @@
                     Document List
                 </div>
                 <div class="card-body">
-                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                        <mat-label>Document Name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                        <mat-label>Select Mandatory</mat-label>
-                        <mat-select>
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                  <form [formGroup]="documentFrm" (ngSubmit)="saveUpdate()">
+                    <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">
+                      <mat-label>Document Name</mat-label>
+                      <input matInput formControlName="documentType">
+                      <mat-error *ngIf="documentFrm.controls['documentType'].errors">
+                        <span *ngIf="documentFrm.controls['documentType']?.hasError('required')"> Please Enter UserName</span>
+                        <span *ngIf="documentFrm.controls['documentType'].hasError('pattern')"> Please Enter Valid UserName</span>
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">
+                      <mat-label>Select Mandatory</mat-label>
+                      <mat-select formControlName="isMandatory">
+                         <!-- <mat-option value=''>Selec</mat-option> -->
+                          <mat-option value=true>Yes</mat-option>
+                          <mat-option value=false>No</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="documentFrm.controls['isMandatory'].errors">
+                        <span *ngIf="documentFrm.controls['isMandatory']?.hasError('required')"> Please Enter UserName</span>
+                      </mat-error>
+                  </mat-form-field>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <button mat-raised-button  type="button" class="btn-outline-main" (click)="clearAll()">Cancel</button>
+                    <button type="submit" mat-raised-button class="btn-main">ADD</button>
                 </div>
-                <div class="text-end p-3">
-                    <button mat-raised-button class="btn-main">ADD</button>
+                  </form>
                 </div>
             </div>
         </div>
