@@ -145,7 +145,6 @@
 }
 
 .sidebar .sidebar-content .sidebar-menu ul li a {
-  display: inline-block;
   width: 100%;
   text-decoration: none;
   position: relative;
@@ -154,11 +153,12 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  font-size: 0.85rem;
 }
 
 .sidebar .sidebar-content .sidebar-menu ul li a i {
   margin-right: 15px;
-  font-size: 12px;
+  font-size: 0.85rem;
   width: 36px;
   height: 36px;
   line-height: 36px;
@@ -265,14 +265,14 @@
 .sidebar .sidebar-menu .sidebar-dropdown.active>a,
 .sidebar .sidebar-header>a:hover,
 .sidebar #close-sidebar:hover {
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .sidebar ul li:hover a i,
 .sidebar .sidebar-dropdown .sidebar-submenu li a:hover:before,
 .sidebar .sidebar-search input.search-menu:focus+span,
 .sidebar .sidebar-menu .sidebar-dropdown.active a i {
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .sidebar .sidebar-menu ul li a i,
@@ -304,8 +304,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--sidebar-color);
-  color: #fff;
+  background-color: var(--top-bg-color);
+  color: var(--text-color);
 }
 
 .sidebar.sidebar-bg .sidebar-search input.search-menu,
@@ -313,26 +313,26 @@
 .sidebar.sidebar-bg .sidebar-header>a,
 .sidebar.sidebar-bg .sidebar-menu ul li a,
 .sidebar.sidebar-bg #close-sidebar {
-  color: #eee;
+  color: var(--text-color);
 }
 
 .sidebar.sidebar-bg .sidebar-menu ul li:hover>a,
 .sidebar.sidebar-bg .sidebar-menu .sidebar-dropdown.active>a,
 .sidebar.sidebar-bg .sidebar-header>a:hover,
 .sidebar.sidebar-bg #close-sidebar:hover {
-  color: #fff;
+  color: var(--text-color);
 }
 
 .sidebar.sidebar-bg ul li:hover a i,
 .sidebar.sidebar-bg .sidebar-dropdown .sidebar-submenu li a:hover:before,
 .sidebar.sidebar-bg .sidebar-search input.search-menu:focus+span,
 .sidebar.sidebar-bg .sidebar-menu .sidebar-dropdown.active a i {
-  color: #fff;
+  color: var(--text-color);
 }
 
 .sidebar.sidebar-bg .sidebar-search,
 .sidebar.sidebar-bg .sidebar-menu {
-  border-top: 1px solid var(--sidebar-border-color);
+  border-top: 1px solid var(--top-bg-color);
   color: #353535;
 }
 
@@ -347,6 +347,6 @@
 .sidebar.sidebar-bg .sidebar-menu .sidebar-dropdown div,
 .sidebar.sidebar-bg .sidebar-search input.search-menu,
 .sidebar.sidebar-bg .sidebar-search .btn {
-  background-color: var(--sidebar-dark-color);
-  color: #fff;
+  background-color: var(--menu-bg-color);
+  color: var(--text-color);
 }

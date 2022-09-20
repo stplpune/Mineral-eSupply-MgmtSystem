@@ -20,12 +20,13 @@
           <li *ngFor="let menu of loginPages; let i = index"
             [ngClass]="{'active': menu.active, 'sidebar-dropdown':menu.pageURL.length > 1}">
             <a *ngIf="menu.pageURL.length <= 1" routerLink="{{menu.pageURL[i]}}">
-              <i class="{{menu.icon}}"></i>
+              <!-- <i class="{{menu.icon}}"></i> -->
+              <i [class]="menu.pageIcon"></i>
               <span>{{menu.pageName}} </span>
             </a>
 
             <a *ngIf="menu.pageURL.length > 1" (click)='toggle(menu)'>
-              <i class="{{menu.icon}}"></i>
+              <i [class]="menu.pageIcon"></i>
               <span>{{menu.pageGroup}} </span>
             </a>
             <div *ngIf="menu.pageURL.length  > 1" class="sidebar-submenu" [@slide]="getState(menu)">

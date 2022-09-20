@@ -7,8 +7,8 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from "@angu
 export class FormsValidationService {
   
   excludeZeroAtStart = '^(?!0+$)[0-9]{0,20}$';
-  // onlyAlphabets = '^[a-zA-Z]+$';
-  // alphabetsWithSpaces = '^[a-zA-Z][a-zA-Z ]*$';
+//   onlyAlphabets = '^[a-zA-Z]+$';
+  alphabetsWithSpace = '^[a-zA-Z][a-zA-Z ]*$';
   // alphaNumeric = '^[a-zA-Z0-9]*$';
   alphaNumericWithSpace = '^[a-zA-Z0-9][a-zA-Z0-9 ]*$';
   alphaNumericWithSpaceAndSpecialChar = '^[a-zA-Z0-9 /(,)&.+-@#$]*$';

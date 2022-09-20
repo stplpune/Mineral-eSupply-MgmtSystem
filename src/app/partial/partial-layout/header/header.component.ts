@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ChangePasswordComponent } from '../../dialogs/change-password/change-password.component';
 import { LogoutComponent } from '../../dialogs/logout/logout.component';
 import { SidebarService } from '../sidebar/sidebar.service';
+import { ThemeService } from 'src/app/theme/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ import { SidebarService } from '../sidebar/sidebar.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public sidebarservice: SidebarService, public dialog: MatDialog, private router:Router) { }
+  activeTheme: any;
+  constructor(public sidebarservice: SidebarService, private ThemeService: ThemeService, public dialog: MatDialog, private router:Router) { }
 
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -31,6 +33,10 @@ export class HeaderComponent implements OnInit {
   title: any;
   ngOnInit(): void {
     this.title = document.title;
+    sessionStorage.getItem('theme') ? this.onClickThemeChange(sessionStorage.getItem('theme')) : this.onClickThemeChange('light');
+    this.ThemeService.getActiveTheme().subscribe(x => {
+      this.activeTheme = x
+    });
   }
   openChangePasswordModal() {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
@@ -39,6 +45,12 @@ export class HeaderComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
     });
+  }
+
+  onClickThemeChange(themeName: any): void {
+    sessionStorage.setItem('theme', themeName);
+    this.ThemeService.setActiveThem(themeName);
+    this.activeTheme = themeName;
   }
 
   logOut() {

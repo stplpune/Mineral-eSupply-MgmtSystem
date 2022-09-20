@@ -36,14 +36,21 @@
                     Add Coal Grade
                 </div>
                 <div class="card-body">
+                  <form [formGroup]="coalFrm" (ngSubmit)="saveUpdate()">
                     <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                        <mat-label>Input</mat-label>
-                        <input matInput>
+                        <mat-label>Coal Name</mat-label>
+                        <input matInput formControlName="coal">
+                        <mat-error *ngIf="coalFrm.controls['coal'].errors">
+                        <span *ngIf="coalFrm.controls['coal']?.hasError('required')"> Please Enter Coal Name</span>
+                        <span *ngIf="coalFrm.controls['coal'].hasError('pattern')"> Please Enter Valid Coal Name</span>
+                      </mat-error>
                     </mat-form-field>
+                    <div class="text-end p-3">
+                      <button type="submit" mat-raised-button class="btn-main">ADD</button>
+                  </div>
+                  </form>
                 </div>
-                <div class="text-end p-3">
-                    <button mat-raised-button class="btn-main">ADD</button>
-                </div>
+
             </div>
         </div>
     </div>
