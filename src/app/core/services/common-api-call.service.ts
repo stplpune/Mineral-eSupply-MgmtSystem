@@ -10,6 +10,8 @@ export class CommonApiCallService {
   stateArray: any[] = [];
   districtArray: any[] = [];
   Forecast: any[] = [];
+  userType: any[] = [];
+  subuserType: any = [];
   constructor(
     private apiService: CallApiService
   ) { }
@@ -49,6 +51,26 @@ export class CommonApiCallService {
       this.apiService.setHttp('get', "WeatherForecast", false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => { if (res.length) { this.Forecast = res; obj.next(this.Forecast); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  getuserType() {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "DropdownService/GetUserTypeDetails", false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.length) { this.userType = res; obj.next(this.userType); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  getSubuserType(id:any) {
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "DropdownService/GetSubUserTypeDetails?userTypeId=" +id, false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.length) { this.subuserType = res; obj.next(this.subuserType); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })
