@@ -1,6 +1,6 @@
 export const themes: any = {
     light: {
-        '--text-color': '#000',
+        '--text-color': '#303030',
         '--bg-color': '#fff',
         '--top-bg-color': '#E6E6E6',
         '--menu-bg-color': '#c9c9c9',
