@@ -11,8 +11,9 @@ import { EventEmitter } from '@angular/core';
 })
 // child component
 export class AgmMapComponent implements OnInit {
-  // @Input() customer:any;
-  @Output() bookTitleCreated = new EventEmitter();
+  @Input() customer:any;
+  @Output() geoFanceData = new EventEmitter();
+
   map: any;
   drawingManager: any;
   centerMarker: any = undefined;
@@ -45,7 +46,7 @@ export class AgmMapComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    // console.log(this.customer);
+     console.log(this.customer);
     // this.data = {
     //   newRecord: {
     //     "latLng": '85.74184845,22.82044971',
@@ -242,6 +243,8 @@ export class AgmMapComponent implements OnInit {
       "geofenceType": this.newRecord?.geofenceType== "circle" ? 2 : 1,
       "distance": this.newRecord?.radius,
     }
+
+    this.geoFanceData.emit(obj);
   }
 
   clearSelection(isAllClear: any) {

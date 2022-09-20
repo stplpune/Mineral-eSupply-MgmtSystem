@@ -15,7 +15,7 @@ export class RegisterCollaryComponent implements OnInit {displayedColumns: strin
   frm!: FormGroup;
   isfilterSubmit: boolean = false;
   get f() { return this.frm.controls };
-  selectedCustomer="data"
+  selectedCustomer:any;
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
     public apiService: CallApiService,
@@ -33,6 +33,7 @@ export class RegisterCollaryComponent implements OnInit {displayedColumns: strin
       districtId: [''],
       collaryName: ['']
     })
+    this.selectedCustomer = this.frm.value;
   }
 
   getCollaryList(){
@@ -55,7 +56,7 @@ export class RegisterCollaryComponent implements OnInit {displayedColumns: strin
     }
   }
 
-  onBookAdded(data:any) {
+  getFanceData(data:any) {
 
     console.log(data);
   }
