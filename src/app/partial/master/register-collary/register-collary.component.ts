@@ -15,7 +15,7 @@ export class RegisterCollaryComponent implements OnInit {displayedColumns: strin
   frm!: FormGroup;
   isfilterSubmit: boolean = false;
   get f() { return this.frm.controls };
-
+  selectedCustomer="data"
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
     public apiService: CallApiService,
@@ -55,11 +55,14 @@ export class RegisterCollaryComponent implements OnInit {displayedColumns: strin
     }
   }
 
+  onBookAdded(data:any) {
 
+    console.log(data);
+  }
 }
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, sr: '', dist:'', add:'', action: '', },
- 
+
 ];
 export interface PeriodicElement {
 position:number;
