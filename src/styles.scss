@@ -1,3 +1,41 @@
+
+@use '@angular/material' as mat;
+
+@import "@angular/material/theming";
+
+@include mat.core();
+
+$angular-primary: mat.define-palette(mat.$teal-palette, 500, 100, 900);
+$angular-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$angular-warn: mat.define-palette(mat.$red-palette);
+
+$angular-default-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($angular-default-theme);
+
+$angular-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+
+.darkMode {
+  @include mat.all-component-colors($angular-dark-theme);
+}
+
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 html,
@@ -64,8 +102,8 @@ body {
 
 .bg-main,
 .btn-main {
-  background-color: var(--main-color);
-  color: #fff;
+  background-color: var(--main-color) !important;
+  color: #fff !important;
   font-size: 0.85rem;
 }
 
@@ -97,8 +135,6 @@ body {
 #wrapper p{
   font-size: 0.85rem;
   color: var(--text-color);
-  text-align: justify;
-  line-height: 1.7rem;
 }
 #wrapper .card,
 #wrapper .card-body{
@@ -135,6 +171,8 @@ body {
 .form-container .btn {
   box-shadow: none;
   font-size: 0.85rem;
+  background-color: var(--bg-color) !important;
+  color: var(--text-color);
 }
 
 .dashboard-table {
@@ -244,6 +282,10 @@ mat-form-field{
   font-family: "Rubik", sans serif !important;
   font-size: 0.85rem !important;
 }
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:var(--main-color);
+}
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
   background-color: var(--main-color) !important;
 }
@@ -274,4 +316,20 @@ mat-form-field{
   background-color:var(--card-bg-color);
   color: var(--text-color);
   border-radius: 0.375rem;
+}
+input[placeholder],
+::placeholder { 
+  color:var(--text-color) !important;
+}
+.mat-dialog-container{
+  background-color: var(--card-bg-color);
+  color: var(--text-color);
+}
+.btn-modal-close{
+  position: absolute;
+  top: -26px;
+  right: -18px;
+  background-color: transparent !important;
+  color: var(--main-color) !important;
+  box-shadow: none !important;
 }

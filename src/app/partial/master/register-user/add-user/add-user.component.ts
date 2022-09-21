@@ -38,7 +38,6 @@ export class AddUserComponent implements OnInit {
     private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
-    console.log(this.parentData)
     this.defaultForm();
     this.commonMethod.checkDataType(this.parentData) == true ? this.patchData() : this.getusertype();
   }

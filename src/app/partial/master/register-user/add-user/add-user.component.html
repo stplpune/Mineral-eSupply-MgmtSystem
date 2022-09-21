@@ -1,155 +1,155 @@
-<div class="d-flex align-items-center justify-content-between">
-
-  <button type="submit" mat-raised-button class="btn-main" (click)="closeModal('No')">X</button>
+<div class="d-flex align-items-center justify-content-between position-relative">
+  <h5 mat-dialog-title>{{saveUpdateBtn == 'Save' ? 'Add' : 'Update'}} User</h5>
+  <button type="submit" matRipple class="btn-modal-close" mat-mini-fab (click)="closeModal('No')">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
-<div class="col-sm-12">
-  <div class="card plain-card">
-    <div class="card-header">
-      {{saveUpdateBtn == 'Save' ? 'Add' : 'Update'}} User
+
+<form [formGroup]="userFrm">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Select Usertype</mat-label>
+          <mat-select formControlName="userTypeId" (selectionChange)="getSubuserType();this.editFlag =false">
+            <mat-option *ngFor="let usertype of usertypearray" [value]="usertype.value"
+              [disabled]="usertype.value == 0">
+              {{usertype.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.userTypeId.errors">
+            <span *ngIf="f.userTypeId?.hasError('required')"> Please Select Usertype</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="card-body">
-      <form [formGroup]="userFrm">
-        <div class="row ">
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Select Usertype</mat-label>
-                <mat-select formControlName="userTypeId" (selectionChange)="getSubuserType();this.editFlag =false">
-                  <mat-option *ngFor="let usertype of usertypearray" [value]="usertype.value" [disabled]="usertype.value == 0">
-                    {{usertype.text}}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="f.userTypeId.errors">
-                  <span *ngIf="f.userTypeId?.hasError('required')"> Please Select Usertype</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Select Sub-user</mat-label>
-                <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId" (selectionChange)="this.editFlag =false">
-                  <mat-option *ngFor="let subusertype of subusertypearray" [value]="subusertype.value"  [disabled]="subusertype.value == 0">
-                    {{subusertype.text}}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="f.subUserTypeId.errors">
-                  <span *ngIf="f.subUserTypeId?.hasError('required')"> Please Select Sub-Usertype</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Select State</mat-label>
-                <mat-select formControlName="stateId" (selectionChange)="getdistrict();this.editFlag =false" [disabled]="true">
-                  <mat-option *ngFor="let state of stateArray" [value]="state.value" [disabled]="state.value == 0">
-                    {{state.text}}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="f.stateId.errors">
-                  <span *ngIf="f.stateId?.hasError('required')">Please Select State</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Select District</mat-label>
-                <mat-select formControlName="districtId" [disabled]="!userFrm.value.stateId" (selectionChange)="this.editFlag =false">
-                  <mat-option *ngFor="let district of districtArray" [value]="district.value" [disabled]="district.value == 0">
-                    {{district.text}}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="f.districtId.errors">
-                  <span *ngIf="f.districtId?.hasError('required')">Please Select District</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="fullName">
-                <mat-error *ngIf="f.fullName.errors">
-                  <span *ngIf="f.fullName?.hasError('required')"> Please Enter full Name </span>
-                  <span *ngIf="f.fullName?.hasError('pattern')"> Please Enter Valid full Name</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Mobile Number</mat-label>
-                <input matInput formControlName="mobileNo" maxlength="10">
-                <mat-error *ngIf="f.mobileNo.errors">
-                  <span *ngIf="f.mobileNo?.hasError('required')"> Please Enter Mobile No</span>
-                  <span *ngIf="f.mobileNo?.hasError('pattern')"> Please Enter Valid Mobile No</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Address</mat-label>
-                <input matInput formControlName="address">
-                <mat-error *ngIf="f.address.errors">
-                  <span *ngIf="f.address?.hasError('required')"> Please Enter Address</span>
-                  <span *ngIf="f.address?.hasError('pattern')"> Please Enter Valid Address</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Email ID</mat-label>
-                <input matInput formControlName="emailId">
-                <mat-error *ngIf="f.emailId.errors">
-                  <span *ngIf="f.emailId?.hasError('required')"> Please Enter Email</span>
-                  <span *ngIf="f.emailId?.hasError('pattern')"> Please Enter Valid Email</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="mb-0">
-              <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                <mat-label>Designation</mat-label>
-                <input matInput formControlName="designation">
-                <mat-error *ngIf="f.designation.errors">
-                  <span *ngIf="f.designation?.hasError('required')"> Please Enter Designation </span>
-                  <span *ngIf="f.designation?.hasError('pattern')"> Please Enter Valid Designation</span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12 ">
-            <div class="d-flex align-items-center justify-content-between">
-              <button  type="button" mat-raised-button class="btn-outline-main" (click)="clearAll()">Cancel</button>
-              <button type="submit" mat-raised-button class="btn-main" (click)="saveUpdateData()">{{saveUpdateBtn}}</button>
-            </div>
-          </div>
-        </div>
-      </form>
-
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Select Sub-user</mat-label>
+          <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId"
+            (selectionChange)="this.editFlag =false">
+            <mat-option *ngFor="let subusertype of subusertypearray" [value]="subusertype.value"
+              [disabled]="subusertype.value == 0">
+              {{subusertype.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.subUserTypeId.errors">
+            <span *ngIf="f.subUserTypeId?.hasError('required')"> Please Select Sub-Usertype</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Select State</mat-label>
+          <mat-select formControlName="stateId" (selectionChange)="getdistrict();this.editFlag =false"
+            [disabled]="true">
+            <mat-option *ngFor="let state of stateArray" [value]="state.value" [disabled]="state.value == 0">
+              {{state.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.stateId.errors">
+            <span *ngIf="f.stateId?.hasError('required')">Please Select State</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Select District</mat-label>
+          <mat-select formControlName="districtId" [disabled]="!userFrm.value.stateId"
+            (selectionChange)="this.editFlag =false">
+            <mat-option *ngFor="let district of districtArray" [value]="district.value"
+              [disabled]="district.value == 0">
+              {{district.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.districtId.errors">
+            <span *ngIf="f.districtId?.hasError('required')">Please Select District</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="fullName">
+          <mat-error *ngIf="f.fullName.errors">
+            <span *ngIf="f.fullName?.hasError('required')"> Please Enter full Name </span>
+            <span *ngIf="f.fullName?.hasError('pattern')"> Please Enter Valid full Name</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput formControlName="mobileNo" maxlength="10">
+          <mat-error *ngIf="f.mobileNo.errors">
+            <span *ngIf="f.mobileNo?.hasError('required')"> Please Enter Mobile No</span>
+            <span *ngIf="f.mobileNo?.hasError('pattern')"> Please Enter Valid Mobile No</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+          <mat-error *ngIf="f.address.errors">
+            <span *ngIf="f.address?.hasError('required')"> Please Enter Address</span>
+            <span *ngIf="f.address?.hasError('pattern')"> Please Enter Valid Address</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Email ID</mat-label>
+          <input matInput formControlName="emailId">
+          <mat-error *ngIf="f.emailId.errors">
+            <span *ngIf="f.emailId?.hasError('required')"> Please Enter Email</span>
+            <span *ngIf="f.emailId?.hasError('pattern')"> Please Enter Valid Email</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="mb-0">
+        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+          <mat-label>Designation</mat-label>
+          <input matInput formControlName="designation">
+          <mat-error *ngIf="f.designation.errors">
+            <span *ngIf="f.designation?.hasError('required')"> Please Enter Designation </span>
+            <span *ngIf="f.designation?.hasError('pattern')"> Please Enter Valid Designation</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 ">
+      <div class="d-flex align-items-center justify-content-between">
+        <button type="button" mat-raised-button class="btn-outline-main" (click)="clearAll()">Cancel</button>
+        <button type="submit" mat-raised-button class="btn-main"
+          (click)="saveUpdateData()">{{saveUpdateBtn}}</button>
+      </div>
+    </div>
+  </div>
+</form>
