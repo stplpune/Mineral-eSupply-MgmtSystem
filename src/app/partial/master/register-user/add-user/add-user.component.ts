@@ -1,7 +1,7 @@
 import { state } from '@angular/animations';
 
 import { ConfigService } from 'src/app/configs/config.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -10,7 +10,7 @@ import { CommonMethodsService } from 'src/app/core/services/common-methods.servi
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-user',
@@ -36,26 +36,28 @@ export class AddUserComponent implements OnInit {
     public error: ErrorHandlerService,
     public configService: ConfigService,
     public commonService:CommonApiCallService,
+    @Inject(MAT_DIALOG_DATA) public parentData: any,
     public dialogRef: MatDialogRef<AddUserComponent>,
     private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
+    console.log(this.parentData)
     this.defaultForm();
   }
 
   defaultForm() {
     this.userFrm = this.fb.group({
-      id: [''],
-      fullName: ['', [Validators.required]],
-      mobileNo: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      emailId: [''],
-      designation: ['', [Validators.required]],
+      id: [0],
+      fullName: ['', [Validators.required, Validators.pattern(this.validation.alphabetsWithSpace)]],
+      mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo)]],
+      address: ['', [Validators.required, Validators.pattern(this.validation.alphaNumericWithSpace)]],
+      emailId: ['',[Validators.pattern(this.validation.valEmailId)]],
+      designation: ['', [Validators.required,Validators.pattern(this.validation.alphabetsWithSpace)]],
       userTypeId: ['', [Validators.required]],
       subUserTypeId: ['', [Validators.required]],
       stateId: [''],
       districtId: [''],
-      flag: ['']
+      flag: ['i']
     });
     this.getusertype()
   }
@@ -71,13 +73,15 @@ export class AddUserComponent implements OnInit {
   saveUpdateData(){
     this.spinner.show();
     const formValue = this.userFrm.value;
-
     if (this.userFrm.invalid) {
       this.spinner.hide();
       return;
     }
-    formValue['id'] = 0;
-    formValue['flag'] = 'i';
+    if(this.commonMethod.checkDataType(this.parentData) == true ){
+      formValue['id'] = this.parentData.id;
+      formValue['flag'] = 'u';
+    }
+
     this.apiService.setHttp('post', "UserRegistration/SaveUpdateUser" , false, formValue, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -112,7 +116,7 @@ getSubuserType(){
   const id =this.userFrm.value.userTypeId;
   this.commonService.getSubuserType(id).subscribe({
     next: (response: any) => {
-     this.subusertypearray.push({ 'value': '', 'text': 'Select SubUser Type' }, ...response);
+      response.length == 1  ?  (this.subusertypearray = response,this.userFrm.controls['subUserTypeId'].setValue(this.subusertypearray[0].value)): this.subusertypearray.push({ 'value': '', 'text': 'Select SubUser Type' }, ...response);
     },
     error: ((error: any) => { this.error.handelError(error.status) })
   })
@@ -122,8 +126,6 @@ getState(){
   this.stateArray =[];
   this.commonService.getState().subscribe({
     next: (response: any) => {
-      console.log(response);
-
      this.stateArray.push({ 'value': '', 'text': 'Select State' }, ...response);
     },
     error: ((error: any) => { this.error.handelError(error.status) })
@@ -135,8 +137,6 @@ getdistrict(){
   const id =this.userFrm.value.stateId;
   this.commonService.getDistrictByStateId(id).subscribe({
     next: (response: any) => {
-      console.log(response);
-
      this.districtArray.push({ 'value': '', 'text': 'Select District' }, ...response);
     },
     error: ((error: any) => { this.error.handelError(error.status) })
