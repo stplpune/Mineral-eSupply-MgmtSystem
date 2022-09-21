@@ -24,12 +24,13 @@
                 </mat-form-field>
             </div>
             <div class="col-sm-auto ps-0">
-                <button mat-button type="submit" class="btn btn-main" (click)="verifyByPANNumber()">Search</button>
+                <button mat-button type="submit" class="btn btn-main" (click)="verifyPAN_Number()">Search</button>
             </div>
         
         </div>
     </form>
         <hr class="mt-1 mb-3">
+      <div [class.disabled-contenct]="disableDiv">
         <form [formGroup]="coalAllocationRegiForm" #formDirective="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <div class="row align-items-center mb-2">
             <div class="col-sm-2">
@@ -142,7 +143,7 @@
             <div class="col-sm-4">
                 <mat-form-field appearance="legacy" class="w-100">
                     <mat-label>State</mat-label>
-                    <mat-select formControlName="stateId" (selectionChange)="coalAllocationRegiForm.controls['districtId'].setValue('');getDistrict(coalAllocationRegiForm.value.stateId)">
+                    <mat-select formControlName="stateId" (selectionChange)="coalAllocationRegiForm.controls['districtId'].setValue('');getDistrict(coalAllocationRegiForm.value.stateId);addRemoveValiDistrict(coalAllocationRegiForm.value.stateId)">
                         <mat-option *ngFor="let stateObj of stateArray" [disabled]="stateObj.value == 0" [value]="stateObj.value">
                             {{stateObj.text}}
                         </mat-option>
@@ -154,7 +155,7 @@
                 <div class="form-label">District</div>
             </div>
             <div class="col-sm-4">
-                <mat-form-field appearance="legacy" class="w-100">
+                <mat-form-field [appearance]=configService.matFormField class="w-100">
                     <mat-label>District</mat-label> 
                     <mat-select formControlName="districtId" [disabled]="!coalAllocationRegiForm.value.stateId || coalAllocationRegiForm.value.stateId != 36">
                         <mat-option *ngFor="let districtObj of districtArray" [disabled]="districtObj.value == 0" [value]="districtObj.value">
@@ -219,7 +220,7 @@
                     <div class="form-label">Organization Type</div>
                 </div>
                 <div class="col-sm-4">
-                    <mat-form-field appearance="legacy" class="w-100">
+                    <mat-form-field [appearance]=configService.matFormField class="w-100">
                         <mat-label>Organization Type</mat-label>
                         <mat-select formControlName="organizationType">
                             <mat-option *ngFor="let organType of organTypeArray" [disabled]="organType.value == 0"
@@ -241,12 +242,15 @@
                         <div class="form-label">Select Year</div>
                     </div>
                     <div class="col-sm-8">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Select Year</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="applicationYear">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                            <mat-error *ngIf="f.applicationYear.errors?.required"> Year is required</mat-error>
+                        <mat-form-field [appearance]=configService.matFormField class="w-100">
+                            <mat-label>Select Year</mat-label> 
+                            <mat-select formControlName="applicationYear">
+                                <mat-option [disabled]="true">Select Year</mat-option>
+                                <mat-option *ngFor="let year of yearArray" [value]="year">
+                                    {{year}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="f.districtId.errors?.required"> Year is required</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -257,7 +261,7 @@
                     <div class="col-sm-8">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Font size</mat-label>
-                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty">
+                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
                             <span matSuffix>Tonnes</span>
                             <mat-error *ngIf="f.allocatedQty.errors">
                                 <span class="text-danger" *ngIf="f.allocatedQty.errors?.required">Allocated Quantity is
@@ -377,7 +381,7 @@
                         </span>
                     </td>
                 </tr>
-                <tr>
+                <tr *ngIf="hideIndividual">
                     <td>Aadhar</td>
                     <td>
                         <mat-form-field [appearance]=configService.matFormField class="w-100">
@@ -413,7 +417,7 @@
                         </span>
                     </td>
                 </tr>
-                <tr>
+                <tr *ngIf="hideOrganization">
                     <td>Incorporation Certificate</td>
                     <td>
                         <mat-form-field [appearance]=configService.matFormField class="w-100">
@@ -498,13 +502,27 @@
                 <div class="form-label">Enter OTP</div>
             </div>
             <div class="col-sm-3">
-                <mat-form-field appearance="legacy" class="w-100">
+                <!-- <mat-form-field appearance="legacy" class="w-100">
                     <mat-label>Enter OTP</mat-label>
                     <input matInput>
+                </mat-form-field> -->
+                <mat-form-field [appearance]=configService.matFormField class="mb-2" class="w-100">
+                    <mat-label>Enter OTP</mat-label>
+                    <input matInput type="text" (keypress)="validationService.acceptedOnlyNumbers($event)"
+                        maxlength="6" formControlName="verfiedOTPId" autocomplete="nope">
+                    <mat-error *ngIf="f.verfiedOTPId.errors">
+                        <span class="text-danger" *ngIf="f.verfiedOTPId.errors?.required">
+                            OTP is required.</span>
+                        <span class="text-danger" *ngIf="f.verfiedOTPId.errors?.pattern">
+                            Please Enter Valid OTP</span>
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-sm-1">
-                <button mat-button class="btn btn-main">Send OTP</button>
+                <span class="align-self-center ps-2" *ngIf="disableBtnSendOTP">00:{{otpCountShow}}</span>
+            </div>
+            <div class="col-sm-1">
+                <button mat-button class="btn btn-main" type="button" [disabled]="disableBtnSendOTP" (click)="sentOtpMobile()">{{sentOtpText}}</button>
             </div>
         </div>
         <hr>
@@ -513,6 +531,7 @@
             <button class="btn btn-success" type="submit"><i class="fa-solid fa-upload me-2"></i>Submit</button>
         </div>
     </form>
+</div>
     </div>
 </div>
 
