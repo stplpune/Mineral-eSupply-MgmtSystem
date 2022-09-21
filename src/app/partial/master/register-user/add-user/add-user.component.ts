@@ -23,11 +23,6 @@ export class AddUserComponent implements OnInit {
   usertypearray: any []= [];
   subusertypearray: any [] =[];
   districtArray: any []=[];
-  foods = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' },
-  ];
   stateArray: any=[];
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
