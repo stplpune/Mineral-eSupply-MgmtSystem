@@ -1,0 +1,42 @@
+#dash-stats h4{
+    margin-bottom: 0px;
+    color: var(--text-color);
+}
+small{
+    color: #999999;
+}
+.dash-icon{
+    height: 36px;
+    width: 36px;
+    padding: 8px;
+    border-radius: 0.375rem;
+    margin-right: 10px;
+}
+.dash-icon.blue{
+    background-color: #CFE8FE;
+}
+.dash-icon.darkblue{
+    background-color: #DBDCF8;
+}
+.dash-icon.violet{
+    background-color: #EAD5EF;
+}
+.dash-icon.yellow{
+    background-color: #FFEBD7;
+}
+.list-group-item{
+    background-color: var(--card-bg-color);
+    font-size: 0.8rem;
+}
+.list-group-item .challan-label{
+    color: #98A4B2;
+    margin-right: 5px;
+}
+.list-group-item .challan-data{
+    color: var(--text-color);
+    font-weight:500 ;
+}
+.fixed-height{
+    max-height: 53vh;
+    overflow-y: auto;
+}

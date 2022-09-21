@@ -22,3 +22,43 @@
 </div>
 
 <button (click)="deleteRecord()">delete</button>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card plain-card">
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="onSubmitMain()" autocomplete="off">                    
+                    <div class="row">
+                        <table style="border: 1px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Mineral</th>
+                                    <th>Charges</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="mineral">
+                                <tr *ngFor="let itemrow of minerals.controls; let i=index;let l=last" [formGroupName]="i">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        <input class="form-control" formControlName="mineralName" [readOnly]="true" style="border: 0px; box-shadow: none;">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" formControlName="mineralCharge" maxlength="20">
+                                        <div class="errorText" *ngIf="minerals.controls[i].get('mineralCharge')?.errors?.['pattern']">
+                                            invalid</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -263,7 +263,13 @@ mat-form-field{
   border-radius: 0.375rem;
   background-color:var(--card-bg-color);
 }
-.dash-card .card-header,
+.dash-card .card-header{
+  border-bottom: 0;
+  background-color:var(--card-bg-color);
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
 .dash-card .card-body{
   background-color:var(--card-bg-color);
   color: var(--text-color);

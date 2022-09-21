@@ -4,16 +4,18 @@ import { CommonModule } from '@angular/common';
 import { RegisterUserRoutingModule } from './register-user-routing.module';
 import { RegisterUserComponent } from './register-user.component';
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddUserComponent } from './add-user/add-user.component';
 
 
 @NgModule({
   declarations: [
-    RegisterUserComponent
+    RegisterUserComponent,AddUserComponent
   ],
   imports: [
     CommonModule,
     RegisterUserRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,ReactiveFormsModule
   ]
 })
 export class RegisterUserModule { }

@@ -2,7 +2,7 @@
     <mat-label>Address</mat-label>
     <textarea matInput #search></textarea>
 </mat-form-field>
-<agm-map [latitude]="configService.lat" [zoom]="6"  [longitude]="configService.long"   (mapReady)="onMapReady($event)" ></agm-map>
+<agm-map  [latitude]="configService.lat" [zoom]="6"  [longitude]="configService.long"   (mapReady)="onMapReady($event)" ></agm-map>
 <button mat-mini-fab color="warn" (click)="removeShape()" *ngIf="isShapeDrawn" aria-label="Remove Shape">Close</button>
 
 <!-- <button (click)="ngSubmit()">Save</button> -->

@@ -63,7 +63,7 @@
                             <th mat-header-cell *matHeaderCellDef> Action</th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="d-flex align-items-center">
-                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editCollaryRecord(element)">
+                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editCollaryRecord(element.id)">
                                         <mat-icon>edit</mat-icon>
                                     </button>
                                     <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteCollaryRecord(element)">
@@ -114,7 +114,7 @@
                             </mat-error>
                         </mat-form-field> -->
                         <div class="mb-3">                  
-                            <app-agm-map (geoFanceData)="getSelFanceData($event)" [sendSelGeoFanceObj]="updateObj"></app-agm-map>
+                            <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <button mat-raised-button class="btn-outline-main">Cancel</button>
