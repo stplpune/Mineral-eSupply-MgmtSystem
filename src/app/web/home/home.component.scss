@@ -13,7 +13,73 @@
     background-position:right center;
     height:97vh;
 }
+#left-data h1{
+    color:var(--main-color);
+    font-size: 55px;
+    margin-bottom: 0;
+}
+#left-data h4{
+    color:var(--text-color);
+    font-size: 35px;
+    font-weight: 300;
+    margin-bottom:15px;
+}
+#left-data .card{
+    border-color:var(--main-color);
+    text-align: center !important;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding:14.5px;
+    position:relative;
+}
+#left-data .card h4{
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+#left-data .card p{
+    font-size: 0.8rem;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+#left-data .card small{
+    font-size: 0.75rem;
+    color: var(--main-color);
+    margin-bottom: 0;
+}
 .bengalmap{
     height:85vh;
     z-index: -1;
 }
+.ribbon-wrapper {
+    width: 85px;
+    height: 88px;
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  .ribbon-wrapper .ribbon {
+    font-size: 0.85rem;
+    color: #333;
+    text-align: center;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    position: relative;
+    padding: 5px 0px;
+    top: -5px;
+    left: -45px;
+    width: 112px;
+    background-color: #ebb134;
+    color: #fff;
+  }
+  .ribbon-wrapper .ribbon img{
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    width: 15px;
+  }

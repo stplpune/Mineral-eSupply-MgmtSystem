@@ -102,8 +102,8 @@ body {
 
 .bg-main,
 .btn-main {
-  background-color: var(--main-color);
-  color: #fff;
+  background-color: var(--main-color) !important;
+  color: #fff !important;
   font-size: 0.85rem;
 }
 
@@ -135,8 +135,6 @@ body {
 #wrapper p{
   font-size: 0.85rem;
   color: var(--text-color);
-  text-align: justify;
-  line-height: 1.7rem;
 }
 #wrapper .card,
 #wrapper .card-body{
