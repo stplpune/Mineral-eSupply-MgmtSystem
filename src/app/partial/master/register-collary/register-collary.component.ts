@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
@@ -42,6 +43,7 @@ export class RegisterCollaryComponent implements OnInit {
     public error: ErrorHandlerService, 
     private webStorageService:WebStorageService,
     private shareDataService: ShareDataService,
+    private spinner: NgxSpinnerService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -93,6 +95,7 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   getCollaryList(){
+    this.spinner.show();
     this.apiService.setHttp('get', "CollieryMaster" + this.getQueryString(), false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -104,8 +107,9 @@ export class RegisterCollaryComponent implements OnInit {
           this.totalRows = 0;
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
+        this.spinner.hide();
       },
-      error: ((error: any) => { this.error.handelError(error.status) })
+      error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
     })
   }
 
@@ -177,7 +181,9 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   onSubmitCollary(){
+    this.spinner.show();
     if (this.frmCollary.invalid) {
+      this.spinner.hide();
       console.log(this.frmCollary.value)
       if(!this.frmCollary.value.collieryAddress){
         this.commonMethod.matSnackBar('Address is required', 1)
@@ -192,6 +198,7 @@ export class RegisterCollaryComponent implements OnInit {
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
           if (res.statusCode === 200) {
+            this.spinner.hide();
             this.getCollaryList();
             this.onCancelRecord();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
@@ -199,7 +206,7 @@ export class RegisterCollaryComponent implements OnInit {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
-        error: ((error: any) => { this.error.handelError(error.status) })
+        error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
       })
     }
   }
@@ -218,6 +225,7 @@ export class RegisterCollaryComponent implements OnInit {
 
   onCancelRecord(){
     this.frmCollary.reset();
+    this.isEdit = false;
   }
 
 }
