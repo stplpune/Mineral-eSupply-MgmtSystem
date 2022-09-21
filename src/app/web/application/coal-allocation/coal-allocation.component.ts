@@ -150,10 +150,13 @@ export class CoalAllocationComponent implements OnInit {
 
   applicationTypeCheck(flag: any) {
     this.applicationTypeName = flag;
+    this.formDirective && this.formDirective.resetForm(); 
+    this.defaultMainForm();
     this.otpCounter = of([]); this.sentOtpText = 'Send OTP';this.disableBtnSendOTP = false;
     flag == 'Individual' ? (this.hideIndividual = true, this.hideOrganization = false) : (this.hideOrganization = true, this.hideIndividual = false);
     this.defaultDocSymbolHide();
     this.addRemoveVali_ApplicationType(flag);
+    this.addRemoveValiDistrict(this.coalAllocationRegiForm.value.stateId);
   }
 
   addRemoveVali_ApplicationType(flag: any) {
@@ -246,58 +249,62 @@ export class CoalAllocationComponent implements OnInit {
     //   return;
     // }
     else {
-      let formData = this.coalAllocationRegiForm.value;
-
-      let typeObj:any;
-      if(this.applicationTypeName == 'Individual'){
-       typeObj = {
-        "applicantName": formData.name,
-        "applicantMobileNo": formData.mobile,
-        "applicantEmailId": formData.email,
-        "applicationNumber": "9789797767",
-       }
-      }else{
-        typeObj = {
-        "organizationName": formData.name,
-        "organizationNumber": formData.mobile,
-        "organizationEmail": formData.email,
-        "contactPersonName": formData.contactPersonName,
-        "contactPersonMobileName": formData.contactPersonMobileName,
-        "organizationType": formData.organizationType || 0,
-        }
-      }
-
-      let obj = {
-        "id": formData.id,
-        "applicationType": this.applicationTypeName == 'Individual' ? 1 : 2,
-        "address": formData.address,
-        "pinCode": formData.pinCode,
-        "stateId": formData.stateId || 0,
-        "districtId": formData.districtId || 0,
-        "applicationYear": formData.applicationYear || 1992,
-        "allocatedQty": parseInt(formData.allocatedQty) || 0,
-        "reasonForApply": formData.reasonForApply,
-        "coalApplicationDocuments": this.coalApplicationDocuments
-      }
-
-      let finalResult = Object.assign(obj,typeObj);
-      let formType = 'POST';
-      this.callApiService.setHttp(formType, 'CoalApplication/SaveCoalApplication', false, finalResult, false, 'WBMiningService');
-      this.callApiService.getHttp().subscribe((res: any) => {
-        if (res.statusCode == "200") {
-          this.commonService.matSnackBar(res.statusMessage, 0);
-          this.verifyPanForm();
-          this.defaultDocSymbolHide();
-          this.disableDiv = true;
-          // this.sentOtpText = 'Send OTP';
-          this.clearForm();
-        } else {
-          this.commonService.matSnackBar(res.statusMessage, 1);
-        }
-      }, (error: any) => {
-        this.errorSerivce.handelError(error.status);
-      });
+   this.verifyMobileOTP();
     }
+  }
+
+  checkOnSubmit(){
+    let formData = this.coalAllocationRegiForm.value;
+
+    let typeObj:any;
+    if(this.applicationTypeName == 'Individual'){
+     typeObj = {
+      "applicantName": formData.name,
+      "applicantMobileNo": formData.mobile,
+      "applicantEmailId": formData.email,
+      "applicationNumber": "9789797767",
+     }
+    }else{
+      typeObj = {
+      "organizationName": formData.name,
+      "organizationNumber": formData.mobile,
+      "organizationEmail": formData.email,
+      "contactPersonName": formData.contactPersonName,
+      "contactPersonMobileName": formData.contactPersonMobileName,
+      "organizationType": formData.organizationType || 0,
+      }
+    }
+
+    let obj = {
+      "id": formData.id,
+      "applicationType": this.applicationTypeName == 'Individual' ? 1 : 2,
+      "address": formData.address,
+      "pinCode": formData.pinCode,
+      "stateId": formData.stateId || 0,
+      "districtId": formData.districtId || 0,
+      "applicationYear": formData.applicationYear || 1992,
+      "allocatedQty": parseInt(formData.allocatedQty) || 0,
+      "reasonForApply": formData.reasonForApply,
+      "coalApplicationDocuments": this.coalApplicationDocuments
+    }
+
+    let finalResult = Object.assign(obj,typeObj);
+    let formType = 'POST';
+    this.callApiService.setHttp(formType, 'CoalApplication/SaveCoalApplication', false, finalResult, false, 'WBMiningService');
+    this.callApiService.getHttp().subscribe((res: any) => {
+      if (res.statusCode == "200") {
+        this.commonService.matSnackBar(res.statusMessage, 0);
+        this.verifyPanForm();
+        this.defaultDocSymbolHide();
+        this.disableDiv = true;
+        // this.sentOtpText = 'Send OTP';
+        this.clearForm();
+      } else {
+        this.commonService.matSnackBar(res.statusMessage, 1);
+      }
+    }, (error: any) => {
+      this.errorSerivce.handelError(error.status);
+    });
   }
 
   clearForm() {
@@ -519,11 +526,14 @@ export class CoalAllocationComponent implements OnInit {
 
   verifyMobileOTP(){
     let obj = 'mobileNumber=' + this.coalAllocationRegiForm.value.mobile + '&otpNumber=' + this.coalAllocationRegiForm.value.verfiedOTPId
-    this.callApiService.setHttp('get', "CoalApplication/ValidateOTP?" + obj, false, false, false, 'WBMiningService');
+    this.callApiService.setHttp('post', "CoalApplication/ValidateOTP?" + obj, false, false, false, 'WBMiningService');
     this.callApiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
-          // this.commonService.matSnackBar(res.statusMessage, 0);
+          this.checkOnSubmit();
+        }else{
+          this.commonService.matSnackBar(res.statusMessage, 0);
+          return;
         }
       },
       error: ((error: any) => { this.errorSerivce.handelError(error.status) })
