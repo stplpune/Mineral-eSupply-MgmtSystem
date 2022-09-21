@@ -34,7 +34,7 @@ export class FileUploadService {
               this.apiService.getHttp().subscribe({
                 next: (res: any) => {
                   this.spinner.hide();
-                  if (res.statusCode === "200") {
+                  if (res.statusCode == "200") {
                     obj.next(res);
                   }
                   else {
