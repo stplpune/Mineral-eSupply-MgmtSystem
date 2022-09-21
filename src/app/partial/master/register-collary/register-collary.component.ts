@@ -165,6 +165,7 @@ export class RegisterCollaryComponent implements OnInit {
             if (res.statusCode === 200) {
               this.getCollaryList();
               this.onCancelRecord();
+              this.commonMethod.matSnackBar('Colliery record is deleted!', 0);
             }
           },
           error: ((error: any) => { this.error.handelError(error.status) })
