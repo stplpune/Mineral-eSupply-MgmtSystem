@@ -49,12 +49,12 @@ export class AddUserComponent implements OnInit {
       fullName: ['', [Validators.required, Validators.pattern(this.validation.alphabetsWithSpace)]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo)]],
       address: ['', [Validators.required, Validators.pattern(this.validation.alphaNumericWithSpace)]],
-      emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
-      designation: ['', [Validators.required, Validators.pattern(this.validation.alphabetsWithSpace)]],
+      emailId: ['', [Validators.required,Validators.pattern(this.validation.valEmailId)]],
+      designation: ['', [ Validators.pattern(this.validation.alphabetsWithSpace)]],
       userTypeId: ['', [Validators.required]],
       subUserTypeId: ['', [Validators.required]],
-      stateId: [''],
-      districtId: [''],
+      stateId: ['',[Validators.required]],
+      districtId: ['',[Validators.required]],
       flag: ['i'],
       createdBy: [1]
     });
@@ -83,6 +83,7 @@ export class AddUserComponent implements OnInit {
     this.editFlag = true;
     this.saveUpdateBtn = 'Save';
     this.parentData = '';
+    this.userFrm.controls['stateId'].setValue(this.configService.stateIdSelected);
   }
 
   saveUpdateData() {
@@ -98,7 +99,7 @@ export class AddUserComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.spinner.hide();
-          formValue.flag == 'u' ? this.commonMethod.matSnackBar(res.statusMessage,1) : '';
+          formValue.flag == 'u' ? this.commonMethod.matSnackBar(res.statusMessage,0) : res.statusMessage =='Mobile Already Exist...' ? this.commonMethod.matSnackBar(res.statusMessage,1):formValue.flag == 'i'? this.commonMethod.opensuccessModal():'';
           this.closeModal(formValue.flag);
           this.clearAll();
         } else {
@@ -141,7 +142,8 @@ export class AddUserComponent implements OnInit {
     this.commonService.getState().subscribe({
       next: (response: any) => {
         this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
-        this.editFlag ? (this.userFrm.controls['stateId'].setValue(this.parentData.stateId), this.getdistrict()) : '';
+        this.userFrm.controls['stateId'].setValue(this.configService.stateIdSelected),
+       this.getdistrict();
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
