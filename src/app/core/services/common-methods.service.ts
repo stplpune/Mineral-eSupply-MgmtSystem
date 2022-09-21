@@ -131,4 +131,13 @@ export class CommonMethodsService {
       });
     return address_pincodeObj;
   }
+
+  scrollBar(value: any) {
+    window.scroll({
+      top: value,
+      behavior: 'smooth'
+    });
+  }
+
+
 }

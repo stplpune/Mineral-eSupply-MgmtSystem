@@ -59,6 +59,7 @@ export class RegisterCollaryComponent implements OnInit {
       collieryName: ['', [Validators.required, Validators.pattern(this.frmValid.alphabetsWithSpace)]],
       collieryAddress: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
+      longitude: ['', [Validators.required]],
       polygonText: ['', [Validators.required]],
       geofenceType: ['', [Validators.required]],
       distance: ['', [Validators.required]],
@@ -164,8 +165,10 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   getSelFanceData(data:any) {
+
     this.frmCollary.patchValue({
       latitude:data.latitude,
+      longitude:data.longitude,
       polygonText:data.polygonText,
       geofenceType:data.geofenceType,
       distance:data.distance,

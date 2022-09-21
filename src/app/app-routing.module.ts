@@ -22,8 +22,7 @@ const routes: Routes = [
      ]
 
   },
-  
-  
+
 
 ];
 
