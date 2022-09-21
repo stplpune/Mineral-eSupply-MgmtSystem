@@ -6,7 +6,6 @@ import { CoalAllocationComponent } from './coal-allocation.component';
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     CoalAllocationComponent
@@ -19,4 +18,5 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AngularMaterialModule
   ]
 })
+
 export class CoalAllocationModule { }
