@@ -261,7 +261,7 @@
                     <div class="col-sm-8">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Font size</mat-label>
-                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
+                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty" (keypress)="validationService.acceptedOnlyNumbers_floatValue($event)" maxlength="6">
                             <span matSuffix>Tonnes</span>
                             <mat-error *ngIf="f.allocatedQty.errors">
                                 <span class="text-danger" *ngIf="f.allocatedQty.errors?.required">Allocated Quantity is
