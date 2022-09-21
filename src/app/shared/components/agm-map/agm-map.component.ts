@@ -61,15 +61,16 @@ export class AgmMapComponent implements OnInit {
           latLng: resGeoFanceData.latitude+','+resGeoFanceData.longitude,
           polygonText: resGeoFanceData.polygonText,
           geofenceType: resGeoFanceData?.geofenceType,
-          distance: resGeoFanceData.distance
+          distance: resGeoFanceData.distance,
         },
+        isHide: true
       }
       this.data.selectedRecord = this.data.newRecord;
-   
+    
   }
 
   onMapReady(map?: any) {
-    // this.isHide = this.data?.isHide || false;
+    this.isHide = this.data?.isHide || false;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true,
@@ -255,8 +256,9 @@ export class AgmMapComponent implements OnInit {
       } catch (e) { }
     }
 
+ 
     this.isHide && this.drawingManager.setDrawingMode(null);
-
+    
     google.maps.event.addListener(
       this.drawingManager,
       'overlaycomplete',
