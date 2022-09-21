@@ -1,1 +1,191 @@
-<p>register-vehicle works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-3">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>All OTP Verification</mat-label>
+                        <input matInput placeholder="Enter OTP Verification Status">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Vehicle No/Name/Mobile No</mat-label>
+                        <input matInput placeholder="Enter Vehicle No/Name/Mobile No">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 text-end">
+            <button class="btn btn-secondary">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    Table
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-container">
+                <div class="mb-2">
+                    <label class="form-label text-muted">Vehicle Number: </label>
+                    <div class="d-block">
+                        <mat-radio-group aria-label="Select an option">
+                            <mat-radio-button value="1" class="me-3">Option 1</mat-radio-button>
+                            <mat-radio-button value="2">Option 2</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label text-muted"> Number Format: </label>
+                    <div class="d-block">
+                        <mat-radio-group aria-label="Select an option">
+                            <mat-radio-button value="1" class="me-3">Old</mat-radio-button>
+                            <mat-radio-button value="2">New</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Vehicle Number <sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Vehicle Number">
+                    </mat-form-field>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label text-muted"> Block/Unblock: </label>
+                    <div class="d-block">
+                        <mat-radio-group aria-label="Select an option">
+                            <mat-radio-button value="1" class="me-3">Block</mat-radio-button>
+                            <mat-radio-button value="2">Unblock</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Owner Name <sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Owner Name">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>State <sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter State">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>District<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter District">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Address <sup class="text-danger">*</sup></mat-label>
+                        <textarea matInput placeholder="Enter Address"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Driver Name<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Driver Name">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Driver Mobile Number<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Mobile Number">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>eTP App Mobile Number<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter eTP App Mobile Number">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Vehicle Type<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Vehicle Type">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Permit Number<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Permit Number (Optional)">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Driver Licence Number<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Licence Number (Optional)">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Driver Company Name<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Company Name">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Device ID<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Device ID">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Device Sim No 1<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Sim no 1">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Telecom Provider Sim 1<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Telecom Provider Sim 1 ">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Device Sim No 2<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Device Sim No 2">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Telecom Provider Sim 2<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter Telecom Provider Sim 2 ">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Length (Meter)<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter length (mtr)">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>Width (Meter)<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter width (mtr)">
+                    </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>OTP<sup class="text-danger">*</sup></mat-label>
+                        <input matInput placeholder="Enter OTP Number">
+                    </mat-form-field>
+                </div>
+                <div class="text-end">
+                    <button class="btn btn-main" type="submit">Send OTP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
