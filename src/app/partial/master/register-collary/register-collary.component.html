@@ -19,9 +19,9 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width" [appearance]="configService.matFormFieldFilter" class="w-100">
                                             <mat-label> Name</mat-label>
-                                            <input matInput formControlName="collaryNameFltr" maxlength="200">
+                                            <input id="colliery_name" matInput formControlName="collaryNameFltr" maxlength="200">
                                             <mat-error>
-                                                <span class="text-danger" *ngIf="f['collaryNameFltr'].errors?.['pattern']">Please enter valid name.</span>
+                                                <span class="text-danger" *ngIf="f['collaryNameFltr'].errors?.['pattern']">Please enter valid collary name.</span>
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
@@ -92,7 +92,7 @@
                     <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off">
                         <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Collary Name</mat-label>
-                            <input style="text-transform:uppercase" matInput formControlName="collieryName" maxlength="200">
+                            <input id="colliery_name" matInput formControlName="collieryName" maxlength="200">
                             <mat-error *ngIf="fc['collieryName'].errors">
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please enter collary name.</span>
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please enter valid collary name.</span>
