@@ -15,7 +15,7 @@
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select Usertype</mat-label>
                 <mat-select formControlName="userTypeId" (selectionChange)="getSubuserType()">
-                  <mat-option *ngFor="let usertype of usertypearray" [value]="usertype.value">
+                  <mat-option *ngFor="let usertype of usertypearray" [value]="usertype.value" [disabled]="usertype.value == 0">
                     {{usertype.text}}
                   </mat-option>
                 </mat-select>
@@ -30,7 +30,7 @@
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select Sub-user</mat-label>
                 <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId">
-                  <mat-option *ngFor="let subusertype of subusertypearray" [value]="subusertype.value">
+                  <mat-option *ngFor="let subusertype of subusertypearray" [value]="subusertype.value"  [disabled]="subusertype.value == 0">
                     {{subusertype.text}}
                   </mat-option>
                 </mat-select>
@@ -48,7 +48,7 @@
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select State</mat-label>
                 <mat-select formControlName="stateId" (selectionChange)="getdistrict()">
-                  <mat-option *ngFor="let state of stateArray" [value]="state.value">
+                  <mat-option *ngFor="let state of stateArray" [value]="state.value" [disabled]="state.value == 0">
                     {{state.text}}
                   </mat-option>
                 </mat-select>
@@ -63,7 +63,7 @@
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select District</mat-label>
                 <mat-select formControlName="districtId" [disabled]="!userFrm.value.stateId">
-                  <mat-option *ngFor="let district of districtArray" [value]="district.value">
+                  <mat-option *ngFor="let district of districtArray" [value]="district.value" [disabled]="district.value == 0">
                     {{district.text}}
                   </mat-option>
                 </mat-select>
