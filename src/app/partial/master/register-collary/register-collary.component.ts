@@ -261,16 +261,6 @@ export class RegisterCollaryComponent implements OnInit {
     }
   }
 
-  // getSelFanceData(data:any) {
-  //   this.frmCollary.patchValue({
-  //     latitude:data.latitude,
-  //     longitude:data.longitude,
-  //     polygonText:data.polygonText,
-  //     geofenceType:data.geofenceType,
-  //     distance:data.distance,
-  //     collieryAddress:data.collieryAddress
-  //   })
-  // }
 
   onCancelRecord(){
     this.frmCollary.reset();
@@ -282,6 +272,7 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onMapReady(map?: any) {
+    console.log(this.data);
     this.isHide = this.data?.isHide || false;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
