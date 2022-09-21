@@ -283,3 +283,15 @@ input[placeholder],
 ::placeholder { 
   color:var(--text-color) !important;
 }
+.mat-dialog-container{
+  background-color: var(--card-bg-color);
+  color: var(--text-color);
+}
+.btn-modal-close{
+  position: absolute;
+  top: -26px;
+  right: -18px;
+  background-color: transparent !important;
+  color: var(--main-color) !important;
+  box-shadow: none !important;
+}

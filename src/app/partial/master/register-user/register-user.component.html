@@ -3,9 +3,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card plain-card">
-                <div class="card-header py-0">
+                <div class="card-header pb-0">
                   <form [formGroup]="filterForm" (ngSubmit)="searchData()">
-                    <div class="row align-items-center">
+                    <div class="row align-items-start">
                       <div class="col-sm-3">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>All State</mat-label>
@@ -35,7 +35,10 @@
                     <div class="col-sm-auto">
                         <button mat-raised-button class="btn btn-secondary w-100"><i
                                 class="fa-solid fa-magnifying-glass me-2"></i>Search</button>
-                                <button (click)="openUserModal()">Add User</button>
+                                
+                    </div>
+                    <div class="col-sm-auto">
+                        <button (click)="openUserModal()" mat-raised-button class="btn btn-main w-100">Add User</button>
                     </div>
                     </div>
                   </form>

@@ -143,7 +143,7 @@ export class CommonMethodsService {
 
   opensuccessModal(obj?: any) {
     const dialogRef = this.dialog.open(SuccessComponent, {
-      width: '600px',
+      width: '350px',
       height: 'auto',
       disableClose: true,
       data: obj ? obj : '',
