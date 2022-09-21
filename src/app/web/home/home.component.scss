@@ -1,0 +1,19 @@
+#home-banner{
+    background-image: url(../../../assets/images/Home-banner.png);
+    height:100vh;
+    background-size: 52%;
+    background-repeat: no-repeat;
+    padding-inline: 0;
+    background-position:top right;
+}
+#left-data{
+    background-image: url(../../../assets/images/WestBengalMap.svg);
+    background-repeat: no-repeat;
+    background-size:55%;
+    background-position:right center;
+    height:97vh;
+}
+.bengalmap{
+    height:85vh;
+    z-index: -1;
+}

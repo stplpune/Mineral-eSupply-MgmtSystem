@@ -135,6 +135,8 @@ body {
 .form-container .btn {
   box-shadow: none;
   font-size: 0.85rem;
+  background-color: var(--bg-color) !important;
+  color: var(--text-color);
 }
 
 .dashboard-table {
