@@ -39,6 +39,7 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.parentData)
+    this.commonMethod.opensuccessModal()
     this.defaultForm();
     this.commonMethod.checkDataType(this.parentData) == true ? this.patchData() : this.getusertype();
   }
