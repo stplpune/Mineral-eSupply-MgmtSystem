@@ -24,6 +24,7 @@ export class AgmMapComponent implements OnInit {
   selectedRecord: any = null;
   subscribeCls!: Subscription;
   centerMarkerRadius = "";
+  drawingContFlg:boolean = true;
 
   newRecord: any = {
     latLng: "",
@@ -62,18 +63,21 @@ export class AgmMapComponent implements OnInit {
           polygonText: resGeoFanceData.polygonText,
           geofenceType: resGeoFanceData?.geofenceType,
           distance: resGeoFanceData.distance,
+          // collieryAddress:
         },
         isHide: true
       }
+      this.drawingContFlg = false;
       this.data.selectedRecord = this.data.newRecord;
-    
+      this.drawingManager.drawingControl = false;
+      this.onMapReady(this.map); 
   }
 
   onMapReady(map?: any) {
     this.isHide = this.data?.isHide || false;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
-      drawingControl: true,
+      drawingControl: this.drawingContFlg,
       drawingControlOptions: {
         drawingModes: [google.maps.drawing.OverlayType.POLYGON, google.maps.drawing.OverlayType.CIRCLE],
       },
@@ -258,7 +262,7 @@ export class AgmMapComponent implements OnInit {
 
  
     this.isHide && this.drawingManager.setDrawingMode(null);
-    
+
     google.maps.event.addListener(
       this.drawingManager,
       'overlaycomplete',

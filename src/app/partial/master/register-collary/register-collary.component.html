@@ -107,15 +107,17 @@
                                 <span class="text-danger" *ngIf="fc['districtId'].errors?.['required']">Please select district.</span>
                             </mat-error>
                         </mat-form-field>
-                        <!-- <mat-form-field class="example-full-width"[appearance]="configService.matFormField" class="w-100">
+                        <mat-form-field class="example-full-width"[appearance]="configService.matFormField" class="w-100">
                             <mat-label>Address</mat-label>
-                            <textarea matInput formControlName="collieryAddress" maxlength="500"></textarea>
+                            <textarea matInput #search maxlength="500"></textarea>
                             <mat-error>
                                 <span class="text-danger" *ngIf="fc['collieryAddress'].errors?.['required']">Please enter address.</span>
                             </mat-error>
-                        </mat-form-field> -->
+                        </mat-form-field>
                         <div class="mb-3">                  
-                            <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map>
+                            <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"   (mapReady)="onMapReady($event)" ></agm-map>
+                            <button mat-mini-fab color="warn" (click)="removeShape()" *ngIf="isShapeDrawn" aria-label="Remove Shape">Close</button>
+                            <!-- <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map> -->
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <button type="reset" mat-raised-button class="btn-outline-main" (click)="onCancelRecord()">Cancel</button>
