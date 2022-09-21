@@ -244,6 +244,10 @@ mat-form-field{
   font-family: "Rubik", sans serif !important;
   font-size: 0.85rem !important;
 }
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:var(--main-color);
+}
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
   background-color: var(--main-color) !important;
 }
@@ -274,4 +278,8 @@ mat-form-field{
   background-color:var(--card-bg-color);
   color: var(--text-color);
   border-radius: 0.375rem;
+}
+input[placeholder],
+::placeholder { 
+  color:var(--text-color) !important;
 }
