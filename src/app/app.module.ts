@@ -27,6 +27,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ThemeModule } from './theme/theme.module';
 import { AgmDrawingModule } from '@agm/drawing';
 import { ConfirmationComponent } from './partial/dialogs/confirmation/confirmation.component';
+import { SuccessComponent } from './partial/dialogs/success/success.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -40,7 +41,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SidebarComponent,
     ChangePasswordComponent,
     LogoutComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,

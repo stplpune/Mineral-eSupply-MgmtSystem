@@ -114,7 +114,7 @@ export class RegisterUserComponent implements OnInit {
       this.apiService.setHttp('DELETE', "UserRegistration/DeleteUSer" , false, obj, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (responseData: any) => {
-          if (res.statusCode == 200 ) {
+          if (responseData.statusCode == 200 ) {
             this.commonMethod.matSnackBar(responseData.statusMessage,0);
             this.getData();
           } else {
@@ -135,9 +135,7 @@ export class RegisterUserComponent implements OnInit {
       data: obj ? obj : '',
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result == 'post') {
-
-      }
+      result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
     });
   }
 

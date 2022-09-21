@@ -1,9 +1,11 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MapsAPILoader } from '@agm/core';
 import * as CryptoJS from 'crypto-js';
+import { SuccessComponent } from 'src/app/partial/dialogs/success/success.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class CommonMethodsService {
   codecareerPage!: string;
   geocoder: any;
 
-  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private router: Router,
+  constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private router: Router, private dialog:MatDialog,
     public mapsApiLoader: MapsAPILoader) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -137,6 +139,18 @@ export class CommonMethodsService {
       top: value,
       behavior: 'smooth'
     });
+  }
+
+  opensuccessModal(obj?: any) {
+    const dialogRef = this.dialog.open(SuccessComponent, {
+      width: '600px',
+      height: 'auto',
+      disableClose: true,
+      data: obj ? obj : '',
+    });
+    // dialogRef.afterClosed().subscribe((result: any) => {
+    //   result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
+    // });
   }
 
 

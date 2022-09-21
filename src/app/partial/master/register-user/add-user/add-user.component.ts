@@ -20,17 +20,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddUserComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   userFrm!: FormGroup;
-  usertypearray: any []= [];
-  subusertypearray: any [] =[];
-  districtArray: any []=[];
-  stateArray: any=[];
+  usertypearray: any[] = [];
+  subusertypearray: any[] = [];
+  districtArray: any[] = [];
+  stateArray: any = [];
+  editFlag: boolean = false;
+  saveUpdateBtn = 'Save';
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
     public validation: FormsValidationService,
     public error: ErrorHandlerService,
     public configService: ConfigService,
-    public commonService:CommonApiCallService,
+    public commonService: CommonApiCallService,
     @Inject(MAT_DIALOG_DATA) public parentData: any,
     public dialogRef: MatDialogRef<AddUserComponent>,
     private spinner: NgxSpinnerService, private router: Router) { }
@@ -38,6 +40,7 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.parentData)
     this.defaultForm();
+    this.commonMethod.checkDataType(this.parentData) == true ? this.patchData() : this.getusertype();
   }
 
   defaultForm() {
@@ -46,15 +49,29 @@ export class AddUserComponent implements OnInit {
       fullName: ['', [Validators.required, Validators.pattern(this.validation.alphabetsWithSpace)]],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo)]],
       address: ['', [Validators.required, Validators.pattern(this.validation.alphaNumericWithSpace)]],
-      emailId: ['',[Validators.pattern(this.validation.valEmailId)]],
-      designation: ['', [Validators.required,Validators.pattern(this.validation.alphabetsWithSpace)]],
+      emailId: ['', [Validators.required,Validators.pattern(this.validation.valEmailId)]],
+      designation: ['', [ Validators.pattern(this.validation.alphabetsWithSpace)]],
       userTypeId: ['', [Validators.required]],
       subUserTypeId: ['', [Validators.required]],
-      stateId: [''],
-      districtId: [''],
-      flag: ['i']
+      stateId: ['',[Validators.required]],
+      districtId: ['',[Validators.required]],
+      flag: ['i'],
+      createdBy: [1]
     });
-    this.getusertype()
+
+  }
+  patchData() {
+    this.editFlag = true;
+    this.saveUpdateBtn = 'Update';
+    this.getusertype();
+    this.userFrm.patchValue({
+      fullName: this.parentData.fullName,
+      mobileNo: this.parentData.mobileNo,
+      address: this.parentData.address,
+      emailId: this.parentData.emailId,
+      designation: this.parentData.designation,
+    })
+
   }
 
   get f(): any {
@@ -63,26 +80,27 @@ export class AddUserComponent implements OnInit {
 
   clearAll() {
     this.formGroupDirective.resetForm();
+    this.editFlag = true;
+    this.saveUpdateBtn = 'Save';
+    this.parentData = '';
+    this.userFrm.controls['stateId'].setValue(this.configService.stateIdSelected);
   }
 
-  saveUpdateData(){
+  saveUpdateData() {
     this.spinner.show();
     const formValue = this.userFrm.value;
     if (this.userFrm.invalid) {
       this.spinner.hide();
       return;
     }
-    if(this.commonMethod.checkDataType(this.parentData) == true ){
-      formValue['id'] = this.parentData.id;
-      formValue['flag'] = 'u';
-    }
-
-    this.apiService.setHttp('post', "UserRegistration/SaveUpdateUser" , false, formValue, false, 'WBMiningService');
+    this.commonMethod.checkDataType(this.parentData) == true ? (formValue['id'] = this.parentData.id, formValue['flag'] = 'u') : (formValue['id'] = 0, formValue['flag'] = 'i');
+    this.apiService.setHttp('post', "UserRegistration/SaveUpdateUser", false, formValue, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === "200") {
+        if (res.statusCode === 200) {
           this.spinner.hide();
-          this.closeModal('Yes');
+          formValue.flag == 'u' ? this.commonMethod.matSnackBar(res.statusMessage,0) : res.statusMessage =='Mobile Already Exist...' ? this.commonMethod.matSnackBar(res.statusMessage,1):formValue.flag == 'i'? this.commonMethod.opensuccessModal():'';
+          this.closeModal(formValue.flag);
           this.clearAll();
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -92,50 +110,55 @@ export class AddUserComponent implements OnInit {
     })
   }
 
-  closeModal(flag?:any){
+  closeModal(flag?: any) {
     this.dialogRef.close(flag);
   }
 
-getusertype(){
-  this.commonService.getuserType().subscribe({
-    next: (response: any) => {
-     this.usertypearray.push({ 'value': '', 'text': 'Select User Type' }, ...response);
-     this.getState();
-    },
-    error: ((error: any) => { this.error.handelError(error.status) })
-  })
-}
+  getusertype() {
+    this.commonService.getuserType().subscribe({
+      next: (response: any) => {
+        this.usertypearray.push({ 'value': 0, 'text': 'Select User Type' }, ...response);
+        this.editFlag ? (this.userFrm.controls['userTypeId'].setValue(this.parentData.userTypeId), this.getSubuserType()) : this.getState();
 
-getSubuserType(){
-  this.subusertypearray =[];
-  const id =this.userFrm.value.userTypeId;
-  this.commonService.getSubuserType(id).subscribe({
-    next: (response: any) => {
-      response.length == 1  ?  (this.subusertypearray = response,this.userFrm.controls['subUserTypeId'].setValue(this.subusertypearray[0].value)): this.subusertypearray.push({ 'value': '', 'text': 'Select SubUser Type' }, ...response);
-    },
-    error: ((error: any) => { this.error.handelError(error.status) })
-  })
-}
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
 
-getState(){
-  this.stateArray =[];
-  this.commonService.getState().subscribe({
-    next: (response: any) => {
-     this.stateArray.push({ 'value': '', 'text': 'Select State' }, ...response);
-    },
-    error: ((error: any) => { this.error.handelError(error.status) })
-  })
-}
+  getSubuserType() {
+    this.subusertypearray = [];
+    const id = this.userFrm.value.userTypeId;
+    this.commonService.getSubuserType(id).subscribe({
+      next: (response: any) => {
+        response.length == 1 ? (this.subusertypearray = response, this.userFrm.controls['subUserTypeId'].setValue(this.subusertypearray[0].value)) : this.subusertypearray.push({ 'value': 0, 'text': 'Select SubUser Type' }, ...response);
+        this.editFlag ? (this.userFrm.controls['subUserTypeId'].setValue(this.parentData.subUserTypeId), this.getState()) : '';
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
 
-getdistrict(){
-  this.districtArray =[];
-  const id =this.userFrm.value.stateId;
-  this.commonService.getDistrictByStateId(id).subscribe({
-    next: (response: any) => {
-     this.districtArray.push({ 'value': '', 'text': 'Select District' }, ...response);
-    },
-    error: ((error: any) => { this.error.handelError(error.status) })
-  })
-}
+  getState() {
+    this.stateArray = [];
+    this.commonService.getState().subscribe({
+      next: (response: any) => {
+        this.stateArray.push({ 'value': 0, 'text': 'Select State' }, ...response);
+        this.userFrm.controls['stateId'].setValue(this.configService.stateIdSelected),
+       this.getdistrict();
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+  getdistrict() {
+    this.districtArray = [];
+    const id = this.userFrm.value.stateId;
+    this.commonService.getDistrictByStateId(id).subscribe({
+      next: (response: any) => {
+        this.districtArray.push({ 'value': 0, 'text': 'Select District' }, ...response);
+        this.editFlag ? (this.userFrm.controls['districtId'].setValue(this.parentData.districtId)) : '';
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
 
 }

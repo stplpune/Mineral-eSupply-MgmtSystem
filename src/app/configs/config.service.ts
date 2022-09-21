@@ -9,7 +9,7 @@ export class ConfigService {
 
   dialogBoxWidth = ['320px', '400px', '700px', '1024px'];  // Set angular material dialog box width
 
-  disableCloseBtnFlag: boolean = true// When click on body material dialog box is not closed flag 
+  disableCloseBtnFlag: boolean = true// When click on body material dialog box is not closed flag
 
   pageSize: number = 10; // Angular material data table page size limt
 
@@ -27,16 +27,16 @@ export class ConfigService {
 
   viewType: string = 'roadmap';
 
-  static googleApiObj: object = { // google api key 
+  static googleApiObj: object = { // google api key
     apiKey: 'AIzaSyAkNBALkBX7trFQFCrcHO2I85Re2MmzTo8',
     language: 'en',
     libraries: ['drawing', 'places']
   };
 
   //------------------------------------------ Maps Settings  starte heare -------------------------------------------//
-  
+
   //--------------------------------------- dialog Data obj start heare ------------------------------------------//
-  
+
   static dialogObj: object = {
     p1:'',
     p2:'',
@@ -47,5 +47,8 @@ export class ConfigService {
     inputType:false,
     inputTypeLable:''
   }
+
+  // state
+  stateIdSelected = 36
 
 }
