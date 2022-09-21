@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { RegisterVehicleRoutingModule } from './register-vehicle-routing.module';
 import { RegisterVehicleComponent } from './register-vehicle.component';
-
+import { AngularMaterialModule} from 'src/app/shared/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { RegisterVehicleComponent } from './register-vehicle.component';
   ],
   imports: [
     CommonModule,
-    RegisterVehicleRoutingModule
+    RegisterVehicleRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class RegisterVehicleModule { }
