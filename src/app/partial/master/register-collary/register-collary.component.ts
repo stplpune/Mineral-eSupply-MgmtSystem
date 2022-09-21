@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfigService } from 'src/app/configs/config.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
@@ -8,6 +9,7 @@ import { ErrorHandlerService } from 'src/app/core/services/error-handler.service
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { ShareDataService } from 'src/app/core/services/share-data.service';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
+import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-register-collary',
@@ -16,9 +18,9 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 })
 export class RegisterCollaryComponent implements OnInit {
   
-  displayedColumns: string[] = ['rowNumber', 'collieryName', 'districtName', 'collieryAddress', 'action',];
+  displayedColumns: string[] = ['rowNumber', 'collieryName', 'districtName', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
-  dataSource: any;
+  dataSource: any [] = [];
   frm!: FormGroup;
   frmCollary!: FormGroup;
   isfilterSubmit: boolean = false;
@@ -28,6 +30,9 @@ export class RegisterCollaryComponent implements OnInit {
   get fc() { return this.frmCollary.controls };
   isEdit: boolean = false;
   updateId: any;
+  totalRows: any;
+  pageNo = 1;
+  pageSize = 10;
 
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
@@ -36,7 +41,8 @@ export class RegisterCollaryComponent implements OnInit {
     public commonMethod: CommonMethodsService,
     public error: ErrorHandlerService, 
     private webStorageService:WebStorageService,
-    private shareDataService: ShareDataService) { }
+    private shareDataService: ShareDataService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.createFilterForm();
@@ -80,7 +86,7 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   getQueryString(){
-    let str = "?pageno=" + 1 + "&pagesize=" + 10;
+    let str = "?pageno=" + this.pageNo + "&pagesize=" + this.pageSize;
     this.frm && this.frm.value.districtIdFltr && (str += "&DistrictId=" + this.frm.value.districtIdFltr);
     this.frm && this.frm.value.collaryNameFltr && (str += "&Search=" + this.frm.value.collaryNameFltr);
     return str;
@@ -92,9 +98,11 @@ export class RegisterCollaryComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.dataSource = res.responseData.responseData1;
-          this.dataSource.paginator = this.paginator;
+          this.totalRows = res.responseData.responseData2.totalCount;
         } else {
-          // this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          this.dataSource = [];
+          this.totalRows = 0;
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -107,6 +115,11 @@ export class RegisterCollaryComponent implements OnInit {
       this.isfilterSubmit = false;
       this.getCollaryList();
     }
+  }
+
+  pageChanged(pg: any){
+    this.pageNo = pg.pageIndex + 1;
+    this.getCollaryList();
   }
 
   editCollaryRecord(rowId: any){
@@ -128,21 +141,47 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   deleteCollaryRecord(row: any){
-    // this.apiService.setHttp('delete', "CollieryMaster" + this.getQueryString(), false, false, false, 'WBMiningService');
-    // this.apiService.getHttp().subscribe({
-    //   next: (res: any) => {
-    //     if (res.statusCode === 200) {
-    //       this.dataSource = res.responseData.responseData1;
-    //       this.dataSource.paginator = this.paginator;
-    //     }
-    //   },
-    //   error: ((error: any) => { this.error.handelError(error.status) })
-    // })
+    let obj:any = ConfigService.dialogObj;
+    
+    obj['p1'] = 'Are you sure you want to delete this record?';
+    obj['cardTitle'] = 'Delete';
+    obj['successBtnText'] = 'Delete';
+    obj['cancelBtnText'] =  'Cancel';
+
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width:this.configService.dialogBoxWidth[0],
+      data: obj,
+      disableClose: this.configService.disableCloseBtnFlag,
+    })
+    dialog.afterClosed().subscribe(res => {
+      if(res == "Yes"){
+        var req = {
+          "id": row.id,
+          "deletedBy": this.webStorageService.getUserId()
+        }
+        this.apiService.setHttp('delete', "CollieryMaster", false, req, false, 'WBMiningService');
+        this.apiService.getHttp().subscribe({
+          next: (res: any) => {
+            if (res.statusCode === 200) {
+              this.getCollaryList();
+              this.onCancelRecord();
+              this.commonMethod.matSnackBar('Colliery record is deleted!', 0);
+            }
+          },
+          error: ((error: any) => { this.error.handelError(error.status) })
+        })
+      }else{
+
+      }
+    })
   }
 
   onSubmitCollary(){
     if (this.frmCollary.invalid) {
       console.log(this.frmCollary.value)
+      if(!this.frmCollary.value.collieryAddress){
+        this.commonMethod.matSnackBar('Address is required', 1)
+      }
       return;
     }else{
       var req = {
@@ -153,10 +192,11 @@ export class RegisterCollaryComponent implements OnInit {
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
           if (res.statusCode === 200) {
-            this.dataSource = res.responseData.responseData1;
-            this.dataSource.paginator = this.paginator;
+            this.getCollaryList();
+            this.onCancelRecord();
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
-            // this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
         error: ((error: any) => { this.error.handelError(error.status) })
@@ -174,6 +214,10 @@ export class RegisterCollaryComponent implements OnInit {
       distance:data.distance,
       collieryAddress:data.collieryAddress
     })
+  }
+
+  onCancelRecord(){
+    this.frmCollary.reset();
   }
 
 }
