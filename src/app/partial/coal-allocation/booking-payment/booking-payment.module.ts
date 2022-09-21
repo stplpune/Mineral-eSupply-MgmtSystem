@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BookingPaymentRoutingModule } from './booking-payment-routing.module';
 import { BookingPaymentComponent } from './booking-payment.component';
-
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { BookingPaymentComponent } from './booking-payment.component';
   ],
   imports: [
     CommonModule,
-    BookingPaymentRoutingModule
+    BookingPaymentRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class BookingPaymentModule { }
