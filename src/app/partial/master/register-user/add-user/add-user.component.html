@@ -29,7 +29,7 @@
             <div class="mb-0">
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select Sub-user</mat-label>
-                <mat-select formControlName="subUserTypeId">
+                <mat-select formControlName="subUserTypeId" [disabled]="!userFrm.value.userTypeId">
                   <mat-option *ngFor="let subusertype of subusertypearray" [value]="subusertype.value">
                     {{subusertype.text}}
                   </mat-option>
@@ -62,7 +62,7 @@
             <div class="mb-0">
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select District</mat-label>
-                <mat-select formControlName="districtId">
+                <mat-select formControlName="districtId" [disabled]="!userFrm.value.stateId">
                   <mat-option *ngFor="let district of districtArray" [value]="district.value">
                     {{district.text}}
                   </mat-option>
@@ -91,7 +91,7 @@
             <div class="mb-0">
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Mobile Number</mat-label>
-                <input matInput formControlName="mobileNo">
+                <input matInput formControlName="mobileNo" maxlength="10">
                 <mat-error *ngIf="f.mobileNo.errors">
                   <span *ngIf="f.mobileNo?.hasError('required')"> Please Enter Mobile No</span>
                   <span *ngIf="f.mobileNo?.hasError('pattern')"> Please Enter Valid Mobile No</span>
