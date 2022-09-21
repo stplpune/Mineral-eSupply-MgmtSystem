@@ -47,7 +47,7 @@
             <div class="mb-0">
               <mat-form-field [appearance]="configService.matFormField" class="w-100">
                 <mat-label>Select State</mat-label>
-                <mat-select formControlName="stateId" (selectionChange)="getdistrict();this.editFlag =false">
+                <mat-select formControlName="stateId" (selectionChange)="getdistrict();this.editFlag =false" [disabled]="true">
                   <mat-option *ngFor="let state of stateArray" [value]="state.value" [disabled]="state.value == 0">
                     {{state.text}}
                   </mat-option>
