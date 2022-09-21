@@ -154,6 +154,8 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   onSearch(){
+    this.pageNo = 1;
+    this.paginator.pageIndex = 0;
     this.isfilterSubmit = true;
     if(this.frm.valid){
       this.isfilterSubmit = false;
@@ -235,9 +237,9 @@ export class RegisterCollaryComponent implements OnInit {
     if (this.frmCollary.invalid) {
       this.spinner.hide();
       console.log(this.frmCollary.value)
-      if(!this.frmCollary.value.collieryAddress){
+      // if(!this.frmCollary.value.collieryAddress){
         this.commonMethod.matSnackBar('Address is required', 1)
-      }
+      // }
       return;
     }else{
       var req = {
@@ -264,6 +266,7 @@ export class RegisterCollaryComponent implements OnInit {
 
   onCancelRecord(){
     this.frmCollary.reset();
+    this.clearSelection(true);
     this.isEdit = false;
   }
 

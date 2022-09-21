@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChangePasswordComponent } from '../../dialogs/change-password/change-password.component';
 import { LogoutComponent } from '../../dialogs/logout/logout.component';
 import { SidebarService } from '../sidebar/sidebar.service';
 import { ThemeService } from 'src/app/theme/theme.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ import { ThemeService } from 'src/app/theme/theme.service';
 export class HeaderComponent implements OnInit {
 
   activeTheme: any;
-  constructor(public sidebarservice: SidebarService, private ThemeService: ThemeService, public dialog: MatDialog, private router:Router) { }
+  @HostBinding('class') className = '';
+  constructor(public sidebarservice: SidebarService, private overlay: OverlayContainer, private ThemeService: ThemeService, public dialog: MatDialog, private router:Router) { }
 
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -51,6 +53,13 @@ export class HeaderComponent implements OnInit {
     sessionStorage.setItem('theme', themeName);
     this.ThemeService.setActiveThem(themeName);
     this.activeTheme = themeName;
+    const darkClassName = 'darkMode';
+    this.className = themeName == 'dark' ? darkClassName : '';
+    if (themeName == 'dark') {
+      this.overlay.getContainerElement().classList.add(darkClassName);
+    } else {
+      this.overlay.getContainerElement().classList.remove(darkClassName);
+    }
   }
 
   logOut() {
