@@ -46,7 +46,7 @@
 
                         <ng-container matColumnDef="collieryName">
                             <th mat-header-cell *matHeaderCellDef>Collary Name </th>
-                            <td mat-cell *matCellDef="let element">{{element.collieryName}} </td>
+                            <td mat-cell *matCellDef="let element">{{element.collieryName | uppercase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="districtName">
@@ -92,11 +92,9 @@
                     <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off">
                         <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Collary Name</mat-label>
-                            <input matInput formControlName="collieryName" maxlength="200">
-                            <mat-error>
+                            <input style="text-transform:uppercase" matInput formControlName="collieryName" maxlength="200">
+                            <mat-error *ngIf="fc['collieryName'].errors">
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please enter collary name.</span>
-                            </mat-error>
-                            <mat-error>
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please enter valid collary name.</span>
                             </mat-error>
                         </mat-form-field>
@@ -105,7 +103,7 @@
                             <mat-select formControlName="districtId">
                                 <mat-option *ngFor="let dist of districtNameArr" [value]="dist.value" >{{ dist.text }}</mat-option>
                             </mat-select>
-                            <mat-error>
+                            <mat-error *ngIf="fc['districtId'].errors">
                                 <span class="text-danger" *ngIf="fc['districtId'].errors?.['required']">Please select district.</span>
                             </mat-error>
                         </mat-form-field>
@@ -120,7 +118,7 @@
                             <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
-                            <button type="button" mat-raised-button class="btn-outline-main" (click)="onCancelRecord()">Cancel</button>
+                            <button type="reset" mat-raised-button class="btn-outline-main" (click)="onCancelRecord()">Cancel</button>
                             <button type="submit" mat-raised-button class="btn-main">{{ isEdit ? 'Update' : 'Submit' }}</button>
                         </div>
                     </form>
