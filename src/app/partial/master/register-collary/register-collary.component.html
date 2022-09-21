@@ -36,7 +36,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="card-body" *ngIf="dataSource.length > 0">
+                <div class="card-body">
                     <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
 
                         <ng-container matColumnDef="rowNumber">
@@ -72,14 +72,14 @@
                                 </div>
                             </td>
                         </ng-container>
-
+                        
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                        </tr>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                     <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)" showFirstLastButtons></mat-paginator>
-                </div>
-                <div class="card-body" *ngIf="dataSource.length == 0">
-                    No Data Found....
                 </div>
             </div>
         </div>
