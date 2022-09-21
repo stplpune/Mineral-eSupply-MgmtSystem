@@ -1,3 +1,4 @@
+import { CommonMethodsService } from './common-methods.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CallApiService } from './call-api.service';
@@ -13,7 +14,8 @@ export class CommonApiCallService {
   userType: any[] = [];
   subuserType: any = [];
   constructor(
-    private apiService: CallApiService
+    private apiService: CallApiService,
+    private commonMethod:CommonMethodsService
   ) { }
 
   getOrganizationType() {
@@ -40,7 +42,7 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('get', "DropdownService/GetDistrictDetails?stateId=" + id, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => { if (res.statusCode == 200) { this.districtArray = res.responseData; obj.next(this.districtArray); } else { obj.error(res); } },
+        next: (res: any) => { if (res.statusCode == 200) { this.districtArray = res.responseData; obj.next(this.districtArray); } else { if (res.statusCode == 404 ){this.commonMethod.matSnackBar(res.statusMessage,1)}else{obj.error(res)}; } },
         error: (e: any) => { obj.error(e) }
       })
     })
