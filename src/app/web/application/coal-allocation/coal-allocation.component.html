@@ -30,7 +30,7 @@
         </div>
     </form>
         <hr class="mt-1 mb-3">
-        <form [formGroup]="coalAllocationRegiForm" enctype="multipart/form-data">
+        <form [formGroup]="coalAllocationRegiForm" #formDirective="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <div class="row align-items-center mb-2">
             <div class="col-sm-2">
                 <div class="form-label">Application Type</div>
@@ -509,8 +509,8 @@
         </div>
         <hr>
         <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary"><i class="fa-regular fa-circle-xmark me-2"></i>Cancel</button>
-            <button class="btn btn-success" type="submit" (click)="onSubmit()"><i class="fa-solid fa-upload me-2"></i>Submit</button>
+            <button class="btn btn-secondary" type="button" (click)="clearForm()"><i class="fa-regular fa-circle-xmark me-2"></i>Cancel</button>
+            <button class="btn btn-success" type="submit"><i class="fa-solid fa-upload me-2"></i>Submit</button>
         </div>
     </form>
     </div>
