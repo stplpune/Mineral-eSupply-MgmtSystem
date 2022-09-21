@@ -22,9 +22,7 @@ const routes: Routes = [
      ]
 
   },
-  { path: 'coal-allocation', loadChildren: () => import('./web/application/coal-allocation/coal-allocation.module').then(m => m.CoalAllocationModule) },
-  
-  
+
 
 ];
 

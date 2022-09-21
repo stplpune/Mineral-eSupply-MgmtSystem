@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'forget-password', loadChildren: () => import('../../web/forget-password/forget-password.module').then(m => m.ForgetPasswordModule), data: { title: 'Forget Password' },    canActivate: [CheckLoggedInGuard]},
   { path: 'about-us', loadChildren: () => import('../../web/about-us/about-us.module').then(m => m.AboutUsModule), data: { title: 'About Us' } },
   { path: 'screen-reader-access', loadChildren: () => import('../../web/screen-reader-access/screen-reader-access.module').then(m => m.ScreenReaderAccessModule), data: { title: 'Screen Reader Access' } },
- 
+  { path: 'coal-allocation', loadChildren: () => import('../../web/application/coal-allocation/coal-allocation.module').then(m => m.CoalAllocationModule), data: { title: 'Coal Allocation' }  },
+  
 ];
 
 @NgModule({
