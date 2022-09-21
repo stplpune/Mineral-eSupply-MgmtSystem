@@ -46,8 +46,8 @@
                       <mat-label>Document Name</mat-label>
                       <input matInput formControlName="documentType">
                       <mat-error *ngIf="documentFrm.controls['documentType'].errors">
-                        <span *ngIf="documentFrm.controls['documentType']?.hasError('required')"> Please Enter UserName</span>
-                        <span *ngIf="documentFrm.controls['documentType'].hasError('pattern')"> Please Enter Valid UserName</span>
+                        <span *ngIf="documentFrm.controls['documentType']?.hasError('required')"> Please Enter document type</span>
+                        <span *ngIf="documentFrm.controls['documentType'].hasError('pattern')"> Please Enter Valid document type</span>
                       </mat-error>
                   </mat-form-field>
                   <mat-form-field class="example-full-width" [appearance]="configService.matFormField" class="w-100">

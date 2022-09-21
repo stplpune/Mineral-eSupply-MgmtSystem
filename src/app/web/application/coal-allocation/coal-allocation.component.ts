@@ -24,6 +24,8 @@ export class CoalAllocationComponent implements OnInit {
   
 
   coalAllocationRegiForm:FormGroup | any;
+  @ViewChild('formDirective')
+  private formDirective!: NgForm;
   applicationTypeArray = ['Individual', 'Organization'];
   hideIndividual: boolean = true;
   hideOrganization: boolean = false;
@@ -223,54 +225,42 @@ export class CoalAllocationComponent implements OnInit {
       let typeObj:any;
       if(this.applicationTypeName == 'Individual'){
        typeObj = {
-        "applicationType": 1,
         "applicantName": formData.name,
         "applicantMobileNo": formData.mobile,
         "applicantEmailId": formData.email,
        }
       }else{
         typeObj = {
-        "organizationType": 2,
-        "organizationName": '',
-        "organizationNumber": "string",
-        "organizationEmail": "string",
-        "contactPersonName": "string",
-        "contactPersonMobileName": "string",
+        "organizationName": formData.name,
+        "organizationNumber": formData.mobile,
+        "organizationEmail": formData.email,
+        "contactPersonName": formData.contactPersonName,
+        "contactPersonMobileName": formData.contactPersonMobileName,
         }
       }
 
       let obj = {
         "id": formData.id,
-        typeObj,
-        "address": "string",
-        "pinCode": "string",
-        "stateId": 0,
-        "districtId": 0,
-        "applicationYear": 0,
-        "allocatedQty": 0,
-        "reasonForApply": "string",
-        "coalApplicationDocuments": [
-          {
-            "documentTypeId": 0,
-            "documentName": "string",
-            "documentNo": "string",
-            "documentPath": "string",
-            "documentData": "string"
-          }
-        ]
+        "applicationType": this.applicationTypeName == 'Individual' ? 1 : 2,
+        "address": formData.address,
+        "pinCode": formData.pinCode,
+        "stateId": formData.stateId || 0,
+        "districtId": formData.districtId || 0,
+        "applicationYear": formData.applicationYear || 0,
+        "allocatedQty": formData.allocatedQty || 0,
+        "reasonForApply": formData.reasonForApply,
+        "coalApplicationDocuments": this.coalApplicationDocuments
       }
 
-
-
+      let finalResult = Object.assign(obj,typeObj);
       let formType = 'POST';
-      this.callApiService.setHttp(formType, 'CoalApplication/SaveCoalApplication', false, JSON.stringify(obj), false, 'WBMiningService');
+      this.callApiService.setHttp(formType, 'CoalApplication/SaveCoalApplication', false, JSON.stringify(finalResult), false, 'WBMiningService');
       this.callApiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.commonService.matSnackBar(res.statusMessage, 0);
           this.verifyPanForm();
           this.defaultDocSymbolHide();
           // this.sentOtpText = 'Send OTP';
-          this.defaultMainForm();
           this.clearForm();
         } else {
           this.commonService.matSnackBar(res.statusMessage, 1);
@@ -278,12 +268,17 @@ export class CoalAllocationComponent implements OnInit {
       }, (error: any) => {
         this.errorSerivce.handelError(error.status);
       });
-      // this.clearForm();
     }
   }
 
-  clearForm(){
-
+  clearForm() {
+      this.coalAllocationRegiForm.reset();
+      this.formDirective && this.formDirective.resetForm();
+      this.defaultMainForm();
+     // this.PartnershipDeedCerti_Hide = false;
+      this.defaultDocSymbolHide();
+      this.coalApplicationDocuments = [];
+      this.defaultfilenativeElementClear();
   }
 
    //.........................................Address to get Pincode Code Start Here ..................................................//
