@@ -290,6 +290,7 @@ mat-form-field{
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
   border-color:var(--main-color);
 }
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .mat-radio-button.mat-accent .mat-radio-inner-circle,
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
   background-color: var(--main-color) !important;
