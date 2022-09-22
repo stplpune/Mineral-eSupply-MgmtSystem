@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-document-master',
@@ -19,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DocumentMasterComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
+  @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   displayedColumns: string[] = ['srno', 'documentType', 'isMandatory', 'action'];
   dataSource: any [] = [];
   documentFrm !: FormGroup;
@@ -70,6 +72,7 @@ export class DocumentMasterComponent implements OnInit {
   pageChanged(pg: any){
     this.pageNo = pg.pageIndex + 1;
     this.getDocumentList();
+    this.clearAll();
   }
 
   saveUpdate(formData: any, action: any) {
@@ -110,6 +113,8 @@ export class DocumentMasterComponent implements OnInit {
 
   onSubmit(rq: any){    
     this.spinner.show();
+    this.pageNo = 1;
+    this.paginator.pageIndex = 0;
     this.apiService.setHttp('post', "DocumentMaster/SaveDocumentDetails", false, rq, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
