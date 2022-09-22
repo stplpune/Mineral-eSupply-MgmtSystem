@@ -12,6 +12,7 @@ import { CommonApiCallService } from 'src/app/core/services/common-api-call.serv
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 import { AddUserComponent } from './add-user/add-user.component';
 @Component({
@@ -37,6 +38,7 @@ export class RegisterUserComponent implements OnInit {
     public dialog: MatDialog,
     public configService: ConfigService,
     public commonService: CommonApiCallService,
+    public localStrorageData :WebStorageService,
     private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class RegisterUserComponent implements OnInit {
     this.filterForm = this.fb.group({
       stateId: [0],
       UserTypeId: [0],
-      Search: ['', Validators.pattern(this.validation.alphabetsWithSpace)],
+      Search: [''],
       pageno: [''],
       pagesize: [''],
     })
@@ -58,9 +60,6 @@ export class RegisterUserComponent implements OnInit {
   getData() {
     this.spinner.show()
     let formValue = this.filterForm.value;
-    if(this.filterForm.invalid){
-      return;
-    }
     let paramList: string = "stateId=" + formValue.stateId + "&UserTypeId=" + formValue.UserTypeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10;
     this.commonMethod.checkDataType(formValue.Search.trim()) == true ? paramList += "&Search=" + formValue.Search : '';
     this.apiService.setHttp('get', "UserRegistration?" + paramList, false, false, false, 'WBMiningService');
@@ -180,7 +179,7 @@ export class RegisterUserComponent implements OnInit {
         let obj = {
           "id": object.id,
           "isBlock": event.checked,
-          "blockBy": 1,
+          "blockBy": this.localStrorageData.getUserId(),
           "blockRemark": res.remark
         }
         this.apiService.setHttp('put', "UserRegistration/BlockUnblockUser", false, obj, false, 'WBMiningService');
