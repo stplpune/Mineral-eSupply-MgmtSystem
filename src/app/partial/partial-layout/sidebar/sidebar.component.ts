@@ -61,7 +61,7 @@ export class SidebarComponent implements OnInit , AfterViewInit{
       { "pageId": "20", "pageType": "1", "pageURL": "daily-lifting-chart", "pageName": "Daily Lifting chart", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "21", "pageType": "1", "pageURL": "monthly-allocation-to-msme", "pageName": "Monthly Allocation to MSME", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "22", "pageType": "1", "pageURL": "etp_report", "pageName": "eTP report", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
-
+      { "pageId": "23", "pageType": "1", "pageURL": "user-right-access", "pageName": "User Right Access", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
 
     ]
     this.getPageList = JSON.stringify(data);
