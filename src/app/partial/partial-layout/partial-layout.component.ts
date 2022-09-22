@@ -7,7 +7,7 @@ import { SidebarService } from './sidebar/sidebar.service';
   styleUrls: ['./partial-layout.component.scss']
 })
 export class PartialLayoutComponent implements OnInit {
-
+  
   constructor(public sidebarservice: SidebarService) { }
   
   toggleSidebar() {
