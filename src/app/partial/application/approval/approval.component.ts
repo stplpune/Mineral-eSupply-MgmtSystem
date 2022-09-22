@@ -9,6 +9,7 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
+import { FileUploadService } from 'src/app/core/services/file-upload.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
@@ -26,6 +27,8 @@ export class ApprovalComponent implements OnInit {
   applicationDetails: any;
   documentTable: any;
   remarkDetails:any;
+  documentFrm:any;
+  userDocumentTable:any;
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -36,10 +39,20 @@ export class ApprovalComponent implements OnInit {
     private webStorageService:WebStorageService,
     public vs: FormsValidationService,
     public dialog: MatDialog,
+    public fileUploadService:FileUploadService,
     private spinner: NgxSpinnerService, private router: Router,private route: ActivatedRoute) { }
   ngOnInit(): void {
+    this.defaultForm();
     this.applicationId = this.route.snapshot.params['id'];
     this.getRemarksDeailsById();
+  }
+  defaultForm(){
+    this.documentFrm = this.fb.group({
+      "documentTypeId": '',
+      "documentName": [''],
+      "documentNo": '',
+      "documentPath": ['']
+    })
   }
 
   getRemarksDeailsById(){
@@ -71,7 +84,6 @@ export class ApprovalComponent implements OnInit {
         if (res.statusCode === 200) {
           this.applicationDetails = res.responseData;
           this.documentTable = new MatTableDataSource(this.applicationDetails?.coalApplicationDocuments);
-
           this.spinner.hide();
         } else {
           this.spinner.hide();
@@ -85,6 +97,8 @@ export class ApprovalComponent implements OnInit {
   }
 
   approveRejectApp(flag:boolean) {
+    console.log(this.remarkDetails);
+
     let obj: any = ConfigService.dialogObj;
     obj['p1'] = flag ? 'Are you sure you want to approve?' : 'Are you sure you want to reject ?';
     obj['cardTitle'] = flag ? 'Application  Approve' : 'Application  Reject';
@@ -96,6 +110,7 @@ export class ApprovalComponent implements OnInit {
       data: obj,
       disableClose: this.configService.disableCloseBtnFlag,
     })
+
     dialog.afterClosed().subscribe(res => {
       if (res.flag == 'Yes') {
         let obj = {
@@ -112,7 +127,6 @@ export class ApprovalComponent implements OnInit {
           next: (responseData: any) => {
             if (responseData.statusCode == 200) {
               this.commonMethod.matSnackBar(responseData.statusMessage, 0);
-
             } else {
               this.commonMethod.checkDataType(responseData.statusMessage) == false ? this.error.handelError(responseData.statusCode) : this.commonMethod.matSnackBar(responseData.statusMessage, 1);
             }
@@ -123,4 +137,30 @@ export class ApprovalComponent implements OnInit {
     })
   }
 
+
+
+
+  documentUpload(event: any) {
+    let documentUrlUploaed: any;
+    let documentUrl: any = this.fileUploadService.uploadDocuments(event, "png,jpg,jpeg,pdf", 5, 5000)
+    documentUrl.subscribe({
+      next: (ele: any) => {
+        console.log(ele);
+        documentUrlUploaed = ele.responseData.documentWebURL;
+        if (documentUrlUploaed != null) {
+          let obj = {
+            "documentTypeId": '',
+            "documentName":'' ,
+            "documentNo": '',
+            "documentPath": documentUrlUploaed
+          }
+
+          this.userDocumentTable.push(obj);
+          // this.checkUniqueData(obj, documentTypeId);
+        }
+      },
+    })
+  }
+
+  // this.userDocumentTable
 }

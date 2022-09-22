@@ -24,6 +24,9 @@
           <th mat-header-cell *matHeaderCellDef>Status </th>
           <td mat-cell *matCellDef="let element"> {{element.applicationStatusText}} </td>
         </ng-container>
+        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+          <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+      </tr>
         <tr mat-header-row *matHeaderRowDef="remarkTableColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: remarkTableColumns;"></tr>
       </table>
@@ -153,7 +156,9 @@
             <span> <a  class="fa fa-file-alt text-primary" href="{{element?.documentPath}}" target="_blank"></a></span></span>
             </td>
         </ng-container>
-
+        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+          <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+      </tr>
         <tr mat-header-row *matHeaderRowDef="documentTableColums"></tr>
         <tr mat-row *matRowDef="let row; columns: documentTableColums;"></tr>
       </table>
@@ -196,42 +201,69 @@
   </div>
 
   <div class="row align-items-baseline mb-3">
+
     <div class="col-sm-6">
-      <h5>Remark</h5>
-      <mat-form-field appearance="legacy" class="w-100">
-        <mat-label>Leave a comment</mat-label>
-        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-      </mat-form-field>
-    </div>
-    <div class="col-sm-6">
-      <div class="row">
-        <h5>Documents</h5>
-        <div class="col-sm-4">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Document Name</mat-label>
-            <input matInput placeholder="Document Name">
-          </mat-form-field>
-        </div>
-        <div class="col-sm-4">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Document Number</mat-label>
-            <input matInput placeholder="Document Number">
-          </mat-form-field>
-        </div>
-        <div class="col-sm-auto">
-          <div class="upload-btn-wrapper">
-            <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Upload</button>
-            <input type="file">
+      <form [formGroup]="documentFrm">
+        <div class="row">
+          <h5>Documents</h5>
+          <div class="col-sm-4">
+            <mat-form-field appearance="legacy" class="w-100">
+              <mat-label>Document Name</mat-label>
+              <input matInput placeholder="Document Name" formControlName="documentName">
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field appearance="legacy" class="w-100">
+              <mat-label>Document Number</mat-label>
+              <input matInput placeholder="Document Number" formControlName="documentNo">
+            </mat-form-field>
+          </div>
+          <div class="col-sm-auto">
+            <div class="upload-btn-wrapper">
+              <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Upload</button>
+              <input type="file" (change)="documentUpload($event)">
+            </div>
+          </div>
+          <div class="col-sm-auto">
+            <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
           </div>
         </div>
-        <div class="col-sm-auto">
-          <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        </div>
+      </form>
+</div>
+        <div class="col-sm-6 text-end">
+          <table mat-table #useraddDocument [dataSource]="documentTable" class="dashboard-table w-100">
+
+            <ng-container matColumnDef="srno">
+              <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+              <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="documentName">
+              <th mat-header-cell *matHeaderCellDef>Document Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.documentName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="documentNo">
+              <th mat-header-cell *matHeaderCellDef> Document No </th>
+              <td mat-cell *matCellDef="let element"> {{element.documentNo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="view">
+              <th mat-header-cell *matHeaderCellDef>View </th>
+              <td mat-cell *matCellDef="let element">
+                <span class="text-left mnw-70 d-inline-block px-1">
+                <span> <a  class="fa fa-file-alt text-primary" href="{{element?.documentPath}}" target="_blank"></a></span></span>
+                </td>
+            </ng-container>
+            <tr class="mat-row p-2 w-100" *matNoDataRow col>
+              <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+          </tr>
+            <tr mat-header-row *matHeaderRowDef="documentTableColums"></tr>
+            <tr mat-row *matRowDef="let row; columns: documentTableColums;"></tr>
+          </table>
       </div>
-      <div class="">
-        table
-      </div>
-    </div>
+
   </div>
   <div class="mb-5 float-end">
     <button mat-raised-button color="primary" class="me-3" (click)="approveRejectApp(false)">
