@@ -11,7 +11,7 @@ export class WebLayoutComponent implements OnInit {
   hideFooter: boolean = true;
 
   constructor(private router: Router) {
-    if (this.router.url == '/login' || this.router.url == '/forget-password') {
+    if (this.router.url == '/login' || this.router.url == '/admin/login' || this.router.url == '/forget-password') {
       this.hideHeader = false;
       this.hideFooter = false;
     }
@@ -19,13 +19,15 @@ export class WebLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
-      if (event.url === '/login' || event.url === '/forget-password') {
+      if (event instanceof NavigationEnd) {
+      if (event.url == '/login' || event.url == '/forget-password') {
         this.hideHeader = false;
         this.hideFooter = false;
       } else {
         this.hideHeader = true;
         this.hideFooter = true;
       }
+    }
     })
   }
 
