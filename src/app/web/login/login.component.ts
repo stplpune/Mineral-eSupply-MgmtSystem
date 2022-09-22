@@ -6,7 +6,7 @@ import { CommonApiCallService } from 'src/app/core/services/common-api-call.serv
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     public apiService: CallApiService,
     public validation: FormsValidationService,
     public error: ErrorHandlerService,
+    private route: ActivatedRoute,
     private spinner: NgxSpinnerService, private router: Router) { }
   loginFrm !: FormGroup;
   hide = true;
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('loggedInData', JSON.stringify(res));
         sessionStorage.setItem('loggedIn', 'true');
         if (res.statusCode == "200") {
-        this.router.navigate(['../dashboard']);
+          this.router.navigate(['../dashboard'], { relativeTo: this.route });
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
