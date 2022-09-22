@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-document-master',
@@ -19,14 +21,17 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DocumentMasterComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
+  @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   displayedColumns: string[] = ['srno', 'documentType', 'isMandatory', 'action'];
-  dataSource: any [] = [];
+
+  dataSource: any;
   documentFrm !: FormGroup;
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
   isEdit:boolean = false;
   updateId: any;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
@@ -55,7 +60,8 @@ export class DocumentMasterComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
-          this.dataSource = res.responseData;
+          this.dataSource = new MatTableDataSource(res.responseData);
+          this.dataSource.sort = this.sort;
           this.totalRows = res.responseData1.totalCount;
         } else {
           this.dataSource = [];
@@ -70,6 +76,7 @@ export class DocumentMasterComponent implements OnInit {
   pageChanged(pg: any){
     this.pageNo = pg.pageIndex + 1;
     this.getDocumentList();
+    this.clearAll();
   }
 
   saveUpdate(formData: any, action: any) {
@@ -110,6 +117,8 @@ export class DocumentMasterComponent implements OnInit {
 
   onSubmit(rq: any){    
     this.spinner.show();
+    this.pageNo = 1;
+    this.paginator.pageIndex = 0;
     this.apiService.setHttp('post', "DocumentMaster/SaveDocumentDetails", false, rq, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {

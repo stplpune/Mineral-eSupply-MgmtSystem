@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MapsAPILoader } from '@agm/core';
 import * as CryptoJS from 'crypto-js';
 import { SuccessComponent } from 'src/app/partial/dialogs/success/success.component';
+import { interval, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,14 @@ import { SuccessComponent } from 'src/app/partial/dialogs/success/success.compon
 export class CommonMethodsService {
   codecareerPage!: string;
   geocoder: any;
+  private clock: Observable<Date>;
 
   constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private router: Router, private dialog:MatDialog,
     public mapsApiLoader: MapsAPILoader) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
     });
+    this.clock = interval(1000).pipe(map(() => new Date()));
   }
 
   createCaptchaCarrerPage() {
@@ -27,7 +30,7 @@ export class CommonMethodsService {
     id.innerHTML = "";
     // "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
 
-    var charsArray = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#";
+    var charsArray = "0123456789";
     var lengthOtp = 4;
     var captcha = [];
     for (var i = 0; i < lengthOtp; i++) {
@@ -40,11 +43,11 @@ export class CommonMethodsService {
     var canv = document.createElement("canvas");
     canv.id = "captcha1";
     canv.width = 80;
-    canv.height = 30;
+    canv.height = 34;
     //var ctx:any = canv.getContext("2d");
     var ctx: any = canv.getContext("2d");
-    ctx.font = "21px Open Sans";
-    ctx.fillText(captcha.join(""), 0, 24);
+    ctx.font = "32px Open Sans";
+    ctx.fillText(captcha.join(""), 0, 32);
     // ctx.strokeText(captcha.join(""), 0, 30);
     //storing captcha so that can validate you can save it somewhere else according to your specific requirements
     this.codecareerPage = captcha.join("");
@@ -151,6 +154,10 @@ export class CommonMethodsService {
     // dialogRef.afterClosed().subscribe((result: any) => {
     //   result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
     // });
+  }
+
+  getCurrentTime() {
+    return this.clock;
   }
 
 

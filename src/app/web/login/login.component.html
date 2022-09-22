@@ -3,61 +3,71 @@
         <div class="row justify-content-center">
             <div class="col-sm-4">
                 <div class="card card-body">
-                  <form [formGroup]="loginFrm" (ngSubmit)="onSubmit()">
-                    <h5>Login</h5>
-                    <div class="mb-0">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Enter Username</mat-label>
-                            <input matInput formControlName="userName" (keyup)="validation.removeSpaceAtBegining($event)">
-                            <mat-error *ngIf="loginFormControls.userName.errors">
-                              <span *ngIf="loginFormControls.userName?.hasError('required')"> Please Enter UserName</span>
-                              <span *ngIf="loginFormControls.userName?.hasError('pattern')"> Please Enter Valid UserName</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Enter your password</mat-label>
-                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="passWord" (keyup)="validation.removeSpaceAtBegining($event)">
-                            <mat-error *ngIf="loginFormControls.passWord.errors">
-                              <span *ngIf="loginFormControls.passWord?.hasError('required')"> Please Enter Password</span>
-                              <span *ngIf="loginFormControls.passWord?.hasError('pattern')"> Please Enter Valid Password</span>
-                            </mat-error>
-
-                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                                [attr.aria-pressed]="hide">
-                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                            </button>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0 row gx-1">
-                        <div class="col-sm-5">
-                          <div id="captcha"></div>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn-refresh" type="button" (click)="commonMethod.createCaptchaCarrerPage()">
-                                <mat-icon>sync</mat-icon>
-
-                            </button>
-                        </div>
-                        <div class="col-sm-5">
+                    <form [formGroup]="loginFrm" (ngSubmit)="onSubmit()">
+                        <h5>Login</h5>
+                        <div class="mb-1">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Enter Captcha</mat-label>
-                                <input matInput formControlName="captcha" type="text" maxlength="4">
-                                <mat-error *ngIf="loginFormControls.captcha.errors">
-                                  <span *ngIf="loginFormControls.captcha?.hasError('required')"> Please Enter Captcha</span>
-                                  <!-- <span *ngIf="loginFormControls.captcha?.hasError('pattern')"> Please Enter Valid UserName</span> -->
+                                <mat-label>Username</mat-label>
+                                <input matInput formControlName="userName" maxlength="10"
+                                    (keyup)="validation.onlyDigits($event)">
+                                <mat-error *ngIf="loginFormControls.userName.errors">
+                                    <span *ngIf="loginFormControls.userName?.hasError('required')"> Please Enter
+                                        UserName</span>
+                                    <span *ngIf="loginFormControls.userName?.hasError('pattern')"> Invalid
+                                        UserName</span>
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="mb-0">
-                        <button  type="submit" class="btn btn-main w-100 py-2">LOGIN</button>
-                        <div class="text-end mt-1">
-                            <a class="text-main" routerLink="/forget-password">Forgot password?</a>
+                        <div class="mb-0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Password</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" maxlength="20"
+                                    formControlName="passWord" (keypress)="validation.noSpaces($event)">
+                                <mat-error *ngIf="loginFormControls.passWord.errors">
+                                    <span *ngIf="loginFormControls.passWord?.hasError('required')"> Please Enter
+                                        Password</span>
+                                    <span class="text-danger"
+                                        *ngIf="loginFormControls.passWord?.hasError('pattern')">Invalid Password</span>
+                                </mat-error>
+                                <button mat-icon-button matSuffix (click)="hide = !hide"
+                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
                         </div>
-                    </div>
-                  </form>
+                        <div class="mb-2 row gx-2">
+                            <div class="col-sm-7">
+                                <div class="row gx-1 border rounded" id="captchaholder">
+                                    <div class="col-sm-9 ps-1">
+                                        <div id="captcha"></div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button class="btn-refresh" type="button"
+                                            (click)="commonMethod.createCaptchaCarrerPage()">
+                                            <mat-icon>sync</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Enter Captcha</mat-label>
+                                    <input matInput formControlName="captcha" type="text" maxlength="4">
+                                    <mat-error *ngIf="loginFormControls.captcha.errors">
+                                        <span *ngIf="loginFormControls.captcha?.hasError('required')"> Please Enter
+                                            Captcha</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <button type="submit" class="btn btn-main w-100 py-2">LOGIN</button>
+                            <div class="text-end mt-1">
+                                <a class="text-main" routerLink="../forget-password">Forgot password?</a>
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
             </div>

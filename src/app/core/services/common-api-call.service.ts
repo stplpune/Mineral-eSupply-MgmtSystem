@@ -13,6 +13,8 @@ export class CommonApiCallService {
   Forecast: any[] = [];
   userType: any[] = [];
   subuserType: any = [];
+  otp:any;
+  verify:any;
   constructor(
     private apiService: CallApiService,
     private commonMethod:CommonMethodsService
@@ -73,6 +75,26 @@ export class CommonApiCallService {
       this.apiService.setHttp('get', "DropdownService/GetSubUserTypeDetails?userTypeId=" + id, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => { if (res.statusCode == 200) { this.subuserType = res.responseData; obj.next(this.subuserType); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  generateOtp(mobileNo:any){
+    return new Observable((obj) => {
+      this.apiService.setHttp('post', "CoalApplication/GenerateOTP?mobileNumber=" + mobileNo, false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { this.otp = res; obj.next(this.otp); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  verifyOtp(mobileNo:any,otp:any){
+    return new Observable((obj) => {
+      this.apiService.setHttp('post', "CoalApplication/ValidateOTP?mobileNumber=" + mobileNo + "&otpNumber=" + otp, false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { this.verify = res; obj.next(this.verify); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })
