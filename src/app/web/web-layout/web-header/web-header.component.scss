@@ -76,6 +76,7 @@
 #menubar .navbar-nav .nav-link{
     padding-inline:15px;
     color: var(--text-color);
+    border-bottom:solid 3px transparent;
 }
 #menubar .navbar-nav .login{
     background-color: var(--main-color);
