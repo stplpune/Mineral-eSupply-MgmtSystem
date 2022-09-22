@@ -84,7 +84,7 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('post', "CoalApplication/GenerateOTP?mobileNumber=" + mobileNo, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => { if (res.statusCode == 200) { this.otp = res; obj.next(this.otp); } else { obj.error(res); } },
+        next: (res: any) => { if (res.statusCode == 200) { obj.next(res); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })
@@ -94,7 +94,7 @@ export class CommonApiCallService {
     return new Observable((obj) => {
       this.apiService.setHttp('post', "CoalApplication/ValidateOTP?mobileNumber=" + mobileNo + "&otpNumber=" + otp, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
-        next: (res: any) => { if (res.statusCode == 200) { this.verify = res; obj.next(this.verify); } else { obj.error(res); } },
+        next: (res: any) => { if (res.statusCode == 200) { obj.next(res); } else { obj.error(res); } },
         error: (e: any) => { obj.error(e) }
       })
     })
