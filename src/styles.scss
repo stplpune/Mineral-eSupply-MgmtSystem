@@ -114,8 +114,8 @@ body {
 
 .btn-outline-main {
   font-size: 0.85rem;
-  color: var(--main-color);
-  background-color: transparent;
+  color: var(--main-color) !important;
+  background-color: transparent !important;
   border: solid 1px var(--main-color) !important;
 }
 
