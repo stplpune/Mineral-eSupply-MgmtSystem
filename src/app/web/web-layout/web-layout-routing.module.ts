@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'about-us', loadChildren: () => import('../../web/about-us/about-us.module').then(m => m.AboutUsModule), data: { title: 'About Us' } },
   { path: 'screen-reader-access', loadChildren: () => import('../../web/screen-reader-access/screen-reader-access.module').then(m => m.ScreenReaderAccessModule), data: { title: 'Screen Reader Access' } },
   { path: 'coal-allocation-web', loadChildren: () => import('../../web/application/coal-allocation/coal-allocation.module').then(m => m.CoalAllocationModule), data: { title: 'Coal Allocation' }  },
-  
+  { path: 'contact-us', loadChildren: () => import('../../web/contact-us/contact-us.module').then(m => m.ContactUsModule), data: { title: 'Contact Us' }  },
 ];
 
 @NgModule({

@@ -7,8 +7,8 @@
                     <h5>Login</h5>
                     <div class="mb-0">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Enter Username</mat-label>
-                            <input matInput formControlName="userName" (keyup)="validation.removeSpaceAtBegining($event)">
+                            <mat-label>Username</mat-label>
+                            <input matInput formControlName="userName" maxlength="10" (keyup)="validation.onlyDigits($event)">
                             <mat-error *ngIf="loginFormControls.userName.errors">
                               <span *ngIf="loginFormControls.userName?.hasError('required')"> Please Enter UserName</span>
                               <span *ngIf="loginFormControls.userName?.hasError('pattern')"> Please Enter Valid UserName</span>
@@ -17,11 +17,13 @@
                     </div>
                     <div class="mb-0">
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Enter your password</mat-label>
-                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="passWord" (keyup)="validation.removeSpaceAtBegining($event)">
+                            <mat-label>password</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" maxlength="20"  formControlName="passWord" (keypress)="validation.noSpaces($event)">
                             <mat-error *ngIf="loginFormControls.passWord.errors">
                               <span *ngIf="loginFormControls.passWord?.hasError('required')"> Please Enter Password</span>
-                              <span *ngIf="loginFormControls.passWord?.hasError('pattern')"> Please Enter Valid Password</span>
+                              <span class="text-danger" *ngIf="loginFormControls.passWord?.hasError('pattern')">It
+                              must contain 8 or more characters that are of at least one number, and
+                              one special characters, and one uppercase and lowercase letter.</span>
                             </mat-error>
 
                             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"

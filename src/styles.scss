@@ -1,7 +1,7 @@
 
 @use '@angular/material' as mat;
 
-@import "@angular/material/theming";
+// @import "@angular/material/theming";
 
 @include mat.core();
 
@@ -20,7 +20,7 @@ $angular-default-theme: mat.define-light-theme(
   )
 );
 
-@include mat.all-component-themes($angular-default-theme);
+// @include mat.all-component-themes($angular-default-theme);
 
 $angular-dark-theme: mat.define-dark-theme(
   (
@@ -227,7 +227,7 @@ body {
 }
 
 .upload-btn-wrapper .btn {
-  background-color: var(--main-color);
+  background-color: var(--main-color) !important;
   color: #fff;
 }
 
@@ -336,4 +336,7 @@ input[placeholder],
   background-color: transparent !important;
   color: var(--main-color) !important;
   box-shadow: none !important;
+}
+.darkMode .mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+  color: var(--main-color) !important;
 }
