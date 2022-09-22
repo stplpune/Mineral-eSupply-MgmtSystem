@@ -73,17 +73,16 @@ export class DocumentMasterComponent implements OnInit {
   }
 
   saveUpdate(formData: any, action: any) {
-    var req;
+    var req= {
+      "id": this.isEdit == true ? this.updateId : action == 'add_update' ? 0 : formData.id,
+      "documentType": formData.documentType,
+      "isMandatory": formData.isMandatory == "true" ? true : false,
+      "isDeleted": action == 'add_update' ? false : true
+    };
     if(action == 'add_update'){
       if (this.documentFrm.invalid) {
         return;
       }else{
-        req = {
-          "id": this.isEdit == true ? this.updateId : 0,
-          "documentType": formData.documentType,
-          "isMandatory": formData.isMandatory == "true" ? true : false,
-          "isDeleted": false
-        }
         this.onSubmit(req);
       }
     }else{
@@ -101,12 +100,6 @@ export class DocumentMasterComponent implements OnInit {
       })
       dialog.afterClosed().subscribe(res => {
         if(res == "Yes"){
-          req = {
-            "id": formData.id,
-            "documentType": formData.documentType,
-            "isMandatory": formData.isMandatory,
-            "isDeleted": true
-          }
           this.onSubmit(req);
         }else{
 
@@ -146,42 +139,6 @@ export class DocumentMasterComponent implements OnInit {
     this.documentFrm.patchValue({
       documentType: row.documentType,
       isMandatory: row.isMandatory == true ? "true" : "false"
-    })
-  }
-
-  deleteDocument(row: any){
-    let obj:any = ConfigService.dialogObj;
-    
-    obj['p1'] = 'Are you sure you want to delete this record?';
-    obj['cardTitle'] = 'Delete';
-    obj['successBtnText'] = 'Delete';
-    obj['cancelBtnText'] =  'Cancel';
-
-    const dialog = this.dialog.open(ConfirmationComponent, {
-      width:this.configService.dialogBoxWidth[0],
-      data: obj,
-      disableClose: this.configService.disableCloseBtnFlag,
-    })
-    dialog.afterClosed().subscribe(res => {
-      if(res == "Yes"){
-        var req = {
-          "id": row.id,
-          "deletedBy": this.webStorageService.getUserId()
-        }
-        // this.apiService.setHttp('delete', "CollieryMaster", false, req, false, 'WBMiningService');
-        // this.apiService.getHttp().subscribe({
-        //   next: (res: any) => {
-        //     if (res.statusCode === 200) {
-        //       this.getDocumentList();
-        //       this.clearAll();
-        //       this.commonMethod.matSnackBar('Document is deleted!', 0);
-        //     }
-        //   },
-        //   error: ((error: any) => { this.error.handelError(error.status) })
-        // })
-      }else{
-
-      }
     })
   }
 }

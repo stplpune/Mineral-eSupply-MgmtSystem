@@ -157,6 +157,7 @@ export class CoalAllocationComponent implements OnInit {
     this.defaultDocSymbolHide();
     this.addRemoveVali_ApplicationType(flag);
     this.addRemoveValiDistrict(this.coalAllocationRegiForm.value.stateId);
+    this.coalAllocationRegiForm.controls['panNo'].setValue(this.verifyPANForm.value.verifyPANNumber.toUpperCase());
   }
 
   addRemoveVali_ApplicationType(flag: any) {
@@ -223,6 +224,7 @@ export class CoalAllocationComponent implements OnInit {
           this.commonService.matSnackBar(res.statusMessage, 1);
         }else{
           this.disableDiv = false;
+          this.coalAllocationRegiForm.controls['panNo'].setValue(this.verifyPANForm.value.verifyPANNumber.toUpperCase());
           this.commonService.matSnackBar(res.statusMessage, 0);
         }
       },
