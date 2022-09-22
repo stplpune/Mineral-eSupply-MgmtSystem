@@ -27,7 +27,7 @@ export class CommonMethodsService {
     id.innerHTML = "";
     // "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
 
-    var charsArray = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#";
+    var charsArray = "0123456789";
     var lengthOtp = 4;
     var captcha = [];
     for (var i = 0; i < lengthOtp; i++) {
@@ -40,11 +40,11 @@ export class CommonMethodsService {
     var canv = document.createElement("canvas");
     canv.id = "captcha1";
     canv.width = 80;
-    canv.height = 30;
+    canv.height = 34;
     //var ctx:any = canv.getContext("2d");
     var ctx: any = canv.getContext("2d");
-    ctx.font = "21px Open Sans";
-    ctx.fillText(captcha.join(""), 0, 24);
+    ctx.font = "32px Open Sans";
+    ctx.fillText(captcha.join(""), 0, 32);
     // ctx.strokeText(captcha.join(""), 0, 30);
     //storing captcha so that can validate you can save it somewhere else according to your specific requirements
     this.codecareerPage = captcha.join("");

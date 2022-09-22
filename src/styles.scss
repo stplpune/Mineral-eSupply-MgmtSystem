@@ -340,3 +340,14 @@ input[placeholder],
 .darkMode .mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
   color: var(--main-color) !important;
 }
+.mat-form-field-subscript-wrapper{
+  margin-top: 0.5em !important;
+}
+#captchaholder{
+  margin-top: 3.5px;
+}
+#captcha{
+  background-image: url('assets/images/captcha_bg.jpg');
+  padding-left: 15px;
+  margin-top: 5px;
+}

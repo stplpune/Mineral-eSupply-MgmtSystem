@@ -138,6 +138,7 @@
                                     <input matInput placeholder="Enter Owner Name" formControlName="ownerName">
                                     <mat-error *ngIf="f['ownerName'].errors">
                                         <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner name</span>
+                                        <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid owner name</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -173,6 +174,7 @@
                                     <textarea matInput placeholder="Enter Address" formControlName="address"></textarea>
                                     <mat-error *ngIf="f['address'].errors">
                                         <span *ngIf="f['address']?.hasError('required')"> Please enter address</span>
+                                        <span *ngIf="f['address']?.hasError('pattern')"> Please enter valid address</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -182,6 +184,7 @@
                                     <input matInput placeholder="Enter Driver Name" formControlName="driverName">
                                     <mat-error *ngIf="f['driverName'].errors">
                                         <span *ngIf="f['driverName']?.hasError('required')"> Please enter driver name</span>
+                                        <span *ngIf="f['driverName']?.hasError('pattern')"> Please enter valid driver name</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -192,6 +195,7 @@
                                         <input matInput placeholder="Enter Mobile Number" formControlName="driverMobileNo">
                                         <mat-error *ngIf="f['driverMobileNo'].errors">
                                             <span *ngIf="f['driverMobileNo']?.hasError('required')"> Please enter driver mobile number</span>
+                                            <span *ngIf="f['driverMobileNo']?.hasError('pattern')"> Please enter valid driver mobile number</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
@@ -199,6 +203,9 @@
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>eTP App Mobile Number<sup class="text-danger">*</sup></mat-label>
                                         <input matInput placeholder="Enter eTP App Mobile Number" formControlName="eTpMobileNumber">
+                                        <mat-error *ngIf="f['eTpMobileNumber'].errors">
+                                            <span *ngIf="f['eTpMobileNumber']?.hasError('pattern')"> Please enter valid eTP mobile number</span>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
