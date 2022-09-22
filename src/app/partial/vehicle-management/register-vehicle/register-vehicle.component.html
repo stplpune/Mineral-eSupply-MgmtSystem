@@ -3,28 +3,72 @@
         <div class="col-sm-8">
             <div class="card plain-card">
                 <div class="card-header pb-0">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>All OTP Verification</mat-label>
-                                <input matInput placeholder="Enter OTP Verification Status">
-                            </mat-form-field>
+                    <form [formGroup]="filterVehicleFrm" (ngSubmit)="onVehicleSearch()">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>All OTP Verification</mat-label>
+                                    <input matInput placeholder="Enter OTP Verification Status" formControlName="verificationStatus">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Vehicle No/Name/Mobile No</mat-label>
+                                    <input matInput placeholder="Enter Vehicle No/Name/Mobile No" formControlName="textSearch">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-auto">
+                                <button mat-raised-button type="submit" class="btn btn-secondary">
+                                    <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-sm">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Vehicle No/Name/Mobile No</mat-label>
-                                <input matInput placeholder="Enter Vehicle No/Name/Mobile No">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-auto">
-                            <button mat-raised-button class="btn btn-secondary">
-                                <i class="fa-solid fa-magnifying-glass me-2"></i>Search
-                            </button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="card-body">
-                    Table
+                    <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+
+                        <ng-container matColumnDef="rowNumber">
+                            <th mat-header-cell *matHeaderCellDef>Sr.No </th>
+                            <td mat-cell *matCellDef="let element">{{element.rowNumber}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="collieryName">
+                            <th mat-header-cell *matHeaderCellDef>Vehicle No </th>
+                            <td mat-cell *matCellDef="let element">{{element.collieryName | uppercase}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="districtName">
+                            <th mat-header-cell *matHeaderCellDef>Owner Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="districtName1">
+                            <th mat-header-cell *matHeaderCellDef>OTP verification</th>
+                            <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Mobile No</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <div class="d-flex align-items-center">
+                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editCollaryRecord(element.id)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteCollaryRecord(element)">
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </div> -->
+                            </td>
+                        </ng-container>
+                        
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="5">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>
@@ -32,187 +76,233 @@
             <div class="card plain-card">
                 <div class="card-header">Register Vehicle</div>
                 <div class="card-body">
-                    <div class="form-container">
-                        <div class="row mb-3">
-                            <div class="col-sm-6 ">
-                                <label class="form-label text-muted">Vehicle Number: </label>
-                                <div class="d-block">
-                                    <mat-radio-group aria-label="Select an option">
-                                        <mat-radio-button value="1" class="me-3">Option 1</mat-radio-button>
-                                        <mat-radio-button value="2">Option 2</mat-radio-button>
-                                    </mat-radio-group>
+                    <form [formGroup]="regVehicleFrm" (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')">
+                        <div class="form-container">
+                            <div class="row mb-3">
+                                <div class="col-sm-6 ">
+                                    <div class="d-block">
+                                        <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
+                                            <mat-label class="form-label text-muted">Transport Type: </mat-label>
+                                            <mat-radio-group aria-label="Select an option" formControlName="transportType">
+                                                <mat-radio-button value="Vehicle" class="me-3">Vehicle</mat-radio-button>
+                                                <mat-radio-button value="Barge">Barge</mat-radio-button>
+                                            </mat-radio-group>
+                                            <mat-error *ngIf="f['transportType'].errors">
+                                                <span *ngIf="f['transportType']?.hasError('required')"> Please select transport type</span>
+                                            </mat-error>
+                                        <!-- </mat-form-field> -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <div class="d-block">
+                                        <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
+                                            <mat-label class="form-label text-muted"> Number Format: </mat-label>
+                                            <mat-radio-group aria-label="Select an option" formControlName="numberFormat">
+                                                <mat-radio-button value="Old" class="me-3">Old</mat-radio-button>
+                                                <mat-radio-button value="New">New</mat-radio-button>
+                                            </mat-radio-group>
+                                            <mat-error *ngIf="f['numberFormat'].errors">
+                                                <span *ngIf="f['numberFormat']?.hasError('required')"> Please select number format</span>
+                                            </mat-error>
+                                        <!-- </mat-form-field> -->
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 ">
-                                <label class="form-label text-muted"> Number Format: </label>
-                                <div class="d-block">
-                                    <mat-radio-group aria-label="Select an option">
-                                        <mat-radio-button value="1" class="me-3">Old</mat-radio-button>
-                                        <mat-radio-button value="2">New</mat-radio-button>
-                                    </mat-radio-group>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Vehicle Number <sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Vehicle Number" formControlName="number">
+                                        <mat-error *ngIf="f['number'].errors">
+                                            <span *ngIf="f['number']?.hasError('required')"> Please enter vehicle number</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="d-block">
+                                        <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
+                                            <mat-label class="form-label text-muted"> Block/Unblock: </mat-label>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isBlock">
+                                                <mat-radio-button value="Block" class="me-3">Block</mat-radio-button>
+                                                <mat-radio-button value="Unblock">Unblock</mat-radio-button>
+                                            </mat-radio-group>
+                                        <!-- </mat-form-field> -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Vehicle Number <sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Vehicle Number">
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Owner Name <sup class="text-danger">*</sup></mat-label>
+                                    <input matInput placeholder="Enter Owner Name" formControlName="ownerName">
+                                    <mat-error *ngIf="f['ownerName'].errors">
+                                        <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner name</span>
+                                        <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid owner name</span>
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-6">
-                                <label class="form-label text-muted"> Block/Unblock: </label>
-                                <div class="d-block">
-                                    <mat-radio-group aria-label="Select an option">
-                                        <mat-radio-button value="1" class="me-3">Block</mat-radio-button>
-                                        <mat-radio-button value="2">Unblock</mat-radio-button>
-                                    </mat-radio-group>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>State <sup class="text-danger">*</sup></mat-label>
+                                        <mat-select formControlName="state">
+                                            <mat-option *ngFor="let st of stateNameArr" [value]="st.value" (click)="getDistrictNames(f['state'].value)">{{ st.text }}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="f['state'].errors">
+                                            <span *ngIf="f['state']?.hasError('required')"> Please select state</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>District<sup class="text-danger">*</sup></mat-label>
+                                        <mat-select formControlName="district">
+                                            <mat-option *ngFor="let dist of districtNameArr" [value]="dist.value" >{{ dist.text }}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="f['district'].errors">
+                                            <span *ngIf="f['district']?.hasError('required')"> Please select district</span>
+                                        </mat-error>
+                                    </mat-form-field>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Owner Name <sup class="text-danger">*</sup></mat-label>
-                                <input matInput placeholder="Enter Owner Name">
-                            </mat-form-field>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>State <sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter State">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>District<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter District">
-                                </mat-form-field>
-                            </div>
-                        </div>
 
 
-                        <div class="">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Address <sup class="text-danger">*</sup></mat-label>
-                                <textarea matInput placeholder="Enter Address"></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div class="">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Driver Name<sup class="text-danger">*</sup></mat-label>
-                                <input matInput placeholder="Enter Driver Name">
-                            </mat-form-field>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Driver Mobile Number<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Mobile Number">
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Address <sup class="text-danger">*</sup></mat-label>
+                                    <textarea matInput placeholder="Enter Address" formControlName="address"></textarea>
+                                    <mat-error *ngIf="f['address'].errors">
+                                        <span *ngIf="f['address']?.hasError('required')"> Please enter address</span>
+                                        <span *ngIf="f['address']?.hasError('pattern')"> Please enter valid address</span>
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>eTP App Mobile Number<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter eTP App Mobile Number">
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Driver Name<sup class="text-danger">*</sup></mat-label>
+                                    <input matInput placeholder="Enter Driver Name" formControlName="driverName">
+                                    <mat-error *ngIf="f['driverName'].errors">
+                                        <span *ngIf="f['driverName']?.hasError('required')"> Please enter driver name</span>
+                                        <span *ngIf="f['driverName']?.hasError('pattern')"> Please enter valid driver name</span>
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Driver Mobile Number<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Mobile Number" formControlName="driverMobileNo">
+                                        <mat-error *ngIf="f['driverMobileNo'].errors">
+                                            <span *ngIf="f['driverMobileNo']?.hasError('required')"> Please enter driver mobile number</span>
+                                            <span *ngIf="f['driverMobileNo']?.hasError('pattern')"> Please enter valid driver mobile number</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>eTP App Mobile Number<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter eTP App Mobile Number" formControlName="eTpMobileNumber">
+                                        <mat-error *ngIf="f['eTpMobileNumber'].errors">
+                                            <span *ngIf="f['eTpMobileNumber']?.hasError('pattern')"> Please enter valid eTP mobile number</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
 
-                        <div class="">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Vehicle Type<sup class="text-danger">*</sup></mat-label>
-                                <input matInput placeholder="Enter Vehicle Type">
-                            </mat-form-field>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Permit Number<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Permit Number (Optional)">
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Vehicle Type<sup class="text-danger">*</sup></mat-label>
+                                    <input matInput placeholder="Enter Vehicle Type" formControlName="vehicleTypeId">
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Driver Licence Number<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Licence Number (Optional)">
-                                </mat-form-field>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Permit Number<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Permit Number (Optional)" formControlName="permitNo">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Driver Licence Number<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Licence Number (Optional)" formControlName="licenseNo">
+                                    </mat-form-field>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Driver Company Name<sup class="text-danger">*</sup></mat-label>
-                                <input matInput placeholder="Enter Company Name">
-                            </mat-form-field>
-                        </div>
-                        <div class="">
-                            <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>Device ID<sup class="text-danger">*</sup></mat-label>
-                                <input matInput placeholder="Enter Device ID">
-                            </mat-form-field>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Device Sim No 1<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Sim no 1">
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Driver Company Name<sup class="text-danger">*</sup></mat-label>
+                                    <input matInput placeholder="Enter Company Name" formControlName="driverCompName">
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Device Sim No 2<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Device Sim No 2">
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Device ID<sup class="text-danger">*</sup></mat-label>
+                                    <input matInput placeholder="Enter Device ID" formControlName="deviceId">
                                 </mat-form-field>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Telecom Provider Sim 1<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Telecom Provider Sim 1 ">
-                                </mat-form-field>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Device Sim No 1<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Sim no 1" formControlName="deviceSIMNo">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Device Sim No 2<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Device Sim No 2" formControlName="secondarySIMNo">
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Telecom Provider Sim 2<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Telecom Provider Sim 2 ">
-                                </mat-form-field>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Telecom Provider Sim 1<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Telecom Provider Sim 1 " formControlName="primaryTelecomProvider">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Telecom Provider Sim 2<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter Telecom Provider Sim 2 " formControlName="secondaryTelecomProvider">
+                                    </mat-form-field>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Length (Meter)<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter length (mtr)">
-                                </mat-form-field>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Length (Meter)<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter length (mtr)" formControlName="length">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Width (Meter)<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter width (mtr)" formControlName="width">
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Width (Meter)<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter width (mtr)">
-                                </mat-form-field>
-                            </div>
-                        </div>
 
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="col-sm-6">
-                                <mat-form-field appearance="legacy" class="w-100 me-2">
-                                    <mat-label>OTP<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter OTP Number">
-                                </mat-form-field>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100 me-2">
+                                        <mat-label>OTP<sup class="text-danger">*</sup></mat-label>
+                                        <input matInput placeholder="Enter OTP Number" formControlName="otp">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6 text-end">
+                                    <button mat-button class="btn-main text-center" type="button">Send OTP</button>
+                                </div>
                             </div>
-                            <div class="col-sm-6 text-end">
-                                <button mat-button class="btn-main text-center" type="submit">Send OTP</button>
-                            </div>
-                        </div>
-                        <div class="text-end">
+                            <div class="text-end">
 
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
