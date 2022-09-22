@@ -37,9 +37,10 @@ export class SidebarComponent implements OnInit , AfterViewInit{
       { "pageId": "5", "pageType": "1", "pageURL": "document-master", "pageName": "Document master", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "6", "pageType": "1", "pageURL": "grade-wise-rate-card-chart", "pageName": "Grade wse Rate card Chart", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "7", "pageType": "1", "pageURL": "consumer-registration", "pageName": "Consumer Registrattion", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-
+      { "pageId": "23", "pageType": "1", "pageURL": "user-right-access", "pageName": "User Right Access", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
 
       { "pageId": "8", "pageType": "1", "pageURL": "application", "pageName": "Application", "pageGroup": "Application", "pageIcon": "fa fa-shopping-cart", "sortOrder": 1, "isSidebarMenu": true },
+      { "pageId": "24", "pageType": "1", "pageURL": "msme-application-list", "pageName": "MSME Application List", "pageGroup": "Application", "pageIcon": "fa fa-shopping-cart", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "9", "pageType": "1", "pageURL": "approval", "pageName": "Approval", "pageGroup": "Application", "pageIcon": "fa fa-shopping-cart", "sortOrder": 1, "isSidebarMenu": true },
 
       { "pageId": "10", "pageType": "1", "pageURL": "coal-allocation", "pageName": "Coal Allocation", "pageGroup": "Coal Allocation", "pageIcon": "fa-solid fa-briefcase", "sortOrder": 1, "isSidebarMenu": true },
@@ -61,7 +62,7 @@ export class SidebarComponent implements OnInit , AfterViewInit{
       { "pageId": "20", "pageType": "1", "pageURL": "daily-lifting-chart", "pageName": "Daily Lifting chart", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "21", "pageType": "1", "pageURL": "monthly-allocation-to-msme", "pageName": "Monthly Allocation to MSME", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
       { "pageId": "22", "pageType": "1", "pageURL": "etp_report", "pageName": "eTP report", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
-
+     
 
     ]
     this.getPageList = JSON.stringify(data);
