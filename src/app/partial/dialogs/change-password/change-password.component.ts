@@ -7,6 +7,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CallApiService } from 'src/app/core/services/call-api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialogRef } from '@angular/material/dialog';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -17,6 +18,8 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordFrm !: FormGroup;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
 
+
+  localstorageData = this.webstorageService.getLoggedInLocalstorageData();
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -24,7 +27,8 @@ export class ChangePasswordComponent implements OnInit {
     public error: ErrorHandlerService,
     private router: Router,
     public dialogRef: MatDialogRef<ChangePasswordComponent>,
-    private spinner: NgxSpinnerService,) { }
+    private spinner: NgxSpinnerService,
+    private webstorageService:WebStorageService) { }
 
 
   ngOnInit(): void {
@@ -47,12 +51,22 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
 
-    this.apiService.setHttp('get', "user-registration/", false, false, false, 'masterUrl');
+    let obj = {
+      "oldPassword":formData.oldPassword,
+      "userId": this.localstorageData.responseData.userId ,
+      "userName": this.localstorageData.responseData.userName,
+      "password": formData.newPassword,
+      "otpNumber": 0
+    }
+
+    this.apiService.setHttp('put', "Login/ChangePassword", false, obj, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === "200") {
-
+          this.spinner.hide();
+          this.commonMethod.matSnackBar(res.statusMessage,0) 
         } else {
+          this.spinner.hide(); 
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       },

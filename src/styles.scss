@@ -238,46 +238,45 @@ body {
   top: 0;
   opacity: 0;
 }
-// .upload-image {
-//   position: relative;
-//   overflow: hidden;
-//   display: inline-block;
-// }
+.upload-image {
+  position: relative;
+  display: inline-block;
+}
 
-// .upload-image img {
-//   width: 100%;
-//   height: 140px;
-//   border-radius: 50%;
-//   object-fit: contain;
-//   object-position: middle;
-// }
+.upload-image img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  object-position: middle;
+}
 
-// .upload-image .btn {
-//   position: absolute;
-//   bottom: 5px;
-//   right: 5px;
-//   background: #eee;
-//   border-radius: 50%;
-//   padding: 0;
-//   height: 28px;
-//   width: 28px;
-//   line-height: 28px;
-//   font-size: 0.85rem;
-//   cursor: pointer;
-// }
+.upload-image .btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #eee;
+  border-radius: 50%;
+  padding: 0;
+  height: 28px;
+  width: 28px;
+  line-height: 28px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  z-index: 999;
+}
 
-// .upload-image .btn:hover {
-//   background: #ddd;
-// }
+.upload-image .btn:hover {
+  background: #ddd;
+}
 
-// .upload-image input[type=file] {
-//   position: absolute;
-//   right: 7px;
-//   bottom: 6px;
-//   opacity: 0;
-//   width: 24px;
-//   height: 24px;
-// }
+.upload-image input[type=file] {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+}
 mat-radio-button,
 button,
 .mat-option-text,

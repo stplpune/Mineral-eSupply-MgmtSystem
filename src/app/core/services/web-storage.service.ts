@@ -14,6 +14,13 @@ export class WebStorageService {
     else return false;
   }
 
+  getLoggedInLocalstorageData() {
+    if (this.checkUserIsLoggedIn() == true) {
+      let data = JSON.parse(localStorage['loggedInData']);
+      return data;
+    }
+  }
+
   getUserId(){
     return 1;
   }
