@@ -45,7 +45,9 @@
                     <th mat-header-cell *matHeaderCellDef> Approval Status </th>
                     <td mat-cell *matCellDef="let element">
                       <ng-container *ngFor="let item of element?.coalApplicationApproverDetails">
+                       <p class="badge"  [ngClass]="{'bg-success': item?.applicationStatusText =='Approved','bg-danger': item?.applicationStatusText=='Rejected' ,'bg-warning text-dark': (item?.applicationStatusText == null || item?.applicationStatusText =='Pending') }">
                         {{item.applicationStatusText}}
+                       </p>
                       </ng-container>
                       </td>
                 </ng-container>
