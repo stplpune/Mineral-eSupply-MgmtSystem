@@ -98,9 +98,11 @@ export class AddUserComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.spinner.hide();
-          formValue.flag == 'u' ? this.commonMethod.matSnackBar(res.statusMessage,0) : res.statusMessage =='Mobile Already Exist...' ? this.commonMethod.matSnackBar(res.statusMessage,1):formValue.flag == 'i'? this.commonMethod.opensuccessModal():'';
-          this.closeModal(formValue.flag);
-          this.clearAll();
+          formValue.flag == 'u' ? this.commonMethod.matSnackBar(res.statusMessage,0) : res.statusMessage =='Mobile Already Exist...' ? this.commonMethod.matSnackBar(res.statusMessage,1):formValue.flag == 'i'? this.commonMethod.opensuccessModal(res.statusMessage):'';
+          if(res.statusMessage!='Mobile Already Exist...'){
+            this.closeModal(formValue.flag);
+            this.clearAll();
+          }
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
