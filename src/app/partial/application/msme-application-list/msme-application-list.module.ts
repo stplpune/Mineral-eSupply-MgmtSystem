@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MsmeApplicationListRoutingModule } from './msme-application-list-routing.module';
 import { MsmeApplicationListComponent } from './msme-application-list.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MsmeApplicationListComponent } from './msme-application-list.component'
   ],
   imports: [
     CommonModule,
-    MsmeApplicationListRoutingModule
+    MsmeApplicationListRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class MsmeApplicationListModule { }
