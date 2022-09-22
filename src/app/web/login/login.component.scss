@@ -19,14 +19,15 @@
     font-size: 0.85rem;
 }
 #loginbox .btn-refresh{
-    height: 48px;
-    line-height: 58px;
+    height: 40px;
+    line-height: 52px;
     font-size: 0.85rem;
     width: 40px;
     border:none;
     background-color: #ddd;
     border-radius: 0.375rem;
     margin-top: 4px;
+    margin-bottom:3px;
 }
 @media screen and (max-width:360px) {
     #loginbox .card-body{

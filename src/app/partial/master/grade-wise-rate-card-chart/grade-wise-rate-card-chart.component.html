@@ -9,19 +9,110 @@
                     </mat-form-field>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-main">Submit</button>
+                    <button mat-raised-button class="btn btn-secondary">Search</button>
                 </div>
             </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                Table -> srno, coal grade, base price, GST(CGST,SGST,IGST), Action
-            </div>
+        <div class="card-body overflow-auto">
+            <table class="dashboard-table table table-bordered w-100">
+                <thead>
+                    <tr>
+                        <th rowspan="2">SR. No.</th>
+                        <th rowspan="2">Coal Grade</th>
+                        <th rowspan="2">Unit (Rs./Tonne)</th>
+                        <th rowspan="2">Base Rate</th>
+                        <th rowspan="2">Royalty</th>
+                        <th colspan="3" class="text-center">GST</th>
+                        <th rowspan="2">Cess</th>
+                        <th rowspan="2">Total</th>
+                    </tr>
+                    <tr>
+                        <th>CGST (7%)</th>
+                        <th>SGST (7%)</th>
+                        <th>IGST (1 4%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label>Coal Grade</mat-label>
+                                    <input matInput placeholder="Enter Coal Grade">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label>Unit</mat-label>
+                                    <input matInput placeholder="Enter Unit (Rs/Tonne)">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label>Base Rate</mat-label>
+                                    <input matInput placeholder="Enter Base Rate">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label>Royalty</mat-label>
+                                    <input matInput placeholder="Enter Royalty">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label></mat-label>
+                                    <input matInput placeholder="Enter ">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label></mat-label>
+                                    <input matInput placeholder="Enter ">
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td><div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label></mat-label>
+                                    <input matInput placeholder="Enter ">
+                                </mat-form-field>
+                            </div></td>
+                        <td><div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label>Cess</mat-label>
+                                    <input matInput placeholder="Enter Cess">
+                                </mat-form-field>
+                            </div></td>
+                        <td><div class="">
+                                <mat-form-field appearance="legacy" class="">
+                                    <mat-label>Total</mat-label>
+                                    <input matInput placeholder="Enter Total">
+                                </mat-form-field>
+                            </div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-main" type="submit">Submit</button>
         </div>
     </div>
 </div>
 
-<button (click)="deleteRecord()">delete</button>
+<!-- <button (click)="deleteRecord()">delete</button>
 
 <div class="row">
     <div class="col-sm-12">
@@ -61,4 +152,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
