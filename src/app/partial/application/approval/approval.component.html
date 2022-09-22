@@ -1,189 +1,242 @@
 <div class="container-fluid">
-    <div class="row mb-3">
-        <h4>Remark Details</h4>
-        <div class="">
-            Table -> sr no , approval level, status, remark.
-        </div>
-    </div>
-    <div class="row mb-4">
-        <h4 class="mb-3">Consumer Details</h4>
-        <div class="col-sm-6">
-            <div class="form-container">
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Application No.</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">WB/202236498699</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Owner Type</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">Organization</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">District</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">Barmuri</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Name</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">Kalmita Enterprise</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Organization Type</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">Priate Limited</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Number</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">020-8669269475</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Contact Person Name</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">Rajeel</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Contact Person Mobile Number</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">8669264767</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Email</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">kalmita@gmail.com</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Address</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">Rameshwaterola Baishanagar Malda, WB</div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-label">Pincode</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">73</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            Table-> srno, doc name, doc number,view
-        </div>
-    </div>
+  <div class="row mb-3">
+    <h4>Remark Details</h4>
+    <div class="">
+      <table mat-table #remark [dataSource]="remarkTable" class="dashboard-table w-100">
 
-    <div class="row mb-3">
-        <h4>Application Details</h4>
-        <div class="col-sm-6">
-            <div class="row">
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Select Year:</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">2022-2023</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Allocated Quantity:</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">1000 Tonnes</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <div class="form-label">Reason for Applying:</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-data">WBDTMC Ltd has a board of board of Directors with chairman, managing
-                            director and director as per Companies.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            Table-> srno, doc name, doc number,view
-        </div>
-    </div>
+        <ng-container matColumnDef="srno">
+          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+        </ng-container>
 
-    <div class="row align-items-baseline mb-3">
-        <div class="col-sm-6">
-            <h5>Remark</h5>
-            <mat-form-field appearance="legacy" class="w-100">
-                <mat-label>Leave a comment</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <div class="row">
-                <h5>Documents</h5>
-                <div class="col-sm-4">
-                    <mat-form-field appearance="legacy" class="w-100">
-                        <mat-label>Document Name</mat-label>
-                        <input matInput placeholder="Document Name">
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                    <mat-form-field appearance="legacy" class="w-100">
-                        <mat-label>Document Number</mat-label>
-                        <input matInput placeholder="Document Number">
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-auto">
-                    <div class="upload-btn-wrapper">
-                        <button class="btn btn-main"><i class="fa fa-upload me-2"
-                                aria-hidden="true"></i>Upload</button>
-                                <input type="file">
-                    </div>
-                </div>
-                <div class="col-sm-auto">
-                    <button class="btn btn-primary"><i class="fa fa-plus"
-                            aria-hidden="true"></i></button>
-                </div>
-            </div>
-            <div class="">
-                table
-            </div>
-        </div>
+
+        <ng-container matColumnDef="approverTypeName">
+          <th mat-header-cell *matHeaderCellDef>Approval Level</th>
+          <td mat-cell *matCellDef="let element"> {{element.approverTypeName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="remark">
+          <th mat-header-cell *matHeaderCellDef> Remark </th>
+          <td mat-cell *matCellDef="let element"> {{element.remark ? element.remark:'-'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="applicationStatusText">
+          <th mat-header-cell *matHeaderCellDef>Status </th>
+          <td mat-cell *matCellDef="let element"> {{element.applicationStatusText}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="remarkTableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: remarkTableColumns;"></tr>
+      </table>
     </div>
-    <div class="mb-5 float-end">
-        <button mat-raised-button color="primary" class="me-3">
-            <i class="fa fa-times-circle" aria-hidden="true"></i>
-            Reject</button>
-        <button mat-raised-button color="accent"><i class="fa fa-upload" aria-hidden="true"></i>Approve</button>
+  </div>
+  <div class="row mb-4">
+    <h4 class="mb-3">Consumer Details</h4>
+    <div class="col-sm-6">
+      <div class="form-container">
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Application No.</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.applicationNumber}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Owner Type</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.applicationType == 1 ?
+              'Individual / Proprietorship':applicationDetails?.applicationType == 2 ? 'Organization ':'-'}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">District</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.districtName ? applicationDetails?.districtName :'-'}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Name</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.applicantName}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Organization Type</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.organizationTypeName ? applicationDetails?.organizationTypeName
+              :'-'}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Number</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.applicantMobileNo}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Contact Person Name</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.contactPersonName ? applicationDetails?.contactPersonName
+              :'-'}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Contact Person Mobile Number</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.contactPersonMobileName ?
+              applicationDetails?.contactPersonMobileName :'-'}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Email</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.applicantEmailId}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Address</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.address}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-label">Pincode</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.pinCode}}</div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="col-sm-6">
+      <table mat-table #document [dataSource]="documentTable" class="dashboard-table w-100">
+
+        <ng-container matColumnDef="srno">
+          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="documentName">
+          <th mat-header-cell *matHeaderCellDef>Document Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.documentName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="documentNo">
+          <th mat-header-cell *matHeaderCellDef> Document No </th>
+          <td mat-cell *matCellDef="let element"> {{element.documentNo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef>View </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="text-left mnw-70 d-inline-block px-1">
+            <span> <a  class="fa fa-file-alt text-primary" href="{{element?.documentPath}}" target="_blank"></a></span></span>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="documentTableColums"></tr>
+        <tr mat-row *matRowDef="let row; columns: documentTableColums;"></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <h4>Application Details</h4>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Select Year:</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.applicationYear}}</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Allocated Quantity:</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.allocatedQty}} Ton</div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="form-label">Reason for Applying:</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-data">{{applicationDetails?.reasonForApply |titlecase}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      Table-> srno, doc name, doc number,view
+    </div>
+  </div>
+
+  <div class="row align-items-baseline mb-3">
+    <div class="col-sm-6">
+      <h5>Remark</h5>
+      <mat-form-field appearance="legacy" class="w-100">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <h5>Documents</h5>
+        <div class="col-sm-4">
+          <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Document Name</mat-label>
+            <input matInput placeholder="Document Name">
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+          <mat-form-field appearance="legacy" class="w-100">
+            <mat-label>Document Number</mat-label>
+            <input matInput placeholder="Document Number">
+          </mat-form-field>
+        </div>
+        <div class="col-sm-auto">
+          <div class="upload-btn-wrapper">
+            <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Upload</button>
+            <input type="file">
+          </div>
+        </div>
+        <div class="col-sm-auto">
+          <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="">
+        table
+      </div>
+    </div>
+  </div>
+  <div class="mb-5 float-end">
+    <button mat-raised-button color="primary" class="me-3" (click)="approveRejectApp(false)">
+      <i class="fa fa-times-circle" aria-hidden="true"></i>
+      Reject</button>
+    <button mat-raised-button color="accent" (click)="approveRejectApp(true)"><i class="fa fa-upload" aria-hidden="true"></i>Approve</button>
+  </div>
 </div>
