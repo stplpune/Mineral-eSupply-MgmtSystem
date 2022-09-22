@@ -1,1 +1,49 @@
-<p>generate-msme-invoice-challan works!</p>
+<div class="container-fluid">
+    <h5 class="page-heading">Generate Msme Invoice Challan</h5>
+    <div class="row justify-content-between">
+        <div class="col-sm-12">
+            <div class="card plain-card">
+                <div class="card-header py-0">
+                    <div class="row align-items-center">
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label>From Date</mat-label>
+                                        <input matInput [matDatepicker]="picker1">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-3">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label>To Date</mat-label>
+                                        <input matInput [matDatepicker]="picker2">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label> SO No. / DO No. / Vehicle No. / Consumer</mat-label>
+                                        <input matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2 text-end">
+                            <button mat-raised-button class=" btn-main ">
+                                Submit
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>Table</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

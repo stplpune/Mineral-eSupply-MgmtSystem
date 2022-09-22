@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GenerateMsmeInvoiceChallanRoutingModule } from './generate-msme-invoice-challan-routing.module';
 import { GenerateMsmeInvoiceChallanComponent } from './generate-msme-invoice-challan.component';
-
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { GenerateMsmeInvoiceChallanComponent } from './generate-msme-invoice-cha
   ],
   imports: [
     CommonModule,
-    GenerateMsmeInvoiceChallanRoutingModule
+    GenerateMsmeInvoiceChallanRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class GenerateMsmeInvoiceChallanModule { }
