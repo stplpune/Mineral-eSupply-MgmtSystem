@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="157" height="156" viewBox="0 0 157 156">
+  <g id="Number_plate" transform="translate(-3170 -152)">
+    <g id="Rectangle_2061" data-name="Rectangle 2061" transform="translate(3170 152)" fill="#fff" stroke="#b8c4d1" stroke-width="3">
+      <rect width="157" height="156" rx="16" stroke="none"/>
+      <rect x="1.5" y="1.5" width="154" height="153" rx="14.5" fill="none"/>
+    </g>
+    <g id="Rectangle_2062" data-name="Rectangle 2062" transform="translate(3183 209)" fill="#fff" stroke="#b8c4d1" stroke-width="2.5">
+      <rect width="132" height="43" rx="5" stroke="none"/>
+      <rect x="1.25" y="1.25" width="129.5" height="40.5" rx="3.75" fill="none"/>
+    </g>
+    <text id="MH.12.XX.1234" transform="translate(3249 237)" fill="#b8c4d1" font-size="16" font-family="OpenSans-Bold, Open Sans" font-weight="700"><tspan x="-58.578" y="0">MH.12.XX.1234</tspan></text>
+    <circle id="Ellipse_486" data-name="Ellipse 486" cx="2" cy="2" r="2" transform="translate(3188 214)" fill="#b8c4d1"/>
+    <circle id="Ellipse_489" data-name="Ellipse 489" cx="2" cy="2" r="2" transform="translate(3306 214)" fill="#b8c4d1"/>
+    <circle id="Ellipse_487" data-name="Ellipse 487" cx="2" cy="2" r="2" transform="translate(3188 244)" fill="#b8c4d1"/>
+    <circle id="Ellipse_488" data-name="Ellipse 488" cx="2" cy="2" r="2" transform="translate(3306 244)" fill="#b8c4d1"/>
+  </g>
+</svg>

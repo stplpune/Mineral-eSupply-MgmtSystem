@@ -240,22 +240,20 @@ body {
 }
 .upload-image {
   position: relative;
-  overflow: hidden;
   display: inline-block;
 }
 
 .upload-image img {
   width: 100%;
-  height: 140px;
-  border-radius: 50%;
+  height: 100px;
   object-fit: contain;
   object-position: middle;
 }
 
 .upload-image .btn {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  top: -10px;
+  right: -10px;
   background: #eee;
   border-radius: 50%;
   padding: 0;
@@ -264,6 +262,7 @@ body {
   line-height: 28px;
   font-size: 0.85rem;
   cursor: pointer;
+  z-index: 999;
 }
 
 .upload-image .btn:hover {

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="157" height="156" viewBox="0 0 157 156">
+  <g id="front_vehicle" transform="translate(-2819 -152)">
+    <g id="Rectangle_2055" data-name="Rectangle 2055" transform="translate(2819 152)" fill="#fff" stroke="#b8c4d1" stroke-width="3">
+      <rect width="157" height="156" rx="16" stroke="none"/>
+      <rect x="1.5" y="1.5" width="154" height="153" rx="14.5" fill="none"/>
+    </g>
+    <g id="truck-front-view" transform="translate(2854.995 183.559)">
+      <g id="Group_11002" data-name="Group 11002" transform="translate(3.442)">
+        <rect id="Rectangle_2056" data-name="Rectangle 2056" width="12.893" height="2.581" transform="translate(33.082 29.487)" fill="#b8c4d1"/>
+        <path id="Path_15225" data-name="Path 15225" d="M73.616,7.329H11.392V30.283H3.442V43.707h7.95V62.745H73.614V41.75h7.95V28.326h-7.95l0-21ZM16.225,16.52H68.079V35.039H16.225Zm6.6,42.622a5.994,5.994,0,1,1,5.989-5.993A5.994,5.994,0,0,1,22.827,59.142Zm29.361.356H33.754V44.288H52.188Zm9.991-.356a5.994,5.994,0,1,1,5.993-5.993A5.992,5.992,0,0,1,62.178,59.142Z" transform="translate(-3.442 8.38)" fill="#b8c4d1"/>
+        <rect id="Rectangle_2057" data-name="Rectangle 2057" width="9.333" height="12.346" transform="translate(7.95 80.535)" fill="#b8c4d1"/>
+        <rect id="Rectangle_2058" data-name="Rectangle 2058" width="8.992" height="12.346" transform="translate(61.182 80.535)" fill="#b8c4d1"/>
+        <rect id="Rectangle_2059" data-name="Rectangle 2059" width="64.813" height="5.942" transform="translate(6.653 72.643)" fill="#b8c4d1"/>
+        <path id="Path_15226" data-name="Path 15226" d="M3.442,0V32.126H8.629V12.9h67.75V32.126h5.189V0Z" transform="translate(-3.442)" fill="#b8c4d1"/>
+      </g>
+    </g>
+  </g>
+</svg>
