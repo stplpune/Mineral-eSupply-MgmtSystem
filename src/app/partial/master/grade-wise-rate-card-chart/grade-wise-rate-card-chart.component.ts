@@ -9,6 +9,7 @@ import { ErrorHandlerService } from 'src/app/core/services/error-handler.service
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
+import { AddRateCardComponent } from './add-rate-card/add-rate-card.component';
 
 @Component({
   selector: 'app-grade-wise-rate-card-chart',
@@ -194,6 +195,16 @@ export class GradeWiseRateCardChartComponent implements OnInit {
       });
     }
 
-
+    openAddRateCardrModal() {
+      const dialogRef = this.dialog.open(AddRateCardComponent, {
+        width: '600px',
+        height: 'auto',
+        disableClose: true,
+        data: ''
+      });
+      dialogRef.afterClosed().subscribe((result: any) => {
+        // result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
+      });
+    }
 
 }
