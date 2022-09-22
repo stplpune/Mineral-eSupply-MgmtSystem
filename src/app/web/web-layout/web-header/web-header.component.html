@@ -77,7 +77,8 @@
                         </li>
                     </ul>
                     <div class="d-flex current-date text-end">
-                        Monday, Sep 19 2022<br>11:09 AM
+                        {{todayDate[0]}}<br>{{commonService.getCurrentTime() | async | date:
+                            'hh:mm:ss'}}
                     </div>
                 </div>
             </div>

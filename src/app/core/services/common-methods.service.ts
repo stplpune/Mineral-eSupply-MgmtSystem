@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MapsAPILoader } from '@agm/core';
 import * as CryptoJS from 'crypto-js';
 import { SuccessComponent } from 'src/app/partial/dialogs/success/success.component';
+import { interval, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,14 @@ import { SuccessComponent } from 'src/app/partial/dialogs/success/success.compon
 export class CommonMethodsService {
   codecareerPage!: string;
   geocoder: any;
+  private clock: Observable<Date>;
 
   constructor(private snackBar: MatSnackBar, public location: Location, private datePipe: DatePipe, private router: Router, private dialog:MatDialog,
     public mapsApiLoader: MapsAPILoader) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
     });
+    this.clock = interval(1000).pipe(map(() => new Date()));
   }
 
   createCaptchaCarrerPage() {
@@ -151,6 +154,10 @@ export class CommonMethodsService {
     // dialogRef.afterClosed().subscribe((result: any) => {
     //   result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
     // });
+  }
+
+  getCurrentTime() {
+    return this.clock;
   }
 
 

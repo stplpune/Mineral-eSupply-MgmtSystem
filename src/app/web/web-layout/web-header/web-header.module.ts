@@ -7,7 +7,7 @@ import { WebHeaderComponent } from './web-header.component';
 
 @NgModule({
   declarations: [
-    WebHeaderComponent
+    // WebHeaderComponent
   ],
   imports: [
     CommonModule,

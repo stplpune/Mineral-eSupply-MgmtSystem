@@ -1,5 +1,6 @@
-import { DOCUMENT } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
+import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ThemeService } from 'src/app/theme/theme.service';
 
 @Component({
@@ -11,8 +12,11 @@ import { ThemeService } from 'src/app/theme/theme.service';
 export class WebHeaderComponent implements OnInit {
 
   activeTheme: any;
+  todayDate:any;
   constructor(@Inject(DOCUMENT) private document: any,
-    private ThemeService: ThemeService) { }
+    private ThemeService: ThemeService,
+    private datePipe: DatePipe,
+    public commonService: CommonMethodsService) { }
 
   ngOnInit(): void {
     this.onChangeFontSize('medium');
@@ -20,6 +24,8 @@ export class WebHeaderComponent implements OnInit {
     this.ThemeService.getActiveTheme().subscribe(x => {
       this.activeTheme = x
     });
+    let getTodayDate = new Date();
+    this.todayDate = this.datePipe.transform(getTodayDate, 'dd/MM/YYYY hh:mm a')?.split(' ');
   }
 
   onChangeFontSize(value: any){

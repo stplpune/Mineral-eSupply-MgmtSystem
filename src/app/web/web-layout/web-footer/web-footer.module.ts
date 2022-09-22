@@ -7,7 +7,7 @@ import { WebFooterComponent } from './web-footer.component';
 
 @NgModule({
   declarations: [
-    WebFooterComponent
+    // WebFooterComponent
   ],
   imports: [
     CommonModule,
