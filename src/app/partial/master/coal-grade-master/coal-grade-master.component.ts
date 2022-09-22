@@ -96,9 +96,9 @@ export class CoalGradeMasterComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode == "200") {
           this.formGroupDirective.resetForm();
-          this.defaultForm();
-          this.pageNumber = 1;
+          this.coalFrm.value.id == 0 ? this.pageNumber = 1 : '' ;
           this.getCoalGrade();
+          this.defaultForm();
           this.spinner.hide();
         } else {
           this.spinner.hide();
