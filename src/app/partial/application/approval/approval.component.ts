@@ -1,4 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfigService } from 'src/app/configs/config.service';
+import { CallApiService } from 'src/app/core/services/call-api.service';
+import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
+import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
+import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
 
 @Component({
   selector: 'app-approval',
@@ -6,10 +18,41 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./approval.component.scss']
 })
 export class ApprovalComponent implements OnInit {
-
-  constructor() { }
-
+  remarkTable: any;
+  approvalId!:number;
+  constructor(private fb: FormBuilder,
+    public commonMethod: CommonMethodsService,
+    public apiService: CallApiService,
+    public validation: FormsValidationService,
+    public error: ErrorHandlerService,
+    public configService :ConfigService,
+    public commonService: CommonApiCallService,
+    private webStorageService:WebStorageService,
+    public vs: FormsValidationService,
+    public dialog: MatDialog,
+    private spinner: NgxSpinnerService, private router: Router,private route: ActivatedRoute) { }
   ngOnInit(): void {
+    this.approvalId = this.route.snapshot.params['id'];
+  }
+
+  getDataById(){
+    this.spinner.show()
+    this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationView?" , false, false, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          this.remarkTable = new MatTableDataSource(res.responseData);
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          this.remarkTable = [];
+          if (res.statusCode != "404") {
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          }
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -48,7 +48,7 @@ export class RegisterUserComponent implements OnInit {
     this.filterForm = this.fb.group({
       stateId: [0],
       UserTypeId: [0],
-      Search: [''],
+      Search: ['', Validators.pattern(this.validation.alphabetsWithSpace)],
       pageno: [''],
       pagesize: [''],
     })
@@ -58,6 +58,9 @@ export class RegisterUserComponent implements OnInit {
   getData() {
     this.spinner.show()
     let formValue = this.filterForm.value;
+    if(this.filterForm.invalid){
+      return;
+    }
     let paramList: string = "stateId=" + formValue.stateId + "&UserTypeId=" + formValue.UserTypeId + "&pageno=" + this.pageNumber + "&pagesize=" + 10;
     this.commonMethod.checkDataType(formValue.Search.trim()) == true ? paramList += "&Search=" + formValue.Search : '';
     this.apiService.setHttp('get', "UserRegistration?" + paramList, false, false, false, 'WBMiningService');
