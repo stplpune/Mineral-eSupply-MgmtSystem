@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,44 +20,45 @@ import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.c
   styleUrls: ['./approval.component.scss']
 })
 export class ApprovalComponent implements OnInit {
-  remarkTableColumns: string[] = ['srno', 'approverTypeName', 'remark','applicationStatusText'];
-  documentTableColums: string[] = ['srno', 'documentName', 'documentNo','view'];
+  remarkTableColumns: string[] = ['srno', 'approverTypeName', 'remark', 'applicationStatusText'];
+  documentTableColums: string[] = ['srno', 'documentName', 'documentNo', 'view'];
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   remarkTable: any;
-  applicationId!:number;
+  applicationId!: number;
   applicationDetails: any;
   documentTable: any;
-  remarkDetails:any;
-  documentFrm:any;
-  userDocumentTable:any;
+  remarkDetails: any;
+  documentFrm: any;
+  userDocumentTable: any;
+  documentArray: any[] =[];
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
     public validation: FormsValidationService,
     public error: ErrorHandlerService,
-    public configService :ConfigService,
+    public configService: ConfigService,
     public commonService: CommonApiCallService,
-    private webStorageService:WebStorageService,
+    private webStorageService: WebStorageService,
     public vs: FormsValidationService,
     public dialog: MatDialog,
-    public fileUploadService:FileUploadService,
-    private spinner: NgxSpinnerService, private router: Router,private route: ActivatedRoute) { }
+    public fileUploadService: FileUploadService,
+    private spinner: NgxSpinnerService, private router: Router, private route: ActivatedRoute) { }
   ngOnInit(): void {
     this.defaultForm();
     this.applicationId = this.route.snapshot.params['id'];
     this.getRemarksDeailsById();
+    this.saveDocument()
   }
-  defaultForm(){
+  defaultForm() {
     this.documentFrm = this.fb.group({
-      "documentTypeId": '',
-      "documentName": [''],
-      "documentNo": '',
-      "documentPath": ['']
+      "documentName": ['',Validators.required],
+      "documentNo": ['',Validators.required]
     })
   }
 
-  getRemarksDeailsById(){
+  getRemarksDeailsById() {
     this.spinner.show()
-    this.apiService.setHttp('get', "CoalApplication/GetApplicationApprovedStatus?applicationId="+this.applicationId , false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "CoalApplication/GetApplicationApprovedStatus?applicationId=" + this.applicationId, false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
@@ -76,9 +77,9 @@ export class ApprovalComponent implements OnInit {
     });
   }
 
-  getApplicationDetailsById(){
+  getApplicationDetailsById() {
     this.spinner.show()
-    this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?applicationId="+this.applicationId , false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?applicationId=" + this.applicationId, false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
@@ -96,7 +97,7 @@ export class ApprovalComponent implements OnInit {
     });
   }
 
-  approveRejectApp(flag:boolean) {
+  approveRejectApp(flag: boolean) {
     console.log(this.remarkDetails);
 
     let obj: any = ConfigService.dialogObj;
@@ -118,9 +119,9 @@ export class ApprovalComponent implements OnInit {
           "applicationId": 0,
           "approverId": 0,
           "approverTypeName": "string",
-          "applicationStatus": flag ? 1: 2,
+          "applicationStatus": flag ? 1 : 2,
           "applicationStatusText": "",
-          "remark":  res.remark
+          "remark": res.remark
         }
         this.apiService.setHttp('put', "UserRegistration/BlockUnblockUser", false, obj, false, 'WBMiningService');
         this.apiService.getHttp().subscribe({
@@ -141,26 +142,37 @@ export class ApprovalComponent implements OnInit {
 
 
   documentUpload(event: any) {
+    let formValue = this.documentFrm.value;
+    if (this.documentFrm.invalid) {
+      this.commonMethod.matSnackBar("Please Enter Document Name or No",1);
+      return;
+    }
+    this.spinner.show();
     let documentUrlUploaed: any;
-    let documentUrl: any = this.fileUploadService.uploadDocuments(event, "png,jpg,jpeg,pdf", 5, 5000)
+    let documentUrl: any = this.fileUploadService.uploadDocuments(event, 0,formValue.documentName, "png,jpg,jpeg,pdf", 5, 5000)
     documentUrl.subscribe({
       next: (ele: any) => {
-        console.log(ele);
+        this.spinner.hide();
         documentUrlUploaed = ele.responseData.documentWebURL;
         if (documentUrlUploaed != null) {
           let obj = {
             "documentTypeId": '',
-            "documentName":'' ,
-            "documentNo": '',
+            "documentName": formValue.documentName,
+            "documentNo": formValue.documentNo,
             "documentPath": documentUrlUploaed
           }
 
-          this.userDocumentTable.push(obj);
+          this.documentArray.push(obj);
           // this.checkUniqueData(obj, documentTypeId);
+          console.log(this.documentArray);
         }
       },
-    })
+    });
+    this.spinner.hide();
+
   }
 
-  // this.userDocumentTable
+  saveDocument() {
+    this.userDocumentTable = new MatTableDataSource(this.documentArray);
+  }
 }
