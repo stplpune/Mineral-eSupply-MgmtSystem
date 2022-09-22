@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
 
   defaultForm() {
     this.loginFrm = this.fb.group({
-      userName: ['', [Validators.required, Validators.pattern('^[^\\s\\[\\[`&._@#%*!+"\'\/\\]\\]{}][0-9a-zA-Z&s\\s]+$')],],
-      passWord: ['', [Validators.required]],
+      userName: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo)],],
+      passWord: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
       captcha: ['', Validators.required]
     });
   }
@@ -41,26 +41,23 @@ export class LoginComponent implements OnInit {
   get loginFormControls(): any { return this.loginFrm.controls }
 
   onSubmit() {
-    // demo
-    localStorage.setItem('user', 'true');
-    sessionStorage.setItem('loggedIn', 'true');
-    this.router.navigate(['dashboard']);
-
-
     const formValue = this.loginFrm.value;
+    formValue.otp = 0;
 
     if (this.loginFrm.invalid) {
       return;
-    } else if (formValue.captcha.trim() != this.commonMethod.createCaptchaCarrerPage()) {
+    } else if (formValue.captcha.trim() != this.commonMethod.checkvalidateCaptcha()) {
       this.commonMethod.matSnackBar("Please enter valid captcha ", 1);
       this.commonMethod.createCaptchaCarrerPage();
       return;
     }
-    this.apiService.setHttp('get', "user-registration/" + formValue.userName.trim() + "/" + formValue.passWord.trim(), false, false, false, 'masterUrl');
+    this.apiService.setHttp('post', "Login/CheckLogin", false, formValue, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === "200") {
-          this.clearAll();
+        localStorage.setItem('loggedInData', JSON.stringify(res));
+        sessionStorage.setItem('loggedIn', 'true');
+        if (res.statusCode == "200") {
+        this.router.navigate(['../dashboard']);
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
