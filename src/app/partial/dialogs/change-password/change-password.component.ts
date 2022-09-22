@@ -15,6 +15,8 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 })
 export class ChangePasswordComponent implements OnInit {
   hide = true;
+  hide1 = true;
+  hide2 = true;
   changePasswordFrm !: FormGroup;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
 
