@@ -14,7 +14,8 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
   styleUrls: ['./forget-password.component.scss']
 })
 export class ForgetPasswordComponent implements OnInit {
-
+  hide = true;
+  hide1 = true;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
 
   forgetFrm !: FormGroup;

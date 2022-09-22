@@ -1,7 +1,7 @@
 #home-banner{
     background-image: url(../../../assets/images/Home-banner.png);
-    height:100vh;
-    background-size: 52%;
+    height: 80vh;
+    background-size: 43%;
     background-repeat: no-repeat;
     padding-inline: 0;
     background-position:top right;
@@ -9,9 +9,9 @@
 #left-data{
     background-image: url(../../../assets/images/WestBengalMap.svg);
     background-repeat: no-repeat;
-    background-size:55%;
+    background-size:43%;
     background-position:right center;
-    height:97vh;
+    height:75vh;
 }
 #left-data h1{
     color:var(--main-color);
