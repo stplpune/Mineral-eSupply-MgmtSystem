@@ -29,7 +29,7 @@
                                     <span class="text-danger"
                                         *ngIf="loginFormControls.passWord?.hasError('pattern')">Invalid Password</span>
                                 </mat-error>
-                                <button mat-icon-button matSuffix (click)="hide = !hide"
+                                <button mat-icon-button matSuffix (click)="hide = !hide" type="button"
                                     [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                                 </button>

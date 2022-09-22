@@ -210,28 +210,34 @@
             <mat-form-field appearance="legacy" class="w-100">
               <mat-label>Document Name</mat-label>
               <input matInput placeholder="Document Name" formControlName="documentName">
+              <mat-error *ngIf="documentFrm.controls.documentName.errors">
+                <span *ngIf="documentFrm.controls.documentName?.hasError('required')">Please Enter Document Name</span>
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-sm-4">
             <mat-form-field appearance="legacy" class="w-100">
               <mat-label>Document Number</mat-label>
               <input matInput placeholder="Document Number" formControlName="documentNo">
+              <mat-error *ngIf="documentFrm.controls.documentNo.errors">
+                <span *ngIf="documentFrm.controls.documentNo?.hasError('required')">Please Enter Document No</span>
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-sm-auto">
             <div class="upload-btn-wrapper">
-              <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Upload</button>
+              <button class="btn btn-main" type="submit"><i class="fa fa-upload me-2" aria-hidden="true" type></i>Upload</button>
               <input type="file" (change)="documentUpload($event)">
             </div>
           </div>
           <div class="col-sm-auto">
-            <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <button class="btn btn-primary" type="reset" (click)="saveDocument()"><i class="fa fa-plus" aria-hidden="true"></i></button>
           </div>
         </div>
       </form>
 </div>
         <div class="col-sm-6 text-end">
-          <table mat-table #useraddDocument [dataSource]="documentTable" class="dashboard-table w-100">
+          <table mat-table #useraddDocument [dataSource]="userDocumentTable" class="dashboard-table w-100">
 
             <ng-container matColumnDef="srno">
               <th mat-header-cell *matHeaderCellDef> Sr. No </th>
@@ -257,7 +263,7 @@
                 </td>
             </ng-container>
             <tr class="mat-row p-2 w-100" *matNoDataRow col>
-              <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+              <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
           </tr>
             <tr mat-header-row *matHeaderRowDef="documentTableColums"></tr>
             <tr mat-row *matRowDef="let row; columns: documentTableColums;"></tr>
