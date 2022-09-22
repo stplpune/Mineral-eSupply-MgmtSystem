@@ -12,11 +12,11 @@ export const PartialLayoutRoutes: Routes = [
   { path: 'document-master', loadChildren: () => import('../../partial/master/document-master/document-master.module').then(m => m.DocumentMasterModule), data: { title: 'Document Master' },  canActivate: [ExpenseGuard]  },
   { path: 'grade-wise-rate-card-chart', loadChildren: () => import('../../partial/master/grade-wise-rate-card-chart/grade-wise-rate-card-chart.module').then(m => m.GradeWiseRateCardChartModule), data: { title: 'Grade Wise Rate Card Chart' },  canActivate: [ExpenseGuard]  },
   { path: 'consumer-registration', loadChildren: () => import('../../partial/master/consumer-registration/consumer-registration.module').then(m => m.ConsumerRegistrationModule), data: { title: 'Consumer Registration' },  canActivate: [ExpenseGuard]  },
-
+  { path: 'user-rights-access', loadChildren: () => import('../../partial/master/user-rights-access/user-rights-access.module').then(m => m.UserRightsAccessModule), data: { title: 'User Rights Access' },  canActivate: [ExpenseGuard]   },
   // -------------------------Application  routing  use for Admin,MSME,  WBMDTCL--------------------------------------------------------//
   { path: 'application', loadChildren: () => import('../../partial/application/application/application.module').then(m => m.ApplicationModule), data: { title: 'Application' },  canActivate: [ExpenseGuard]  },
   { path: 'approval/:id', loadChildren: () => import('../../partial/application/approval/approval.module').then(m => m.ApprovalModule), data: { title: 'Approval' },  canActivate: [ExpenseGuard]  },
-
+  { path: 'msme-application-list', loadChildren: () => import('../../partial/application/msme-application-list/msme-application-list.module').then(m => m.MsmeApplicationListModule), data: { title: 'MSME Application List' },  canActivate: [ExpenseGuard]  },
   //---------------------------- Coal Allocation-----------------------------------------------------//
   { path: 'coal-allocation', loadChildren: () => import('../../partial/coal-allocation/coal-allocation/coal-allocation.module').then(m => m.CoalAllocationModule), data: { title: 'Coal Allocation' },  canActivate: [ExpenseGuard]  },
   { path: 'booking_payment', loadChildren: () => import('../../partial/coal-allocation/booking-payment/booking-payment.module').then(m => m.BookingPaymentModule), data: { title: 'Booking Payment' },  canActivate: [ExpenseGuard]  },

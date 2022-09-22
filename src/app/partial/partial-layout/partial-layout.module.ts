@@ -11,10 +11,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { PartialLayoutRoutes } from './partial-layout.routing';
 import { ThemeModule } from 'src/app/theme/theme.module';
 
-
-
-
-
 @NgModule({
   declarations: [
   ],

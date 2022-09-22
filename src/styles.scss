@@ -114,8 +114,8 @@ body {
 
 .btn-outline-main {
   font-size: 0.85rem;
-  color: var(--main-color);
-  background-color: transparent;
+  color: var(--main-color) !important;
+  background-color: transparent !important;
   border: solid 1px var(--main-color) !important;
 }
 
@@ -290,6 +290,7 @@ mat-form-field{
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
   border-color:var(--main-color);
 }
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .mat-radio-button.mat-accent .mat-radio-inner-circle,
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
   background-color: var(--main-color) !important;

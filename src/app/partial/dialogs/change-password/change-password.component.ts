@@ -15,6 +15,8 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 })
 export class ChangePasswordComponent implements OnInit {
   hide = true;
+  hide1 = true;
+  hide2 = true;
   changePasswordFrm !: FormGroup;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
 
@@ -33,9 +35,9 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.changePasswordFrm = this.fb.group({
-      oldPassword: [''],
-      newPassword: [''],
-      confirmPassword: ['']
+      oldPassword: ['',[Validators.required,Validators.pattern(this.validation.valPassword)]],
+      newPassword: ['',[Validators.required,Validators.pattern(this.validation.valPassword)]],
+      confirmPassword: ['',[Validators.required,Validators.pattern(this.validation.valPassword)]]
     });
   }
 

@@ -7,7 +7,7 @@ export class WebStorageService {
 
   constructor() { }
 
-  checkUserIsLoggedIn() { // check user isLoggedIn or not  
+  checkUserIsLoggedIn() { // check user isLoggedIn or not
     let sessionData: any = sessionStorage.getItem('loggedIn');
     sessionData == null || sessionData == '' ? localStorage.clear() : '';
     if (localStorage.getItem('loggedInData') && sessionData == 'true') return true;
@@ -22,6 +22,12 @@ export class WebStorageService {
   }
 
   getUserId(){
-    return 1;
+    let data =this.getLoggedInLocalstorageData();
+    return data.responseData.userId
+  }
+
+  getSubUserType(){
+    let data =this.getLoggedInLocalstorageData();
+    return data.responseData.subUserTypeId
   }
 }

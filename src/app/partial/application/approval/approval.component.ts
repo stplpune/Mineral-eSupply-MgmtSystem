@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
+import { FileUploadService } from 'src/app/core/services/file-upload.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
@@ -19,32 +20,45 @@ import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.c
   styleUrls: ['./approval.component.scss']
 })
 export class ApprovalComponent implements OnInit {
-  remarkTableColumns: string[] = ['srno', 'approverTypeName', 'remark','applicationStatusText'];
-  documentTableColums: string[] = ['srno', 'documentName', 'documentNo','view'];
+  remarkTableColumns: string[] = ['srno', 'approverTypeName', 'remark', 'applicationStatusText'];
+  documentTableColums: string[] = ['srno', 'documentName', 'documentNo', 'view'];
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   remarkTable: any;
-  applicationId!:number;
+  applicationId!: number;
   applicationDetails: any;
   documentTable: any;
-  remarkDetails:any;
+  remarkDetails: any;
+  documentFrm: any;
+  userDocumentTable: any;
+  documentArray: any[] =[];
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
     public validation: FormsValidationService,
     public error: ErrorHandlerService,
-    public configService :ConfigService,
+    public configService: ConfigService,
     public commonService: CommonApiCallService,
-    private webStorageService:WebStorageService,
+    private webStorageService: WebStorageService,
     public vs: FormsValidationService,
     public dialog: MatDialog,
-    private spinner: NgxSpinnerService, private router: Router,private route: ActivatedRoute) { }
+    public fileUploadService: FileUploadService,
+    private spinner: NgxSpinnerService, private router: Router, private route: ActivatedRoute) { }
   ngOnInit(): void {
+    this.defaultForm();
     this.applicationId = this.route.snapshot.params['id'];
     this.getRemarksDeailsById();
+    this.saveDocument()
+  }
+  defaultForm() {
+    this.documentFrm = this.fb.group({
+      "documentName": ['',Validators.required],
+      "documentNo": ['',Validators.required]
+    })
   }
 
-  getRemarksDeailsById(){
+  getRemarksDeailsById() {
     this.spinner.show()
-    this.apiService.setHttp('get', "CoalApplication/GetApplicationApprovedStatus?applicationId="+this.applicationId , false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "CoalApplication/GetApplicationApprovedStatus?applicationId=" + this.applicationId, false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
@@ -63,15 +77,14 @@ export class ApprovalComponent implements OnInit {
     });
   }
 
-  getApplicationDetailsById(){
+  getApplicationDetailsById() {
     this.spinner.show()
-    this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?applicationId="+this.applicationId , false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?applicationId=" + this.applicationId, false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.applicationDetails = res.responseData;
           this.documentTable = new MatTableDataSource(this.applicationDetails?.coalApplicationDocuments);
-
           this.spinner.hide();
         } else {
           this.spinner.hide();
@@ -84,7 +97,9 @@ export class ApprovalComponent implements OnInit {
     });
   }
 
-  approveRejectApp(flag:boolean) {
+  approveRejectApp(flag: boolean) {
+    console.log(this.remarkDetails);
+
     let obj: any = ConfigService.dialogObj;
     obj['p1'] = flag ? 'Are you sure you want to approve?' : 'Are you sure you want to reject ?';
     obj['cardTitle'] = flag ? 'Application  Approve' : 'Application  Reject';
@@ -96,6 +111,7 @@ export class ApprovalComponent implements OnInit {
       data: obj,
       disableClose: this.configService.disableCloseBtnFlag,
     })
+
     dialog.afterClosed().subscribe(res => {
       if (res.flag == 'Yes') {
         let obj = {
@@ -103,16 +119,15 @@ export class ApprovalComponent implements OnInit {
           "applicationId": 0,
           "approverId": 0,
           "approverTypeName": "string",
-          "applicationStatus": flag ? 1: 2,
+          "applicationStatus": flag ? 1 : 2,
           "applicationStatusText": "",
-          "remark":  res.remark
+          "remark": res.remark
         }
         this.apiService.setHttp('put', "UserRegistration/BlockUnblockUser", false, obj, false, 'WBMiningService');
         this.apiService.getHttp().subscribe({
           next: (responseData: any) => {
             if (responseData.statusCode == 200) {
               this.commonMethod.matSnackBar(responseData.statusMessage, 0);
-
             } else {
               this.commonMethod.checkDataType(responseData.statusMessage) == false ? this.error.handelError(responseData.statusCode) : this.commonMethod.matSnackBar(responseData.statusMessage, 1);
             }
@@ -123,4 +138,41 @@ export class ApprovalComponent implements OnInit {
     })
   }
 
+
+
+
+  documentUpload(event: any) {
+    let formValue = this.documentFrm.value;
+    if (this.documentFrm.invalid) {
+      this.commonMethod.matSnackBar("Please Enter Document Name or No",1);
+      return;
+    }
+    this.spinner.show();
+    let documentUrlUploaed: any;
+    let documentUrl: any = this.fileUploadService.uploadDocuments(event, 0,formValue.documentName, "png,jpg,jpeg,pdf", 5, 5000)
+    documentUrl.subscribe({
+      next: (ele: any) => {
+        this.spinner.hide();
+        documentUrlUploaed = ele.responseData.documentWebURL;
+        if (documentUrlUploaed != null) {
+          let obj = {
+            "documentTypeId": '',
+            "documentName": formValue.documentName,
+            "documentNo": formValue.documentNo,
+            "documentPath": documentUrlUploaed
+          }
+
+          this.documentArray.push(obj);
+          // this.checkUniqueData(obj, documentTypeId);
+          console.log(this.documentArray);
+        }
+      },
+    });
+    this.spinner.hide();
+
+  }
+
+  saveDocument() {
+    this.userDocumentTable = new MatTableDataSource(this.documentArray);
+  }
 }
