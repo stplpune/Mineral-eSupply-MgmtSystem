@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserRightsAccessRoutingModule } from './user-rights-access-routing.module';
 import { UserRightsAccessComponent } from './user-rights-access.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { UserRightsAccessComponent } from './user-rights-access.component';
   ],
   imports: [
     CommonModule,
-    UserRightsAccessRoutingModule
+    UserRightsAccessRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class UserRightsAccessModule { }

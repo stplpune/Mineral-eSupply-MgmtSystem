@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-rate-card',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddRateCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<AddRateCardComponent>,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  closeModal(flag?: any) {
+    this.dialogRef.close(flag);
   }
 
 }

@@ -391,7 +391,6 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   checkUniqueData(obj: any, documentTypeId: any) { //Check Unique Data then Insert or Update
-    console.log(this.coalApplicationDocuments, '346456')
     this.checkedDataflag = true;
     if (this.coalApplicationDocuments?.length <= 0) {
       this.coalApplicationDocuments.push(obj);
@@ -455,7 +454,7 @@ export class CoalAllocationComponent implements OnInit {
       } else if (controls['gstNo'].valid && ele.documentTypeId == 3) {
         ele.documentNo = this.coalAllocationRegiForm.value.gstNo.toUpperCase();
       } else if (controls['incorporation_Date'].valid && ele.documentTypeId == 4) {
-        ele.documentNo = this.coalAllocationRegiForm.value.incorporation_Date.toUpperCase();
+        ele.documentNo = this.coalAllocationRegiForm.value.incorporation_Date;
       } else if (controls['districtRecometnLetter'].valid && ele.documentTypeId == 5) {
         ele.documentNo = this.coalAllocationRegiForm.value.districtRecometnLetter;
       }
@@ -565,7 +564,6 @@ export class CoalAllocationComponent implements OnInit {
     );
 
     this.otpCounter.subscribe((ele: any) => { ele == 0 ? (this.disableBtnSendOTP = false, this.otpCountShow = '') : this.otpCountShow = ele.toString().padStart(2, "0") })
-    console.log(this.otpCountShow)
   }
 
   //................   Send Otp Timer Code End Here ...................//

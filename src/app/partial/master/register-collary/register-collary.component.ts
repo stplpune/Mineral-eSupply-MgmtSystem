@@ -198,7 +198,6 @@ export class RegisterCollaryComponent implements OnInit {
 
   deleteCollaryRecord(row: any){
     let obj:any = ConfigService.dialogObj;
-    
     obj['p1'] = 'Are you sure you want to delete this record?';
     obj['cardTitle'] = 'Delete';
     obj['successBtnText'] = 'Delete';
