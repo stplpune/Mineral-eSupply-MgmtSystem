@@ -20,7 +20,7 @@
                         </div>
                         <div class="mb-0">
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>password</mat-label>
+                                <mat-label>Password</mat-label>
                                 <input matInput [type]="hide ? 'password' : 'text'" maxlength="20"
                                     formControlName="passWord" (keypress)="validation.noSpaces($event)">
                                 <mat-error *ngIf="loginFormControls.passWord.errors">
