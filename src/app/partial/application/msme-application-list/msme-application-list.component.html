@@ -1,1 +1,107 @@
-<p>msme-application-list works!</p>
+<div class="container-fluid">
+    <h5 class="page-heading">MSME Application List</h5>
+    <div class="row justify-content-between">
+        <div class="col-sm-12">
+            <div class="card plain-card">
+                <div class="card-header pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label>Select Year</mat-label>
+                                        <input matInput [matDatepicker]="picker1">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1 startView="multi-year"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-3">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label> Search </mat-label>
+                                        <input matInput type="search">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <button mat-raised-button class="btn-secondary">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="dashboard-table table table-bordered w-100">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">SR. No.</th>
+                                <th rowspan="2">Application No.</th>
+                                <th rowspan="2">Application Sub Date</th>
+                                <th rowspan="2">Year</th>
+                                <th rowspan="2">Allocated Quantity (Tonnes)</th>
+                                <th rowspan="2">Level-1 Status</th>
+                                <th rowspan="2">Level-2 Status</th>
+                                <th colspan="2" class="text-center">Upload Document</th>
+                            </tr>
+                            <tr>
+                                <th>Agrement  </th>
+                                <th>Security Deposit</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="">
+                                        <mat-label>Wb-500916541</mat-label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <mat-label>02-09-2022</mat-label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <mat-label>2022</mat-label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <mat-label>10000</mat-label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <mat-label>Approved</mat-label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <mat-label>Pending</mat-label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="upload-btn-wrapper">
+                                        <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Doc No</button>
+                                        <input type="file" >
+                                      </div>
+                                    
+                                </td>
+                                <td>
+                                    <div class="upload-btn-wrapper">
+                                        <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Doc No</button>
+                                        <input type="file" >
+                                      </div>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
