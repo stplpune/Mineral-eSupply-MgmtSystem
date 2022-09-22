@@ -17,7 +17,7 @@ export class ForgetPasswordComponent implements OnInit {
 
   forgetFrm !: FormGroup;
   recivedOtp:any;
-  otpSendFlag:boolean = false;
+  otpSendFlag:boolean = true;
 
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
@@ -30,7 +30,7 @@ export class ForgetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.forgetFrm = this.fb.group({
       mobileNumber: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo)]],
-      otpNumber: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo)]],
+      otpNumber: ['',[Validators.required]],
       password: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo)]],
       cpassword: ['',[Validators.required,Validators.pattern(this.validation.valMobileNo)]],
     })
