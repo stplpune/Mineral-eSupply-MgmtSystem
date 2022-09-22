@@ -261,7 +261,7 @@
                     <div class="col-sm-8">
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Font size</mat-label>
-                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
+                            <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty" (keypress)="validationService.acceptedOnlyNumbers_floatValue($event)" maxlength="6">
                             <span matSuffix>Tonnes</span>
                             <mat-error *ngIf="f.allocatedQty.errors">
                                 <span class="text-danger" *ngIf="f.allocatedQty.errors?.required">Allocated Quantity is
@@ -312,7 +312,7 @@
                     <td>
                         <mat-form-field [appearance]=configService.matFormField class="w-100">
                             <mat-label>PAN Number</mat-label>
-                            <input matInput type="text" uppercase maxlength="10" (keyup)="validationService.removeSpaceAtBegining($event)"
+                            <input matInput type="text" uppercase maxlength="10" (blur)="verifyPAN_Number_Inside()" (keyup)="validationService.removeSpaceAtBegining($event)"
                                 formControlName="panNo">
                             <mat-error *ngIf="f.panNo.errors" autocomplete="off">
                                 <span class="text-danger" *ngIf="f.panNo.errors?.required">PAN Number is
@@ -508,7 +508,7 @@
                 </mat-form-field> -->
                 <mat-form-field [appearance]=configService.matFormField class="mb-2" class="w-100">
                     <mat-label>Enter OTP</mat-label>
-                    <input matInput type="text" (keypress)="validationService.acceptedOnlyNumbers($event)"
+                    <input matInput type="text" (blur)="verifyMobileOTP()" (keypress)="validationService.acceptedOnlyNumbers($event)"
                         maxlength="6" formControlName="verfiedOTPId" autocomplete="nope">
                     <mat-error *ngIf="f.verfiedOTPId.errors">
                         <span class="text-danger" *ngIf="f.verfiedOTPId.errors?.required">

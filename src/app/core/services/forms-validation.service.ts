@@ -177,4 +177,14 @@ export class FormsValidationService {
        const maskSeperator = new RegExp('^([a-zA-Z0-9 .@])', 'g'); // only Accept A-Z & 0-9 & .@ 
        return maskSeperator.test(event.key);
    }
+
+   acceptedOnlyNumbers_floatValue(event: any) {
+        if (!this.noSpacesAtStart(event)) return false; // First Space not Accept
+        if (event.currentTarget.value.split('.').length - 1 == 1 && (event.keyCode == 46)) return false;  // double .Dot not accept
+        const maskSeperator = new RegExp('^([0-9 .])', 'g'); // only Accept 0-9 & .
+        return maskSeperator.test(event.key);
+    }
+
+   
+
 }
