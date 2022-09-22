@@ -132,6 +132,7 @@ body {
   margin-bottom: 1rem;
   text-transform: uppercase;
 }
+#wrapper ul,
 #wrapper p{
   font-size: 0.85rem;
   color: var(--text-color);
@@ -219,6 +220,7 @@ body {
 }
 .dashboard-table td mat-icon {
   font-size: 1.2rem !important;
+  color: var(--text-color);
 }
 .upload-btn-wrapper {
   position: relative;
