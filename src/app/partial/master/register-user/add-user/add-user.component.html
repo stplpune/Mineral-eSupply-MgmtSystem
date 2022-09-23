@@ -11,7 +11,7 @@
       <div class="mb-0">
         <mat-form-field [appearance]="configService.matFormField" class="w-100">
           <mat-label>Select Usertype</mat-label>
-          <mat-select formControlName="userTypeId" (selectionChange)="getSubuserType();this.editFlag =false">
+          <mat-select formControlName="userTypeId" (selectionChange)="editFlag =false; getSubuserType()">
             <mat-option *ngFor="let usertype of usertypearray" [value]="usertype.value"
               [disabled]="usertype.value == 0">
               {{usertype.text}}
@@ -47,7 +47,7 @@
       <div class="mb-0">
         <mat-form-field [appearance]="configService.matFormField" class="w-100">
           <mat-label>Select State</mat-label>
-          <mat-select formControlName="stateId" (selectionChange)="getdistrict();this.editFlag =false"
+          <mat-select formControlName="stateId" (selectionChange)=" editFlag =false;getdistrict()"
             [disabled]="true">
             <mat-option *ngFor="let state of stateArray" [value]="state.value" [disabled]="state.value == 0">
               {{state.text}}
@@ -64,7 +64,7 @@
         <mat-form-field [appearance]="configService.matFormField" class="w-100">
           <mat-label>Select District</mat-label>
           <mat-select formControlName="districtId" [disabled]="!userFrm.value.stateId"
-            (selectionChange)="this.editFlag =false">
+            (selectionChange)="editFlag =false">
             <mat-option *ngFor="let district of districtArray" [value]="district.value"
               [disabled]="district.value == 0">
               {{district.text}}
