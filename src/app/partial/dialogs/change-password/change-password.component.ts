@@ -64,9 +64,11 @@ export class ChangePasswordComponent implements OnInit {
     this.apiService.setHttp('put', "Login/ChangePassword", false, obj, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === "200") {
+        if (res.statusCode == "200") {
           this.spinner.hide();
-          this.commonMethod.matSnackBar(res.statusMessage,0) 
+          this.commonMethod.matSnackBar(res.statusMessage,0);
+          this.closeDialog();
+          
         } else {
           this.spinner.hide(); 
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
