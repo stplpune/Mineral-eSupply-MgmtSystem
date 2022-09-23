@@ -137,10 +137,16 @@ export class RegisterUserComponent implements OnInit {
       data: obj ? obj : '',
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      result == 'u' ? this.getData() : result == 'i' ? this.searchData() : '';
+      result == 'u' ? this.getData() : result == 'i' ?(this.clearFilter()) : '';
     });
   }
 
+  clearFilter(){
+    this.filterForm.controls['stateId'].setValue(0);
+    this.filterForm.controls['UserTypeId'].setValue(0);
+    this.filterForm.controls['Search'].setValue('');
+    this.searchData();
+  }
   getState() {
     this.stateArray = [];
     this.commonService.getState().subscribe({
@@ -155,6 +161,7 @@ export class RegisterUserComponent implements OnInit {
   getusertype() {
     this.commonService.getuserType().subscribe({
       next: (response: any) => {
+        response = response.filter((item:any) => item.value !== 3);
         this.usertypearray.push({ 'value': 0, 'text': 'All User Type' }, ...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })

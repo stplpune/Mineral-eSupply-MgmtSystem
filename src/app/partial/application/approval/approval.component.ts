@@ -31,6 +31,7 @@ export class ApprovalComponent implements OnInit {
   documentFrm: any;
   userDocumentTable: any;
   documentArray: any[] =[];
+  isDocumentUpload : boolean =false;
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -38,7 +39,7 @@ export class ApprovalComponent implements OnInit {
     public error: ErrorHandlerService,
     public configService: ConfigService,
     public commonService: CommonApiCallService,
-    private webStorageService: WebStorageService,
+    public webStorageService: WebStorageService,
     public vs: FormsValidationService,
     public dialog: MatDialog,
     public fileUploadService: FileUploadService,
@@ -152,6 +153,7 @@ export class ApprovalComponent implements OnInit {
     let documentUrl: any = this.fileUploadService.uploadDocuments(event, 0,formValue.documentName, "png,jpg,jpeg,pdf", 5, 5000)
     documentUrl.subscribe({
       next: (ele: any) => {
+        this.isDocumentUpload = true;
         this.spinner.hide();
         documentUrlUploaed = ele.responseData.documentWebURL;
         if (documentUrlUploaed != null) {
@@ -163,8 +165,7 @@ export class ApprovalComponent implements OnInit {
           }
 
           this.documentArray.push(obj);
-          // this.checkUniqueData(obj, documentTypeId);
-          console.log(this.documentArray);
+        this.formGroupDirective.resetForm();
         }
       },
     });
@@ -173,6 +174,7 @@ export class ApprovalComponent implements OnInit {
   }
 
   saveDocument() {
+    this.isDocumentUpload = false;
     this.userDocumentTable = new MatTableDataSource(this.documentArray);
   }
 }
