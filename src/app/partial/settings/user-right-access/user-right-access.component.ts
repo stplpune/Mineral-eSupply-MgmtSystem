@@ -26,7 +26,7 @@ export class UserRightAccessComponent implements OnInit {
   pageNumber: number = 1;
   totalRows!: number;
   localstorageData: any;
-
+  defualtDrodownCallFlag:boolean = true;
   displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'pageIcon', 'select'];
 
   constructor(private commonService: CommonApiCallService, private fb: FormBuilder, private apiService: CallApiService, private commonMethod: CommonMethodsService,
@@ -35,7 +35,6 @@ export class UserRightAccessComponent implements OnInit {
   ngOnInit(): void {
     this.localstorageData = this.webstorageService.getLoggedInLocalstorageData();
     this.defaultForm();
-    this.getPageList();
     this.getusertype();
   }
 
@@ -50,8 +49,12 @@ export class UserRightAccessComponent implements OnInit {
   getusertype() {
     this.commonService.getuserType().subscribe({
       next: (response: any) => {
-        response.pop();
-        this.userTypeArray.push({ 'value': 0, 'text': 'Select User Type' }, ...response);
+        this.userTypeArray = response;
+        if(this.defualtDrodownCallFlag){
+          this.filterForm.controls['userTypeId'].setValue(this.userTypeArray[0].value);
+          this.getSubuserType();
+        }
+        
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -61,7 +64,9 @@ export class UserRightAccessComponent implements OnInit {
     this.subUserTypeArray = [];
     this.commonService.getSubuserType(this.filterForm.value.userTypeId).subscribe({
       next: (response: any) => {
+        // this.subUserTypeArray = response;
         response.length == 1 ? (this.subUserTypeArray = response, this.filterForm.controls['subUserTypeId'].setValue(this.subUserTypeArray[0].value)) : this.subUserTypeArray.push({ 'value': 0, 'text': 'Select Sub User Type' }, ...response);
+        this.defualtDrodownCallFlag ?   this.getPageList() : '';
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -70,7 +75,7 @@ export class UserRightAccessComponent implements OnInit {
 
   getPageList() {
     let formValue = this.filterForm.value
-    let param = "?searchValue=+" + formValue.searchValue.trim() + "&userTypeId=" + formValue.userTypeId + "&subUserTypeId=" + formValue.subUserTypeId + "&pageNo=" + this.pageNumber + "&pageSize=10"
+    let param = "?searchValue=" + formValue.searchValue.trim() + "&userTypeId=" + formValue.userTypeId + "&subUserTypeId=" + formValue.subUserTypeId + "&pageNo=" + this.pageNumber + "&pageSize=10"
     this.apiService.setHttp('get', "UserPage/GetUserRights" + param, false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -91,13 +96,8 @@ export class UserRightAccessComponent implements OnInit {
   }
 
   addUpdatePageRights(event: any, pageId: any) {
-    let obj = {
-      userId: this.localstorageData.responseData.userId,
-      subUserId: this.localstorageData.responseData.subUserTypeId,
-      pageId: pageId,
-      isReadWriteAccess: event
-    }
-    this.apiService.setHttp('Post', "UserPage/AddUpdatePageRights", false, obj, false, 'WBMiningService');
+    let formData = this.filterForm.value;
+    this.apiService.setHttp('Post', "UserPage/AddUpdatePageRights?userId="+formData.userTypeId+"&subUserId="+formData.subUserTypeId+"&pageId="+pageId+"&isReadWriteAccess="+event+"", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
