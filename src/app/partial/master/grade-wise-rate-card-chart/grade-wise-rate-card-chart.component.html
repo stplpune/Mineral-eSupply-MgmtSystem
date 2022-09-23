@@ -8,149 +8,79 @@
                         <div class="col-sm-3">
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>Enter Coal Grade</mat-label>
-                                <input matInput placeholder="Enter Coal Grade">
+                                <input matInput placeholder="Enter Coal Grade" [formControl]="searchText">
                             </mat-form-field>
                         </div>
                         <div class="col-sm-3">
-                            <button mat-raised-button class="btn btn-secondary">Search</button>
+                            <button mat-raised-button class="btn btn-secondary" (click)="pageNumber = 1;getCoalGradewiseRateMaster()">Search</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3 text-end">
-                    <button  mat-raised-button class="btn btn-main" (click)="openAddRateCardrModal()">
-                        Add New Rate
-                    </button>
-                </div>
-
             </div>
         </div>
         <div class="card-body">
-            <table class="dashboard-table table table-bordered w-100">
-                <thead>
-                    <tr>
-                        <th rowspan="2">SR. No.</th>
-                        <th rowspan="2">Coal Grade</th>
-                        <th rowspan="2">Unit (Rs./Tonne)</th>
-                        <th rowspan="2">Base Rate</th>
-                        <th rowspan="2">Royalty</th>
-                        <th colspan="3" class="text-center">GST</th>
-                        <th rowspan="2">Cess</th>
-                        <th rowspan="2">Total</th>
-                        <th rowspan="2">Actions</th>
-                    </tr>
-                    <tr>
-                        <th>CGST (7%)</th>
-                        <th>SGST (7%)</th>
-                        <th>IGST (1 4%)</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <div class="">
-                                <mat-label>Coal Grade</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>Unit</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>Base Rate</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>Royalty</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>CGST</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>SGST</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>IGST</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>Cess</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                <mat-label>Total</mat-label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                                <button mat-icon-button class="bg-danger bg-opacity-10 text-danger">
-                                    <mat-icon>delete_outline</mat-icon>
-                                </button>
-                            </div>    
-                        </td>
-                    </tr>
-                </tbody>
+            <table mat-table [dataSource]="dataSource" class="dashboard-table">
+                <ng-container matColumnDef="srno">
+                    <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                    <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i + 1)-20}} </td>
+                </ng-container>
+                <ng-container matColumnDef="coalGradeName">
+                    <th mat-header-cell *matHeaderCellDef> Coal Grade </th>
+                    <td mat-cell *matCellDef="let element"> {{element.coalGradeName | titlecase}} </td>
+                </ng-container>
+                <ng-container matColumnDef="unit">
+                    <th mat-header-cell *matHeaderCellDef> Unit (Rs./Tonne) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.unit ? element.unit : '-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="baseRate">
+                    <th mat-header-cell *matHeaderCellDef> Base Rate </th>
+                    <td mat-cell *matCellDef="let element"> {{element.baseRate ? element.baseRate :'-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="royalty">
+                    <th mat-header-cell *matHeaderCellDef> Royalty</th>
+                    <td mat-cell *matCellDef="let element"> {{element.royalty ? element.royalty : '-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cgst">
+                    <th mat-header-cell *matHeaderCellDef> CGST (7%)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cgst ? element.cgst : '-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="sgst">
+                    <th mat-header-cell *matHeaderCellDef> SGST (7%)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.sgst ? element.sgst : '-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="igst">
+                    <th mat-header-cell *matHeaderCellDef> IGST (14%)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.igst ? element.igst : '-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cess">
+                    <th mat-header-cell *matHeaderCellDef> CESS</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cess ? element.cess : '-'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> actions </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="openAddRateCardrModal(element)">
+                                <mat-icon  >edit</mat-icon>
+                            </button>
+                            <!-- <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteConformation(element.id)">
+                                <mat-icon>delete_outline</mat-icon>
+                            </button> -->
+                        </div>
+                    </td>
+                </ng-container>
+                <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                  <td class="alert alert-danger text-center m-2 mt-2" colspan="12">No data found </td>
+              </tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"  [ngClass]="{'highlightedRow ':highlightedRow == row.id}"></tr>
             </table>
-            <div class="text-end">
-                <button class="btn btn-main" type="submit">Submit</button>
-            </div>
+            <ng-container *ngIf="totalRows>10">
+                <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
+                    (page)="pageChanged($event)">
+                </mat-paginator>
+            </ng-container>
         </div>
     </div>
+    
 </div>
-
-<!-- <button (click)="deleteRecord()">delete</button>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card plain-card">
-            <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="onSubmitMain()" autocomplete="off">                    
-                    <div class="row">
-                        <table style="border: 1px;">
-                            <thead>
-                                <tr>
-                                    <th>Sr.No</th>
-                                    <th>Mineral</th>
-                                    <th>Charges</th>
-                                </tr>
-                            </thead>
-                            <tbody formArrayName="mineral">
-                                <tr *ngFor="let itemrow of minerals.controls; let i=index;let l=last" [formGroupName]="i">
-                                    <td>
-                                        {{i+1}}
-                                    </td>
-                                    <td>
-                                        <input class="form-control" formControlName="mineralName" [readOnly]="true" style="border: 0px; box-shadow: none;">
-                                    </td>
-                                    <td>
-                                        <input class="form-control" formControlName="mineralCharge" maxlength="20">
-                                        <div class="errorText" *ngIf="minerals.controls[i].get('mineralCharge')?.errors?.['pattern']">
-                                            invalid</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->

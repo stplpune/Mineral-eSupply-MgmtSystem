@@ -1,68 +1,65 @@
 <div class="d-flex align-items-center justify-content-between position-relative">
     <h5 class="mat-dialog-title" id="mat-dialog-title-0"> Add Rate Card</h5>
-    <button type="submit" class="btn-modal-close" mat-mini-fab (click)="closeModal('No')">
+    <button type="submit" class="btn-modal-close" mat-mini-fab (click)="closeModal()">
         <mat-icon>close</mat-icon>
       </button>
 </div>
-<form>
+<form [formGroup]="addRateCardForm" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>Enter Coal Grade</mat-label>
-                <input matInput placeholder="Enter Coal Grade">
+                <input matInput placeholder="Enter Coal Grade" [readonly]="true" formControlName="coalGradeName">
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>Unit</mat-label>
-                <input matInput placeholder="Enter Unit (Rs/Tonne)">
+                <mat-select formControlName="unit" placeholder="Enter Unit (Rs/Tonne)">
+                    <mat-option [disabled]="true">select Unit</mat-option>
+                    <mat-option value="Ton">Ton</mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>Base Rate</mat-label>
-                <input matInput placeholder="Enter Base Rate">
+                <input matInput placeholder="Enter Base Rate" formControlName="baseRate" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>Royalty</mat-label>
-                <input matInput placeholder="Enter Royalty">
+                <input matInput placeholder="Enter Royalty" formControlName="royalty" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>CGST</mat-label>
-                <input matInput placeholder="Enter CGST">
+                <input matInput placeholder="Enter CGST" formControlName="cgst" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>SGST</mat-label>
-                <input matInput placeholder="Enter SGST">
+                <input matInput placeholder="Enter SGST" formControlName="sgst" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>IGST</mat-label>
-                <input matInput placeholder="Enter IGST ">
+                <input matInput placeholder="Enter IGST " formControlName="igst" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
             </mat-form-field>
         </div>
 
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
-                <mat-label>Cess</mat-label>
-                <input matInput placeholder="Enter Cess">
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field appearance="legacy" class="w-100">
-                <mat-label>Total</mat-label>
-                <input matInput placeholder="Enter Total">
+                <mat-label>Cess</mat-label> 
+                <input matInput placeholder="Enter Cess" formControlName="cess" (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
             </mat-form-field>
         </div>
         <div class="text-end">
-            <button class="btn btn-main" type="submit">Submit</button>
+            <button class="btn btn-main" type="submit">Update</button>
         </div>
 
     </div>

@@ -30,6 +30,7 @@ export class CoalGradeMasterComponent implements OnInit {
   pagesize: number = 10;
   totalRows: any;
   highlightedRow: any;
+  btnText = 'ADD';
 
 
   constructor(private fb: FormBuilder,
@@ -99,6 +100,7 @@ export class CoalGradeMasterComponent implements OnInit {
           this.coalFrm.value.id == 0 ? this.pageNumber = 1 : '' ;
           this.getCoalGrade();
           this.defaultForm();
+          this.btnText = 'ADD';
           this.spinner.hide();
         } else {
           this.spinner.hide();
@@ -110,6 +112,7 @@ export class CoalGradeMasterComponent implements OnInit {
   }
 
   updateCoalGrade(obj: any) {
+    this.btnText = 'Update';
     this.coalFrm.patchValue({
       id: obj.id,
       coal: obj.gradeName,
