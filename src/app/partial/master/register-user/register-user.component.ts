@@ -161,6 +161,7 @@ export class RegisterUserComponent implements OnInit {
   getusertype() {
     this.commonService.getuserType().subscribe({
       next: (response: any) => {
+        response = response.filter((item:any) => item.value !== 3);
         this.usertypearray.push({ 'value': 0, 'text': 'All User Type' }, ...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })

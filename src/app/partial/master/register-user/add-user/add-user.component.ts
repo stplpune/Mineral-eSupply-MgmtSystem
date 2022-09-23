@@ -118,7 +118,7 @@ export class AddUserComponent implements OnInit {
   getusertype() {
     this.commonService.getuserType().subscribe({
       next: (response: any) => {
-        response.pop();
+        response = response.filter((item:any) => item.value !== 3);
         this.usertypearray.push({ 'value': 0, 'text': 'Select User Type' }, ...response);
         this.editFlag ? (this.userFrm.controls['userTypeId'].setValue(this.parentData.userTypeId), this.getSubuserType()) : this.getState();
 
