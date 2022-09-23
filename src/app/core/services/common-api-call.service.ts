@@ -100,4 +100,15 @@ export class CommonApiCallService {
     })
   }
 
+  getDashboardData(){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "Dashboard/GetDashboardAnaliticalData", false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { obj.next(res); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+
+  }
+
 }
