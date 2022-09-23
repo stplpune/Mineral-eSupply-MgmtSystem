@@ -4,6 +4,7 @@ import { SidebarService } from './sidebar.service';
 import { filter, debounceTime, distinctUntilChanged } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,61 +18,23 @@ import { CommonMethodsService } from 'src/app/core/services/common-methods.servi
     ])
   ]
 })
-export class SidebarComponent implements OnInit , AfterViewInit{
+export class SidebarComponent implements OnInit, AfterViewInit {
   menus: any = [];
   searchFilter = new FormControl('');
   loginPages: any = [];
   loginAfterPages: any;
   getPageList: any;
 
-  constructor(public sidebarservice: SidebarService, private commonMethodsService: CommonMethodsService) {
-    // this.menus = sidebarservice.getMenuList();
-  }
+  constructor(public sidebarservice: SidebarService, private commonMethodsService: CommonMethodsService, private webStorage: WebStorageService) { }
 
   ngOnInit(): void {
-    let data = [
-      { "pageId": "1", "pageType": "1", "pageURL": "dashboard", "pageName": "Dashboard", "pageGroup": "Dashboard", "pageIcon": "fa-solid fa-chart-line", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "2", "pageType": "1", "pageURL": "register-user", "pageName": "Register User", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "3", "pageType": "1", "pageURL": "register-collary", "pageName": "Register Collary", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "4", "pageType": "1", "pageURL": "coal-grade-master", "pageName": "Coal Grade master", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "5", "pageType": "1", "pageURL": "document-master", "pageName": "Document master", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "6", "pageType": "1", "pageURL": "grade-wise-rate-card-chart", "pageName": "Grade wse Rate card Chart", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "7", "pageType": "1", "pageURL": "consumer-registration", "pageName": "Consumer Registrattion", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "23", "pageType": "1", "pageURL": "user-right-access", "pageName": "User Right Access", "pageGroup": "Master", "pageIcon": "fa-solid fa-paper-plane", "sortOrder": 1, "isSidebarMenu": true },
-
-      { "pageId": "8", "pageType": "1", "pageURL": "application", "pageName": "Application", "pageGroup": "Application", "pageIcon": "fa fa-shopping-cart", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "24", "pageType": "1", "pageURL": "msme-application-list", "pageName": "MSME Application List", "pageGroup": "Application", "pageIcon": "fa fa-shopping-cart", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "9", "pageType": "1", "pageURL": "approval", "pageName": "Approval", "pageGroup": "Application", "pageIcon": "fa fa-shopping-cart", "sortOrder": 1, "isSidebarMenu": true },
-
-      { "pageId": "10", "pageType": "1", "pageURL": "coal-allocation", "pageName": "Coal Allocation", "pageGroup": "Coal Allocation", "pageIcon": "fa-solid fa-briefcase", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "11", "pageType": "1", "pageURL": "booking_payment", "pageName": "Booking & Payment", "pageGroup": "Coal Allocation", "pageIcon": "fa-solid fa-briefcase", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "12", "pageType": "1", "pageURL": "delivery-order", "pageName": "Delivery Order", "pageGroup": "Coal Allocation", "pageIcon": "fa-solid fa-briefcase", "sortOrder": 1, "isSidebarMenu": true },
-
-      { "pageId": "13", "pageType": "1", "pageURL": "loading-slip", "pageName": "Loading Slip", "pageGroup": "Coal Lifting", "pageIcon": "fa-solid fa-hand-holding", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "14", "pageType": "1", "pageURL": "challan_nnvoice-request", "pageName": "Challan/Invoice Request", "pageGroup": "Coal Lifting", "pageIcon": "fa-solid fa-hand-holding", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "15", "pageType": "1", "pageURL": "generate_msme_invoice-challan", "pageName": "Generate MSME Invoice/Challan", "pageGroup": "Coal Lifting", "pageIcon": "fa-solid fa-hand-holding", "sortOrder": 1, "isSidebarMenu": true },
-
-
-      { "pageId": "16", "pageType": "1", "pageURL": "register-vehicle", "pageName": "Register Vehicle", "pageGroup": "Vehicle Management", "pageIcon": "fa-solid fa-truck-pickup", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "17", "pageType": "1", "pageURL": "vehicle-tracking", "pageName": "Vehicle Tracking", "pageGroup": "Vehicle Management", "pageIcon": "fa-solid fa-truck-pickup", "sortOrder": 1, "isSidebarMenu": true },
-
-      { "pageId": "18", "pageType": "1", "pageURL": "consumers", "pageName": "Consumers", "pageGroup": "Consumer Management", "pageIcon": "fa-solid fa-user-tie", "sortOrder": 1, "isSidebarMenu": true },
-
-      { "pageId": "19", "pageType": "1", "pageURL": "my_profile", "pageName": "My Profile", "pageGroup": "My Profile", "pageIcon": "fa-solid fa-user", "sortOrder": 1, "isSidebarMenu": true },
-
-      { "pageId": "20", "pageType": "1", "pageURL": "daily-lifting-chart", "pageName": "Daily Lifting chart", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "21", "pageType": "1", "pageURL": "monthly-allocation-to-msme", "pageName": "Monthly Allocation to MSME", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
-      { "pageId": "22", "pageType": "1", "pageURL": "etp_report", "pageName": "eTP report", "pageGroup": "MIS Reports", "pageIcon": "fa-solid fa-file-contract", "sortOrder": 1, "isSidebarMenu": true },
-     
-
-    ]
-    this.getPageList = JSON.stringify(data);
-
+    let data: any = this.webStorage.getAllPageName();
+    console.log(data);
     this.sideBarMenu(data)
   }
 
-
   sideBarMenu(data: any) {
+    this.loginPages = [];
     this.loginAfterPages = data.filter((ele: any) => {
       if (ele.isSidebarMenu == true) {
         return ele;
@@ -96,6 +59,7 @@ export class SidebarComponent implements OnInit , AfterViewInit{
       }
 
     });
+    console.log(this.loginPages);
   }
 
   getSideBarState() {
@@ -145,8 +109,8 @@ export class SidebarComponent implements OnInit , AfterViewInit{
     if (this.commonMethodsService.checkDataType(val == false)) {
       this.ngOnInit();
     } else {
-      let data: any = JSON.parse(this.getPageList);
-      console.log(data)
+      debugger;
+      let data: any = this.webStorage.getAllPageName();
       let result = data.filter((res: any) => {
         return res.pageName?.toLowerCase().includes(val) || res.module?.toLowerCase().includes(val);
       })

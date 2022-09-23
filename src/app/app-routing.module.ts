@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WebLayoutComponent } from './web/web-layout/web-layout.component';
 import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { PageNotFoundComponent } from './partial/errors/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'demo', pathMatch: 'full' },
@@ -20,9 +21,8 @@ const routes: Routes = [
     children: [
       { path: '', loadChildren: () => import('./partial/partial-layout/partial-layout.module').then(m => m.PartialLayoutModule)},
      ]
-
   },
-  
+  { path: '**', component: PageNotFoundComponent},
 ];
 
 @NgModule({

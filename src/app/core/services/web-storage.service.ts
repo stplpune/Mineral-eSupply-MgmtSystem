@@ -30,4 +30,11 @@ export class WebStorageService {
     let data =this.getLoggedInLocalstorageData();
     return data.responseData.subUserTypeId
   }
+
+  getAllPageName() {
+    if (this.checkUserIsLoggedIn() == true) {
+      let getAllPageName = this.getLoggedInLocalstorageData();
+      return getAllPageName.responseData2;
+    }
+  }
 }

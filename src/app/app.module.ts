@@ -28,6 +28,8 @@ import { ThemeModule } from './theme/theme.module';
 import { AgmDrawingModule } from '@agm/drawing';
 import { ConfirmationComponent } from './partial/dialogs/confirmation/confirmation.component';
 import { SuccessComponent } from './partial/dialogs/success/success.component';
+import { PageNotFoundComponent } from './partial/errors/page-not-found/page-not-found.component';
+import { AccessDeniedComponent } from './partial/errors/access-denied/access-denied.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -42,7 +44,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ChangePasswordComponent,
     LogoutComponent,
     ConfirmationComponent,
-    SuccessComponent
+    SuccessComponent,
+    PageNotFoundComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule,
