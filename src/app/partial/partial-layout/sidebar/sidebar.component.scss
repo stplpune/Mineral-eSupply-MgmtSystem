@@ -204,6 +204,10 @@
 .sidebar .sidebar-content .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
   padding: 5px 0;
   font-size: 0.75rem;
+  background: var(--top-bg-color);
+}
+.sidebar .sidebar-content .sidebar-menu .active i {
+  color: var(--main-color) !important;
 }
 
 .sidebar .sidebar-content .sidebar-menu .sidebar-dropdown .sidebar-submenu li {
@@ -304,8 +308,9 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--top-bg-color);
+  background-color: var(--menu-bg-color);
   color: var(--text-color);
+  box-shadow: 1px 0px 7px 0px rgb(0 0 0 / 25%);
 }
 
 .sidebar.sidebar-bg .sidebar-search input.search-menu,
@@ -313,7 +318,7 @@
 .sidebar.sidebar-bg .sidebar-header>a,
 .sidebar.sidebar-bg .sidebar-menu ul li a,
 .sidebar.sidebar-bg #close-sidebar {
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 
 .sidebar.sidebar-bg .sidebar-menu ul li:hover>a,
