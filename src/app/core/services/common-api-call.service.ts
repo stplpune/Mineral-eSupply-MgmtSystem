@@ -108,7 +108,34 @@ export class CommonApiCallService {
         error: (e: any) => { obj.error(e) }
       })
     })
-
   }
 
+  uploadFile(eventFront: any, eventSide: any, eventNumPlate: any, allowedDocTypes: string){
+    return new Observable(obj => {
+      if (eventFront.target.files[0] && eventSide.target.files[0] && eventNumPlate.target.files[0] ) {
+        const fileFront = eventFront.target.files[0];
+        const fileSide = eventSide.target.files[0];
+        const fileNumPlate = eventNumPlate.target.files[0];
+        const reader = new FileReader();
+        const fd = new FormData();
+        fd.append('VehicleFrontSideImage', fileFront);
+        fd.append('VehicleSideImage', fileSide);
+        fd.append('VehicleNumberImage', fileNumPlate);
+        this.apiService.setHttp("post", 'WB-mining/uploads/save-vehicle-image', false, fd, false, 'WBMiningService')
+        this.apiService.getHttp().subscribe({
+            next: (response: any) => {
+                if (response.statusCode === "200") {
+                    obj.next(response.responseData);
+                }
+                else {
+                    this.commonMethod.matSnackBar(response.statusMessage, 1);
+                }
+            },
+            error: ((err: any) => {
+              obj.error(err)
+            })
+        })
+      }
+    })
+  }
 }
