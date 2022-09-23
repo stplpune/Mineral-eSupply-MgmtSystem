@@ -15,8 +15,7 @@
         <div class="col-sm-6">
             <mat-form-field appearance="legacy" class="w-100">
                 <mat-label>Unit</mat-label>
-                <mat-select formControlName="unit" placeholder="Enter Unit (Rs/Tonne)">
-                    <mat-option [disabled]="true">select Unit</mat-option>
+                <mat-select formControlName="unit" [(ngModel)]="selected" [disabled]="true">
                     <mat-option value="Ton">Ton</mat-option>
                 </mat-select>
             </mat-form-field>

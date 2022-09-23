@@ -5,12 +5,14 @@ import { PartialLayoutComponent } from './partial/partial-layout/partial-layout.
 import { AuthGuard } from './core/guards/auth.guard';
 import { PageNotFoundComponent } from './partial/errors/page-not-found/page-not-found.component';
 import { AccessDeniedComponent } from './partial/errors/access-denied/access-denied.component';
+import { CheckLoggedInGuard } from './core/guards/check-logged-in.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     component: WebLayoutComponent,
+    canActivate: [CheckLoggedInGuard],
     children: [
       { path: '', loadChildren: () => import('./web/web-layout/web-layout.module').then(m => m.WebLayoutModule)},
     ]
