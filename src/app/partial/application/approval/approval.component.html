@@ -201,12 +201,12 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6" *ngIf="webStorageService.getSubUserType() == 3 ">
+    <div class="col-sm-6" *ngIf="false">
       Table-> srno, doc name, doc number,view
     </div>
   </div>
 
-  <div class="row align-items-baseline mb-3" *ngIf="webStorageService.getSubUserType() == 2 ">
+  <div class="row align-items-baseline mb-3" *ngIf="hideDocumentUpload">
     <div class="col-sm-6">
       <form [formGroup]="documentFrm">
         <div class="row">
@@ -287,7 +287,7 @@
     </div>
 
   </div>
-  <div class="mb-5 float-end">
+  <div class="mb-5 float-end" *ngIf="hideApproveButton">
     <button mat-raised-button color="primary" class="me-3" (click)="approveRejectOrApplication(false)">
       <i class="fa fa-times-circle" aria-hidden="true"></i>
       Reject</button>
