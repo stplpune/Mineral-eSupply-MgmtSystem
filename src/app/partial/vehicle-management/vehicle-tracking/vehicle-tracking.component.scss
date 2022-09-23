@@ -1,0 +1,54 @@
+.list-group .list-group-item{
+    padding-inline: 0;
+}
+.list-group .list-group-item.active{
+    color: var(--main-color);
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--top-bg-color);
+}
+.list-group .list-group-item:active,
+.list-group .list-group-item:hover,
+.list-group .list-group-item .active{
+    color: var(--main-color);
+    background-color: transparent !important;
+}
+#fixed-height{
+    height: 45vh;
+    overflow-y: auto !important;
+}
+.mapouter {
+    position: relative;
+    text-align: right;
+    height: 62.5vh;
+    width: 100%;
+    border-radius: 0.375rem;
+}
+.gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    height: 62.5vh;
+    width: 100%;
+    border-radius: 0.375rem;
+}
+.map-controls{
+    position: absolute;
+    top:10px;
+    left: 10px;
+    background-color: var(--card-bg-color);
+    border-radius: 0.375rem;
+}
+.map-controls span{
+    color: var(--text-color);
+}
+.map-controls .mat-list-base{
+    padding-bottom: 8px !important;
+}
+.map-controls .mat-list-base .mat-list-item{
+    font-size: 0.85rem !important;
+    height: 32px !important;
+}
+.map-controls .mat-list-base .mat-icon-button{
+    height: 26px !important;
+    line-height: 0 !important;
+    width:26px !important;
+}

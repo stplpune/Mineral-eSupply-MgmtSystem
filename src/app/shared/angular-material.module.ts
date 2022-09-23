@@ -31,6 +31,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatListModule} from '@angular/material/list';
 @NgModule({
   declarations: [],
   imports: [
@@ -66,7 +68,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatDividerModule,
     MatStepperModule,
     MatBadgeModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSliderModule,
+    MatListModule
   ],
   exports: [
     CommonModule,
@@ -104,7 +108,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatStepperModule,
     MatAutocompleteModule,
     MatBadgeModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSliderModule,
+    MatListModule
   ],
 })
 export class AngularMaterialModule {}
