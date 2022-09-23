@@ -37,4 +37,12 @@ export class WebStorageService {
       return getAllPageName.responseData2;
     }
   }
+
+  redirectToDashborad() {
+    if (this.checkUserIsLoggedIn() == true) {
+      let logInUserType: any = this.getAllPageName();
+      let redirectToDashboard = logInUserType[0].pageURL;
+      return redirectToDashboard;
+    }
+  }
 }

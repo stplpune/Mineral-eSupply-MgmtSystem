@@ -35,12 +35,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   sideBarMenu(data: any) {
     this.loginPages = [];
-    this.loginAfterPages = data;
-    // .filter((ele: any) => {
-    //   if (ele.isSidebarMenu == true) {
-    //     return ele;
-    //   }
-    // })
+    this.loginAfterPages = data.filter((ele: any) => {
+      if (ele.isSideBarMenu == true) {
+        return ele;
+      }
+    })
 
     this.loginAfterPages.forEach((item: any) => {
       let existing: any = this.loginPages.filter((v: any) => {
