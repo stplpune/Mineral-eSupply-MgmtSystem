@@ -67,7 +67,6 @@ export class ChangePasswordComponent implements OnInit {
         if (res.statusCode == "200") {
           this.spinner.hide();
           this.commonMethod.matSnackBar(res.statusMessage,0);
-          this.closeDialog();
           localStorage.removeItem('loggedInData');
           sessionStorage.removeItem('loggedIn');
           this.router.navigate(['/login']);
