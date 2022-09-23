@@ -2,8 +2,8 @@ export const themes: any = {
     light: {
         '--text-color': '#303030',
         '--bg-color': '#fff',
-        '--top-bg-color': '#E6E6E6',
-        '--menu-bg-color': '#c9c9c9',
+        '--top-bg-color': '#FBF3EC',
+        '--menu-bg-color': '#fff',
         '--card-bg-color': '#FFFFFF',
         '--card-border-color': 'rgba(0,0,0,0.125)'
     },
