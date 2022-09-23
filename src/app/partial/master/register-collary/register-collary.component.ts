@@ -82,6 +82,7 @@ export class RegisterCollaryComponent implements OnInit {
     private shareDataService: ShareDataService,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
+    public validation: FormsValidationService,
     private ngZone: NgZone, 
     private mapsAPILoader: MapsAPILoader
     ) { }
@@ -112,6 +113,9 @@ export class RegisterCollaryComponent implements OnInit {
       geofenceType: ['', [Validators.required]],
       distance: ['', [Validators.required]],
       createdBy: [this.webStorageService.getUserId(), [Validators.required]],
+      contactNo: ['', [Validators.pattern(this.validation.valMobileNo)]],
+      emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
+      remark: [''],
     })
   }
 
@@ -274,7 +278,6 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onMapReady(map?: any) {
-    console.log(this.data);
     this.isHide = this.data?.isHide || false;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -315,11 +318,15 @@ export class RegisterCollaryComponent implements OnInit {
             })
             this.centerMarker.addListener('dragend', (evt: any) => {
               this.centerMarkerLatLng = "Long, Lat:" + evt.latLng.lng().toFixed(6) + ", " + evt.latLng.lat().toFixed(6);
-              this.centerMarker.panTo(evt.latLng);
+              this.setLatLong(evt.latLng.lat().toFixed(6), evt.latLng.lng().toFixed(6)) // set lat long
+              this.map?.panTo(evt.latLng);
             });
           }
           this.centerMarker.setPosition({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
           this.centerMarkerLatLng = "Long, Lat:" + place.geometry.location.lng().toFixed(6) + ", " + place.geometry.location.lat().toFixed(6);
+          this.setLatLong(place.geometry.location.lat().toFixed(6), place.geometry.location.lng().toFixed(6)) // set lat long
+
+
         });
       });
     })
@@ -604,6 +611,12 @@ export class RegisterCollaryComponent implements OnInit {
     this.isShapeDrawn = false;
     this.clearSelection(false);
   }
+
+  setLatLong(latitude:any, longitude:any){
+    this.frmCollary.controls['latitude'].setValue(latitude)
+    this.frmCollary.controls['longitude'].setValue(longitude)
+  }
+  
   //-------------------------------------------- agm map fn end heare ------------------------------//
 
 }
