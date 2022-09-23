@@ -30,8 +30,8 @@ export class ApprovalComponent implements OnInit {
   remarkDetails: any;
   documentFrm: any;
   userDocumentTable: any;
-  documentArray: any[] =[];
-  isDocumentUpload : boolean =false;
+  documentArray: any[] = [];
+  isDocumentUpload: boolean = false;
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -52,8 +52,8 @@ export class ApprovalComponent implements OnInit {
   }
   defaultForm() {
     this.documentFrm = this.fb.group({
-      "documentName": ['',Validators.required],
-      "documentNo": ['',Validators.required]
+      "documentName": ['', Validators.required],
+      "documentNo": ['', Validators.required]
     })
   }
 
@@ -98,9 +98,7 @@ export class ApprovalComponent implements OnInit {
     });
   }
 
-  approveRejectApp(flag: boolean) {
-    console.log(this.remarkDetails);
-
+  approveRejectOrApplication(flag: boolean) {
     let obj: any = ConfigService.dialogObj;
     obj['p1'] = flag ? 'Are you sure you want to approve?' : 'Are you sure you want to reject ?';
     obj['cardTitle'] = flag ? 'Application  Approve' : 'Application  Reject';
@@ -114,15 +112,18 @@ export class ApprovalComponent implements OnInit {
     })
 
     dialog.afterClosed().subscribe(res => {
+      this.remarkDetails
       if (res.flag == 'Yes') {
         let obj = {
-          "id": 0,
-          "applicationId": 0,
-          "approverId": 0,
-          "approverTypeName": "string",
+          "id": this.remarkDetails[0].id,
+          "applicationId": this.remarkDetails[0].applicationId,
+          "approverLevel": this.webStorageService.getSubUserType(),
+          "approverId": this.webStorageService.getUserId(),
+          "approverTypeName": "",
           "applicationStatus": flag ? 1 : 2,
           "applicationStatusText": "",
-          "remark": res.remark
+          "remark": res?.remark,
+          "coalApplicationDocuments": this.documentArray ? this.documentArray : null
         }
         this.apiService.setHttp('put', "UserRegistration/BlockUnblockUser", false, obj, false, 'WBMiningService');
         this.apiService.getHttp().subscribe({
@@ -145,12 +146,12 @@ export class ApprovalComponent implements OnInit {
   documentUpload(event: any) {
     let formValue = this.documentFrm.value;
     if (this.documentFrm.invalid) {
-      this.commonMethod.matSnackBar("Please Enter Document Name or No",1);
+      this.commonMethod.matSnackBar("Please Enter Document Name or No", 1);
       return;
     }
     this.spinner.show();
     let documentUrlUploaed: any;
-    let documentUrl: any = this.fileUploadService.uploadDocuments(event, 0,formValue.documentName, "png,jpg,jpeg,pdf", 5, 5000)
+    let documentUrl: any = this.fileUploadService.uploadDocuments(event, 0, formValue.documentName, "png,jpg,jpeg,pdf", 5, 5000)
     documentUrl.subscribe({
       next: (ele: any) => {
         this.isDocumentUpload = true;
@@ -158,23 +159,27 @@ export class ApprovalComponent implements OnInit {
         documentUrlUploaed = ele.responseData.documentWebURL;
         if (documentUrlUploaed != null) {
           let obj = {
-            "documentTypeId": '',
+            "documentTypeId": 0,
             "documentName": formValue.documentName,
             "documentNo": formValue.documentNo,
             "documentPath": documentUrlUploaed
           }
-
           this.documentArray.push(obj);
-        this.formGroupDirective.resetForm();
+          this.formGroupDirective.resetForm();
         }
       },
     });
     this.spinner.hide();
-
   }
 
   saveDocument() {
     this.isDocumentUpload = false;
     this.userDocumentTable = new MatTableDataSource(this.documentArray);
   }
+
+  deleteDocument(index: number) {
+    this.documentArray.splice(index, 1);
+    this.saveDocument();
+  }
+
 }

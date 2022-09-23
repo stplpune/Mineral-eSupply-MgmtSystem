@@ -17,6 +17,7 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 export class AddRateCardComponent implements OnInit {
 
   addRateCardForm:FormGroup | any;
+  selected = 'Ton';
 
   constructor(
     private fb: FormBuilder,
@@ -74,7 +75,7 @@ export class AddRateCardComponent implements OnInit {
      "isDeleted": false,
      "id": 0,
      "coalGradeId": parseInt(this.data.coalGradeId),
-     "unit": formData.unit,
+     "unit": 'Ton',
      "baseRate": parseInt(formData.baseRate),
      "royalty": parseInt(formData.royalty),
      "cgst": parseInt(formData.cgst),

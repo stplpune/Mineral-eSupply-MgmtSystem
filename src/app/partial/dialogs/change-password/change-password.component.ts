@@ -68,9 +68,12 @@ export class ChangePasswordComponent implements OnInit {
           this.spinner.hide();
           this.commonMethod.matSnackBar(res.statusMessage,0);
           this.closeDialog();
-          
+          localStorage.removeItem('loggedInData');
+          sessionStorage.removeItem('loggedIn');
+          this.router.navigate(['/login']);
+          this.ClearAll();
         } else {
-          this.spinner.hide(); 
+          this.spinner.hide();
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       },
