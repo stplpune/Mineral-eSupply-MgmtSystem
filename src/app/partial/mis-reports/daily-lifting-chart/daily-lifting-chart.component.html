@@ -1,1 +1,58 @@
-<p>daily-lifting-chart works!</p>
+<div class="container-fluid">
+    <h5 class="page-heading">Daily Lifting Chart</h5>
+    <div class="row justify-content-between">
+        <div class="col-sm-12">
+            <div class="card plain-card">
+                <div class="card-header pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-7 col-sm-3">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label>Select Collery</mat-label>
+                                        <mat-select>
+                                            <mat-option value="option">Option-1</mat-option>
+                                            <mat-option value="option">Option-2</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-5 col-sm-2">
+                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                        <mat-label>Select Year</mat-label>
+                                        <input matInput [matDatepicker]="picker">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-2 text-sm-center">
+                                    <button mat-raised-button class="btn btn-secondary">
+                                        Search
+                                    </button>
+                                </div>
+                                <div class="col-sm-auto ">
+                                    <div class="d-flex justify-content-sm-between mt-2">
+                                        <small>Chart</small>
+                                        <mat-slide-toggle class="mx-3"></mat-slide-toggle>
+                                        <small class="form-data">Report</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                             Chart
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            Table
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,12 +7,12 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from "@angu
 export class FormsValidationService {
   
   excludeZeroAtStart = '^(?!0+$)[0-9]{0,20}$';
-//   onlyAlphabets = '^[a-zA-Z]+$';
+  onlyAlphabet = '^[a-zA-Z]+$';
   alphabetsWithSpace = '^[a-zA-Z][a-zA-Z ]*$';
-  // alphaNumeric = '^[a-zA-Z0-9]*$';
+  alphaNumericOnly = '^[a-zA-Z0-9]*$';
   alphaNumericWithSpace = '^[a-zA-Z0-9][a-zA-Z0-9 ]*$';
   alphaNumericWithSpaceAndSpecialChar = '^[a-zA-Z0-9 /(,)&.+-@#$]*$';
-  // onlyDigits = '^[0-9]*$';
+  onlyNumbers = '^[0-9]*$';
   numbersWithDot = '^[0-9\s]*\.?[0-9\s]+$'
 
   constructor() { }
@@ -32,7 +32,7 @@ export class FormsValidationService {
    valDescription = '^[^\\s\\[\\[`&._@#%*!+"\'\/\\]\\]{}][a-zA-Z@0-9.,\\s]+$'; // Description or commit
    // valEmailId = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
     valEmailId='^[a-zA-Z0-9._%+-]+@([a-z0-9.-]+[.])+[a-z]{2,5}$';
-   
+   valVehicleNo = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$'
 
    vaPanNo = '[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}';
    valAadharNo = '^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$';

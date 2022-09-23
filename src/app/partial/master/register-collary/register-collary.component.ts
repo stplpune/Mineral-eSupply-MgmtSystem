@@ -36,12 +36,10 @@ export class RegisterCollaryComponent implements OnInit {
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
+  circle:any ;
 
 
   // map var 
-  @Input() sendSelGeoFanceObj: any;
-  @Output() geoFanceData = new EventEmitter();
-
   map: any;
   drawingManager: any;
   centerMarker: any = undefined;
@@ -85,7 +83,8 @@ export class RegisterCollaryComponent implements OnInit {
     public validation: FormsValidationService,
     private ngZone: NgZone, 
     private mapsAPILoader: MapsAPILoader
-    ) { }
+    ) {
+     }
 
   ngOnInit(): void {
     this.createFilterForm();
@@ -99,7 +98,6 @@ export class RegisterCollaryComponent implements OnInit {
       districtIdFltr: [''],
       collaryNameFltr: ['', [Validators.pattern(this.frmValid.alphabetsWithSpace)]]
     })
-
   }
 
   createCollaryForm(){
@@ -109,9 +107,9 @@ export class RegisterCollaryComponent implements OnInit {
       collieryAddress: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
       longitude: ['', [Validators.required]],
-      polygonText: ['', [Validators.required]],
-      geofenceType: ['', [Validators.required]],
-      distance: ['', [Validators.required]],
+      polygonText: [''],
+      geofenceType: [0],
+      distance: [0],
       createdBy: [this.webStorageService.getUserId(), [Validators.required]],
       contactNo: ['', [Validators.pattern(this.validation.valMobileNo)]],
       emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
@@ -183,18 +181,28 @@ export class RegisterCollaryComponent implements OnInit {
           this.frmCollary.patchValue({
             collieryName: res.responseData.collieryName,
             districtId: res.responseData.districtId,
-            collieryAddress:res.responseData.collieryAddress
+            collieryAddress:res.responseData.collieryAddress,
+            contactNo:res.responseData.contactNo,
+            emailId:res.responseData.emailId,
+            remark:res.responseData.remark,
+            latitude:res.responseData.latitude,
+            longitude:res.responseData.longitude,
           })
         }
+      
+
         this.data = {
-          newRecord: {
+          selectedRecord: {
             latLng:  res.responseData.latitude+','+ res.responseData.longitude,
             polygonText:  res.responseData.polygonText,
             geofenceType:  res.responseData?.geofenceType,
             distance:  res.responseData.distance,
             collieryAddress: res.responseData.collieryAddress
           },
+          isHide:true
       }
+
+      this.onMapReady(this.map);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -239,16 +247,13 @@ export class RegisterCollaryComponent implements OnInit {
     this.spinner.show();
     if (this.frmCollary.invalid) {
       this.spinner.hide();
-      console.log(this.frmCollary.value)
-      // if(!this.frmCollary.value.collieryAddress){
-        this.commonMethod.matSnackBar('Address is required', 1)
-      // }
       return;
     }else{
       var req = {
         "id" : this.isEdit == true ? this.updateId : 0,
         ...this.frmCollary.value
       }
+
       this.apiService.setHttp((this.isEdit == true ? 'put' : 'post'), "CollieryMaster", false, req, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
@@ -256,8 +261,10 @@ export class RegisterCollaryComponent implements OnInit {
             this.spinner.hide();
             this.getCollaryList();
             this.onCancelRecord();
+            this.removeShape();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
+            this.spinner.hide();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
@@ -269,7 +276,7 @@ export class RegisterCollaryComponent implements OnInit {
 
   onCancelRecord(){
     this.frmCollary.reset();
-    this.clearSelection(true);
+    this.removeShape();
     this.isEdit = false;
   }
 
@@ -280,27 +287,34 @@ export class RegisterCollaryComponent implements OnInit {
   onMapReady(map?: any) {
     this.isHide = this.data?.isHide || false;
     this.map = map;
-    this.drawingManager = new google.maps.drawing.DrawingManager({
-      drawingControl: this.drawingContFlg,
-      drawingControlOptions: {
-        drawingModes: [google.maps.drawing.OverlayType.POLYGON, google.maps.drawing.OverlayType.CIRCLE],
-      },
-      circleOptions: {
-        fillColor: "#00FF00",
-        strokeColor: "#00FF00",
-        clickable: false,
-        editable: true,
-        zIndex: 1,
-      },
-      polygonOptions: {
-        fillColor: "#00FF00",
-        strokeColor: "#00FF00",
-        draggable: true,
-        editable: true,
-      },
-      map: map
-    });
+    if(this.isEdit){
+      this.drawingManager.setDrawingMode(null);
+    }else{
+     
+      this.drawingManager = new google.maps.drawing.DrawingManager({
+        drawingControl: this.drawingContFlg,
+        drawingControlOptions: {
+          drawingModes: [google.maps.drawing.OverlayType.POLYGON, google.maps.drawing.OverlayType.CIRCLE],
+        },
+        circleOptions: {
+          fillColor: "#00FF00",
+          strokeColor: "#00FF00",
+          clickable: false,
+          editable: true,
+          zIndex: 1,
+        },
+        polygonOptions: {
+          fillColor: "#00FF00",
+          strokeColor: "#00FF00",
+          draggable: true,
+          editable: true,
+        },
+        map: map
+      });
+    }
+   
 
+  
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef?.nativeElement);
       autocomplete.addListener("place_changed", () => {
@@ -325,13 +339,11 @@ export class RegisterCollaryComponent implements OnInit {
           this.centerMarker.setPosition({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
           this.centerMarkerLatLng = "Long, Lat:" + place.geometry.location.lng().toFixed(6) + ", " + place.geometry.location.lat().toFixed(6);
           this.setLatLong(place.geometry.location.lat().toFixed(6), place.geometry.location.lng().toFixed(6)) // set lat long
-
-
         });
       });
     })
 
-    if (this.data?.newRecord.geofenceType == 1) {
+    if (this.data?.newRecord?.geofenceType == 1) {
       var OBJ_fitBounds = new google.maps.LatLngBounds();
       const path = this.data?.newRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[1]), lat: Number(x.split(' ')[0]) }; OBJ_fitBounds.extend(obj); return obj });
       const existingShape = new google.maps.Polygon({ paths: path, strokeColor: "#00FF00", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#00FF00", fillOpacity: 0.35, editable: true, draggable: true });
@@ -360,6 +372,7 @@ export class RegisterCollaryComponent implements OnInit {
         })
       })
     }
+ 
     if (this.data?.selectedRecord && this.data?.selectedRecord?.geofenceType == 1) { //for use edit
       try {
         var OBJ_fitBounds = new google.maps.LatLngBounds();
@@ -370,17 +383,11 @@ export class RegisterCollaryComponent implements OnInit {
         const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latLng });
 
         let hc = "<table><tbody>";
-        hc += '<tr><td colspan="2"><h4>Selected Thana details</h4></td></tr>';
-        hc += '<tr><td>Thana Name</td><td>: ' + (this.data.selectedRecord.thanaName || "-") + '</td></tr>';
-        hc += '<tr><td>Zone Name</td><td>: ' + (this.data.selectedRecord.zoneName || "-") + '</td></tr>';
-        hc += '<tr><td>Division</td><td>: ' + (this.data.selectedRecord.division || "-") + '</td></tr>';
-        hc += '<tr><td>Contact No.</td><td>: ' + (this.data.selectedRecord.contactNo || "-") + '</td></tr>';
-        hc += '<tr><td>Email Id</td><td>: ' + (this.data.selectedRecord.emailId || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Name</td><td>: ' + (this.data.selectedRecord.inchargeName || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Contact No.</td><td>: ' + (this.data.selectedRecord.inchargeContactNo || "-") + '</td></tr>';
-        hc += '<tr><td>latitude</td><td>: ' + (this.data.selectedRecord.latitude || "-") + '</td></tr>';
-        hc += '<tr><td>longitude</td><td>: ' + (this.data.selectedRecord.longitude || "-") + '</td></tr>';
-        hc += '<tr><td>polygonText</td><td>: ' + (this.data.selectedRecord.polygonText || "-") + '</td></tr>';
+        hc += '<tr><td colspan="2"><h6>Selected Colliery Details</h6></td></tr>';
+        hc += '<tr><td>Colliery Name</td><td>: ' + (this.data.selectedRecord.collieryName || "-") + '</td></tr>';
+        hc += '<tr><td>Colliery Address</td><td>: ' + (this.data.selectedRecord.collieryAddress || "-") + '</td></tr>';
+        hc += '<tr><td>Colliery Latlong</td><td>: ' + (this.data.selectedRecord.latLng || "-") + '</td></tr>';
+        hc += '<tr><td>Colliery GeofenceType</td><td>: ' + (this.data.selectedRecord.geofenceType || "-") + '</td></tr>';
         hc += "</tbody></table>";
 
         const info = new google.maps.InfoWindow({
@@ -392,7 +399,7 @@ export class RegisterCollaryComponent implements OnInit {
 
       } catch (e) { }
     }
-    if (this.data?.newRecord.geofenceType == 2) {
+    if (this.data?.newRecord?.geofenceType == 2) {
       let latlng = new google.maps.LatLng(this.data?.newRecord.latLng.split(",")[0], this.data?.newRecord.latLng.split(",")[1]);
       let circle = new google.maps.Circle({
         strokeColor: '#00FF00',
@@ -426,11 +433,14 @@ export class RegisterCollaryComponent implements OnInit {
       });
 
     }
+ 
     if (this.data?.selectedRecord && this.data.selectedRecord?.geofenceType == 2) { //for use edit
+     
       try {
+        
         let latlng = new google.maps.LatLng(this.data.selectedRecord.polygonText.split(" ")[1], this.data.selectedRecord.polygonText.split(" ")[0]);
         const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latlng });
-        let circle = new google.maps.Circle({
+        this.circle = new google.maps.Circle({
           strokeColor: '#FF0000',
           fillColor: '#FF0000',
           strokeOpacity: 0.8,
@@ -441,21 +451,16 @@ export class RegisterCollaryComponent implements OnInit {
           center: latlng,
           radius: this.data.selectedRecord.distance,
         });
+        console.log(this.circle);
         map.panTo(latlng);
         this.setZoomLevel(this.data.selectedRecord.distance);
 
         let hc = "<table><tbody>";
-        hc += '<tr><td colspan="2"><h4>Selected Thana details</h4></td></tr>';
-        hc += '<tr><td>Thana Name</td><td>: ' + (this.data.selectedRecord.thanaName || "-") + '</td></tr>';
-        hc += '<tr><td>Zone Name</td><td>: ' + (this.data.selectedRecord.zoneName || "-") + '</td></tr>';
-        hc += '<tr><td>Division</td><td>: ' + (this.data.selectedRecord.division || "-") + '</td></tr>';
-        hc += '<tr><td>Contact No.</td><td>: ' + (this.data.selectedRecord.contactNo || "-") + '</td></tr>';
-        hc += '<tr><td>Email Id</td><td>: ' + (this.data.selectedRecord.emailId || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Name</td><td>: ' + (this.data.selectedRecord.inchargeName || "-") + '</td></tr>';
-        hc += '<tr><td>Incharge Contact No.</td><td>: ' + (this.data.selectedRecord.inchargeContactNo || "-") + '</td></tr>';
-        hc += '<tr><td>latitude</td><td>: ' + (this.data.selectedRecord.latitude || "-") + '</td></tr>';
-        hc += '<tr><td>longitude</td><td>: ' + (this.data.selectedRecord.longitude || "-") + '</td></tr>';
-        hc += '<tr><td>polygonText</td><td>: ' + (this.data.selectedRecord.polygonText || "-") + '</td></tr>';
+        hc += '<tr><td colspan="2"><h6>Selected Colliery Details</h6></td></tr>';
+        hc += '<tr><td>Colliery Name</td><td>: ' + (this.data.selectedRecord.collieryName || "-") + '</td></tr>';
+        hc += '<tr><td>Colliery Address</td><td>: ' + (this.data.selectedRecord.collieryAddress || "-") + '</td></tr>';
+        hc += '<tr><td>Colliery Latlong</td><td>: ' + (this.data.selectedRecord.latLng || "-") + '</td></tr>';
+        hc += '<tr><td>Colliery GeofenceType</td><td>: ' + (this.data.selectedRecord.geofenceType || "-") + '</td></tr>';
         hc += "</tbody></table>";
 
         const info = new google.maps.InfoWindow({
@@ -467,8 +472,6 @@ export class RegisterCollaryComponent implements OnInit {
 
       } catch (e) { }
     }
-
- 
     this.isHide && this.drawingManager.setDrawingMode(null);
 
     google.maps.event.addListener(
@@ -532,17 +535,14 @@ export class RegisterCollaryComponent implements OnInit {
 
     this.newRecord.latLng = this.newRecord?.centerMarkerLatLng;
        this.frmCollary.patchValue({
-      latitude:this.newRecord.latLng.split(",")[1],
+      latitude:+this.newRecord.latLng.split(",")[1],
       longitude:+this.newRecord.latLng.split(",")[0],
       polygonText:this.newRecord?.polygontext,
       geofenceType:this.newRecord?.geofenceType == "circle" ? 2 : 1,
       distance: this.newRecord?.geofenceType == "circle" ? this.newRecord?.radius :0,
       collieryAddress:this.searchElementRef.nativeElement.value
     })
-    this.searchElementRef.nativeElement.value = this.searchElementRef.nativeElement.value,
-
-
-    this.geoFanceData.emit(this.frmCollary.value);
+    this.searchElementRef.nativeElement.value = this.searchElementRef.nativeElement.value;
   }
 
   clearSelection(isAllClear: any) {
@@ -610,11 +610,19 @@ export class RegisterCollaryComponent implements OnInit {
   removeShape() {
     this.isShapeDrawn = false;
     this.clearSelection(false);
+    this.resetLatLong();
   }
 
   setLatLong(latitude:any, longitude:any){
     this.frmCollary.controls['latitude'].setValue(latitude)
     this.frmCollary.controls['longitude'].setValue(longitude)
+  }
+
+  resetLatLong(){
+   if(!this.isEdit){
+    this.frmCollary.controls['latitude'].setValue('')
+    this.frmCollary.controls['longitude'].setValue('')
+   }
   }
   
   //-------------------------------------------- agm map fn end heare ------------------------------//

@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { VehicleTrackingRoutingModule } from './vehicle-tracking-routing.module';
-import { VehicleTrackingComponent } from './vehicle-tracking.component';
+import { ConsumerDetailsRoutingModule } from './consumer-details-routing.module';
+import { ConsumerDetailsComponent } from './consumer-details.component';
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
   declarations: [
-    VehicleTrackingComponent
+    ConsumerDetailsComponent
   ],
   imports: [
     CommonModule,
-    VehicleTrackingRoutingModule,
+    ConsumerDetailsRoutingModule,
     AngularMaterialModule
   ]
 })
-export class VehicleTrackingModule { }
+export class ConsumerDetailsModule { }

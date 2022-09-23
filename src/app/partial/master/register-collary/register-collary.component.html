@@ -143,24 +143,24 @@
                                     enter address.</span>
                             </mat-error>
                         </mat-form-field>
-                        <div class="mb-3">
-                            <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
+                        <div class="mb-3 position-relative">
+                            <agm-map  [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
                                 (mapReady)="onMapReady($event)"></agm-map>
-                            <button mat-mini-fab color="warn" (click)="removeShape()" *ngIf="isShapeDrawn"
-                                aria-label="Remove Shape">Close</button>
-                            <!-- <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map> -->
+                                <button class="btn-map-close" (click)="removeShape()" *ngIf="isShapeDrawn"
+                                aria-label="Remove Shape"><i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Latitude</mat-label>
-                                    <input id="colliery_name" [disabled]="true" matInput formControlName="latitude" maxlength="200">
+                                    <input id="colliery_name" [readonly]="true" matInput formControlName="latitude" maxlength="200">
                                 </mat-form-field>
                             </div>
                             <div class="col-sm-6">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Longitude</mat-label>
-                                    <input id="colliery_name"  [disabled]="true"  matInput formControlName="longitude" maxlength="200">
+                                    <input id="colliery_name"  [readonly]="true"  matInput formControlName="longitude" maxlength="200">
                                 </mat-form-field>
                             </div>
                            

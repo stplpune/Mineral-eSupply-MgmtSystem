@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-
 @Component({
-  selector: 'app-etp-report',
-  templateUrl: './etp-report.component.html',
-  styleUrls: ['./etp-report.component.scss'],
+  selector: 'app-consumer-details',
+  templateUrl: './consumer-details.component.html',
+  styleUrls: ['./consumer-details.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -13,7 +12,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ]),
   ]
 })
-export class EtpReportComponent implements OnInit {
+export class ConsumerDetailsComponent implements OnInit {
 
   constructor() { }
 
@@ -23,8 +22,8 @@ export class EtpReportComponent implements OnInit {
   columnsToDisplay = ['srno', 'Challan_No', 'Vehicle_No', 'Mineral','Grade','Colliery_Name','Destination','Quantity'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: PeriodicElement | any;
-
 }
+
 export interface PeriodicElement {
   srno: number;
   Challan_No: number;

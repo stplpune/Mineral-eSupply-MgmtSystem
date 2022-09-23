@@ -1,1 +1,295 @@
-<p>vehicle-tracking works!</p>
+<div class="container-fluid">
+    <h5 class="page-heading">Vehicle Tracking</h5>
+    <div class="card card-body plain-card">
+        <div class="row justify-content-between">
+            <div class="col-sm-4">
+                <div class="card border-main mb-3">
+                    <div class="card-header text-main">
+                        Vehicle
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row gx-1 align-items-center">
+                            <div class="col-sm-5">
+                                <mat-form-field appearance="standard" class="w-100">
+                                    <mat-label>Vehicle No.</mat-label>
+                                    <input matInput>
+                                    <mat-icon matPrefix class="me-2">directions_bus</mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-5">
+                                <mat-form-field appearance="standard" class="w-100">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input matInput [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="d-flex align-items-center">
+                                    <button mat-icon-button class="mb-2">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                    <button mat-icon-button class="mb-2" [matMenuTriggerFor]="beforeMenu">
+                                        <mat-icon>download</mat-icon>
+                                    </button>
+                                    <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                        <button mat-menu-item>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>PDF</div>
+                                                <i class="fa-solid fa-file-pdf text-success"></i>
+                                            </div>
+                                        </button>
+                                        <button mat-menu-item>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>Excel</div>
+                                                <i class="fa-solid fa-file-excel text-danger"></i>
+                                            </div>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group list-group-flush" id="fixed-height">
+                            <a href="#"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">
+                                <span>WB 11 SY 58765</span>
+                                <mat-icon>keyboard_double_arrow_right</mat-icon>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>WB 11 SY 58765</span>
+                                <mat-icon>keyboard_double_arrow_right</mat-icon>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>WB 11 SY 58765</span>
+                                <mat-icon>keyboard_double_arrow_right</mat-icon>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>WB 11 SY 58765</span>
+                                <mat-icon>keyboard_double_arrow_right</mat-icon>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span>WB 11 SY 58765</span>
+                                <mat-icon>keyboard_double_arrow_right</mat-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-main">
+                    <div class="card-header text-main">
+                        Vehicle Details
+                    </div>
+                    <div class="card-body form-container">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label">Vehicle</label>
+                            <div class="form-data">WB 11 TB 5089</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label">Owner</label>
+                            <div class="form-data">Sanjay Mishra</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label">Mobile</label>
+                            <div class="form-data">9822392554</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label class="form-label">Driver Mobile</label>
+                            <div class="form-data">9284975652</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label class="form-label">Tracking Data</label>
+                            <button mat-icon-button class="text-main">
+                                <mat-icon>file_download</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="card border-0 mb-3">
+                    <div class="card-body p-0">
+                        <div class="mapouter position-relative">
+                            <div class="map-controls">
+                                <mat-list role="list">
+                                    <mat-list-item role="listitem">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <span class="me-4">PLAY</span>
+                                            <button mat-icon-button class="text-success">
+                                                <mat-icon>play_circle</mat-icon>
+                                            </button>
+                                        </div>
+                                    </mat-list-item>
+                                    <mat-list-item role="listitem">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <span class="me-4">PAUSE</span>
+                                            <button mat-icon-button class="text-main">
+                                                <mat-icon>pause_circle</mat-icon>
+                                            </button>
+                                        </div>
+                                    </mat-list-item>
+                                    <mat-list-item role="listitem">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <span class="me-4">REPLAY</span>
+                                            <button mat-icon-button class="text-secondary">
+                                                <mat-icon>replay</mat-icon>
+                                            </button>
+                                        </div>
+                                    </mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas"
+                                    src="https://maps.google.com/maps?q=shaurya%20technosoft&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-button class="btn-outline-main mb-3" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    Challan Details
+                </button>
+
+                <div class="row gx-2">
+                    <div class="col-sm-4">
+                        <div class="card border-main">
+                            <div class="card-header text-main small">
+                                Active
+                            </div>
+                            <div class="card-body form-container">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label">Status</label>
+                                    <div class="form-data">Moving</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label">Speed (Km/h)</label>
+                                    <div class="form-data">0 Km/h</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label">Date & Time</label>
+                                    <div class="form-data">22-09-2022 09:56:14</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card border-main">
+                            <div class="card-header text-main small">
+                                <div class="d-flex small justify-content-between">
+                                    <span>Date & Time</span>
+                                    <span>22-09-2022 09:56:14</span>
+                                </div>
+                            </div>
+                            <div class="card-body form-container">
+                                <mat-slider aria-label="unit(s)" class="w-100"></mat-slider>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label">Start</label>
+                                    <div class="form-data">22-09-2022 00:01:37</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label">End</label>
+                                    <div class="form-data">22-09-2022 23:59:46</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card border-main">
+                            <div class="card-header text-main small">
+                                <div class="d-flex justify-content-between">
+                                    <span>Speed</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+                            <div class="card-body form-container">
+                                <mat-slider aria-label="unit(s)" class="w-100"></mat-slider>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" data-bs-backdrop="true" id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <p class="offcanvas-title text-main mb-0" id="offcanvasRightLabel">Challan Details</p>
+        <button type="button" class="btn-close text-main" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body pt-0">
+        <div class="d-flex justify-content-between align-items-center" id="challan-heading">
+            <div class="d-flex">
+                <img src="assets/images/WBMDTCL_Logo.png">
+                <p class="mb-0">West Bengal Mineral Development & Trading Corporation Ltd</p>
+            </div>
+            <img src="https://ps.w.org/doqrcode/assets/icon-256x256.png?rev=2143781">
+        </div>
+        <div class="form-container">
+            <ul class="list-group list-group-flush" id="challan-details">
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="form-label">Delivery Order No. : </span>
+                            <span class="form-data">2003</span>
+                        </div>
+                        <div>
+                            <span class="form-label">Challan No : </span>
+                            <span class="form-data">323323</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="form-label">Colliery Name : </span>
+                            <span class="form-data">BARMURI Project</span>
+                        </div>
+                        <div>
+                            <span class="form-label">District : </span>
+                            <span class="form-data">BARMURI</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">MSME Consumer : </span>
+                    <span class="form-data">Julfikar Coke Briquette</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Challan Issue Date & Time : </span>
+                    <span class="form-data">12-12-2022 / 12:12:12</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Challan Validity Date & Time : </span>
+                    <span class="form-data">12-12-2022 / 12:12:12</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Destination : </span>
+                    <span class="form-data">Julfikar Coke Briquette, Link Road, WB-411100</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Mineral : </span>
+                    <span class="form-data">Coal</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Vehicle No : </span>
+                    <span class="form-data">WB11XT1234</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Vehicle Lifting Quantity :</span>
+                    <span class="form-data">18 Tons</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Driver Name & Number : </span>
+                    <span class="form-data">Raju ( 1111213133)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

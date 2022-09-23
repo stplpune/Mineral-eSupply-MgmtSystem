@@ -8,15 +8,15 @@
                             <div class="col-sm-3">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>All OTP Verification</mat-label>
-                                    <input matInput placeholder="Enter OTP Verification Status"
-                                        formControlName="verificationStatus">
+                                    <mat-select formControlName="verificationStatus">
+                                        <mat-option *ngFor="let s of verificationStsArr" [value]="s.id">{{ s.value }}</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
                             <div class="col-sm">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Vehicle No/Name/Mobile No</mat-label>
-                                    <input matInput placeholder="Enter Vehicle No/Name/Mobile No"
-                                        formControlName="textSearch">
+                                    <input matInput formControlName="textSearch">
                                 </mat-form-field>
                             </div>
                             <div class="col-sm-auto">
@@ -35,32 +35,29 @@
                             <td mat-cell *matCellDef="let element">{{element.rowNumber}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="collieryName">
+                        <ng-container matColumnDef="vehicleRegistrationNo">
                             <th mat-header-cell *matHeaderCellDef>Vehicle No </th>
-                            <td mat-cell *matCellDef="let element">{{element.collieryName | uppercase}} </td>
+                            <td mat-cell *matCellDef="let element">{{element.vehicleRegistrationNo}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="districtName">
+                        <ng-container matColumnDef="ownerName">
                             <th mat-header-cell *matHeaderCellDef>Owner Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.ownerName | titlecase}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="districtName1">
+                        <ng-container matColumnDef="isVerified">
                             <th mat-header-cell *matHeaderCellDef>OTP verification</th>
-                            <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.isVerified == true ? 'Yes' : 'No'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> Mobile No</th>
+                            <th mat-header-cell *matHeaderCellDef> Action</th>
                             <td mat-cell *matCellDef="let element">
-                                <!-- <div class="d-flex align-items-center">
-                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editCollaryRecord(element.id)">
+                                <div class="d-flex align-items-center">
+                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editVehicleRecord(element)">
                                         <mat-icon>edit</mat-icon>
                                     </button>
-                                    <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteCollaryRecord(element)">
-                                        <mat-icon>delete_outline</mat-icon>
-                                    </button>
-                                </div> -->
+                                </div>
                             </td>
                         </ng-container>
 
@@ -79,7 +76,7 @@
             <div class="card plain-card">
                 <div class="card-header">Register Vehicle</div>
                 <div class="card-body">
-                    <form [formGroup]="regVehicleFrm" (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')">
+                    <form [formGroup]="regVehicleFrm" (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')" enctype="multipart/form-data">
                         <div class="form-container">
                             <div class="row mb-3">
                                 <div class="col-sm-6 ">
@@ -87,8 +84,9 @@
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
                                         <mat-label class="form-label text-muted">Transport Type: </mat-label>
                                         <mat-radio-group aria-label="Select an option" formControlName="transportType">
-                                            <mat-radio-button value="Vehicle" class="me-3">Vehicle</mat-radio-button>
-                                            <mat-radio-button value="Barge">Barge</mat-radio-button>
+                                            <mat-radio-button *ngFor="let t of transportTypeArr" [value]="t" (change)="onTransportType(f['transportType'].value)">
+                                                {{t}}
+                                            </mat-radio-button>
                                         </mat-radio-group>
                                         <mat-error *ngIf="f['transportType'].errors">
                                             <span *ngIf="f['transportType']?.hasError('required')"> Please select
@@ -97,11 +95,11 @@
                                         <!-- </mat-form-field> -->
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" *ngIf="f['transportType'].value == 'Vehicle'">
                                     <div class="d-block">
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
                                         <mat-label class="form-label text-muted d-block"> Number Format: </mat-label>
-                                        <mat-radio-group aria-label="Select an option" formControlName="numberFormat">
+                                        <mat-radio-group aria-label="Select an option" formControlName="numberFormat" (change)="onNumberFormatChange(f['numberFormat'].value)">
                                             <mat-radio-button value="Old" class="me-3">Old</mat-radio-button>
                                             <mat-radio-button value="New">New</mat-radio-button>
                                         </mat-radio-group>
@@ -115,66 +113,85 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-6">
+                                <label *ngIf="f['transportType'].value == 'Vehicle'">Vehicle Number</label>
+                                <label *ngIf="f['transportType'].value != 'Vehicle'">Barge Number</label>
+                                <div class="col-sm-12">
                                     <div class="">
-                                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                            <mat-label>Vehicle Number <sup class="text-danger">*</sup></mat-label>
-                                            <input matInput placeholder="Enter Vehicle Number" formControlName="number">
-                                            <mat-error *ngIf="f['number'].errors">
-                                                <span *ngIf="f['number']?.hasError('required')"> Please enter vehicle
-                                                    number</span>
-                                            </mat-error>
+                                        <mat-form-field [appearance]="configService.matFormField" class="w-25">
+                                            <input class="text-uppercase" #state autofocus matInput placeholder="state" formControlName="state" [maxlength]="(f['numberFormat'].value == 'New' && f['transportType'].value == 'Vehicle') ? 2 : 3" (input)="changesFocusInput('state')">
                                         </mat-form-field>
-                                    </div>
-                                    <div class="">
-                                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                            <mat-label>Owner Mobile Number <sup class="text-danger">*</sup></mat-label>
-                                            <input matInput placeholder="Enter Owner Mobile Number"
-                                                formControlName="ownerName">
-                                            <mat-error *ngIf="f['ownerName'].errors">
-                                                <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner
-                                                    name</span>
-                                                <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid
-                                                    owner
-                                                    name</span>
-                                            </mat-error>
+                                        <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['transportType'].value == 'Vehicle' && f['numberFormat'].value != 'Old'">
+                                            <input matInput #district placeholder="district" formControlName="district" maxlength="2" (input)="changesFocusInput('district')">
                                         </mat-form-field>
+                                        <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['numberFormat'].value != 'Old'">
+                                            <input matInput #series class="text-uppercase" placeholder="series" formControlName="series" maxlength="2" (input)="changesFocusInput('series')">
+                                        </mat-form-field>
+                                        <mat-form-field [appearance]="configService.matFormField" class="w-25">
+                                            <input matInput #number placeholder="number" formControlName="number" [maxlength]="f['transportType'].value == 'Vehicle' ? 4 : 5">
+                                        </mat-form-field>
+                                        <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100" *ngIf="f['transportType'].value != 'Vehicle'">
+                                            <input matInput formControlName="bargeNumber" maxlength="10">
+                                        </mat-form-field> -->
+                                        
+                                        <mat-error *ngIf="isSubmitted && (f['state'].errors || f['district'].errors || f['series'].errors || f['number'].errors)">
+                                            <span *ngIf="f['state']?.hasError('required') || f['district']?.hasError('required') || f['series']?.hasError('required') || f['number']?.hasError('required')"> Please enter vehicle number</span>
+                                            <span *ngIf="f['state']?.hasError('pattern') || f['district']?.hasError('pattern') || f['series']?.hasError('pattern') || f['number']?.hasError('pattern')"> Please enter valid vehicle number</span>
+                                        </mat-error>
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="d-block">
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
                                         <mat-label class="form-label text-muted d-block"> Block/Unblock: </mat-label>
                                         <mat-radio-group aria-label="Select an option" formControlName="isBlock">
-                                            <mat-radio-button value="Block" class="me-3">Block</mat-radio-button>
-                                            <mat-radio-button value="Unblock">Unblock</mat-radio-button>
+                                            <mat-radio-button *ngFor="let b of blockStsArr" [value]="b.value">
+                                                {{b.status}}
+                                            </mat-radio-button>
                                         </mat-radio-group>
                                         <!-- </mat-form-field> -->
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="" *ngIf="f['isBlock'].value == true">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Remark </mat-label>
+                                    <input matInput formControlName="remark">
+                                </mat-form-field>
+                            </div>
+
 
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Owner Name <sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Owner Name" formControlName="ownerName">
+                                    <mat-label>Owner Name </mat-label>
+                                    <input class="text-capitalize" matInput formControlName="ownerName" maxlength="50">
                                     <mat-error *ngIf="f['ownerName'].errors">
-                                        <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner
-                                            name</span>
-                                        <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid owner
-                                            name</span>
+                                        <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner name</span>
+                                        <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid owner name</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="row">
+                            
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Owner Mobile Number </mat-label>
+                                    <input matInput formControlName="ownerMobileNumber" maxlength="10">
+                                    <mat-error *ngIf="f['ownerMobileNumber'].errors">
+                                        <span *ngIf="f['ownerMobileNumber']?.hasError('required')"> Please enter owner number</span>
+                                        <span *ngIf="f['ownerMobileNumber']?.hasError('pattern')"> Please enter valid owner number</span>
+                                        <span *ngIf="f['ownerMobileNumber']?.hasError('minlength')"> Please enter maximum 10 digits</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="row">
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>State <sup class="text-danger">*</sup></mat-label>
-                                        <mat-select formControlName="state">
+                                        <mat-label>State </mat-label>
+                                        <mat-select formControlName="stateId">
                                             <mat-option *ngFor="let st of stateNameArr" [value]="st.value"
-                                                (click)="getDistrictNames(f['state'].value)">{{ st.text }}</mat-option>
+                                                (click)="getDistrictNames(f['stateId'].value)">{{ st.text }}</mat-option>
                                         </mat-select>
                                         <mat-error *ngIf="f['state'].errors">
                                             <span *ngIf="f['state']?.hasError('required')"> Please select state</span>
@@ -183,8 +200,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>District<sup class="text-danger">*</sup></mat-label>
-                                        <mat-select formControlName="district">
+                                        <mat-label>District</mat-label>
+                                        <mat-select formControlName="districtId">
                                             <mat-option *ngFor="let dist of districtNameArr" [value]="dist.value">{{
                                                 dist.text }}</mat-option>
                                         </mat-select>
@@ -194,13 +211,13 @@
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Address <sup class="text-danger">*</sup></mat-label>
-                                    <textarea matInput placeholder="Enter Address" formControlName="address"></textarea>
+                                    <mat-label>Address </mat-label>
+                                    <textarea matInput formControlName="address" maxlength="200"></textarea>
                                     <mat-error *ngIf="f['address'].errors">
                                         <span *ngIf="f['address']?.hasError('required')"> Please enter address</span>
                                         <span *ngIf="f['address']?.hasError('pattern')"> Please enter valid
@@ -210,8 +227,8 @@
                             </div>
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Driver Name<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Driver Name" formControlName="driverName">
+                                    <mat-label>Driver Name</mat-label>
+                                    <input class="text-capitalize" matInput formControlName="driverName" maxlength="50">
                                     <mat-error *ngIf="f['driverName'].errors">
                                         <span *ngIf="f['driverName']?.hasError('required')"> Please enter driver
                                             name</span>
@@ -223,25 +240,51 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Driver Mobile Number<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Mobile Number"
-                                            formControlName="driverMobileNo">
+                                        <mat-label>Driver Mobile Number</mat-label>
+                                        <input matInput formControlName="driverMobileNo" maxlength="10">
                                         <mat-error *ngIf="f['driverMobileNo'].errors">
-                                            <span *ngIf="f['driverMobileNo']?.hasError('required')"> Please enter driver
-                                                mobile number</span>
-                                            <span *ngIf="f['driverMobileNo']?.hasError('pattern')"> Please enter valid
-                                                driver mobile number</span>
+                                            <span *ngIf="f['driverMobileNo']?.hasError('required')"> Please enter driver mobile number</span>
+                                            <span *ngIf="f['driverMobileNo']?.hasError('pattern')"> Please enter valid driver mobile number</span>
+                                            <span *ngIf="f['driverMobileNo']?.hasError('minlength')"> Please enter maximum 10 digits</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>eTP App Mobile Number<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter eTP App Mobile Number"
-                                            formControlName="eTpMobileNumber">
+                                        <mat-label>eTP App Mobile Number</mat-label>
+                                        <input matInput formControlName="eTpMobileNumber" maxlength="10">
                                         <mat-error *ngIf="f['eTpMobileNumber'].errors">
-                                            <span *ngIf="f['eTpMobileNumber']?.hasError('pattern')"> Please enter valid
-                                                eTP mobile number</span>
+                                            <span *ngIf="f['eTpMobileNumber']?.hasError('pattern')"> Please enter valid eTP mobile number</span>
+                                            <span *ngIf="f['eTpMobileNumber']?.hasError('minlength')"> Please enter maximum 10 digits</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="" *ngIf="f['transportType'].value == 'Vehicle'">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Vehicle Type</mat-label>
+                                    <mat-select formControlName="vehicleTypeId">
+                                        <mat-option *ngFor="let vt of vehicleTypeArr" [value]="vt.id">{{ vt.type }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Permit Number</mat-label>
+                                        <input matInput formControlName="permitNo" maxlength="20">
+                                        <mat-error *ngIf="f['permitNo'].errors">
+                                            <span *ngIf="f['permitNo']?.hasError('pattern')"> Please enter valid permit number</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Driver Licence Number</mat-label>
+                                        <input matInput formControlName="licenseNo" maxlength="20">
+                                        <mat-error *ngIf="f['licenseNo'].errors">
+                                            <span *ngIf="f['licenseNo']?.hasError('pattern')"> Please enter valid license number</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
@@ -249,134 +292,148 @@
 
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Vehicle Type<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Vehicle Type" formControlName="vehicleTypeId">
-                                </mat-form-field>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Permit Number<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Permit Number (Optional)"
-                                            formControlName="permitNo">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-sm-6">
-                                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Driver Licence Number<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Licence Number (Optional)"
-                                            formControlName="licenseNo">
-                                    </mat-form-field>
-                                </div>
-                            </div>
-
-                            <div class="">
-                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Driver Company Name<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Company Name" formControlName="driverCompName">
+                                    <mat-label>Device Company Name</mat-label>
+                                    <input class="text-capitalize" matInput formControlName="driverCompName" maxlength="50">
+                                    <mat-error *ngIf="f['driverCompName'].errors">
+                                        <span *ngIf="f['driverCompName']?.hasError('pattern')"> Please enter valid driver name</span>
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Device ID<sup class="text-danger">*</sup></mat-label>
-                                    <input matInput placeholder="Enter Device ID" formControlName="deviceId">
+                                    <mat-label>Device Id</mat-label>
+                                    <input matInput formControlName="deviceId" maxlength="19">
+                                    <mat-error *ngIf="f['deviceId'].errors">
+                                        <span *ngIf="f['deviceId']?.hasError('pattern')"> Please enter valid deviceId</span>
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Device Sim No 1<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Sim no 1" formControlName="deviceSIMNo">
+                                        <mat-label>Device Sim No 1</mat-label>
+                                        <input matInput formControlName="deviceSIMNo" maxlength="13">
+                                        <mat-error *ngIf="f['deviceSIMNo'].errors">
+                                            <span *ngIf="f['deviceSIMNo']?.hasError('pattern')"> Please enter valid device SIM</span>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Device Sim No 2<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Device Sim No 2"
-                                            formControlName="secondarySIMNo">
+                                        <mat-label>Telecom Provider Sim 1</mat-label>
+                                        <mat-select formControlName="primaryTelecomProvider">
+                                            <mat-option *ngFor="let tp of telecomProviderArr" [value]="tp">{{ tp }}</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Telecom Provider Sim 1<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Telecom Provider Sim 1 "
-                                            formControlName="primaryTelecomProvider">
+                                        <mat-label>Device Sim No 2</mat-label>
+                                        <input matInput formControlName="secondarySIMNo" maxlength="13">
+                                        <mat-error *ngIf="f['secondarySIMNo'].errors">
+                                            <span *ngIf="f['secondarySIMNo']?.hasError('pattern')"> Please enter valid device SIM</span>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Telecom Provider Sim 2<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter Telecom Provider Sim 2 "
-                                            formControlName="secondaryTelecomProvider">
+                                        <mat-label>Telecom Provider Sim 2</mat-label>
+                                        <mat-select formControlName="secondaryTelecomProvider">
+                                            <mat-option *ngFor="let tp of telecomProviderArr" [value]="tp">{{ tp }}</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Length (Meter)<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter length (mtr)" formControlName="length">
+                                        <mat-label>Length (Meter)</mat-label>
+                                        <input matInput formControlName="length" maxlength="6">
+                                        <mat-error *ngIf="f['length'].errors">
+                                            <span *ngIf="f['length']?.hasError('pattern')"> Please enter valid length</span>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <mat-label>Width (Meter)<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter width (mtr)" formControlName="width">
+                                        <mat-label>Width (Meter)</mat-label>
+                                        <input matInput formControlName="width" maxlength="6">
+                                        <mat-error *ngIf="f['width'].errors">
+                                            <span *ngIf="f['width']?.hasError('pattern')"> Please enter valid width</span>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
 
 
-                            <div class="d-flex justify-content-between align-items-center">
+                            <!-- <div class="d-flex justify-content-between align-items-center">
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100 me-2">
-                                        <mat-label>OTP<sup class="text-danger">*</sup></mat-label>
-                                        <input matInput placeholder="Enter OTP Number" formControlName="otp">
+                                        <mat-label>OTP</mat-label>
+                                        <input matInput formControlName="otp" maxlength="6">
+                                        <mat-error *ngIf="f['otp'].errors">
+                                            <span *ngIf="f['otp']?.hasError('pattern')"> Please enter valid otp</span>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-6 text-end">
                                     <button mat-button class="btn-main btn-sm text-center" type="button">Send
                                         OTP</button>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
-                    </form>
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-sm-auto">
-                                    <div class="upload-image">
-                                        <img src="../../../../assets/images/front_vehicle.svg" alt="">
-                                        <input type="file">
-                                        <button class="btn" type="submit"><i class="fa-solid fa-plus"></i></button>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-sm-auto">
+                                        <div class="upload-image">
+                                            <!-- <img [src]="f['frontImage'].value ? f['frontImage'].value : '../../../../assets/images/front_vehicle.svg'" alt=""> -->
+                                            <img src="https://wbminingservices.mahamining.com/UploadDocuments/CoalAllocationDocuments/PAN_6624e7a1-ed67-4819-a946-fd69c435491f.jpg" alt="">
+                                            <input type="file" (change)="onFileSelected($event, 'frontImg')" #fileInput>
+                                            <button class="btn" type="button" (click)="fileInput.click()" *ngIf="!f['frontImage'].value"><i class="fa-solid fa-plus"></i></button>
+                                            <button class="btn" type="button" (click)="deleteUploadedImage('frontImg')" *ngIf="f['frontImage'].value"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                        <p class="text-center mb-0">Front View</p>
+                                        <mat-error *ngIf="isSubmitted && f['frontImage'].errors">
+                                            <span *ngIf="f['frontImage']?.hasError('required')"> Please upload front view image</span>
+                                        </mat-error>
                                     </div>
-                                    <p class="text-center mb-0">Front View</p>
-                                </div>
-                                <div class="col-sm-auto">
-                                    <div class="upload-image">
-                                        <img src="../../../../assets/images/side_vehicle.svg" alt="">
-                                        <input type="file">
-                                        <button class="btn" type="submit"><i class="fa-solid fa-plus"></i></button>
+                                    <div class="col-sm-auto">
+                                        <div class="upload-image">
+                                            <img [src]="f['sideImage'].value ? f['sideImage'].value : '../../../../assets/images/side_vehicle.svg'" alt="">
+                                            <input type="file" #fileInput1 (change)="onFileSelected($event, 'sideImg')">
+                                            <button class="btn" type="button" (click)="fileInput1.click()" *ngIf="!f['sideImage'].value"><i class="fa-solid fa-plus"></i></button>
+                                            <button class="btn" type="button" (click)="deleteUploadedImage('sideImg')" *ngIf="f['sideImage'].value"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                        <p class="text-center mb-0">Side View</p>
+                                        <mat-error *ngIf="isSubmitted && f['sideImage'].errors">
+                                            <span *ngIf="f['sideImage']?.hasError('required')"> Please upload side view image</span>
+                                        </mat-error>
                                     </div>
-                                    <p class="text-center mb-0">Side View</p>
-                                </div>
-                                <div class="col-sm-auto text-center">
-                                    <div class="upload-image">
-                                        <img src="../../../../assets/images/Number_plate.svg" alt="">
-                                        <input type="file">
-                                        <button class="btn" type="submit"><i class="fa-solid fa-plus"></i></button>
+                                    <div class="col-sm-auto text-center">
+                                        <div class="upload-image">
+                                            <img [src]="f['numberPlateImage'].value ? f['numberPlateImage'].value : '../../../../assets/images/Number_plate.svg'" alt="">
+                                            <input type="file" #fileInput2 (change)="onFileSelected($event, 'numberPlateImg')">
+                                            <button class="btn" type="button" (click)="fileInput2.click()" *ngIf="!f['numberPlateImage'].value"><i class="fa-solid fa-plus"></i></button>
+                                            <button class="btn" type="button" (click)="deleteUploadedImage('numberPlateImg')" *ngIf="f['numberPlateImage'].value"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                        <p class="mb-0">Number-plate View</p>
+                                        <mat-error *ngIf="isSubmitted && f['numberPlateImage'].errors">
+                                            <span *ngIf="f['numberPlateImage']?.hasError('required')"> Please upload number plate image</span>
+                                        </mat-error>
                                     </div>
-                                    <p class="mb-0">Number-plate View</p>
+                                    <button class="btn btn-main" type="button" (click)="onUpload()">Upload</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-end">
-                        <button class="btn btn-main" type="submit">Submit</button>
-                    </div>
+                        <div class="text-end">
+                            <button type="button" mat-raised-button class="btn-outline-main" (click)="onCancelRecord()">Cancel</button>
+                            <button class="btn btn-main" type="submit">{{ isEdit ? 'Update' : 'Submit' }}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

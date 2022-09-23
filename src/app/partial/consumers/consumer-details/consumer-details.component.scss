@@ -1,8 +1,26 @@
-table {
-    width: 100%;
-  }
-  
-  tr.example-detail-row {
+#consumer-stats .card-body{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+#consumer-stats .card-body h4,
+#consumer-stats .card-body p,
+#consumer-stats .card-body small{
+    margin-bottom: 0;
+}
+#consumer-stats .card-body h4{
+    color: var(--main-color);
+}
+#consumer-stats .card-body p{
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+#consumer-stats .card-body small{
+    font-size: 0.8rem;
+    color: var(--form-label-color);
+}
+tr.example-detail-row {
     height: 0;
   }
   
@@ -45,4 +63,3 @@ table {
   .example-element-description-attribution {
     opacity: 0.5;
   }
-  

@@ -110,6 +110,16 @@ export class CommonApiCallService {
     })
   }
 
+  getDashboardData(){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "Dashboard/GetDashboardAnaliticalData", false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { obj.next(res); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
   getCollieryNameList(){
     return new Observable((obj) => {
       this.apiService.setHttp('get', "api/BookingAndDeliveryOrder/getCollieryNameList", false, false, false, 'WBMiningService');
@@ -120,4 +130,32 @@ export class CommonApiCallService {
     })
   }
 
+  uploadFile(eventFront: any, eventSide: any, eventNumPlate: any, allowedDocTypes: string){
+    return new Observable(obj => {
+      if (eventFront.target.files[0] && eventSide.target.files[0] && eventNumPlate.target.files[0] ) {
+        const fileFront = eventFront.target.files[0];
+        const fileSide = eventSide.target.files[0];
+        const fileNumPlate = eventNumPlate.target.files[0];
+        const reader = new FileReader();
+        const fd = new FormData();
+        fd.append('VehicleFrontSideImage', fileFront);
+        fd.append('VehicleSideImage', fileSide);
+        fd.append('VehicleNumberImage', fileNumPlate);
+        this.apiService.setHttp("post", 'WB-mining/uploads/save-vehicle-image', false, fd, false, 'WBMiningService')
+        this.apiService.getHttp().subscribe({
+            next: (response: any) => {
+                if (response.statusCode === "200") {
+                  obj.next(response);
+                }
+                else {
+                  this.commonMethod.matSnackBar(response.statusMessage, 1);
+                }
+            },
+            error: ((err: any) => {
+              obj.error(err)
+            })
+        })
+      }
+    })
+  }
 }
