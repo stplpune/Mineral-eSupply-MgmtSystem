@@ -25,12 +25,12 @@ export class UserRightAccessComponent implements OnInit {
   filterForm!: FormGroup;
   pageNumber: number = 1;
   totalRows!: number;
-  localstorageData:any;
+  localstorageData: any;
 
   displayedColumns: string[] = ['srno', 'pageName', 'pageURL', 'pageIcon', 'select'];
 
-  constructor(private commonService: CommonApiCallService, private fb: FormBuilder, private apiService: CallApiService, private commonMethod:CommonMethodsService,
-    private error: ErrorHandlerService, private spinner: NgxSpinnerService, private webstorageService:WebStorageService) { }
+  constructor(private commonService: CommonApiCallService, private fb: FormBuilder, private apiService: CallApiService, private commonMethod: CommonMethodsService,
+    private error: ErrorHandlerService, private spinner: NgxSpinnerService, private webstorageService: WebStorageService) { }
 
   ngOnInit(): void {
     this.localstorageData = this.webstorageService.getLoggedInLocalstorageData();
@@ -90,12 +90,12 @@ export class UserRightAccessComponent implements OnInit {
     })
   }
 
-  addUpdatePageRights(event:any, pageId:any){
+  addUpdatePageRights(event: any, pageId: any) {
     let obj = {
-      userId:this.localstorageData.responseData.userId,
-      subUserId:this.localstorageData.responseData.subUserTypeId,
-      pageId:pageId,
-      isReadWriteAccess:event
+      userId: this.localstorageData.responseData.userId,
+      subUserId: this.localstorageData.responseData.subUserTypeId,
+      pageId: pageId,
+      isReadWriteAccess: event
     }
     this.apiService.setHttp('Post', "UserPage/AddUpdatePageRights", false, obj, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
@@ -103,20 +103,18 @@ export class UserRightAccessComponent implements OnInit {
         if (res.statusCode == 200) {
           this.commonMethod.matSnackBar(res.statusMessage, event ? 0 : 1);
           this.getPageList();
-        } 
+        }
       },
       error: ((error: any) => { this.error.handelError(error.status) })
-  })
-}
-
-
+    })
+  }
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.getPageList();
   }
 
-  onSubmit(){
-    this.pageNumber =1;
+  onSubmit() {
+    this.pageNumber = 1;
     this.getPageList();
   }
 
