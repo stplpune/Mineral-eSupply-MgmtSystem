@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { VehicleTrackingRoutingModule } from './vehicle-tracking-routing.module';
 import { VehicleTrackingComponent } from './vehicle-tracking.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { VehicleTrackingComponent } from './vehicle-tracking.component';
   ],
   imports: [
     CommonModule,
-    VehicleTrackingRoutingModule
+    VehicleTrackingRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class VehicleTrackingModule { }
