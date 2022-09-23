@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MonthlyAllocationToMsmeRoutingModule } from './monthly-allocation-to-msme-routing.module';
 import { MonthlyAllocationToMsmeComponent } from './monthly-allocation-to-msme.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MonthlyAllocationToMsmeComponent } from './monthly-allocation-to-msme.c
   ],
   imports: [
     CommonModule,
-    MonthlyAllocationToMsmeRoutingModule
+    MonthlyAllocationToMsmeRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class MonthlyAllocationToMsmeModule { }
