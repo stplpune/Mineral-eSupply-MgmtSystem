@@ -98,7 +98,7 @@
             <div class="card dash-card">
                 <div class="card-header">Location Of Collaries</div>
                 <div class="card-body">
-                    <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long">
+                    <agm-map [latitude]="configService.lat" [zoom]="8" [longitude]="configService.long">
                         <agm-marker [agmFitBounds]="true" *ngFor="let marker of resLocationOfCollaries"
                             [latitude]="marker.latitude" [longitude]="marker.longitude"
                             (markerClick)="clickedMarker(infoWindow)">
