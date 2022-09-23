@@ -90,7 +90,7 @@ body {
   text-decoration: none;
 }
 .border-main{
-  border-color: var(--main-color);
+  border-color: var(--main-color) !important;
 }
 .bg-main,
 .btn-main {
@@ -148,14 +148,16 @@ body {
 
 .form-container .form-label {
   font-size: 0.85rem;
-  color: var(--text-color);
+  color: var(--form-label-color);
   margin-bottom: 0;
+  font-weight: 300;
 }
 
 .form-container .form-data {
+  font-weight: 500;
   font-size: 0.85rem;
   margin-bottom: 0;
-  color: var(--text-color);
+  color: var(--form-data-color);
 }
 
 .form-container .form-check,
@@ -272,6 +274,8 @@ body {
   height: 24px;
 }
 mat-radio-button,
+.mat-tab-label,
+.list-group,
 button,
 .mat-option-text,
 .mat-select-min-line,

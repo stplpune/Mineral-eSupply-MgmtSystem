@@ -33,6 +33,7 @@ export const PartialLayoutRoutes: Routes = [
 
   // ------------------------- consumers Management----------------------------------------------------------//
   { path: 'consumers', loadChildren: () => import('../../partial/consumers/consumers.module').then(m => m.ConsumersModule), data: { title: 'Consumers' },  canActivate: [ExpenseGuard]  },
+  { path: 'consumer-details', loadChildren: () => import('../../partial/consumers/consumer-details/consumer-details.module').then(m => m.ConsumerDetailsModule), data: { title: 'Consumer Details' },  canActivate: [ExpenseGuard] },
 
   // ------------------------- Profile page ----------------------------------------------------------//
   { path: 'my_profile', loadChildren: () => import('../../partial/my-profile/my-profile.module').then(m => m.MyProfileModule), data: { title: 'MyProfile' },  canActivate: [ExpenseGuard]  },
