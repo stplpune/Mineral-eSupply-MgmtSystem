@@ -75,7 +75,7 @@ export class AddRateCardComponent implements OnInit {
      "isDeleted": false,
      "id": 0,
      "coalGradeId": parseInt(this.data.coalGradeId),
-     "unit": 'Ton',
+     "unit": formData.unit,
      "baseRate": parseInt(formData.baseRate),
      "royalty": parseInt(formData.royalty),
      "cgst": parseInt(formData.cgst),
