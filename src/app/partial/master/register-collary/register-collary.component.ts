@@ -109,9 +109,9 @@ export class RegisterCollaryComponent implements OnInit {
       collieryAddress: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
       longitude: ['', [Validators.required]],
-      polygonText: ['', [Validators.required]],
-      geofenceType: ['', [Validators.required]],
-      distance: ['', [Validators.required]],
+      polygonText: [''],
+      geofenceType: [0],
+      distance: [0],
       createdBy: [this.webStorageService.getUserId(), [Validators.required]],
       contactNo: ['', [Validators.pattern(this.validation.valMobileNo)]],
       emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
@@ -237,12 +237,9 @@ export class RegisterCollaryComponent implements OnInit {
 
   onSubmitCollary(){
     this.spinner.show();
+    debugger;
     if (this.frmCollary.invalid) {
       this.spinner.hide();
-      console.log(this.frmCollary.value)
-      // if(!this.frmCollary.value.collieryAddress){
-        this.commonMethod.matSnackBar('Address is required', 1)
-      // }
       return;
     }else{
       var req = {
@@ -258,6 +255,7 @@ export class RegisterCollaryComponent implements OnInit {
             this.onCancelRecord();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
+            this.spinner.hide();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
