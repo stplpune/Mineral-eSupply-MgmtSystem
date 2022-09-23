@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DailyLiftingChartRoutingModule } from './daily-lifting-chart-routing.module';
 import { DailyLiftingChartComponent } from './daily-lifting-chart.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { DailyLiftingChartComponent } from './daily-lifting-chart.component';
   ],
   imports: [
     CommonModule,
-    DailyLiftingChartRoutingModule
+    DailyLiftingChartRoutingModule,
+    AngularMaterialModule,
   ]
 })
 export class DailyLiftingChartModule { }
