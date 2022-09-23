@@ -118,16 +118,16 @@
                                 <div class="col-sm-12">
                                     <div class="">
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25">
-                                            <input class="text-uppercase" matInput placeholder="state" formControlName="state" [maxlength]="(f['numberFormat'].value == 'New' && f['transportType'].value == 'Vehicle') ? 2 : 3">
+                                            <input class="text-uppercase" #state autofocus matInput placeholder="state" formControlName="state" [maxlength]="(f['numberFormat'].value == 'New' && f['transportType'].value == 'Vehicle') ? 2 : 3" (input)="changesFocusInput('state')">
                                         </mat-form-field>
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['transportType'].value == 'Vehicle' && f['numberFormat'].value != 'Old'">
-                                            <input matInput placeholder="district" formControlName="district" maxlength="2">
+                                            <input matInput #district placeholder="district" formControlName="district" maxlength="2" (input)="changesFocusInput('district')">
                                         </mat-form-field>
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['numberFormat'].value != 'Old'">
-                                            <input matInput class="text-uppercase" placeholder="series" formControlName="series" maxlength="2">
+                                            <input matInput #series class="text-uppercase" placeholder="series" formControlName="series" maxlength="2" (input)="changesFocusInput('series')">
                                         </mat-form-field>
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25">
-                                            <input matInput placeholder="number" formControlName="number" [maxlength]="f['transportType'].value == 'Vehicle' ? 4 : 5">
+                                            <input matInput #number placeholder="number" formControlName="number" [maxlength]="f['transportType'].value == 'Vehicle' ? 4 : 5">
                                         </mat-form-field>
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100" *ngIf="f['transportType'].value != 'Vehicle'">
                                             <input matInput formControlName="bargeNumber" maxlength="10">
@@ -166,7 +166,7 @@
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Owner Name </mat-label>
-                                    <input class="text-capitalize" matInput formControlName="ownerName">
+                                    <input class="text-capitalize" matInput formControlName="ownerName" maxlength="50">
                                     <mat-error *ngIf="f['ownerName'].errors">
                                         <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner name</span>
                                         <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid owner name</span>
@@ -217,7 +217,7 @@
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Address </mat-label>
-                                    <textarea matInput formControlName="address"></textarea>
+                                    <textarea matInput formControlName="address" maxlength="200"></textarea>
                                     <mat-error *ngIf="f['address'].errors">
                                         <span *ngIf="f['address']?.hasError('required')"> Please enter address</span>
                                         <span *ngIf="f['address']?.hasError('pattern')"> Please enter valid
@@ -228,7 +228,7 @@
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Driver Name</mat-label>
-                                    <input class="text-capitalize" matInput formControlName="driverName">
+                                    <input class="text-capitalize" matInput formControlName="driverName" maxlength="50">
                                     <mat-error *ngIf="f['driverName'].errors">
                                         <span *ngIf="f['driverName']?.hasError('required')"> Please enter driver
                                             name</span>
@@ -293,7 +293,10 @@
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Device Company Name</mat-label>
-                                    <input class="text-capitalize" matInput formControlName="driverCompName">
+                                    <input class="text-capitalize" matInput formControlName="driverCompName" maxlength="50">
+                                    <mat-error *ngIf="f['driverCompName'].errors">
+                                        <span *ngIf="f['driverCompName']?.hasError('pattern')"> Please enter valid driver name</span>
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="">
@@ -387,7 +390,8 @@
                                 <div class="row g-3">
                                     <div class="col-sm-auto">
                                         <div class="upload-image">
-                                            <img [src]="f['frontImage'].value ? f['frontImage'].value : '../../../../assets/images/front_vehicle.svg'" alt="">
+                                            <!-- <img [src]="f['frontImage'].value ? f['frontImage'].value : '../../../../assets/images/front_vehicle.svg'" alt=""> -->
+                                            <img src="https://wbminingservices.mahamining.com/UploadDocuments/CoalAllocationDocuments/PAN_6624e7a1-ed67-4819-a946-fd69c435491f.jpg" alt="">
                                             <input type="file" (change)="onFileSelected($event, 'frontImg')" #fileInput>
                                             <button class="btn" type="button" (click)="fileInput.click()" *ngIf="!f['frontImage'].value"><i class="fa-solid fa-plus"></i></button>
                                             <button class="btn" type="button" (click)="deleteUploadedImage('frontImg')" *ngIf="f['frontImage'].value"><i class="fa-solid fa-trash"></i></button>
