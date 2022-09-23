@@ -82,6 +82,7 @@ export class RegisterCollaryComponent implements OnInit {
     private shareDataService: ShareDataService,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
+    public validation: FormsValidationService,
     private ngZone: NgZone, 
     private mapsAPILoader: MapsAPILoader
     ) { }
@@ -98,9 +99,8 @@ export class RegisterCollaryComponent implements OnInit {
       districtIdFltr: [''],
       collaryNameFltr: ['', [Validators.pattern(this.frmValid.alphabetsWithSpace)]]
     })
-
   }
-
+  
   createCollaryForm(){
     this.frmCollary = this.fb.group({
       districtId: ['', [Validators.required]],
@@ -108,10 +108,13 @@ export class RegisterCollaryComponent implements OnInit {
       collieryAddress: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
       longitude: ['', [Validators.required]],
-      polygonText: ['', [Validators.required]],
-      geofenceType: ['', [Validators.required]],
-      distance: ['', [Validators.required]],
+      polygonText: [''],
+      geofenceType: [0],
+      distance: [0],
       createdBy: [this.webStorageService.getUserId(), [Validators.required]],
+      contactNo: ['', [Validators.pattern(this.validation.valMobileNo)]],
+      emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
+      remark: [''],
     })
   }
 
@@ -179,7 +182,12 @@ export class RegisterCollaryComponent implements OnInit {
           this.frmCollary.patchValue({
             collieryName: res.responseData.collieryName,
             districtId: res.responseData.districtId,
-            collieryAddress:res.responseData.collieryAddress
+            collieryAddress:res.responseData.collieryAddress,
+            contactNo:res.responseData.contactNo,
+            emailId:res.responseData.emailId,
+            remark:res.responseData.remark,
+            latitude:res.responseData.latitude,
+            longitude:res.responseData.longitude,
           })
         }
         this.data = {
@@ -233,12 +241,9 @@ export class RegisterCollaryComponent implements OnInit {
 
   onSubmitCollary(){
     this.spinner.show();
+    debugger;
     if (this.frmCollary.invalid) {
       this.spinner.hide();
-      console.log(this.frmCollary.value)
-      // if(!this.frmCollary.value.collieryAddress){
-        this.commonMethod.matSnackBar('Address is required', 1)
-      // }
       return;
     }else{
       var req = {
@@ -254,6 +259,7 @@ export class RegisterCollaryComponent implements OnInit {
             this.onCancelRecord();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
+            this.spinner.hide();
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
         },
@@ -274,7 +280,6 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onMapReady(map?: any) {
-    console.log(this.data);
     this.isHide = this.data?.isHide || false;
     this.map = map;
     this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -315,11 +320,15 @@ export class RegisterCollaryComponent implements OnInit {
             })
             this.centerMarker.addListener('dragend', (evt: any) => {
               this.centerMarkerLatLng = "Long, Lat:" + evt.latLng.lng().toFixed(6) + ", " + evt.latLng.lat().toFixed(6);
-              this.centerMarker.panTo(evt.latLng);
+              this.setLatLong(evt.latLng.lat().toFixed(6), evt.latLng.lng().toFixed(6)) // set lat long
+              this.map?.panTo(evt.latLng);
             });
           }
           this.centerMarker.setPosition({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
           this.centerMarkerLatLng = "Long, Lat:" + place.geometry.location.lng().toFixed(6) + ", " + place.geometry.location.lat().toFixed(6);
+          this.setLatLong(place.geometry.location.lat().toFixed(6), place.geometry.location.lng().toFixed(6)) // set lat long
+
+
         });
       });
     })
@@ -604,6 +613,12 @@ export class RegisterCollaryComponent implements OnInit {
     this.isShapeDrawn = false;
     this.clearSelection(false);
   }
+
+  setLatLong(latitude:any, longitude:any){
+    this.frmCollary.controls['latitude'].setValue(latitude)
+    this.frmCollary.controls['longitude'].setValue(longitude)
+  }
+  
   //-------------------------------------------- agm map fn end heare ------------------------------//
 
 }

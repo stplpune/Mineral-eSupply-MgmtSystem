@@ -88,6 +88,7 @@ export class ApprovalComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.applicationDetails = res.responseData;
+         this.remarkDetails.forEach((ele:any) => { ele.coalApplicationDocuments.length?ele.coalApplicationDocuments.forEach((element:any ) =>{this.applicationDetails?.coalApplicationDocuments.push(element) }) :' ' });
           this.documentTable = new MatTableDataSource(this.applicationDetails?.coalApplicationDocuments);
           this.spinner.hide();
         } else {
