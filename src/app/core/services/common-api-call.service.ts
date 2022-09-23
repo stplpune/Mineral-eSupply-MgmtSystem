@@ -100,4 +100,24 @@ export class CommonApiCallService {
     })
   }
 
+  getMonthYear(){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "DropdownService/GetMonthYear", false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { obj.next(res.responseData); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
+  getCollieryNameList(){
+    return new Observable((obj) => {
+      this.apiService.setHttp('get', "api/BookingAndDeliveryOrder/getCollieryNameList", false, false, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => { if (res.statusCode == 200) { obj.next(res.responseData); } else { obj.error(res); } },
+        error: (e: any) => { obj.error(e) }
+      })
+    })
+  }
+
 }
