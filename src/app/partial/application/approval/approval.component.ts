@@ -32,6 +32,8 @@ export class ApprovalComponent implements OnInit {
   userDocumentTable: any;
   documentArray: any[] = [];
   isDocumentUpload: boolean = false;
+  hideApproveButton:boolean =false;
+  hideDocumentUpload: boolean = false;
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -65,6 +67,7 @@ export class ApprovalComponent implements OnInit {
         if (res.statusCode === 200) {
           this.remarkDetails = res.responseData;
           this.remarkTable = new MatTableDataSource(res.responseData);
+          this.hideApproveRejectBtn()
           this.getApplicationDetailsById();
           this.spinner.hide();
         } else {
@@ -114,8 +117,9 @@ export class ApprovalComponent implements OnInit {
     dialog.afterClosed().subscribe(res => {
       this.remarkDetails
       if (res.flag == 'Yes') {
+        let sunUserId = this.webStorageService.getSubUserType();
         let obj = {
-          "id": this.remarkDetails[0].id,
+          "id":  sunUserId == 2 ? this.remarkDetails[0].id : this.remarkDetails[1].id ,
           "applicationId": this.remarkDetails[0].applicationId,
           "approverLevel": this.webStorageService.getSubUserType(),
           "approverId": this.webStorageService.getUserId(),
@@ -125,10 +129,11 @@ export class ApprovalComponent implements OnInit {
           "remark": res?.remark,
           "coalApplicationDocuments": this.documentArray ? this.documentArray : null
         }
-        this.apiService.setHttp('put', "UserRegistration/BlockUnblockUser", false, obj, false, 'WBMiningService');
+        this.apiService.setHttp('put', "CoalApplication/UpdateApplicationStatus", false, obj, false, 'WBMiningService');
         this.apiService.getHttp().subscribe({
           next: (responseData: any) => {
             if (responseData.statusCode == 200) {
+              this.getRemarksDeailsById()
               this.commonMethod.matSnackBar(responseData.statusMessage, 0);
             } else {
               this.commonMethod.checkDataType(responseData.statusMessage) == false ? this.error.handelError(responseData.statusCode) : this.commonMethod.matSnackBar(responseData.statusMessage, 1);
@@ -182,4 +187,16 @@ export class ApprovalComponent implements OnInit {
     this.saveDocument();
   }
 
+
+  hideApproveRejectBtn(){
+    let sunUserId = this.webStorageService.getSubUserType();
+    if(sunUserId == 2)    {
+      this.remarkDetails[0].applicationStatus == 1  || this.remarkDetails[0].applicationStatus == 2 ? (this.hideApproveButton = false,this.hideDocumentUpload = false): (this.hideApproveButton = true ,this.hideDocumentUpload = true);
+    }else if(sunUserId == 3){
+      this.remarkDetails[1].applicationStatus == 1  || this.remarkDetails[1].applicationStatus == 2 ? this.hideApproveButton = false: this.hideApproveButton = true;
+    }else {
+      this.hideApproveButton == false;
+    }
+
+  }
 }
