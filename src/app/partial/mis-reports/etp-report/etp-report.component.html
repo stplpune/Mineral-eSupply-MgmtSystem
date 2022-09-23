@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="card plain-card">
         <div class="card-header">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-sm-auto">
                     <mat-form-field appearance="legacy" class="w-100">
                         <mat-label>From date</mat-label>
                         <input matInput [matDatepicker]="picker">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
+                    </mat-form-field>
                 </div>
                 <div class="col-sm-auto">
                     <mat-form-field appearance="legacy" class="w-100">
@@ -16,15 +16,15 @@
                         <input matInput [matDatepicker]="picker">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
+                    </mat-form-field>
                 </div>
                 <div class="col-sm-auto">
                     <mat-form-field appearance="legacy" class="w-100">
                         <mat-label>Select District</mat-label>
                         <mat-select formControlName="stateId">
-                            <mat-option >District 1</mat-option>
-                            <mat-option >District 2</mat-option>
-                            <mat-option >District 3</mat-option>
+                            <mat-option>District 1</mat-option>
+                            <mat-option>District 2</mat-option>
+                            <mat-option>District 3</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -32,9 +32,9 @@
                     <mat-form-field appearance="legacy" class="w-100">
                         <mat-label>Select Colliery</mat-label>
                         <mat-select formControlName="stateId">
-                            <mat-option >District 1</mat-option>
-                            <mat-option >District 2</mat-option>
-                            <mat-option >District 3</mat-option>
+                            <mat-option>District 1</mat-option>
+                            <mat-option>District 2</mat-option>
+                            <mat-option>District 3</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -44,10 +44,277 @@
                         <input matInput placeholder="Enter Vehicle N/ Cjallan No">
                     </mat-form-field>
                 </div>
-            </div>  
+                <div class="col-sm-auto text-end">
+                    <button mat-raised-button class="btn-main">Submit</button>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            table
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="">
+                    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+                        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expand">
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button aria-label="expand row"
+                                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                            <div class="example-element-detail"
+                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                <div class="">
+                                    <div class="example-element-position"> {{element.position}} </div>
+                                    <div class="example-element-symbol"> {{element.symbol}} </div>
+                                    <div class="example-element-name"> {{element.name}} </div>
+                                    <div class="example-element-weight"> {{element.weight}} </div>
+                                </div>
+                                <div class="example-element-description w-100">
+                                    <div class="row g-2">
+                                        <div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Challan Details</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-container">
+                                                        <div class="row mb-2">
+                                                            <div class="col-4 col-sm-4">
+                                                                <div class="form-label">Challan No</div>
+                                                            </div>
+                                                            <div class="col-8 col-sm-8">
+                                                                <div class="form-label">12213</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-4 col-sm-4">
+                                                                        <span class="form-label">Mineral: </span>
+                                                                        <span class="form-data">Coal</span>
+                                                                    </div>
+                                                                    <div class="col-8 col-sm-6">
+                                                                        <span class="form-label">Grade: </span>
+                                                                        <span class="form-data">G3</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col-4 col-sm-4">
+                                                                <div class="form-label">Destination</div>
+                                                            </div>
+                                                            <div class="col-8 col-sm-8">
+                                                                <div class="form-label">Baishanagar Malda 732127</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col-4 col-sm-4">
+                                                                <div class="form-label">Distance</div>
+                                                            </div>
+                                                            <div class="col-8 col-sm-8">
+                                                                <div class="form-label">10 KM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col-4 col-sm-4">
+                                                                <div class="form-label">Challan Date</div>
+                                                            </div>
+                                                            <div class="col-8 col-sm-8">
+                                                                <div class="form-data">23-9-2022 11.06.51 AM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col-4 col-sm-4">
+                                                                <div class="form-label">Valid Upto</div>
+                                                            </div>
+                                                            <div class="col-8 col-sm-8">
+                                                                <div class="form-data">23-9-2022 11.06.51 AM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col-4 col-sm-4">
+                                                                <div class="form-label">Quantity</div>
+                                                            </div>
+                                                            <div class="col-8 col-sm-8">
+                                                                <div class="form-data">20 Tonnes</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="row">
+                                                <div class="col-sm-12 mb-2">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5>Vehicle Details</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row mb-2">
+                                                                <div class="col-3 col-sm-12">
+                                                                    <div class="form-label mb-0">Vehicle No</div>
+                                                                </div>
+                                                                <div class="col-9 col-sm-12">
+                                                                    <div class="form-data">WB12MX1213</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-2">
+                                                                <div class="col-3 col-sm-12">
+                                                                    <div class="form-label mb-0">Driver Name</div>
+                                                                </div>
+                                                                <div class="col-9 col-sm-12">
+                                                                    <div class="form-data">Rajesh Singh</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-2">
+                                                                <div class="col-3 col-sm-12">
+                                                                    <div class="form-label mb-0">Driver Number</div>
+                                                                </div>
+                                                                <div class="col-9 col-sm-12">
+                                                                    <div class="form-data">8669264767</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5>MSME Consumer Details</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row mb-2">
+                                                                <div class="col-3 col-sm-12">
+                                                                    <div class="form-label mb-0">Name</div>
+                                                                </div>
+                                                                <div class="col-9 col-sm-12">
+                                                                    <div class="form-data">WB12MX12123</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-2">
+                                                                <div class="col-3 col-sm-12">
+                                                                    <div class="form-label mb-0">Address</div>
+                                                                </div>
+                                                                <div class="col-9 col-sm-12">
+                                                                    <div class="form-data">Baishanagr malda 712234</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-2">
+                                                                <div class="col-3 col-sm-12">
+                                                                    <div class="form-label mb-0">Mobile Number</div>
+                                                                </div>
+                                                                <div class="col-9 col-sm-12">
+                                                                    <div class="form-data">8669264767</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Colliery Details</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row mb-2">
+                                                        <div class="col-3 col-sm-12">
+                                                            <div class="form-label mb-0">Name</div>
+                                                        </div>
+                                                        <div class="col-9 col-sm-12">
+                                                            <div class="form-data">BARMURI Project</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-3 col-sm-12">
+                                                            <div class="form-label mb-0">District</div>
+                                                        </div>
+                                                        <div class="col-9 col-sm-12">
+                                                            <div class="form-data">BARMURI Project</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-3 col-sm-12">
+                                                            <div class="form-label mb-0">Address</div>
+                                                        </div>
+                                                        <div class="col-9 col-sm-12">
+                                                            <div class="form-data">Baishanagr Malda 712234</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-3 col-sm-12">
+                                                            <div class="form-label mb-0">Contact Person</div>
+                                                        </div>
+                                                        <div class="col-9 col-sm-12">
+                                                            <div class="form-data">Raj</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-3 col-sm-12">
+                                                            <div class="form-label mb-0">Mobile Number</div>
+                                                        </div>
+                                                        <div class="col-9 col-sm-12">
+                                                            <div class="form-data">8669264767</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mapouter">
+                                                <div class="gmap_canvas"><iframe width="500" height="500"
+                                                        id="gmap_canvas"
+                                                        src="https://maps.google.com/maps?q=shaurya%20technosoft&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                        frameborder="0" scrolling="no" marginheight="0"
+                                                        marginwidth="0"></iframe><a
+                                                        href="https://putlocker-is.org">putlocker</a><br>
+                                                    <style>
+                                                        .mapouter {
+                                                            position: relative;
+                                                            text-align: right;
+                                                            height: 500px;
+                                                            width: 500px;
+                                                        }
+                                                    </style><a href="https://www.embedgooglemap.net">google maps embed
+                                                        iframe generator</a>
+                                                    <style>
+                                                        .gmap_canvas {
+                                                            overflow: hidden;
+                                                            background: none !important;
+                                                            height: auto;
+                                                            width: 100%;
+                                                        }
+                                                    </style>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+                        class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
