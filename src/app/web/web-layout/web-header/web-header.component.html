@@ -2,9 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <div class="d-flex align-items-center">
-                    <a class="me-4 pe-4 border-end border-secondary" routerLink="screen-reader-access">Screen Reader Access</a>
-                    <a class="me-4 pe-4 border-end border-secondary" routerLink="#">Skip to Main Content</a>
+                <div class="d-flex align-items-center mb-2 mb-sm-0">
+                    <a class="me-4 pe-4 border-end border-secondary d-none d-sm-block" routerLink="screen-reader-access">Screen Reader Access</a>
+                    <a class="me-4 pe-4 border-end border-secondary d-none d-sm-block" routerLink="#">Skip to Main Content</a>
                     <div class="d-flex align-items-center">
                         <span class="me-2">Color -</span>
                         <div class="btn-group btn-group-sm ms-2" role="group" aria-label="Theme">
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-sm-6 text-end">
-                <div class="d-flex align-items-center justify-content-end">
+                <div class="d-flex align-items-center justify-content-sm-end justify-content-between">
                     <div class="d-flex align-items-center me-4 pe-4 border-end border-secondary">
                         <span class="me-2">Font Size -</span>
                         <button type="button" class="btn-font" id="smallSize" (click)="onChangeFontSize('small')">A-</button>
@@ -62,7 +62,7 @@
                             <a class="nav-link" routerLink="about-us" routerLinkActive="active">About</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" routerLinkActive="active" routerLink="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Application
                             </a>
                             <ul class="dropdown-menu">

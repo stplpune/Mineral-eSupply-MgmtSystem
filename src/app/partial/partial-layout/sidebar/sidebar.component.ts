@@ -29,7 +29,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let data: any = this.webStorage.getAllPageName();
-    console.log(data);
     this.sideBarMenu(data)
   }
 

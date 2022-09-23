@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AgmCoreModule } from '@agm/core';
+import { AgmDrawingModule } from '@agm/drawing';
+import { ConfigService } from 'src/app/configs/config.service';
 
 
 @NgModule({
@@ -13,7 +16,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    AgmDrawingModule,
+    AgmCoreModule.forRoot(ConfigService.googleApiObj),
   ]
 })
 export class DashboardModule { }
