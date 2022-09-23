@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -41,6 +41,10 @@ export class RegisterVehicleComponent implements OnInit {
   verificationStsArr = [{ id: 0, value: 'Yes' }, { id: 1, value: 'No' }]
   isImageUplaod: boolean = false;
   isSubmitted: boolean = false;
+  @ViewChild('state') private refState!: ElementRef;
+  @ViewChild('district') private refDistrict!: ElementRef;
+  @ViewChild('series') private refSeries!: ElementRef;
+  @ViewChild('number') private refNumber!: ElementRef;
 
   get f() { return this.regVehicleFrm.controls };
 
@@ -71,6 +75,16 @@ export class RegisterVehicleComponent implements OnInit {
 
   }
 
+  changesFocusInput(val: any){
+    if(val == 'state'){
+      this.regVehicleFrm.controls['state'].valid ? (this.regVehicleFrm.value.numberFormat == 'New'? this.refDistrict.nativeElement.focus() : this.refNumber.nativeElement.focus()) : this.refState.nativeElement.focus();
+    }else if(val == 'district'){
+      this.regVehicleFrm.controls['district'].valid ? this.refSeries.nativeElement.focus() : this.refDistrict.nativeElement.focus();
+    }else{
+      this.regVehicleFrm.controls['series'].valid ? this.refNumber.nativeElement.focus() : this.refSeries.nativeElement.focus();
+    }
+  }
+
   createVehicleForm(){
     this.regVehicleFrm = this.fb.group({
       transportType: ['Vehicle', [Validators.required]],
@@ -93,7 +107,7 @@ export class RegisterVehicleComponent implements OnInit {
       vehicleTypeId: [0],
       permitNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       licenseNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
-      driverCompName: [''],
+      driverCompName: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]],
       deviceId: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       deviceSIMNo: ['', [Validators.pattern(this.vs.onlyNumbers)]],
       secondarySIMNo: ['', [Validators.pattern(this.vs.onlyNumbers)]],
@@ -128,13 +142,13 @@ export class RegisterVehicleComponent implements OnInit {
         if (res.statusCode === 200 && res.responseData) {
           this.dataSource = res.responseData.responseData1;
           this.totalRows = res.responseData.responseData2.totalCount;
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.dataSource = [];
           this.totalRows = 0;
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
         this.spinner.hide();
-        this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
       },
       error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
     })
@@ -146,17 +160,22 @@ export class RegisterVehicleComponent implements OnInit {
       district: '',
       number: '',
       series: ''
-    })
+    });
     if(val == "Vehicle"){
       this.regVehicleFrm.controls['numberFormat'].setValidators([Validators.required]);
       this.regVehicleFrm.controls['state'].setValidators([Validators.required, Validators.pattern(this.vs.onlyAlphabet), Validators.maxLength(2), Validators.minLength(2)]);
       this.regVehicleFrm.controls['district'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(2), Validators.minLength(2)]);
       this.regVehicleFrm.controls['number'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(4), Validators.minLength(4)]);
     }else{
+      alert("in else")
       this.regVehicleFrm.controls['numberFormat'].clearValidators();
       this.regVehicleFrm.controls['district'].clearValidators();
       this.regVehicleFrm.controls['state'].setValidators([Validators.required, Validators.pattern(this.vs.onlyAlphabet), Validators.maxLength(3), Validators.minLength(3)]);      
       this.regVehicleFrm.controls['number'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(5), Validators.minLength(5)]);
+      this.regVehicleFrm.patchValue({
+        numberFormat: 'New'
+      });
+      this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
     }
     this.regVehicleFrm.controls['state'].updateValueAndValidity();
     this.regVehicleFrm.controls['district'].updateValueAndValidity();
@@ -165,6 +184,7 @@ export class RegisterVehicleComponent implements OnInit {
   }
 
   onNumberFormatChange(val: any){
+    alert("in fun")
     this.regVehicleFrm.patchValue({
       state: '',
       district: '',
@@ -269,18 +289,17 @@ export class RegisterVehicleComponent implements OnInit {
     if(this.regVehicleFrm.value.frontImage && this.regVehicleFrm.value.sideImage && this.regVehicleFrm.value.numberPlateImage){
       this.commonService.uploadFile(this.eventFrontImg, this.eventSideImg, this.eventNumPlateImg, "png,jpg,jpeg").subscribe({
         next: (res: any) => {
-          var tempArr = [];
-          tempArr.push(res);
-          if(res){
+          if(res.statusCode == 200 && res.responseData){
             this.regVehicleFrm.patchValue({
-              frontImage : tempArr[0].vehicleFrontSideImage,
-              sideImage : tempArr[0].vehicleSideImage,
-              numberPlateImage : tempArr[0].vehicleNumberImage
+              frontImage : res.responseData.vehicleFrontSideImage,
+              sideImage : res.responseData.vehicleSideImage,
+              numberPlateImage : res.responseData.vehicleNumberImage
             })  
             this.isImageUplaod = true; 
-            this.commonMethod.matSnackBar("Images uploaded successfully", 0);
+            this.commonMethod.matSnackBar(res.statusMessage, 0);
           }else{
             this.isImageUplaod = false; 
+            this.commonMethod.matSnackBar(res.statusMessage, 1);
           } 
         }
       })
@@ -310,7 +329,36 @@ export class RegisterVehicleComponent implements OnInit {
   }
 
   editVehicleRecord(row: any){
-
+    console.log(row)
+    this.regVehicleFrm.patchValue({
+      transportType: row.transportType,
+      state: row.state,
+      district: row.district,
+      series: row.series,
+      number: row.number,
+      isBlock: row.isBlock,
+      remark: row.remark,
+      ownerName: row.ownerName,
+      ownerMobileNumber: row.ownerMobileNumber,
+      address: row.address,
+      driverName: row.driverName,
+      driverMobileNo: row.driverMobileNo,
+      eTpMobileNumber: row.eTpMobileNumber,
+      vehicleTypeId: row.vehicleTypeId,
+      permitNo: row.permitNo,
+      licenseNo: row.licenseNo,
+      driverCompName: row.driverCompName,
+      deviceId: row.deviceId,
+      deviceSIMNo: row.deviceSIMNo,
+      primaryTelecomProvider: row.primaryTelecomProvider,
+      secondarySIMNo: row.secondarySIMNo,
+      secondaryTelecomProvider: row.secondaryTelecomProvider,
+      length: row.length,
+      width: row.width,
+      frontImage: row.frontImage,
+      sideImage: row.sideImage,
+      numberPlateImage: row.numberPlateImage
+    })
   }
 
   saveUpdate(formData: any, action: any) {
@@ -336,7 +384,72 @@ export class RegisterVehicleComponent implements OnInit {
           "oldState": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.state : "",
           "oldNum": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.number : "",
           "createdBy": this.webStorageService.getUserId(),
-          'flag': ""
+          'flag': "",
+          'pageName': "",
+          // "modifiedBy": 0,
+          "createdDate": new Date(),
+          "modifiedDate": new Date(),
+          // "isDeleted": true,
+          // "vehicleRegistrationNo": "string",
+          // "state": "string",
+          // "district": "string",
+          // "series": "string",
+          // "number": "string",
+          // "ownerName": "string",
+          "capacity": 0,
+          // "vehicleTypeId": 0,
+          // "vehicleOwnerId": 0,
+          // "ownerMobileNo": "string",
+          // "driverName": "string",
+          // "driverMobileNo": "string",
+          // "address": "string",
+          // "licenseNo": "string",
+          // "permitNo": "string",
+          "trainingDate": "2022-09-23T12:26:20.443Z",
+          "serviceProvider": "",
+          // "deviceId": "string",
+          // "deviceCompanyId": 0,
+          // "deviceSIMNo": "string",
+          "activationKey": "",
+          "activationKey1ExpireDate": "2022-09-23T12:26:20.443Z",
+          "activationKey1LockOutCount": 0,
+          "version": "",
+          "registrationId": "",
+          "transporterMobileNo": "",
+          "transporterId": 0,
+          "nfcTagId": "",
+          "isRegisteredByOffice": true,
+          "registeredBy": 0,
+          "ownerAadharNo": 0,
+          "ownerAadharFilePath": "",
+          "taxFilePath": "",
+          "insuranceFilePath": "",
+          "permitFilePath": "",
+          "certificateFilePath": "",
+          "rlw": 0,
+          "ulw": 0,
+          "cc": 0,
+          "receiptNo": "",
+          "amount": 0,
+          "applicationFormFilePath": "",
+          "invoiceCounter": 0,
+          "transportType": "",
+          "remark": "",
+          "originalDeviceId": "",
+          "height": 0,
+          "isVerified": true,
+          "isForceValidateGPSDataConsistent": true,
+          "forceValidateBy": 0,
+          "forceValidateDate": "2022-09-23T12:26:20.443Z",
+          "blockedBy": 0,
+          "blockedDate": "2022-09-23T12:26:20.443Z",
+          "isSuspicious": true,
+          "suspiciousReason": "",
+          "suspiciousDate": "2022-09-23T12:26:20.443Z",
+          "manufacturerId": 0,
+          "tenantId": "",
+          "rfid": "",
+          "mobileNo": "",
         }
 
         console.log(req)
@@ -352,6 +465,7 @@ export class RegisterVehicleComponent implements OnInit {
             } else {
               this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
             }
+            this.spinner.hide();
           },
           error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
         })
