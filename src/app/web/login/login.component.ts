@@ -56,9 +56,9 @@ export class LoginComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == "200") {
-          this.router.navigate(['../dashboard'], { relativeTo: this.route });
           localStorage.setItem('loggedInData', JSON.stringify(res));
           sessionStorage.setItem('loggedIn', 'true');
+          this.router.navigate(['../dashboard'], { relativeTo: this.route });
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
