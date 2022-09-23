@@ -25,7 +25,9 @@
                         </button>
                     </td>
                 </ng-container>
-
+                <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                    <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+                </tr>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"  [ngClass]="{'highlightedRow ':highlightedRow == row.id}"></tr>
             </table>
@@ -51,7 +53,7 @@
                       </mat-error>
                     </mat-form-field>
                     <div class="text-end p-3">
-                      <button type="submit" mat-raised-button class="btn-main">ADD</button>
+                      <button type="submit" mat-raised-button class="btn-main">{{btnText}}</button>
                   </div>
                   </form>
                 </div>

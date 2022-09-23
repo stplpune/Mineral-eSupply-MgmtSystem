@@ -7,7 +7,7 @@ import { PageNotFoundComponent } from './partial/errors/page-not-found/page-not-
 import { AccessDeniedComponent } from './partial/errors/access-denied/access-denied.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'demo', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     component: WebLayoutComponent,

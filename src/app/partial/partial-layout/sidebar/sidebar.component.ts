@@ -35,12 +35,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   sideBarMenu(data: any) {
     this.loginPages = [];
-    this.loginAfterPages = data;
-    // .filter((ele: any) => {
-    //   if (ele.isSidebarMenu == true) {
-    //     return ele;
-    //   }
-    // })
+    this.loginAfterPages = data.filter((ele: any) => {
+      if (ele.isSideBarMenu == true) {
+        return ele;
+      }
+    })
 
     this.loginAfterPages.forEach((item: any) => {
       let existing: any = this.loginPages.filter((v: any) => {
@@ -60,7 +59,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       }
 
     });
-    console.log(this.loginPages);
   }
 
   getSideBarState() {
@@ -110,7 +108,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     if (this.commonMethodsService.checkDataType(val == false)) {
       this.ngOnInit();
     } else {
-      debugger;
       let data: any = this.webStorage.getAllPageName();
       let result = data.filter((res: any) => {
         return res.pageName?.toLowerCase().includes(val) || res.module?.toLowerCase().includes(val);

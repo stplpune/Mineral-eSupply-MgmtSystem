@@ -2,16 +2,16 @@
     <div class="page-heading">Dashboard</div>
 
     <div class="row mb-3" id="dash-stats">
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-3 mb-lg-0">
             <div class="card dash-card">
                 <div class="card-header">Annual Quantity</div>
                 <div class="card-body pt-0">
                     <div class="row gx-1 gy-3">
-                        <div class="col-sm-12">
+                        <div class="col-6 col-sm-12">
                             <h4 class="text-main">1,00,000</h4>
                             <small>Allocated</small>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <h4 class="text-green">56,320</h4>
                             <small>Balance</small>
                         </div>
@@ -22,24 +22,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-3 mb-lg-0">
             <div class="card dash-card">
                 <div class="card-header">Monthly Quantity</div>
                 <div class="card-body pt-0">
                     <div class="row gx-1 gy-3">
-                        <div class="col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <h4 class="text-main">15,000</h4>
                             <small>Allocated</small>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <h4 class="text-green">8,000</h4>
                             <small>Balance</small>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <h4 class="text-violet">7,000</h4>
                             <small>Lifted</small>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-6 col-sm-6">
                             Chart
                         </div>
                     </div>
@@ -50,17 +50,17 @@
             <div class="card dash-card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4 p-3">
+                        <div class="col-4 col-sm-4 p-3">
                             <img src="assets/images/Collieries.svg" class="dash-icon">
                             <h4>56</h4>
                             <small>Collaries</small>
                         </div>
-                        <div class="col-sm-4 border-start border-end p-3">
+                        <div class="col-4 col-sm-4 border-start border-end p-3">
                             <img src="assets/images/Vehicle.svg" class="dash-icon">
                             <h4>56</h4>
                             <small>Vehicle</small>
                         </div>
-                        <div class="col-sm-4 p-3">
+                        <div class="col-4 col-sm-4 p-3">
                             <img src="assets/images/MSME.svg" class="dash-icon">
                             <h4>56</h4>
                             <small>MSME Consumers</small>
@@ -71,10 +71,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-8 mb-3 mb-lg-0">
             <div class="card dash-card">
                 <div class="card-header form-container">
-                    <div class="row justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div class="col-sm">Daily Lifting Chart</div>
                         <div class="col-sm-3">
                             <select class="form-select form-select-sm">
@@ -105,12 +105,26 @@
             <div class="card dash-card">
                 <div class="card-header">Location Of Collaries</div>
                 <div class="card-body">
-                    <div id="pieChart">
+                    <!-- <div id="pieChart">
                         <apx-chart
                           [series]="pieChartOptions.series"
                           [chart]="pieChartOptions.chart"
                           [labels]="pieChartOptions.labels"
                           [responsive]="pieChartOptions.responsive"
+                        ></apx-chart>
+                    </div> -->
+                    <div id="areaChart">
+                        <apx-chart
+                          [series]="chartOptions.series"
+                          [chart]="chartOptions.chart"
+                          [xaxis]="chartOptions.xaxis"
+                          [stroke]="chartOptions.stroke"
+                          [dataLabels]="chartOptions.dataLabels"
+                          [yaxis]="chartOptions.yaxis"
+                          [labels]="chartOptions.labels"
+                          [legend]="chartOptions.legend"
+                          [title]="chartOptions.title"
+                          [subtitle]="chartOptions.subtitle"
                         ></apx-chart>
                     </div>
                 </div>
