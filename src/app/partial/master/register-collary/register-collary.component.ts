@@ -99,9 +99,8 @@ export class RegisterCollaryComponent implements OnInit {
       districtIdFltr: [''],
       collaryNameFltr: ['', [Validators.pattern(this.frmValid.alphabetsWithSpace)]]
     })
-
   }
-
+  
   createCollaryForm(){
     this.frmCollary = this.fb.group({
       districtId: ['', [Validators.required]],
@@ -183,7 +182,12 @@ export class RegisterCollaryComponent implements OnInit {
           this.frmCollary.patchValue({
             collieryName: res.responseData.collieryName,
             districtId: res.responseData.districtId,
-            collieryAddress:res.responseData.collieryAddress
+            collieryAddress:res.responseData.collieryAddress,
+            contactNo:res.responseData.contactNo,
+            emailId:res.responseData.emailId,
+            remark:res.responseData.remark,
+            latitude:res.responseData.latitude,
+            longitude:res.responseData.longitude,
           })
         }
         this.data = {

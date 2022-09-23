@@ -143,11 +143,14 @@
                                     enter address.</span>
                             </mat-error>
                         </mat-form-field>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
                                 (mapReady)="onMapReady($event)"></agm-map>
-                            <button mat-mini-fab color="warn" (click)="removeShape()" *ngIf="isShapeDrawn"
-                                aria-label="Remove Shape">Close</button>
+                            <!-- <button mat-mini-fab color="warn" (click)="removeShape()" *ngIf="isShapeDrawn"
+                                aria-label="Remove Shape">Close</button> -->
+                                <button class="btn-map-close" (click)="removeShape()" *ngIf="isShapeDrawn"
+                                aria-label="Remove Shape"><i class="fa-solid fa-xmark"></i>
+                            </button>
                             <!-- <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map> -->
                         </div>
                         <div class="row">
