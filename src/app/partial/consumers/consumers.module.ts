@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ConsumersRoutingModule } from './consumers-routing.module';
 import { ConsumersComponent } from './consumers.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ConsumersComponent } from './consumers.component';
   ],
   imports: [
     CommonModule,
-    ConsumersRoutingModule
+    ConsumersRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class ConsumersModule { }
