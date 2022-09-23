@@ -125,10 +125,10 @@ export class CommonApiCallService {
         this.apiService.getHttp().subscribe({
             next: (response: any) => {
                 if (response.statusCode === "200") {
-                    obj.next(response.responseData);
+                  obj.next(response);
                 }
                 else {
-                    this.commonMethod.matSnackBar(response.statusMessage, 1);
+                  this.commonMethod.matSnackBar(response.statusMessage, 1);
                 }
             },
             error: ((err: any) => {

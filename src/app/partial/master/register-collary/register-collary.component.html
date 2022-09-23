@@ -144,7 +144,7 @@
                             </mat-error>
                         </mat-form-field>
                         <div class="mb-3 position-relative">
-                            <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
+                            <agm-map  [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
                                 (mapReady)="onMapReady($event)"></agm-map>
                                 <button class="btn-map-close" (click)="removeShape()" *ngIf="isShapeDrawn"
                                 aria-label="Remove Shape"><i class="fa-solid fa-xmark"></i>
