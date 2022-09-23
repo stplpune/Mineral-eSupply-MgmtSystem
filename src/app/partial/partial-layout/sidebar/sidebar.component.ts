@@ -59,7 +59,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       }
 
     });
-    console.log(this.loginPages);
   }
 
   getSideBarState() {
@@ -109,7 +108,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     if (this.commonMethodsService.checkDataType(val == false)) {
       this.ngOnInit();
     } else {
-      debugger;
       let data: any = this.webStorage.getAllPageName();
       let result = data.filter((res: any) => {
         return res.pageName?.toLowerCase().includes(val) || res.module?.toLowerCase().includes(val);

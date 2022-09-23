@@ -17,6 +17,7 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 export class AddRateCardComponent implements OnInit {
 
   addRateCardForm:FormGroup | any;
+  selected = 'Ton';
 
   constructor(
     private fb: FormBuilder,
