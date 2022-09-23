@@ -103,14 +103,10 @@
                             [latitude]="marker.latitude" [longitude]="marker.longitude"
                             (markerClick)="clickedMarker(infoWindow)">
                             <agm-info-window class="agmInfo" [isOpen]="isInfoWindowOpen(marker.rowNumber)" #infoWindow>
-                                <table class="table table-bordered  table-sm mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td>#</td>
-                                            <th>{{marker.collieryName}}</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <p class="mb-0"><strong>Colliery Name</strong> : {{marker.collieryName | titlecase}}</p>
+                                <p class="mb-0"><strong>Colliery Address</strong> : {{marker.collieryAddress | titlecase}}</p>
+                                <p><strong>Latitude/Longitude</strong> : {{marker.latitude}}/{{marker.longitude}}</p>
+                               
                             </agm-info-window>
                         </agm-marker>
                     </agm-map>
