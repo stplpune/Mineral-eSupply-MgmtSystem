@@ -46,7 +46,7 @@ body {
 body {
   margin: 0;
   font-family: 'Rubik', "Helvetica Neue", sans-serif;
-  background-color:var(--bg-color);
+  background-color:var(--body-bg-color);
 }
 
 .page-wrapper.toggled .sidebar {
@@ -85,21 +85,13 @@ body {
   --bg-color:#fff;
   --top-bg-color:#E6E6E6;
 }
-.theme-white{
-  --text-color:#000;
-  --bg-color:#fff;
-  --top-bg-color:#E6E6E6;
-}
-.theme-dark{
-  --text-color:#fff;
-  --bg-color:#2B3036;
-  --top-bg-color:#141516;
-}
 .text-main {
   color: var(--main-color);
   text-decoration: none;
 }
-
+.border-main{
+  border-color: var(--main-color);
+}
 .bg-main,
 .btn-main {
   background-color: var(--main-color) !important;
@@ -297,6 +289,9 @@ mat-form-field{
 }
 .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
   background-color: var(--main-light-color) !important;
+}
+.plain-card{
+  border:none;
 }
 .plain-card .card-header{
   background-color:transparent;

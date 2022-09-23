@@ -69,7 +69,7 @@ export class ChangePasswordComponent implements OnInit {
           this.commonMethod.matSnackBar(res.statusMessage,0);
           localStorage.removeItem('loggedInData');
           sessionStorage.removeItem('loggedIn');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/home']);
           this.ClearAll();
         } else {
           this.spinner.hide();
