@@ -11,9 +11,9 @@
                                       <div class="row col-2">
                                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                           <mat-label>Month & Year</mat-label>
-                                          <mat-select [formControl]="monthlySearch">
-                                            <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth"  >
-                                              {{yearMonth}}
+                                          <mat-select [formControl]="monthlySearch" (selectionChange)="getECLData()">
+                                            <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text"  >
+                                              {{yearMonth.text}}
                                             </mat-option>
                                           </mat-select>
                                           <!-- <mat-error *ngIf="f.districtId.errors">
@@ -24,7 +24,38 @@
 
                                     </div>
                                     <div class="card-body">
-                                        Table
+                                      <table mat-table #useraddDocument [dataSource]="ECLDatasource" class="dashboard-table w-100">
+                                        <ng-container matColumnDef="srno">
+                                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="collieryName">
+                                          <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
+                                          <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="allocationQty">
+                                          <th mat-header-cell *matHeaderCellDef> Document No </th>
+                                          <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                          <th mat-header-cell *matHeaderCellDef>Action </th>
+                                          <td mat-cell *matCellDef="let element let i =index">
+                                            <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
+                                            (click)="updateECl(element)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                          </td>
+                                        </ng-container>
+                                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                          <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                                        </tr>
+                                        <tr mat-header-row *matHeaderRowDef="ECLColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: ECLColumns;"></tr>
+                                      </table>
 
                                     </div>
                                 </div>
@@ -32,30 +63,50 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
+                                      <form [formGroup]="monthlyFrmECl" >
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
-                                                <mat-label>Month & Year</mat-label>
-                                                <input matInput placeholder="Month & Year">
-                                            </mat-form-field>
+                                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                            <mat-label>Month & Year</mat-label>
+                                            <mat-select formControlName="monthYear" >
+                                              <mat-option *ngFor="let year of yearArray" [value]="year.text"  >
+                                                {{year.text}}
+                                              </mat-option>
+                                            </mat-select>
+                                             <mat-error *ngIf="monthlyFrmECl.controls['monthYear'].errors">
+                                            <span *ngIf="monthlyFrmECl.controls['monthYear'].hasError('required')">Please Select Month & Year</span>
+                                          </mat-error>
+                                          </mat-form-field>
 
-                                        </div>
-                                        <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
-                                                <mat-label>Colliery Name</mat-label>
-                                                <input matInput placeholder="Enter Colliery Name">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
-                                                <mat-label>Allocated Quantity</mat-label>
-                                                <input matInput placeholder="Enter Allocated Quantity">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="text-end">
-                                            <button class="btn btn-main" type="submit">Submit</button>
-                                        </div>
+                                      </div>
+                                      <div class="">
+                                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                              <mat-label>Colliery Name</mat-label>
+
+                                              <mat-select formControlName="collieryId">
+                                                <mat-option *ngFor="let colliery of collieryArray" [value]="colliery.id"  >
+                                                  {{colliery.collieryName}}
+                                                </mat-option>
+                                              </mat-select>
+                                              <mat-error *ngIf="monthlyFrmECl.controls['collieryId'].errors">
+                                                <span *ngIf="monthlyFrmECl.controls['collieryId'].hasError('required')">Please Select Colliery Name</span>
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                      <div class="">
+                                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                              <mat-label>Allocated Quantity</mat-label>
+                                              <input matInput placeholder="Enter Allocated Quantity" formControlName="allocationQty">
+                                              <mat-error *ngIf="monthlyFrmECl.controls['allocationQty'].errors">
+                                                <span *ngIf="monthlyFrmECl.controls['allocationQty'].hasError('required')">Please Enter Allocated Quantity</span>
+                                                <span *ngIf="monthlyFrmECl.controls['allocationQty'].hasError('pattern')">Please Enter Valid Allocated Quantity</span>
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                      <div class="text-end">
+                                          <button class="btn btn-main" (click)="SaveUpdateECl()">{{saveUpdateBtnECL}}</button>
+                                      </div>
+                                      </form>
                                     </div>
-
                                 </div>
 
                             </div>
@@ -70,32 +121,87 @@
                             <div class="col-sm-6">
                                 <div class="card plain-card">
                                     <div class="card-header">
-                                        <mat-form-field appearance="legacy" class="">
+                                        <mat-form-field [appearance]="configService.matFormField" class="">
                                             <mat-label>Month & Year</mat-label>
                                             <input matInput placeholder="Enter Month & Year">
                                         </mat-form-field>
                                     </div>
                                     <div class="card-body">
-                                        table 1
+                                      <table mat-table #useraddDocument [dataSource]="ECLDatasource" class="dashboard-table w-100">
+                                        <ng-container matColumnDef="srno">
+                                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="collieryName">
+                                          <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
+                                          <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="allocationQty">
+                                          <th mat-header-cell *matHeaderCellDef> ECL Allocation Quantity (T) </th>
+                                          <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
+                                        </ng-container>
+                                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                          <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                                        </tr>
+                                        <!-- <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                          <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                                        </tr> -->
+                                        <tr mat-header-row *matHeaderRowDef="distributionColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: distributionColumns;"></tr>
+                                      </table>
                                         <div>
-                                            <button class="btn btn-main" type="submit">Distribute</button>
+                                            <button class="btn btn-main" type="submit" (click)="getcoalDistributionData()">Distribute</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
+
                                 <div class="card plain-card">
-                                    <!-- <div class="card-header">
-                                        <mat-form-field appearance="legacy" class="">
-                                            <mat-label>Month & Year</mat-label>
-                                            <input matInput placeholder="Enter Month & Year">
-                                        </mat-form-field>
-                                    </div> -->
+
                                     <div class="card-body">
-                                        table 2
+                                       <form [formGroup]="distributionForm" autocomplete="off">
+                                                <div class="row">
+                                                    <table style="border: 1px;" class="dashboard-table w-100">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr.No</th>
+                                                                <th>MSME Consumer Name</th>
+                                                                <th>Tentative Quantity Allocation (Tones)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody formArrayName="distributionList">
+                                                            <tr *ngFor="let itemrow of distributionListControls.controls; let i=index;let l=last" [formGroupName]="i">
+                                                                <td class="text-center">
+                                                                    {{i+1}}
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control" formControlName="consumerName" [readOnly]="true" style="border: 0px; box-shadow: none;">
+                                                                </td>
+                                                                <td>
+                                                                  <mat-form-field [appearance]="configService.matFormField" class="">
+                                                                    <mat-label>Quantity </mat-label>
+                                                                    <input matInput placeholder="Enter Quantity"  formControlName="tentitiveQty" maxlength="20" [readonly]="disabledQty">
+                                                                </mat-form-field>
+                                                                  <!-- <input class="form-control"  > -->
+                                                                    <!-- <input class="form-control" > -->
+                                                                    <!-- <div class="errorText" *ngIf="distributionListControls.controls[i].get('mineralCharge')?.errors?.['pattern']">
+                                                                        invalid</div> -->
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </form>
+
+
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <button class="btn bg-opacity-10 text-dark" type="submit">Edit</button>
-                                            <button class="btn btn-main" type="submit">Submit</button>
+                                            <button class="btn bg-opacity-10 text-dark" (click)="disabledQty= false">Edit</button>
+                                            <button class="btn btn-main" type="submit" (click)="saveUpdateDistributionData()">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +216,7 @@
                             <div class="col-sm-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <mat-form-field appearance="legacy" class="">
+                                        <mat-form-field [appearance]="configService.matFormField" class="">
                                             <mat-label>Month & Year</mat-label>
                                             <input matInput placeholder="Enter Month & Year">
                                         </mat-form-field>
@@ -139,7 +245,7 @@
                             <div class="col-sm-8">
                                 <div class="card plain-card">
                                     <div class="card-header">
-                                        <mat-form-field appearance="legacy" class="">
+                                        <mat-form-field [appearance]="configService.matFormField" class="">
                                             <mat-label>Month & Year</mat-label>
                                             <input matInput placeholder="Enter Month & Year">
                                         </mat-form-field>
@@ -153,13 +259,13 @@
                                 <div class="card plain-card">
                                     <div class="card-body">
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Booking ID</mat-label>
                                                 <input matInput placeholder="Enter Booking ID">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>WBMDTCL Account</mat-label>
                                                 <mat-select>
                                                     <mat-option>Opt 1</mat-option>
@@ -169,7 +275,7 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>ECL Account</mat-label>
                                                 <mat-select>
                                                     <mat-option>Select from Master</mat-option>
@@ -179,25 +285,25 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Quantity</mat-label>
                                                 <input matInput placeholder="Enter WBMDTCL Account">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Amount</mat-label>
                                                 <input matInput placeholder="Enter WBMDTCL Account">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Transaction Date</mat-label>
                                                 <input matInput placeholder="Enter WBMDTCL Account">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>UTR Number</mat-label>
                                                 <input matInput placeholder="Enter WBMDTCL Account">
                                             </mat-form-field>
@@ -221,7 +327,7 @@
                             <div class="col-sm-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <mat-form-field appearance="legacy" class="">
+                                        <mat-form-field [appearance]="configService.matFormField" class="">
                                             <mat-label>Month & Year</mat-label>
                                             <input matInput placeholder="Enter Month & Year">
                                         </mat-form-field>
@@ -235,31 +341,31 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Booking ID</mat-label>
                                                 <input matInput placeholder="Enter Booking ID">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Colliery Name</mat-label>
                                                 <input matInput placeholder="Enter Colliery Name">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Qantity</mat-label>
                                                 <input matInput placeholder="Enter Qantity">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Sales Order no</mat-label>
                                                 <input matInput placeholder="Enter Sales Order no">
                                             </mat-form-field>
                                         </div>
                                         <div class="">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Sales order Date</mat-label>
                                                 <input matInput placeholder="Enter Sales order Date">
                                             </mat-form-field>
@@ -282,7 +388,7 @@
                             <div class="col-sm-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <mat-form-field appearance="legacy" class="">
+                                        <mat-form-field [appearance]="configService.matFormField" class="">
                                             <mat-label>Month & Year</mat-label>
                                             <input matInput placeholder="Enter Month & Year">
                                         </mat-form-field>
