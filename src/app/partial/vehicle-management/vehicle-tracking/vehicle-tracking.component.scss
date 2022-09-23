@@ -52,3 +52,24 @@
     line-height: 0 !important;
     width:26px !important;
 }
+.offcanvas{
+    // right: 65px;
+    // top: 114px;
+    // bottom: 157px;
+    background-color:var(--card-bg-color);
+}
+#challan-heading{
+    border-bottom: 1px solid var(--main-color);
+    padding-bottom:15px;
+    margin-bottom:15px;
+}
+#challan-heading img{
+    width: 50px;
+}
+#challan-heading p{
+    font-size: 0.85rem;
+    color: var(--text-color);
+}
+#challan-details .list-group-item{
+    background-color:var(--card-bg-color);
+}

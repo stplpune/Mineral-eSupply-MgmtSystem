@@ -147,7 +147,8 @@
                         </div>
                     </div>
                 </div>
-                <button mat-button class="btn-outline-main mb-3">
+                <button mat-button class="btn-outline-main mb-3" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     Challan Details
                 </button>
 
@@ -212,4 +213,83 @@
         </div>
     </div>
 
+</div>
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" data-bs-backdrop="true" id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <p class="offcanvas-title text-main mb-0" id="offcanvasRightLabel">Challan Details</p>
+        <button type="button" class="btn-close text-main" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body pt-0">
+        <div class="d-flex justify-content-between align-items-center" id="challan-heading">
+            <div class="d-flex">
+                <img src="assets/images/WBMDTCL_Logo.png">
+                <p class="mb-0">West Bengal Mineral Development & Trading Corporation Ltd</p>
+            </div>
+            <img src="https://ps.w.org/doqrcode/assets/icon-256x256.png?rev=2143781">
+        </div>
+        <div class="form-container">
+            <ul class="list-group list-group-flush" id="challan-details">
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="form-label">Delivery Order No. : </span>
+                            <span class="form-data">2003</span>
+                        </div>
+                        <div>
+                            <span class="form-label">Challan No : </span>
+                            <span class="form-data">323323</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="form-label">Colliery Name : </span>
+                            <span class="form-data">BARMURI Project</span>
+                        </div>
+                        <div>
+                            <span class="form-label">District : </span>
+                            <span class="form-data">BARMURI</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">MSME Consumer : </span>
+                    <span class="form-data">Julfikar Coke Briquette</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Challan Issue Date & Time : </span>
+                    <span class="form-data">12-12-2022 / 12:12:12</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Challan Validity Date & Time : </span>
+                    <span class="form-data">12-12-2022 / 12:12:12</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Destination : </span>
+                    <span class="form-data">Julfikar Coke Briquette, Link Road, WB-411100</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Mineral : </span>
+                    <span class="form-data">Coal</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Vehicle No : </span>
+                    <span class="form-data">WB11XT1234</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Vehicle Lifting Quantity :</span>
+                    <span class="form-data">18 Tons</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="form-label">Driver Name & Number : </span>
+                    <span class="form-data">Raju ( 1111213133)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
