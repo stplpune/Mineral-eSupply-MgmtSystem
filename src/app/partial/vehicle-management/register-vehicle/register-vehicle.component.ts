@@ -167,7 +167,7 @@ export class RegisterVehicleComponent implements OnInit {
       this.regVehicleFrm.controls['district'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(2), Validators.minLength(2)]);
       this.regVehicleFrm.controls['number'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(4), Validators.minLength(4)]);
     }else{
-      alert("in else")
+      // alert("in else")
       this.regVehicleFrm.controls['numberFormat'].clearValidators();
       this.regVehicleFrm.controls['district'].clearValidators();
       this.regVehicleFrm.controls['state'].setValidators([Validators.required, Validators.pattern(this.vs.onlyAlphabet), Validators.maxLength(3), Validators.minLength(3)]);      
@@ -184,7 +184,7 @@ export class RegisterVehicleComponent implements OnInit {
   }
 
   onNumberFormatChange(val: any){
-    alert("in fun")
+    // alert("in fun")
     this.regVehicleFrm.patchValue({
       state: '',
       district: '',
