@@ -118,32 +118,29 @@
                                     district.</span>
                             </mat-error>
                         </mat-form-field>
+                    
+                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Contact Person Mobile No.</mat-label>
+                            <input id="colliery_name" matInput formControlName="contactNo" maxlength="200">
+                            <mat-error *ngIf="fc['contactNo'].errors">
+                                <span class="text-danger" *ngIf="fc['contactNo'].errors?.['pattern']">Please enter
+                                    valid Contact No.</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Contact Email ID</mat-label>
+                            <input id="colliery_name" matInput formControlName="emailId" maxlength="200">
+                            <mat-error *ngIf="fc['emailId'].errors">
+                                <span class="text-danger" *ngIf="fc['emailId'].errors?.['pattern']">Please enter
+                                    valid email Id</span>
+                            </mat-error>
+                        </mat-form-field>
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Address</mat-label>
                             <textarea matInput formControlName="collieryAddress" #search maxlength="500"></textarea>
                             <mat-error>
                                 <span class="text-danger" *ngIf="fc['collieryAddress'].errors?.['required']">Please
                                     enter address.</span>
-                            </mat-error>
-                        </mat-form-field>
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                            <mat-label>Contact Person Mobile No.</mat-label>
-                            <input id="colliery_name" matInput formControlName="collieryName" maxlength="200">
-                            <mat-error *ngIf="fc['collieryName'].errors">
-                                <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please enter
-                                    collary name.</span>
-                                <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please enter
-                                    valid collary name.</span>
-                            </mat-error>
-                        </mat-form-field>
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                            <mat-label>Contact Email ID</mat-label>
-                            <input id="colliery_name" matInput formControlName="collieryName" maxlength="200">
-                            <mat-error *ngIf="fc['collieryName'].errors">
-                                <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please enter
-                                    collary name.</span>
-                                <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please enter
-                                    valid collary name.</span>
                             </mat-error>
                         </mat-form-field>
                         <div class="mb-3">
@@ -154,43 +151,28 @@
                             <!-- <app-agm-map (geoFanceData)="getSelFanceData($event)"></app-agm-map> -->
                         </div>
                         <div class="row">
-                            <div class="col-sm-5">
-                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Longitude</mat-label>
-                                    <input id="colliery_name" matInput formControlName="collieryName" maxlength="200">
-                                    <mat-error *ngIf="fc['collieryName'].errors">
-                                        <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please
-                                            enter collary name.</span>
-                                        <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please
-                                            enter valid collary name.</span>
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-6">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Latitude</mat-label>
-                                    <input id="colliery_name" matInput formControlName="collieryName" maxlength="200">
-                                    <mat-error *ngIf="fc['collieryName'].errors">
-                                        <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please
-                                            enter collary name.</span>
-                                        <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please
-                                            enter valid collary name.</span>
-                                    </mat-error>
+                                    <input id="colliery_name" [disabled]="true" matInput formControlName="latitude" maxlength="200">
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-auto">
+                            <div class="col-sm-6">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Longitude</mat-label>
+                                    <input id="colliery_name"  [disabled]="true"  matInput formControlName="longitude" maxlength="200">
+                                </mat-form-field>
+                            </div>
+                           
+                            <!-- <div class="col-sm-auto">
                                 <button mat-mini-fab color="warn">
                                     <mat-icon>location_on</mat-icon>
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                         <mat-form-field [appearance]="configService.matFormField" class="w-100 mb-3">
                             <mat-label>Remark</mat-label>
-                            <textarea matInput formControlName="collieryAddress" #search maxlength="500"></textarea>
-                            <mat-error>
-                                <span class="text-danger" *ngIf="fc['collieryAddress'].errors?.['required']">Please
-                                    enter Remark.</span>
-                            </mat-error>
+                            <textarea matInput formControlName="remark" #search maxlength="500"></textarea>
                         </mat-form-field>
                         <div class="d-flex align-items-center justify-content-between">
                             <button type="reset" mat-raised-button class="btn-outline-main"
