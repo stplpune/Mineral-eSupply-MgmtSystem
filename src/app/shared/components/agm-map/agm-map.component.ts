@@ -123,7 +123,7 @@ export class AgmMapComponent implements OnInit {
       });
     })
 
-    if (this.data?.newRecord.geofenceType == 1) {
+    if (this.data?.newRecord?.geofenceType == 1) {
       var OBJ_fitBounds = new google.maps.LatLngBounds();
       const path = this.data?.newRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[1]), lat: Number(x.split(' ')[0]) }; OBJ_fitBounds.extend(obj); return obj });
       const existingShape = new google.maps.Polygon({ paths: path, strokeColor: "#00FF00", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#00FF00", fillOpacity: 0.35, editable: true, draggable: true });
