@@ -442,3 +442,15 @@ input[placeholder],
 .gm-style .gm-style-iw-c{
   max-width: 330px !important;
 }
+text.apexcharts-title-text,
+tspan,
+text.apexcharts-subtitle-text{
+  font-family: "Rubik", sans serif !important;
+  fill: var(--text-color) !important;
+}
+.apexcharts-menu{
+  background-color:var(--bg-color) !important;
+}
+.apexcharts-theme-light .apexcharts-menu-item:hover{
+  background-color:var(--card-bg-color) !important;
+}
