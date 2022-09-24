@@ -35,7 +35,7 @@ export class CoalAllocationComponent implements OnInit {
   collieryArray: any ;
   saveUpdateBtnECL :string = 'Submit';
   UpdateEclData :any;
-  minearlNameArr=['data','dat1','data1']
+  monthlyAllocationDetails: any [] = [];
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -55,6 +55,17 @@ export class CoalAllocationComponent implements OnInit {
 
   }
 
+  tabChange(event: any) {
+    let tabValue =  event.tab.textLabel;
+    if (tabValue == "ECL Monthly Allocation") {
+      this.getECLData('ECL');
+    } else if (tabValue == "Coal Distribution" ) {
+      this.coalDistributionSearch.setValue(this.yearArray[0].text);
+      this.getECLData('distribution');
+
+    }
+
+  }
 
 
 
@@ -68,14 +79,19 @@ export class CoalAllocationComponent implements OnInit {
     })
   }
 
-  getECLData() {
+  getECLData(flag?:any) {
+    let searchData :any ='';
+    if(flag == 'ECL'){
+      searchData =   this.monthlySearch.value
+    }else if(flag == 'distribution'){
+      searchData= this.coalDistributionSearch.value
+    }
     this.spinner.show();
-
-    this.apiService.setHttp('get', "ECLMonthlyAllocation/GetAll?MonthYear="+ this.monthlySearch.value +"&nopage=1", false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "ECLMonthlyAllocation/GetAll?MonthYear="+ searchData +"&nopage=1", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
-          console.log(res);
+          this.monthlyAllocationDetails = res.responseData
           this.ECLDatasource = new MatTableDataSource(res.responseData);
           this.spinner.hide();
         } else {
@@ -134,7 +150,7 @@ export class CoalAllocationComponent implements OnInit {
     this.commonService.getCollieryNameList().subscribe({
       next: (response: any) => {
         this.collieryArray = response//.push({ 'value': 0, 'text': 'All State' }, ...response);
-        this.getECLData();
+        this.getECLData('ECL');
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
@@ -145,7 +161,7 @@ export class CoalAllocationComponent implements OnInit {
   this.formGroupDirective.resetForm();
   this.UpdateEclData = '';
   this.monthlySearch = new FormControl(this.yearArray[0].text);
-  this.getECLData();
+  this.getECLData('ECL');
   }
 
   updateECl(element:any){
@@ -166,17 +182,24 @@ export class CoalAllocationComponent implements OnInit {
   distributionColumns: string[] = ['srno',  'collieryName', 'allocationQty'];
   disabledQty =true;
   distributionForm !: FormGroup;
+  coalDistributionSearch = new FormControl('');
+
   defaultDistribution(){
     this.distributionForm = this.fb.group({
       distributionList: this.fb.array([])
     });
+  }
+
+  getDDistributionData(){
+    this.getECLData('distribution');
   }
   get distributionListControls() {
     return this.distributionForm.get("distributionList") as FormArray;
   }
 
   getcoalDistributionData(){
-    this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear=Oct-22&Year=2022", false, false, false, 'WBMiningService');
+    // this.createNewDistributer()
+    this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear="+this.monthlySearch.value+"&Year=2022", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
@@ -206,8 +229,74 @@ export class CoalAllocationComponent implements OnInit {
   this.distributionForm.setControl('distributionList', this.fb.array(formArray));
   }
 
-  saveUpdateDistributionData(){
-    console.log(this.distributionForm.value);
+  createNewDistributer() {
+
+    let obj = {
+      "id": 0,
+      "msmeId": 0,
+      "eclMonthlyAllocationId": 0,
+      "tentitiveQty": 0,
+      "createdBy": this.webStorageService.getUserId(),
+      "monthYear":this.monthlySearch.value
+    }
+
+
+    this.apiService.setHttp('post', "CoalDistribution/Create" , false, obj, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          this.spinner.hide();
+          console.log(res);
+
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
+
+
+        } else {
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          this.spinner.hide();
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
   }
+
+  updateDistributionData(){
+    console.log(this.distributionForm.value);
+    return
+    let obj = {
+      "id": 0,
+      "msmeId": 0,
+      "eclMonthlyAllocationId": 0,
+      "tentitiveQty": 0,
+      "createdBy": this.webStorageService.getUserId(),
+      "monthYear":this.monthlySearch.value
+    }
+
+
+    this.apiService.setHttp('post', "CoalDistribution/Create" , false, obj, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          this.spinner.hide();
+          console.log(res);
+
+          this.commonMethod.matSnackBar(res.statusMessage, 0);
+
+
+        } else {
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          this.spinner.hide();
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
+// ---------------- MSME  Consumer Booking Quantity start here   -----------------------//
+bookingQtySearch = new FormControl('');
+
+
+
+
 
 }

@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <mat-tab-group>
-                <mat-tab label="ECL Monthly Allocation">
+            <mat-tab-group (selectedTabChange)="tabChange($event)">
+                <mat-tab label="ECL Monthly Allocation" >
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-8">
@@ -11,7 +11,7 @@
                                       <div class="row col-2">
                                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                           <mat-label>Month & Year</mat-label>
-                                          <mat-select [formControl]="monthlySearch" (selectionChange)="getECLData()">
+                                          <mat-select [formControl]="monthlySearch" (selectionChange)="getECLData('ECL')">
                                             <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text"  >
                                               {{yearMonth.text}}
                                             </mat-option>
@@ -114,16 +114,20 @@
                     </div>
 
                 </mat-tab>
-                <mat-tab label="Coal Distribution">
+                <mat-tab label="Coal Distribution" >
 
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="card plain-card">
                                     <div class="card-header">
-                                        <mat-form-field [appearance]="configService.matFormField" class="">
-                                            <mat-label>Month & Year</mat-label>
-                                            <input matInput placeholder="Enter Month & Year">
+                                      <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                        <mat-label>Month & Year</mat-label>
+                                        <mat-select [formControl]="coalDistributionSearch" (selectionChange)="getDDistributionData()">
+                                          <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text"  >
+                                            {{yearMonth.text}}
+                                          </mat-option>
+                                        </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="card-body">
@@ -152,7 +156,7 @@
                                         <tr mat-header-row *matHeaderRowDef="distributionColumns"></tr>
                                         <tr mat-row *matRowDef="let row; columns: distributionColumns;"></tr>
                                       </table>
-                                        <div>
+                                        <div *ngIf="monthlyAllocationDetails.length">
                                             <button class="btn btn-main" type="submit" (click)="getcoalDistributionData()">Distribute</button>
                                         </div>
                                     </div>
@@ -182,9 +186,9 @@
                                                                     <input class="form-control" formControlName="consumerName" [readOnly]="true" style="border: 0px; box-shadow: none;">
                                                                 </td>
                                                                 <td>
-                                                                  <mat-form-field [appearance]="configService.matFormField" class="">
+                                                                  <mat-form-field [appearance]="configService.matFormField" [class.disabled]="disabledQty">
                                                                     <mat-label>Quantity </mat-label>
-                                                                    <input matInput placeholder="Enter Quantity"  formControlName="tentitiveQty" maxlength="20" [readonly]="disabledQty">
+                                                                    <input matInput placeholder="Enter Quantity"  formControlName="tentitiveQty" maxlength="20" >
                                                                 </mat-form-field>
                                                                   <!-- <input class="form-control"  > -->
                                                                     <!-- <input class="form-control" > -->
@@ -201,7 +205,7 @@
 
                                         <div class="d-flex align-items-center justify-content-between">
                                             <button class="btn bg-opacity-10 text-dark" (click)="disabledQty= false">Edit</button>
-                                            <button class="btn btn-main" type="submit" (click)="saveUpdateDistributionData()">Submit</button>
+                                            <button class="btn btn-main" type="submit" (click)="updateDistributionData()">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -216,9 +220,13 @@
                             <div class="col-sm-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <mat-form-field [appearance]="configService.matFormField" class="">
-                                            <mat-label>Month & Year</mat-label>
-                                            <input matInput placeholder="Enter Month & Year">
+                                      <mat-form-field [appearance]="configService.matFormField" class="">
+                                        <mat-label>Month & Year</mat-label>
+                                        <mat-select [formControl]="bookingQtySearch" >
+                                          <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text"  >
+                                            {{yearMonth.text}}
+                                          </mat-option>
+                                        </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="card-body">
@@ -246,9 +254,14 @@
                                 <div class="card plain-card">
                                     <div class="card-header">
                                         <mat-form-field [appearance]="configService.matFormField" class="">
-                                            <mat-label>Month & Year</mat-label>
-                                            <input matInput placeholder="Enter Month & Year">
-                                        </mat-form-field>
+                                          <mat-label>Month & Year</mat-label>
+                                          <mat-select  >
+                                            <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text"  >
+                                              {{yearMonth.text}}
+                                            </mat-option>
+                                          </mat-select>
+                                          </mat-form-field>
+                                          <!-- (selectionChange)="getDDistributionData()" -->
                                     </div>
                                     <div class="card-body">
                                         table 1
