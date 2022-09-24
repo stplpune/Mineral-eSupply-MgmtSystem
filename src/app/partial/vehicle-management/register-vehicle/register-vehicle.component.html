@@ -17,11 +17,11 @@
                             <div class="col-sm">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Vehicle No/Name/Mobile No</mat-label>
-                                    <input matInput formControlName="textSearch">
+                                    <input matInput formControlName="textSearch" (keyup)="vs.removeSpaceAtBegining($event)">
+                                    <mat-error *ngIf="fr['textSearch'].errors">
+                                        <span *ngIf="fr['textSearch']?.hasError('pattern')"> Please enter valid input</span>
+                                    </mat-error>
                                 </mat-form-field>
-                                <mat-error *ngIf="fr['textSearch'].errors">
-                                    <span *ngIf="fr['textSearch']?.hasError('pattern')"> Please enter valid input</span>
-                                </mat-error>
                             </div>
                             <div class="col-sm-auto">
                                 <button mat-raised-button type="submit" class="btn btn-secondary">
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <table mat-table [dataSource]="dataSource" matSort class="dashboard-table w-100">
 
-                        <ng-container matColumnDef="rowNumber">
+                        <ng-container matColumnDef="SrNo">
                             <th mat-header-cell *matHeaderCellDef>Sr.No </th>
                             <td mat-cell *matCellDef="let element; let i = index;"> {{i+1 + (paginator.pageIndex *
                                 paginator.pageSize)}} </td>
@@ -73,7 +73,7 @@
                         </ng-container>
 
                         <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                            <td class="alert alert-danger text-center m-2 mt-2" colspan="5">No data found </td>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="6">No data found </td>
                         </tr>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -137,7 +137,7 @@
                                 <div class="col-sm-3" *ngIf="f['numberFormat'].value != 'Old'">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <input matInput #district formControlName="district" maxlength="2"
-                                            (input)="changesFocusInput('district')"  (keypress)="vs.acceptedOnlyNumbers($event)">
+                                            (input)="changesFocusInput('district')">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-3" *ngIf="f['numberFormat'].value != 'Old'">
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <input matInput #number formControlName="number" maxlength="4" (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput #number formControlName="number" maxlength="4">
                                     </mat-form-field>
                                 </div>
                                 <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100" *ngIf="f['transportType'].value != 'Vehicle'">
@@ -483,7 +483,7 @@
                                         </mat-error>
                                     </div>
                                     
-                                    <button class="btn" type="button" (click)="deleteUploadedImage()" *ngIf="f['frontImage'].value && f['sideImage'].value && f['numberPlateImage'].value">Delete All</button>
+                                    <button class="btn-outline" type="button" (click)="deleteUploadedImage()" *ngIf="f['frontImage'].value && f['sideImage'].value && f['numberPlateImage'].value">Delete All</button>
                                     <!-- <button class="btn btn-main" type="button" (click)="onUpload()">Upload</button> -->
                                 </div>
                             </div>
