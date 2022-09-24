@@ -240,10 +240,10 @@ body {
 }
 
 .upload-image img {
-  width: 100%;
+  width: 100px;
   height: 100px;
   object-fit: contain;
-  object-position: middle;
+  object-position: center;
 }
 
 .upload-image .btn {
