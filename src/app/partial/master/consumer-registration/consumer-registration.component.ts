@@ -38,6 +38,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   @ViewChild('formDirective')
   private formDirective!: NgForm;
   applicationTypeArray = ['Individual', 'Organization'];
+  applicationTypeFilterArray = ['All','Individual', 'Organization'];
   hideIndividual: boolean = true;
   hideOrganization: boolean = false;
   organTypeArray: any[] = [];
@@ -87,7 +88,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.getConsumerRegistration();
     this.defaultMainForm();
     this.getState();
-    this.getStateFilter();
+    // this.getStateFilter();
     this.getOrganizationtype();
     this.getyearDropDown();
     this.searchAddressToPincode();
@@ -105,7 +106,7 @@ export class ConsumerRegistrationComponent implements OnInit {
 
   getConsumerRegistration() {
       let formData = this.filterForm.value;
-      let obj = 'Search= ' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
+      let obj = 'Textsearch=' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
       this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
@@ -265,16 +266,6 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.commonApiCallService.getState().subscribe({
       next: (response: any) => {
         this.stateArray.push({ text: "Select State", value: 0 }, ...response);
-        this.getDistrict(this.consumerRegiForm.value.stateId);
-        this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
-      },
-      error: (err => { this.errorSerivce.handelError(err) })
-    })
-  }
-
-  getStateFilter() {
-    this.commonApiCallService.getState().subscribe({
-      next: (response: any) => {
         this.stateFilterArray.push({ text: "All", value: 0 }, ...response);
         this.getDistrict(this.consumerRegiForm.value.stateId);
         this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
@@ -282,6 +273,17 @@ export class ConsumerRegistrationComponent implements OnInit {
       error: (err => { this.errorSerivce.handelError(err) })
     })
   }
+
+  // getStateFilter() {
+  //   this.commonApiCallService.getState().subscribe({
+  //     next: (response: any) => {
+  //       this.stateFilterArray.push({ text: "All", value: 0 }, ...response);
+  //       this.getDistrict(this.consumerRegiForm.value.stateId);
+  //       this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
+  //     },
+  //     error: (err => { this.errorSerivce.handelError(err) })
+  //   })
+  // }
 
   getDistrict(stateId: any) {
     this.commonApiCallService.getDistrictByStateId(stateId).subscribe({
@@ -358,6 +360,9 @@ export class ConsumerRegistrationComponent implements OnInit {
       this.callApiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.commonService.matSnackBar(res.statusMessage, 0);
+          this.getConsumerRegistration();
+          this.btnText = 'Submit';
+          this.clearForm();
         } else {
           this.commonService.matSnackBar(res.statusMessage, 1);
         }
@@ -375,7 +380,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       id: data?.id,
       stateId: data?.stateId,
       districtId: data?.districtId,
-      consumerTypeId: data?.consumerTypeId,
+      consumerTypeId: data?.consumerTypeId == 1 ? 'Individual' : 'Organization',
       organizationTypeId: data?.organizationTypeId,
       consumerName: data?.consumerName,
       emailId: data?.emailId,
