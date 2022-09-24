@@ -68,12 +68,12 @@ export class MsmeApplicationListComponent implements OnInit {
     getData() {
       this.spinner.show()
       let formValue = this.filterForm.value;
-      let paramList: string = "applicationYear=" + formValue.applicationYear + "&districtId=" + formValue.districtId + "&pageNo=" + this.pageNumber + "&pageSize=" + 10;
+      let paramList: string = "applicationYear=" + formValue.applicationYear + "&pageNo=" + this.pageNumber + "&pageSize=" + 10;
       this.commonMethod.checkDataType(formValue.applicationNumber.trim()) == true ? paramList += "&applicationNumber=" + formValue.applicationNumber : '';
       this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationView?" + paramList, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200) {
+          if (res.statusCode === 200 && res.responseData.length > 0) {
             console.log(res.responseData[0]);
             this.dataSource = new MatTableDataSource(res.responseData);
             this.dataSource.sort = this.sort;
@@ -84,6 +84,7 @@ export class MsmeApplicationListComponent implements OnInit {
             this.spinner.hide();
             this.dataSource = [];
             this.totalRows = 0;
+            this.paginator.pageIndex = 0;
             if (res.statusCode != "404") {
               this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
             }
@@ -96,6 +97,7 @@ export class MsmeApplicationListComponent implements OnInit {
   
     searchData() {
       this.pageNumber = 1;
+      this.paginator.pageIndex = 0;
       this.getData();
     }
   
