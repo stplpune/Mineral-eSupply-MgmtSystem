@@ -3,13 +3,18 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card dash-card">
-                <div class="card-body">
+                <div class="card-body border-body-radius">
                     <div class="card mb-3">
                         <div class="card-header">MSME Consumer Details</div>
                         <div class="card-body">
                             <div class="form-container">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-auto">
+                                        <div class="upload-image">
+                                            <img src="assets/images/user.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
                                         <div class="row g-2">
                                             <div class="col-sm-3"><label class="form-label">Consumer Name :</label>
                                             </div>
@@ -32,7 +37,60 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        document table
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <ul class="list-group list-group-flush">
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>PAN Card <p class="small mb-0">[BOAS3FJ43]</p>
+                                                        </div>
+                                                        <a href="#" class="text-danger"><i
+                                                                class="fa-solid fa-file-pdf"></i></a>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>GST <p class="small mb-0">[BOAS3FJ43]</p>
+                                                        </div>
+                                                        <a href="#" class="text-danger"><i
+                                                                class="fa-solid fa-file-pdf"></i></a>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>Incorporation Certificate <p class="small mb-0">[BOAS3FJ43]
+                                                            </p>
+                                                        </div>
+                                                        <a href="#" class="text-danger"><i
+                                                                class="fa-solid fa-file-pdf"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <ul class="list-group list-group-flush">
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>District Recommendation Letter <p class="small mb-0">
+                                                                [BOAS3FJ43]</p>
+                                                        </div>
+                                                        <a href="#" class="text-danger"><i
+                                                                class="fa-solid fa-file-pdf"></i></a>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>Agreement <p class="small mb-0">[BOAS3FJ43]</p>
+                                                        </div>
+                                                        <a href="#" class="text-danger"><i
+                                                                class="fa-solid fa-file-pdf"></i></a>
+                                                    </li>
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>Security Deposit <p class="small mb-0">[BOAS3FJ43]</p>
+                                                        </div>
+                                                        <a href="#" class="text-danger"><i
+                                                                class="fa-solid fa-file-pdf"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +100,7 @@
                     <div class="row mb-3" id="consumer-stats">
                         <div class="col-sm">
                             <div class="card dash-card border h-100">
-                                <div class="card-body">
+                                <div class="card-body border-body-radius">
                                     <h4>1100 / 200</h4>
                                     <small>Allocated / Lifted</small>
                                     <p>Total Lifitng Chart</p>
@@ -51,7 +109,7 @@
                         </div>
                         <div class="col-sm">
                             <div class="card dash-card border h-100">
-                                <div class="card-body">
+                                <div class="card-body border-body-radius">
                                     <h4>4</h4>
                                     <p>Total MDTC DO</p>
                                 </div>
@@ -59,7 +117,7 @@
                         </div>
                         <div class="col-sm">
                             <div class="card dash-card border h-100">
-                                <div class="card-body">
+                                <div class="card-body border-body-radius">
                                     <h4>4</h4>
                                     <p>Total Loading Slip</p>
                                 </div>
@@ -67,7 +125,7 @@
                         </div>
                         <div class="col-sm">
                             <div class="card dash-card border h-100">
-                                <div class="card-body">
+                                <div class="card-body border-body-radius">
                                     <h4>4</h4>
                                     <p>Total Challan</p>
                                 </div>
@@ -75,7 +133,7 @@
                         </div>
                         <div class="col-sm">
                             <div class="card dash-card border h-100">
-                                <div class="card-body">
+                                <div class="card-body border-body-radius">
                                     <h4>4</h4>
                                     <p>Total Vehicle Registered</p>
                                 </div>
@@ -83,20 +141,184 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-sm-6">
+                    <div class="row mb-3 gy-3">
+                        <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header">Delivery Order</div>
                                 <div class="card-body">
-                                    table
+                                    <table class="table dashboard-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr. No.</th>
+                                                <th>Month/Year</th>
+                                                <th>MDTC_D_No.</th>
+                                                <th>Allocated Qty.(T) / Booking Qty. (T)</th>
+                                                <th>Amount</th>
+                                                <th>Payment Status</th>
+                                                <th>Date</th>
+                                                <th>Invoice</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2022/08</td>
+                                                <td>1211</td>
+                                                <td>120/120</td>
+                                                <td>120000</td>
+                                                <td>Paid</td>
+                                                <td>20-02-2022</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>2022/08</td>
+                                                <td>1211</td>
+                                                <td>120/120</td>
+                                                <td>120000</td>
+                                                <td>Paid</td>
+                                                <td>20-02-2022</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>2022/08</td>
+                                                <td>1211</td>
+                                                <td>120/120</td>
+                                                <td>120000</td>
+                                                <td>Paid</td>
+                                                <td>20-02-2022</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>2022/08</td>
+                                                <td>1211</td>
+                                                <td>120/120</td>
+                                                <td>120000</td>
+                                                <td>Paid</td>
+                                                <td>20-02-2022</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>2022/08</td>
+                                                <td>1211</td>
+                                                <td>120/120</td>
+                                                <td>120000</td>
+                                                <td>Paid</td>
+                                                <td>20-02-2022</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="card">
-                                <div class="card-header">Leading Slip / Invoices</div>
+                                <div class="card-header">Loading Slip / Invoices</div>
                                 <div class="card-body">
-                                    table
+                                    <table class="table dashboard-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr. No.</th>
+                                                <th>Loading Slip</th>
+                                                <th>Vehicle No.</th>
+                                                <th>Collieary Name</th>
+                                                <th>Date</th>
+                                                <th>Quantity</th>
+                                                <th>PDF</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2022</td>
+                                                <td>WB12XR1254</td>
+                                                <td>BARMURI Project</td>
+                                                <td>20-02-2022</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>2022</td>
+                                                <td>WB12XR1254</td>
+                                                <td>BARMURI Project</td>
+                                                <td>20-02-2022</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>2022</td>
+                                                <td>WB12XR1254</td>
+                                                <td>BARMURI Project</td>
+                                                <td>20-02-2022</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>2022</td>
+                                                <td>WB12XR1254</td>
+                                                <td>BARMURI Project</td>
+                                                <td>20-02-2022</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>2022</td>
+                                                <td>WB12XR1254</td>
+                                                <td>BARMURI Project</td>
+                                                <td>20-02-2022</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button mat-icon-button class="text-danger">
+                                                        <i class="fa-solid fa-file-pdf"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +329,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-2">
                                     <mat-form-field appearance="legacy" class="w-100">
-                                        <mat-label>From date</mat-label>
+                                        <mat-label>From Date</mat-label>
                                         <input matInput [matDatepicker]="picker">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
@@ -115,7 +337,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <mat-form-field appearance="legacy" class="w-100">
-                                        <mat-label>To date</mat-label>
+                                        <mat-label>To Date</mat-label>
                                         <input matInput [matDatepicker]="picker">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
@@ -143,7 +365,7 @@
                                 </div>
                                 <div class="col-sm">
                                     <mat-form-field appearance="legacy" class="w-100">
-                                        <mat-label>Vehicle N/ Cjallan No</mat-label>
+                                        <mat-label>Vehicle No./ Challan No</mat-label>
                                         <input matInput placeholder="Enter Vehicle N/ Cjallan No">
                                     </mat-form-field>
                                 </div>
@@ -188,11 +410,11 @@
                                                 <div class="example-element-description w-100">
                                                     <div class="row g-2">
                                                         <div class="col-sm-4">
-                                                            <div class="card">
+                                                            <div class="card plain-card">
                                                                 <div class="card-header">
-                                                                    <h5>Challan Details</h5>
+                                                                    Challan Details
                                                                 </div>
-                                                                <div class="card-body">
+                                                                <div class="card-body pt-0">
                                                                     <div class="form-container">
                                                                         <div class="row mb-2">
                                                                             <div class="col-4 col-sm-4">
@@ -273,11 +495,11 @@
                                                         <div class="col-sm-2">
                                                             <div class="row">
                                                                 <div class="col-sm-12 mb-2">
-                                                                    <div class="card">
+                                                                    <div class="card plain-card">
                                                                         <div class="card-header">
-                                                                            <h5>Vehicle Details</h5>
+                                                                            Vehicle Details
                                                                         </div>
-                                                                        <div class="card-body">
+                                                                        <div class="card-body pt-0">
                                                                             <div class="form-container">
                                                                                 <div class="row mb-2">
                                                                                     <div class="col-3 col-sm-12">
@@ -316,11 +538,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-2">
-                                                            <div class="card">
+                                                            <div class="card plain-card">
                                                                 <div class="card-header">
-                                                                    <h5>Colliery Details</h5>
+                                                                    Colliery Details
                                                                 </div>
-                                                                <div class="card-body">
+                                                                <div class="card-body pt-0">
                                                                     <div class="form-container">
                                                                         <div class="row mb-2">
                                                                             <div class="col-3 col-sm-12">
@@ -376,30 +598,10 @@
                                                         <div class="col-sm-4">
                                                             <div class="mapouter">
                                                                 <div class="gmap_canvas"><iframe width="500"
-                                                                        height="500" id="gmap_canvas"
+                                                                        height="300" id="gmap_canvas"
                                                                         src="https://maps.google.com/maps?q=shaurya%20technosoft&t=&z=13&ie=UTF8&iwloc=&output=embed"
                                                                         frameborder="0" scrolling="no" marginheight="0"
-                                                                        marginwidth="0"></iframe><a
-                                                                        href="https://putlocker-is.org">putlocker</a><br>
-                                                                    <style>
-                                                                        .mapouter {
-                                                                            position: relative;
-                                                                            text-align: right;
-                                                                            height: 500px;
-                                                                            width: 500px;
-                                                                        }
-                                                                    </style><a
-                                                                        href="https://www.embedgooglemap.net">google
-                                                                        maps embed
-                                                                        iframe generator</a>
-                                                                    <style>
-                                                                        .gmap_canvas {
-                                                                            overflow: hidden;
-                                                                            background: none !important;
-                                                                            height: auto;
-                                                                            width: 100%;
-                                                                        }
-                                                                    </style>
+                                                                        marginwidth="0"></iframe>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -423,12 +625,33 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
                             <div class="card mb-3">
                                 <div class="card-header">Registered Vehicles</div>
                                 <div class="card-body">
-                                    table
+                                    <table class="table dashboard-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr. No.</th>
+                                                <th>Vehicle No.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>WB12XD1234</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>WB12FR1244</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>WB12XR1534</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="card">
@@ -438,26 +661,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <div class="card">
                                 <div class="card-header">Monthly Lifting Chart</div>
                                 <div class="card-header py-0">
                                     <div class="row">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-3">
                                             <mat-form-field appearance="legacy" class="w-100">
-                                                <mat-label>Toppings</mat-label>
+                                                <mat-label>Select Colliery</mat-label>
                                                 <mat-select multiple>
                                                     <mat-option></mat-option>
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-3">
                                             <mat-form-field appearance="legacy" class="w-100">
-                                                <mat-label>Choose a date</mat-label>
+                                                <mat-label>Choose Month/Year</mat-label>
                                                 <input matInput [matDatepicker]="picker">
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
-                                              </mat-form-field>
+                                            </mat-form-field>
                                         </div>
                                         <div class="col-sm-auto">
                                             <button mat-raised-button class="btn-secondary">
