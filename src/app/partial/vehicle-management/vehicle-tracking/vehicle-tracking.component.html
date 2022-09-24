@@ -117,7 +117,7 @@
                                     <mat-list-item role="listitem">
                                         <div class="d-flex justify-content-between align-items-center w-100">
                                             <span class="me-4">PLAY</span>
-                                            <button mat-icon-button class="text-success">
+                                            <button mat-icon-button class="text-success" (click)="play()">
                                                 <mat-icon>play_circle</mat-icon>
                                             </button>
                                         </div>
@@ -125,7 +125,7 @@
                                     <mat-list-item role="listitem">
                                         <div class="d-flex justify-content-between align-items-center w-100">
                                             <span class="me-4">PAUSE</span>
-                                            <button mat-icon-button class="text-main">
+                                            <button mat-icon-button class="text-main"  (click)="pause()" >
                                                 <mat-icon>pause_circle</mat-icon>
                                             </button>
                                         </div>
@@ -133,7 +133,7 @@
                                     <mat-list-item role="listitem">
                                         <div class="d-flex justify-content-between align-items-center w-100">
                                             <span class="me-4">REPLAY</span>
-                                            <button mat-icon-button class="text-secondary">
+                                            <button mat-icon-button class="text-secondary" (click)="reset()">
                                                 <mat-icon>replay</mat-icon>
                                             </button>
                                         </div>
@@ -141,11 +141,11 @@
                                     <mat-list-item role="listitem">
                                         <div class="d-flex justify-content-between align-items-center w-100">
                                             <span class="me-1 bg-secondary px-2 text-white">SPEED</span>
-                                            <button mat-icon-button class="text-secondary">
+                                            <button mat-icon-button class="text-secondary" (click)="slow()">
                                                 <mat-icon>remove</mat-icon>
                                             </button>
-                                            <span class="mx-1">1x</span>
-                                            <button mat-icon-button class="text-secondary">
+                                            <span class="mx-1">{{ speedMultiplier }}x</span>
+                                            <button mat-icon-button class="text-secondary" (click)="fast()">
                                                 <mat-icon>add</mat-icon>
                                             </button>
                                         </div>

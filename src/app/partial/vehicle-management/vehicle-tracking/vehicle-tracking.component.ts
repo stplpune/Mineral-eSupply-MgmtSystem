@@ -54,7 +54,7 @@ export class VehicleTrackingComponent implements OnInit {
       map: this.map,
     });
     locationArray.forEach((l:any) => this.line.getPath().push(l));
-
+ 
     const start = new google.maps.LatLng(51.513237, -0.099102);
     const end = new google.maps.LatLng(51.514786, -0.080799);
 
