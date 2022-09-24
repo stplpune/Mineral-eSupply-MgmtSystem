@@ -62,6 +62,7 @@ export class CoalAllocationComponent implements OnInit {
     } else if (tabLabel == "Coal Distribution" ) {
       this.coalDistributionSearch.setValue(this.yearArray[0].text);
       this.getECLData('distribution');
+      this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ?this.getcoalDistributionData():'';
     }else if(tabLabel == "MSME Consumer Booking"){
       this.bookingQtySearch.setValue(this.yearArray[0].text)
       this.getBookingData();
@@ -194,6 +195,7 @@ export class CoalAllocationComponent implements OnInit {
 
   getDDistributionData(){
     this.getECLData('distribution');
+    this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ?this.getcoalDistributionData():'';
   }
   get distributionListControls() {
     return this.distributionForm.get("distributionList") as FormArray;
@@ -243,7 +245,7 @@ let data:any=[];
         "eclMonthlyAllocationId": 0,
         "tentitiveQty": +ele.tentitiveQty,
         "createdBy": this.webStorageService.getUserId(),
-        "monthYear":this.monthlySearch.value
+        "monthYear":this.coalDistributionSearch.value
       }
       data.push(obj)
     })
