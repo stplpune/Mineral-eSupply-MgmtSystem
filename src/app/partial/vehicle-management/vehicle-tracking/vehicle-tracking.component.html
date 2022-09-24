@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <h5 class="page-heading">Vehicle Tracking</h5>
     <div class="card card-body plain-card">
-        <div class="row justify-content-between">
+        <div class="row justify-content-between gx-2">
             <div class="col-sm-4">
                 <div class="card border-main mb-3">
                     <div class="card-header text-main">
@@ -111,49 +111,10 @@
             <div class="col-sm-8">
                 <div class="card border-0 mb-3">
                     <div class="card-body p-0">
-                        <div class="mapouter position-relative">
-                            <div class="map-controls">
-                                <mat-list role="list">
-                                    <mat-list-item role="listitem">
-                                        <div class="d-flex justify-content-between align-items-center w-100">
-                                            <span class="me-4">PLAY</span>
-                                            <button mat-icon-button class="text-success" (click)="play()">
-                                                <mat-icon>play_circle</mat-icon>
-                                            </button>
-                                        </div>
-                                    </mat-list-item>
-                                    <mat-list-item role="listitem">
-                                        <div class="d-flex justify-content-between align-items-center w-100">
-                                            <span class="me-4">PAUSE</span>
-                                            <button mat-icon-button class="text-main"  (click)="pause()" >
-                                                <mat-icon>pause_circle</mat-icon>
-                                            </button>
-                                        </div>
-                                    </mat-list-item>
-                                    <mat-list-item role="listitem">
-                                        <div class="d-flex justify-content-between align-items-center w-100">
-                                            <span class="me-4">REPLAY</span>
-                                            <button mat-icon-button class="text-secondary" (click)="reset()">
-                                                <mat-icon>replay</mat-icon>
-                                            </button>
-                                        </div>
-                                    </mat-list-item>
-                                    <mat-list-item role="listitem">
-                                        <div class="d-flex justify-content-between align-items-center w-100">
-                                            <span class="me-1 bg-secondary px-2 text-white">SPEED</span>
-                                            <button mat-icon-button class="text-secondary" (click)="slow()">
-                                                <mat-icon>remove</mat-icon>
-                                            </button>
-                                            <span class="mx-1">{{ speedMultiplier }}x</span>
-                                            <button mat-icon-button class="text-secondary" (click)="fast()">
-                                                <mat-icon>add</mat-icon>
-                                            </button>
-                                        </div>
-                                    </mat-list-item>
-                                </mat-list>
-                            </div>
-                            <agm-map  class="gmap_canvas position-relative" id="googlemaps" [latitude]='lat' [longitude]='long' [zoom]="zoom" (mapReady)="onMapReady($event)"
-                            [mapTypeId]="viewType"> </agm-map>
+                        <div class="mapouter">
+                            <agm-map class="gmap_canvas position-relative" id="googlemaps" [latitude]='lat'
+                                [longitude]='long' [zoom]="zoom" (mapReady)="onMapReady($event)" [mapTypeId]="viewType">
+                            </agm-map>
                             <!-- <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas"
                                     src="https://maps.google.com/maps?q=shaurya%20technosoft&t=&z=13&ie=UTF8&iwloc=&output=embed"
                                     frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
@@ -161,10 +122,65 @@
                         </div>
                     </div>
                 </div>
-                <button mat-button class="btn-outline-main mb-3" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    Challan Details
-                </button>
+
+                <div class="row align-items-center mb-3 gx-1">
+                    <div class="col-sm-auto">
+                        <button mat-button class="btn-outline-main" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            Challan Details
+                        </button>
+                    </div>
+                    <div class="col-sm">
+                        <div class="map-controls">
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1">
+                                <!-- <span>PLAY</span> -->
+                                <button mat-icon-button class="text-success" (click)="play()">
+                                    <mat-icon>play_circle</mat-icon>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1">
+                                <!-- <span>PAUSE</span> -->
+                                <button mat-icon-button class="text-main" (click)="pause()">
+                                    <mat-icon>pause_circle</mat-icon>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1">
+                                <!-- <span>REPLAY</span> -->
+                                <button mat-icon-button class="text-secondary" (click)="reset()">
+                                    <mat-icon>replay</mat-icon>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1 ps-1">
+                                <span class="me-1 bg-secondary px-2 text-white rounded">SPEED</span>
+                                <button mat-icon-button class="text-secondary" (click)="slow()">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                                <span class="mx-1">{{ speedMultiplier }}x</span>
+                                <button mat-icon-button class="text-secondary" (click)="fast()">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1">
+                                <!-- <span>RECORD</span> -->
+                                <button mat-icon-button class="text-primary" (click)="play()">
+                                    <mat-icon>album</mat-icon>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1">
+                                <!-- <span>STOP</span> -->
+                                <button mat-icon-button class="text-danger" (click)="play()">
+                                    <mat-icon>stop_circle</mat-icon>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border rounded me-1">
+                                <!-- <span>DOWNLOAD</span> -->
+                                <button mat-icon-button class="text-info" (click)="play()">
+                                    <mat-icon>file_download</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row gx-2">
                     <div class="col-sm-6">
