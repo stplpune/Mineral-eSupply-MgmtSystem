@@ -138,6 +138,18 @@
                                             </button>
                                         </div>
                                     </mat-list-item>
+                                    <mat-list-item role="listitem">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <span class="me-1 bg-secondary px-2 text-white">SPEED</span>
+                                            <button mat-icon-button class="text-secondary">
+                                                <mat-icon>remove</mat-icon>
+                                            </button>
+                                            <span class="mx-1">1x</span>
+                                            <button mat-icon-button class="text-secondary">
+                                                <mat-icon>add</mat-icon>
+                                            </button>
+                                        </div>
+                                    </mat-list-item>
                                 </mat-list>
                             </div>
                             <agm-map  class="gmap_canvas position-relative" id="googlemaps" [latitude]='lat' [longitude]='long' [zoom]="zoom" (mapReady)="onMapReady($event)"
