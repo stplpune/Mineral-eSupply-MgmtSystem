@@ -103,7 +103,7 @@ export class RegisterCollaryComponent implements OnInit {
   createCollaryForm(){
     this.frmCollary = this.fb.group({
       districtId: ['', [Validators.required]],
-      collieryName: ['', [Validators.required, Validators.pattern(this.frmValid.alphabetsWithSpace)]],
+      collieryName: ['', [Validators.required,Validators.pattern(this.validation.alphaNumericWithSpace)]],
       collieryAddress: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
       longitude: ['', [Validators.required]],

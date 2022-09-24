@@ -121,7 +121,7 @@
                     
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Contact Person Mobile No.</mat-label>
-                            <input id="colliery_name" matInput formControlName="contactNo" maxlength="200">
+                            <input id="colliery_name" matInput formControlName="contactNo" maxlength="10">
                             <mat-error *ngIf="fc['contactNo'].errors">
                                 <span class="text-danger" *ngIf="fc['contactNo'].errors?.['pattern']">Please enter
                                     valid Contact No.</span>
