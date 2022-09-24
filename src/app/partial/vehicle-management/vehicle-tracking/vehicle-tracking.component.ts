@@ -27,9 +27,9 @@ export class VehicleTrackingComponent implements OnInit {
   }
 
   setMapData() {
-    this.lat = 51.512802;
-    this.long = -0.091324;
-    this.zoom = 15;
+    this.lat = 23.7153288;
+    this.long =  86.927182;
+    this.zoom = 11;
     this.viewType = this.configService.viewType;
   }
 
@@ -55,8 +55,8 @@ export class VehicleTrackingComponent implements OnInit {
     });
     locationArray.forEach((l:any) => this.line.getPath().push(l));
  
-    const start = new google.maps.LatLng(51.513237, -0.099102);
-    const end = new google.maps.LatLng(51.514786, -0.080799);
+    const start = new google.maps.LatLng(23.8153288,86.9947152);
+    const end = new google.maps.LatLng(23.680899,86.937182);
 
     const startMarker = new google.maps.Marker({
       position: start,
@@ -78,8 +78,9 @@ export class VehicleTrackingComponent implements OnInit {
       map: this.map,
     });
 
-    const start = new google.maps.LatLng(51.513237, -0.099102);
-    const end = new google.maps.LatLng(51.514786, -0.080799);
+    const start = new google.maps.LatLng(23.8153288,86.9947152);
+    const end = new google.maps.LatLng(23.680899,86.937182);
+
     const request = {
       origin: start,
       destination: end,
