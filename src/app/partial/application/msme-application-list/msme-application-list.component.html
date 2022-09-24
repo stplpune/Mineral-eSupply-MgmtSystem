@@ -60,7 +60,7 @@
                         </ng-container>
                         <ng-container matColumnDef="level2Status">
                             <th mat-header-cell *matHeaderCellDef> Level-2 Status </th>
-                            <td mat-cell *matCellDef="let element"><h6 class="mb-0"><span [class]="element.coalApplicationApproverDetails[0].applicationStatusText == 'Pending' ? 'badge bg-warning bg-opacity-25 text-dark fw-normal' : element.coalApplicationApproverDetails[0].applicationStatusText == 'Approved' ? 'badge bg-success bg-opacity-25 text-success fw-normal' : 'badge bg-danger bg-opacity-25 text-danger fw-normal'"> {{element.coalApplicationApproverDetails[1].applicationStatusText}} </span></h6></td>
+                            <td mat-cell *matCellDef="let element"><h6 class="mb-0"><span [class]="element.coalApplicationApproverDetails[1].applicationStatusText == 'Pending' ? 'badge bg-warning bg-opacity-25 text-dark fw-normal' : element.coalApplicationApproverDetails[1].applicationStatusText == 'Approved' ? 'badge bg-success bg-opacity-25 text-success fw-normal' : 'badge bg-danger bg-opacity-25 text-danger fw-normal'"> {{element.coalApplicationApproverDetails[1].applicationStatusText}} </span></h6></td>
                         </ng-container>
                         <!-- <ng-container matColumnDef="header-row-first-group">
                             <th mat-header-cell *matHeaderCellDef 
