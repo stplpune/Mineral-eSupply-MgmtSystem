@@ -33,7 +33,7 @@ export class RegisterVehicleComponent implements OnInit {
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
-  displayedColumns: string[] = ['vehicleRegistrationNo', 'ownerName', 'isVerified', 'action',];
+  displayedColumns: string[] = ['vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'isVerified', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   dataSource: any;
   eventFrontImg: any;
@@ -110,7 +110,7 @@ export class RegisterVehicleComponent implements OnInit {
       vehicleTypeId: [0],
       permitNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       licenseNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
-      driverCompName: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]],
+      deviceCompanyName: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]],
       deviceId: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       deviceSIMNo: ['', [Validators.pattern(this.vs.onlyNumbers)]],
       secondarySIMNo: ['', [Validators.pattern(this.vs.onlyNumbers)]],
@@ -253,7 +253,7 @@ export class RegisterVehicleComponent implements OnInit {
 
   onUpload(){
     if(this.regVehicleFrm.value.frontImage && this.regVehicleFrm.value.sideImage && this.regVehicleFrm.value.numberPlateImage){
-      this.commonService.uploadFile(this.eventFrontImg, this.eventSideImg, this.eventNumPlateImg, "png,jpg,jpeg").subscribe({
+      this.commonService.uploadFile(this.eventFrontImg ? this.eventFrontImg : false, this.eventSideImg ? this.eventSideImg : false, this.eventNumPlateImg ? this.eventNumPlateImg : false, "png,jpg,jpeg").subscribe({
         next: (res: any) => {
           if(res.statusCode == 200 && res.responseData){
             this.regVehicleFrm.patchValue({
@@ -315,7 +315,7 @@ export class RegisterVehicleComponent implements OnInit {
       vehicleTypeId: row.vehicleTypeId,
       permitNo: row.permitNo,
       licenseNo: row.licenseNo,
-      driverCompName: row.driverCompName,
+      deviceCompanyName: row.deviceCompanyName,
       deviceId: row.deviceId,
       deviceSIMNo: row.deviceSIMNo,
       primaryTelecomProvider: row.primaryTelecomProvider,
@@ -328,7 +328,7 @@ export class RegisterVehicleComponent implements OnInit {
       numberPlateImage: row.numberPlateImage
     })
     this.regVehicleFrm.controls['ownerName'].disable();
-    this.regVehicleFrm.controls['ownerMobileNumber'].disable();
+    // this.regVehicleFrm.controls['ownerMobileNumber'].disable();
     this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
   }
 
@@ -408,7 +408,7 @@ export class RegisterVehicleComponent implements OnInit {
       "invoiceCounter": 0,
       "originalDeviceId": "",
       "height": 0,
-      "isVerified": true,
+      "isVerified": false,
       "isForceValidateGPSDataConsistent": true,
       "forceValidateBy": 0,
       "forceValidateDate": "2022-09-23T12:26:20.443Z",
@@ -444,6 +444,13 @@ export class RegisterVehicleComponent implements OnInit {
 
   onCancelRecord(){
     this.regVehicleFrm.reset();
+    this.isSubmitted = false;
+    this.regVehicleFrm.patchValue({
+      transportType: 'Vehicle',
+      numberFormat: 'New'
+    });
+    this.regVehicleFrm.controls['ownerName'].enable();
+    this.regVehicleFrm.controls['ownerMobileNumber'].enable();
     this.isEdit = false;
   }
 
