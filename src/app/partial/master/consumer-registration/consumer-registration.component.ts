@@ -292,22 +292,22 @@ export class ConsumerRegistrationComponent implements OnInit {
     })
   }
 
-  verifyPAN_Number_Inside() {  // Verify PAN Exist Or Not
-    if (this.consumerRegiForm.controls['panNo'].status == 'VALID') {
-      this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.consumerRegiForm.value.panNo, false, false, false, 'WBMiningService');
-      this.callApiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode === 200) {
-            this.commonService.matSnackBar(res.statusMessage, 1);
-            this.consumerRegiForm.controls['panNo'].setValue('');
-          } else {
-            this.commonService.matSnackBar(res.statusMessage, 0);
-          }
-        },
-        error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-      })
-    }
-  }
+  // verifyPAN_Number_Inside() {  // Verify PAN Exist Or Not
+  //   if (this.consumerRegiForm.controls['panNo'].status == 'VALID') {
+  //     this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.consumerRegiForm.value.panNo, false, false, false, 'WBMiningService');
+  //     this.callApiService.getHttp().subscribe({
+  //       next: (res: any) => {
+  //         if (res.statusCode == 200) {
+  //           this.commonService.matSnackBar(res.statusMessage, 1);
+  //           this.consumerRegiForm.controls['panNo'].setValue('');
+  //         } else {
+  //           this.commonService.matSnackBar(res.statusMessage, 0);
+  //         }
+  //       },
+  //       error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+  //     })
+  //   }
+  // }
 
   onSubmit() {
     this.addDocumentNumber();

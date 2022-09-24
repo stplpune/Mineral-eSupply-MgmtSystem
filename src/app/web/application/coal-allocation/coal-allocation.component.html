@@ -6,7 +6,7 @@
             <div class="row align-items-center">
 
                 <div class="col-sm-2">
-                    <div class="form-label">Enter PAN Number</div>
+                    <div class="form-label">PAN Number</div>
                 </div>
                 <div class="col-sm-3">
                     <mat-form-field appearance="legacy" class="w-100">
@@ -247,7 +247,7 @@
                     <div class="col-sm-6">
                         <div class="row align-items-center">
                             <div class="col-sm-4">
-                                <div class="form-label">Select Year</div>
+                                <div class="form-label">Year</div>
                             </div>
                             <div class="col-sm-8">
                                 <mat-form-field [appearance]=configService.matFormField class="w-100">
@@ -268,7 +268,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>Font size</mat-label>
+                                    <mat-label>Quantity</mat-label>
                                     <input matInput type="text" placeholder="Quantity" formControlName="allocatedQty"
                                         (keypress)="validationService.acceptedOnlyNumbers_floatValue($event)"
                                         maxlength="6">
@@ -325,8 +325,8 @@
                             <td>
                                 <mat-form-field [appearance]=configService.matFormField class="w-100">
                                     <mat-label>PAN Number</mat-label>
+                                    <!-- (blur)="verifyPAN_Number_Inside()" -->
                                     <input matInput type="text" uppercase maxlength="10"
-                                        (blur)="verifyPAN_Number_Inside()"
                                         (keyup)="validationService.removeSpaceAtBegining($event)"
                                         formControlName="panNo">
                                     <mat-error *ngIf="f.panNo.errors" autocomplete="off">
