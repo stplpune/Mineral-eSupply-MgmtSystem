@@ -113,7 +113,7 @@ export class RegisterCollaryComponent implements OnInit {
       distance: [0],
       createdBy: [this.webStorageService.getUserId(), [Validators.required]],
       contactNo: ['', [Validators.pattern(this.validation.valMobileNo)]],
-      emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
+      emailId: ['', [Validators.email]],
       remark: [''],
     })
   }
@@ -202,6 +202,9 @@ export class RegisterCollaryComponent implements OnInit {
           },
           isHide:true
       }
+      this.existingShape?.setMap(null);
+      this.circle?.setMap(null);
+      this.existingMarker?.setMap(null);
       this.onMapReady(this.map);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -318,7 +321,7 @@ export class RegisterCollaryComponent implements OnInit {
         map: map
       });
     }
-  
+
   
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef?.nativeElement);
@@ -379,8 +382,7 @@ export class RegisterCollaryComponent implements OnInit {
     }
  
     if (this.data?.selectedRecord && this.data?.selectedRecord?.geofenceType == 1) { //for use edit
-      this.existingShape?.setMap(null);
-      this.existingMarker?.setMap(null);
+
       try {
         var OBJ_fitBounds = new google.maps.LatLngBounds();
         const path = this.data.selectedRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[0]), lat: Number(x.split(' ')[1]) }; OBJ_fitBounds.extend(obj); return obj });
@@ -442,8 +444,6 @@ export class RegisterCollaryComponent implements OnInit {
     }
  
     if (this.data?.selectedRecord && this.data.selectedRecord?.geofenceType == 2) { //for use edit
-      this.circle?.setMap(null);
-      this.existingMarker?.setMap(null);
       try {
         let latlng = new google.maps.LatLng(this.data.selectedRecord.polygonText.split(" ")[1], this.data.selectedRecord.polygonText.split(" ")[0]);
         this.existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latlng });
