@@ -468,6 +468,7 @@ export class RegisterVehicleComponent implements OnInit {
     this.filterVehicleFrm.patchValue({
       verificationStatus: [this.verificationStsArr[0].id]
     })
+    this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
     this.isEdit = false;
   }
 
