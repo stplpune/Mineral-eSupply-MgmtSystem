@@ -376,8 +376,8 @@
                                         <div class="mb-0">
                                             <mat-form-field [appearance]=configService.matFormField class="w-100">
                                                 <mat-label>PAN Number</mat-label>
+                                                <!-- (blur)="verifyPAN_Number_Inside()" -->
                                                 <input matInput type="text" uppercase maxlength="10"
-                                                    (blur)="verifyPAN_Number_Inside()"
                                                     (keyup)="validationService.removeSpaceAtBegining($event)"
                                                     formControlName="panNo">
                                                 <mat-icon matSuffix (click)="fileInputPan.click()">cloud_upload
@@ -439,7 +439,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
