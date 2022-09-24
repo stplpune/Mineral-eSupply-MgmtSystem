@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   loginPages: any = [];
   loginAfterPages: any;
   getPageList: any;
-
+  mouseOutFlag: boolean = false;
   constructor(public sidebarservice: SidebarService, private commonMethodsService: CommonMethodsService, private webStorage: WebStorageService) { }
 
   ngOnInit(): void {
@@ -56,7 +56,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         item.active = false
         this.loginPages.push(item);
       }
-
     });
   }
 
@@ -76,18 +75,24 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getState(currentMenu: any) {
+  getState(currentMenu?: any) {
     if (currentMenu.active) {
-      return 'down';
+      return  'down';
     } else {
       return 'up';
     }
+
   }
 
   hasBackgroundImage() {
     return this.sidebarservice.hasBackgroundImage;
   }
 
+  mouseleave() {
+    this.loginPages.map((element: any) => {
+        element.active = false;
+    })
+  }
 
   // ---------------------------------------------for search fun start heare ----------------------------------------------//
 
@@ -118,6 +123,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   clearFilter() {
     this.searchFilter.setValue('');
   }
+
 
   // ---------------------------------------------for search fun end heare ----------------------------------------------//
 }
