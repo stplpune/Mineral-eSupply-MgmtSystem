@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ForfeitRoutingModule } from './forfeit-routing.module';
 import { ForfeitComponent } from './forfeit.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ForfeitComponent } from './forfeit.component';
   ],
   imports: [
     CommonModule,
-    ForfeitRoutingModule
+    ForfeitRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class ForfeitModule { }
