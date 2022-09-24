@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   hide = true;
 
   ngOnInit(): void {
+        this.commonMethod.matSnackBar("Please enter valid captcha ", 1);
     this.commonMethod.createCaptchaCarrerPage();
     this.defaultForm();
   }
