@@ -87,7 +87,7 @@
             <div class="card plain-card">
                 <div class="card-header">Register Vehicle</div>
                 <div class="card-body">
-                    <form [formGroup]="regVehicleFrm" (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')"
+                    <form [formGroup]="regVehicleFrm" #formDirective="ngForm" (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')"
                         enctype="multipart/form-data">
                         <div class="form-container">
                             <div class="row mb-3">

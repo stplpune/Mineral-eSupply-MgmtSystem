@@ -23,7 +23,7 @@ export class RegisterVehicleComponent implements OnInit {
 
   regVehicleFrm !: FormGroup;
   filterVehicleFrm!: FormGroup;  
-  @ViewChild(FormGroupDirective) formGroupDirective!: NgForm;
+  @ViewChild('formDirective') formDirective!: NgForm;
   stateNameArr: any [] = [];
   districtNameArr: any = [];
   transportTypeArr = ['Vehicle'];
@@ -459,8 +459,8 @@ export class RegisterVehicleComponent implements OnInit {
 
   onCancelRecord(){
     this.isSubmitted = false;
-    this.formGroupDirective.resetForm();
-    this.regVehicleFrm.reset();
+    this.formDirective.resetForm();
+    // this.regVehicleFrm.reset();
     this.regVehicleFrm.patchValue({
       transportType: 'Vehicle',
       numberFormat: 'New'
