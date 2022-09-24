@@ -20,7 +20,7 @@ type NewType = FormControl;
 export class CoalAllocationComponent implements OnInit {
   //------------------ ECL Monthly Allocation variable ---------------//
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
-  ECLColumns: string[] = ['srno',  'collieryName', 'allocationQty', 'action'];
+  ECLColumns: string[] = ['srno','collieryName', 'allocationQty', 'action'];
   private _monthlyFrmECl!: FormGroup;
   public get monthlyFrmECl(): FormGroup {
     return this._monthlyFrmECl;
@@ -56,13 +56,15 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   tabChange(event: any) {
-    let tabValue =  event.tab.textLabel;
-    if (tabValue == "ECL Monthly Allocation") {
+    let tabLabel =  event.tab.textLabel;
+    if (tabLabel == "ECL Monthly Allocation") {
       this.getECLData('ECL');
-    } else if (tabValue == "Coal Distribution" ) {
+    } else if (tabLabel == "Coal Distribution" ) {
       this.coalDistributionSearch.setValue(this.yearArray[0].text);
       this.getECLData('distribution');
-
+    }else if(tabLabel == "MSME Consumer Booking"){
+      this.bookingQtySearch.setValue(this.yearArray[0].text)
+      this.getBookingData();
     }
 
   }
@@ -176,7 +178,7 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   //------------------ Coal Distribution start here  ---------------//
-  coalDistribution :any ;
+  coalDistribution :any [] =[] ;
   distribution:any;
   coalDistributionColumn =['srNo','consumerName','tentitiveQty'];
   distributionColumns: string[] = ['srno',  'collieryName', 'allocationQty'];
@@ -198,7 +200,6 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   getcoalDistributionData(){
-    // this.createNewDistributer()
     this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear="+this.monthlySearch.value+"&Year=2022", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -221,7 +222,8 @@ export class CoalAllocationComponent implements OnInit {
     const formArray = this.coalDistribution.map((m:any) => {
       return this.fb.group({
         consumerName: [m.consumerName],
-        tentitiveQty: [m.tentitiveQty]
+        tentitiveQty: [m.tentitiveQty],
+        msmeId:[m.id]
       })
     }
   );
@@ -230,73 +232,68 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   createNewDistributer() {
-
-    let obj = {
-      "id": 0,
-      "msmeId": 0,
-      "eclMonthlyAllocationId": 0,
-      "tentitiveQty": 0,
-      "createdBy": this.webStorageService.getUserId(),
-      "monthYear":this.monthlySearch.value
-    }
-
-
-    this.apiService.setHttp('post', "CoalDistribution/Create" , false, obj, false, 'WBMiningService');
-    this.apiService.getHttp().subscribe({
-      next: (res: any) => {
-        if (res.statusCode === 200) {
-          this.spinner.hide();
-          console.log(res);
-
-          this.commonMethod.matSnackBar(res.statusMessage, 0);
-
-
-        } else {
-          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
-          this.spinner.hide();
-        }
-      },
-      error: ((error: any) => { this.error.handelError(error.status) })
-    })
-  }
-
-  updateDistributionData(){
+let data:any=[];
     console.log(this.distributionForm.value);
-    return
-    let obj = {
-      "id": 0,
-      "msmeId": 0,
-      "eclMonthlyAllocationId": 0,
-      "tentitiveQty": 0,
-      "createdBy": this.webStorageService.getUserId(),
-      "monthYear":this.monthlySearch.value
-    }
-
-
-    this.apiService.setHttp('post', "CoalDistribution/Create" , false, obj, false, 'WBMiningService');
-    this.apiService.getHttp().subscribe({
-      next: (res: any) => {
-        if (res.statusCode === 200) {
-          this.spinner.hide();
-          console.log(res);
-
-          this.commonMethod.matSnackBar(res.statusMessage, 0);
-
-
-        } else {
-          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
-          this.spinner.hide();
-        }
-      },
-      error: ((error: any) => { this.error.handelError(error.status) })
+    let formValue = this.distributionForm.value
+    debugger
+    formValue?.distributionList.forEach((ele:any)=>{
+      let obj = {
+        "id": 0,
+        "msmeId": +ele.msmeId,
+        "eclMonthlyAllocationId": 0,
+        "tentitiveQty": +ele.tentitiveQty,
+        "createdBy": this.webStorageService.getUserId(),
+        "monthYear":this.monthlySearch.value
+      }
+      data.push(obj)
+    })
+    
+  
+    data.forEach((ele:any)=>{
+      this.apiService.setHttp('post', "CoalDistribution/Create" , false, ele, false, 'WBMiningService');
+      this.apiService.getHttp().subscribe({
+        next: (res: any) => {
+          if (res.statusCode === 200) {
+            this.spinner.hide();          
+            console.log(res);
+            // this.commonMethod.matSnackBar(res.statusMessage, 0); 
+  
+          } else {
+            this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+            this.spinner.hide();
+          }
+        },
+        error: ((error: any) => { this.error.handelError(error.status) })
+      })
     })
   }
+
+
 
 // ---------------- MSME  Consumer Booking Quantity start here   -----------------------//
 bookingQtySearch = new FormControl('');
+bookingColums =['srno','collieryName','allocationQty','bookingQty','action'];
+bookingDataSource :any;
+// distributionColumns: string[] = ['srno',  'collieryName', 'allocationQty'];
+// disabledQty =true;
 
+getBookingData(){
+  this.apiService.setHttp('get', "CoalDistribution/GetConsumerBookingQuantity?MonthYear="+this.bookingQtySearch.value+"&nopage=2022", false, false, false, 'WBMiningService');
+  this.apiService.getHttp().subscribe({
+    next: (res: any) => {
+      if (res.statusCode === 200) {
+        this.spinner.hide();
+        console.log(res)
+        this.bookingDataSource = new MatTableDataSource(res.responseData);
+        this.commonMethod.matSnackBar(res.statusMessage,0);
 
-
-
+      } else {
+        this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+        this.spinner.hide();
+      }
+    },
+    error: ((error: any) => { this.error.handelError(error.status) })
+  })
+}
 
 }
