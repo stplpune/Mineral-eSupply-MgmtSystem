@@ -139,7 +139,7 @@
                         </mat-form-field>
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Address</mat-label>
-                            <textarea matInput formControlName="collieryAddress" #search maxlength="500"></textarea>
+                            <textarea matInput formControlName="collieryAddress" #search maxlength="500" (keyup)="validation.removeSpaceAtBegining($event)"></textarea>
                             <mat-error>
                                 <span class="text-danger" *ngIf="fc['collieryAddress'].errors?.['required']">Please
                                     enter address.</span>
