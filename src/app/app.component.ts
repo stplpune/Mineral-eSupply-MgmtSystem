@@ -28,9 +28,11 @@ export class AppComponent {
   }
 
   scrollTop() {
+    this.router.events.subscribe((event: any) => {
     if (event instanceof NavigationEnd) {
       window.scroll(0, 0);
     }
+  });
   }
 
   setTitleName() {

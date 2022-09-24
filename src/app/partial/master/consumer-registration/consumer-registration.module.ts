@@ -4,15 +4,19 @@ import { CommonModule } from '@angular/common';
 import { ConsumerRegistrationRoutingModule } from './consumer-registration-routing.module';
 import { ConsumerRegistrationComponent } from './consumer-registration.component';
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
+import { ShardModule } from 'src/app/shared/shard.module';
 
 @NgModule({
   declarations: [
-    ConsumerRegistrationComponent
+    ConsumerRegistrationComponent,
+    
   ],
   imports: [
     CommonModule,
     ConsumerRegistrationRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    ShardModule
+    
   ]
 })
 export class ConsumerRegistrationModule { }
