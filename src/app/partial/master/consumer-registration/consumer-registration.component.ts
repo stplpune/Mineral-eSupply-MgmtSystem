@@ -14,6 +14,8 @@ import { MapsAPILoader } from '@agm/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -30,7 +32,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   totalRows: any;
   highlightedRow:any;
   dataSource:any;
-  displayedColumns:any;
+  displayedColumns: string[] = ['srno', 'stateId', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
 
   consumerRegiForm: FormGroup | any;
   @ViewChild('formDirective')
@@ -76,6 +78,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private spinner: NgxSpinnerService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -93,8 +96,8 @@ export class ConsumerRegistrationComponent implements OnInit {
 
   defaultFilterForm() {
     this.filterForm = this.fb.group({
-      consumerType: [''],
-      stateId: [36],
+      consumerType: [0],
+      stateId: [0],
       searchText: [''],
     })
   }
@@ -123,6 +126,47 @@ export class ConsumerRegistrationComponent implements OnInit {
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.getConsumerRegistration();
+  }
+
+  deleteConformation(id: any) {
+    this.highlightedRow = id;
+    let obj: any = ConfigService.dialogObj;
+    obj['p1'] = 'Are you sure you want to delete this record?';
+    obj['cardTitle'] = 'Delete';
+    obj['successBtnText'] = 'Delete';
+    obj['cancelBtnText'] = 'Cancel';
+    obj['inputType'] = false;
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: this.configService.dialogBoxWidth[0],
+      data: obj,
+      disableClose: this.configService.disableCloseBtnFlag,
+    })
+    dialog.afterClosed().subscribe(res => {
+      if (res == 'Yes') {
+        this.deleteConsumer();
+      }
+    })
+  }
+
+  deleteConsumer() {  // this.highlightedRow == id
+    let obj = {
+      "id": this.highlightedRow,
+      "deletedBy": 1
+    }
+    
+    this.callApiService.setHttp('DELETE', "api/ConsumerRegistration/DeleteConsumer", false, obj, false, 'WBMiningService');
+    this.callApiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == "200") {
+          this.commonService.matSnackBar(res.statusMessage, 0);
+          this.pageNumber = 1;
+          this.getConsumerRegistration();
+        } else {
+          this.commonService.checkDataType(res.statusMessage) == false ? this.errorSerivce.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);;
+        }
+      },
+      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+    });
   }
 
   //........................ filter Code End Here ..................................//
@@ -342,7 +386,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       allocatedQty: data?.allocatedQty,
       flag: 'u',
     })
-    this.consumerDocuments = data?.bidderUserDocuments || data?.bidderDocumentslst;
+    this.consumerDocuments = data?.consumerDocuments;
     this.documentSymbolHide();
     this.consumerDocuments.map((ele: any) => {
       switch (ele.documentTypeId) {

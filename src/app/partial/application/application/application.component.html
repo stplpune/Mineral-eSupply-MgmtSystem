@@ -4,7 +4,7 @@
         <div class="card-header py-0">
           <form [formGroup]="filterForm">
             <div class="row align-items-center">
-              <div class="col-sm">
+              <div class="col-6 col-sm">
                   <mat-form-field appearance="legacy" class="w-100">
                       <mat-label>Select Year</mat-label>
                       <mat-select formControlName="applicationYear">
@@ -12,7 +12,7 @@
                       </mat-select>
                   </mat-form-field>
               </div>
-              <div class="col-sm">
+              <div class="col-6 col-sm">
                   <mat-form-field appearance="legacy" class="w-100">
                       <mat-label>Select District</mat-label>
                       <mat-select formControlName="districtId">
@@ -34,61 +34,64 @@
 
         </div>
         <div class="card-body">
-            <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
 
-                <ng-container matColumnDef="srno">
-                    <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                    <td mat-cell *matCellDef="let element let i = index">{{((pageNumber + 1) * 10 + i + 1)-20}} </td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="approval_status">
-                    <th mat-header-cell *matHeaderCellDef> Approval Status </th>
-                    <td mat-cell *matCellDef="let element">
-                      <ng-container *ngFor="let item of element?.coalApplicationApproverDetails">
-                       <p class="badge"  [ngClass]="{'bg-success': item?.applicationStatusText =='Approved','bg-danger': item?.applicationStatusText=='Rejected' ,'bg-warning text-dark': (item?.applicationStatusText == null || item?.applicationStatusText =='Pending') }">
-                        {{item.applicationStatusText}}
-                       </p>
-                      </ng-container>
-                      </td>
-                </ng-container>
-
-                <ng-container matColumnDef="application_number">
-                    <th mat-header-cell *matHeaderCellDef> Application Number </th>
-                    <td mat-cell *matCellDef="let element"> {{element.applicationNumber}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="application_date">
-                    <th mat-header-cell *matHeaderCellDef> Application Date </th>
-                    <td mat-cell *matCellDef="let element"> {{element.applicationDate}} </td>
-                </ng-container>
-                <ng-container matColumnDef="allocated_quantity">
-                    <th mat-header-cell *matHeaderCellDef> Allocated Quantity </th>
-                    <td mat-cell *matCellDef="let element"> {{element.allocatedQty}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Year">
-                    <th mat-header-cell *matHeaderCellDef> Year </th>
-                    <td mat-cell *matCellDef="let element"> {{element.applicationYear}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Consumer_name">
-                    <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.consumerName}} </td>
-                </ng-container>
-                <ng-container matColumnDef="district">
-                    <th mat-header-cell *matHeaderCellDef> District </th>
-                    <td mat-cell *matCellDef="let element"> {{element.district}} </td>
-                </ng-container>
-                <ng-container matColumnDef="view">
-                    <th mat-header-cell *matHeaderCellDef> View </th>
-                    <td mat-cell *matCellDef="let element">
-                        <a [routerLink]="'../approval/'+element?.id">
-                        <mat-icon>remove_red_eye</mat-icon>
-                    </a>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+                    <ng-container matColumnDef="srno">
+                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                        <td mat-cell *matCellDef="let element let i = index">{{((pageNumber + 1) * 10 + i + 1)-20}} </td>
+                    </ng-container>
+    
+    
+                    <ng-container matColumnDef="approval_status">
+                        <th mat-header-cell *matHeaderCellDef> Approval Status </th>
+                        <td mat-cell *matCellDef="let element">
+                          <ng-container *ngFor="let item of element?.coalApplicationApproverDetails">
+                           <p class="badge"  [ngClass]="{'bg-success': item?.applicationStatusText =='Approved','bg-danger': item?.applicationStatusText=='Rejected' ,'bg-warning text-dark': (item?.applicationStatusText == null || item?.applicationStatusText =='Pending') }">
+                            {{item.applicationStatusText}}
+                           </p>
+                          </ng-container>
+                          </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="application_number">
+                        <th mat-header-cell *matHeaderCellDef> Application Number </th>
+                        <td mat-cell *matCellDef="let element"> {{element.applicationNumber}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="application_date">
+                        <th mat-header-cell *matHeaderCellDef> Application Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.applicationDate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="allocated_quantity">
+                        <th mat-header-cell *matHeaderCellDef> Allocated Quantity </th>
+                        <td mat-cell *matCellDef="let element"> {{element.allocatedQty}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Year">
+                        <th mat-header-cell *matHeaderCellDef> Year </th>
+                        <td mat-cell *matCellDef="let element"> {{element.applicationYear}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Consumer_name">
+                        <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.consumerName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="district">
+                        <th mat-header-cell *matHeaderCellDef> District </th>
+                        <td mat-cell *matCellDef="let element"> {{element.district}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef> View </th>
+                        <td mat-cell *matCellDef="let element">
+                            <a [routerLink]="'../approval/'+element?.id">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </a>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            
         </div>
     </div>
 </div>
