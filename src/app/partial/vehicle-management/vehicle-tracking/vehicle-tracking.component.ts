@@ -18,6 +18,7 @@ export class VehicleTrackingComponent implements OnInit {
   directionsService: any;
   marker!: TravelMarker;
   speedMultiplier = 1;
+  googleMapType = 'satellite';
 
   constructor(public configService: ConfigService) { }
 
@@ -27,9 +28,9 @@ export class VehicleTrackingComponent implements OnInit {
   }
 
   setMapData() {
-    this.lat = 23.680899;
-    this.long =  86.927182;
-    this.zoom = 11;
+    this.lat=23.445367108452267;
+    this.long=87.30157282922659;
+    this.zoom = 10;
     this.viewType = this.configService.viewType;
   }
 
@@ -55,19 +56,20 @@ export class VehicleTrackingComponent implements OnInit {
     });
     locationArray.forEach((l:any) => this.line.getPath().push(l));
  
-    const start = new google.maps.LatLng(23.8153288,86.9947152);
-    const end = new google.maps.LatLng(23.680899,86.937182);
+    const start = new google.maps.LatLng(23.445367108452267, 87.30157282922659);
+    const end = new google.maps.LatLng(23.185180849461496, 87.15678626936689);
 
     const startMarker = new google.maps.Marker({
       position: start,
       map: this.map,
-      icon: "assets/images/s.png"
+      icon: "assets/images/start_pin.svg"
     });
     const endMarker = new google.maps.Marker({
       position: end,
       map: this.map,
-      icon: "assets/images/e.png"
+      icon: "assets/images/end_pin.svg",
     });
+
     this.initRoute();
   }
 
@@ -78,8 +80,8 @@ export class VehicleTrackingComponent implements OnInit {
       map: this.map,
     });
 
-    const start = new google.maps.LatLng(23.8153288,86.9947152);
-    const end = new google.maps.LatLng(23.680899,86.937182);
+    const start = new google.maps.LatLng(23.445367108452267, 87.30157282922659);
+    const end = new google.maps.LatLng(23.185180849461496, 87.15678626936689);
 
     const request = {
       origin: start,
@@ -116,18 +118,19 @@ export class VehicleTrackingComponent implements OnInit {
       interval: 10, // default 10, marker refresh time
       speedMultiplier: this.speedMultiplier,
       markerOptions: {
+        
         title: 'Travel Marker',
         animation: google.maps.Animation.DROP,
         icon: {
-          url: 'https://i.imgur.com/eTYW75M.png',
+          url: 'assets/images/location.svg',
           // This marker is 20 pixels wide by 32 pixels high.
           animation: google.maps.Animation.DROP,
           // size: new google.maps.Size(256, 256),
-          scaledSize: new google.maps.Size(128, 128),
+          scaledSize: new google.maps.Size(28, 28),
           // The origin for this image is (0, 0).
           origin: new google.maps.Point(0, 0),
           // The anchor for this image is the base of the flagpole at (0, 32).
-          anchor: new google.maps.Point(53, 110),
+          anchor: new google.maps.Point(8, 18),
         },
       },
     };
@@ -136,6 +139,7 @@ export class VehicleTrackingComponent implements OnInit {
     this.marker = new TravelMarker(options);
 
     // add locations from direction service
+    
     this.marker.addLocation(route);
 
     setTimeout(() => this.play(), 2000);
