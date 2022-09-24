@@ -197,9 +197,9 @@
                     <div class="col-sm-4">
                         <mat-form-field [appearance]=configService.matFormField class="w-100 mb-2">
                             <mat-label>Contact Person Mobile No.</mat-label>
-                            <input matInput type="text" formControlName="contactPersonMobileName" autocomplete="nope"
+                            <input matInput type="text" formControlName="contactPersonMobileNo" autocomplete="nope"
                                 (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10">
-                            <mat-error *ngIf="f.contactPersonMobileName.errors?.pattern"> Please enter Valid Contact
+                            <mat-error *ngIf="f.contactPersonMobileNo.errors?.pattern"> Please enter Valid Contact
                                 Person Mobile No.</mat-error>
                         </mat-form-field>
                     </div>
@@ -549,7 +549,7 @@
                     </tbody>
                 </table>
 
-                <div class="row align-items-center">
+                <div class="row align-items-center" *ngIf="editcheckFlag">
                     <div class="col-sm-2">
                         <div class="form-label">Enter OTP</div>
                     </div>

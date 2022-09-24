@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -37,8 +37,9 @@ export class RegisterCollaryComponent implements OnInit {
   pageNo = 1;
   pageSize = 10;
   circle:any ;
-
-
+  existingMarker:any;
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
+  
   // map var 
   map: any;
   drawingManager: any;
@@ -50,6 +51,7 @@ export class RegisterCollaryComponent implements OnInit {
   subscribeCls!: Subscription;
   centerMarkerRadius = "";
   drawingContFlg:boolean = true;
+  existingShape:any;
 
   newRecord: any = {
     latLng: "",
@@ -111,7 +113,7 @@ export class RegisterCollaryComponent implements OnInit {
       distance: [0],
       createdBy: [this.webStorageService.getUserId(), [Validators.required]],
       contactNo: ['', [Validators.pattern(this.validation.valMobileNo)]],
-      emailId: ['', [Validators.pattern(this.validation.valEmailId)]],
+      emailId: ['', [Validators.email]],
       remark: [''],
     })
   }
@@ -200,7 +202,9 @@ export class RegisterCollaryComponent implements OnInit {
           },
           isHide:true
       }
-
+      this.existingShape?.setMap(null);
+      this.circle?.setMap(null);
+      this.existingMarker?.setMap(null);
       this.onMapReady(this.map);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -257,6 +261,7 @@ export class RegisterCollaryComponent implements OnInit {
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
           if (res.statusCode === 200) {
+      
             this.spinner.hide();
             this.getCollaryList();
             this.onCancelRecord();
@@ -274,9 +279,14 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onCancelRecord(){
+    this.formGroupDirective.resetForm();
     this.frmCollary.reset();
     this.removeShape();
     this.isEdit = false;
+    this.existingShape?.setMap(null);
+    this.circle?.setMap(null);
+    this.existingMarker?.setMap(null);
+     this.centerMarker?.setMap(null);
   }
 
 
@@ -311,7 +321,6 @@ export class RegisterCollaryComponent implements OnInit {
         map: map
       });
     }
-   
 
   
     this.mapsAPILoader.load().then(() => {
@@ -373,13 +382,14 @@ export class RegisterCollaryComponent implements OnInit {
     }
  
     if (this.data?.selectedRecord && this.data?.selectedRecord?.geofenceType == 1) { //for use edit
+
       try {
         var OBJ_fitBounds = new google.maps.LatLngBounds();
         const path = this.data.selectedRecord.polygonText.split(',').map((x: any) => { let obj = { lng: Number(x.split(' ')[0]), lat: Number(x.split(' ')[1]) }; OBJ_fitBounds.extend(obj); return obj });
-        const existingShape = new google.maps.Polygon({ paths: path, map: map, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false });
-        let latLng = this.FN_CN_poly2latLang(existingShape);
+        this.existingShape = new google.maps.Polygon({ paths: path, map: map, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false });
+        let latLng = this.FN_CN_poly2latLang(this.existingShape);
         map.setCenter(latLng); map.fitBounds(OBJ_fitBounds);
-        const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latLng });
+        this.existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latLng });
 
         let hc = "<table><tbody>";
         hc += '<tr><td colspan="2"><h6>Selected Colliery Details</h6></td></tr>';
@@ -392,8 +402,8 @@ export class RegisterCollaryComponent implements OnInit {
         const info = new google.maps.InfoWindow({
           content: hc
         })
-        existingMarker.addListener('click', () => {
-          info.open(this.map, existingMarker);
+        this.existingMarker.addListener('click', () => {
+          info.open(this.map, this.existingMarker);
         })
 
       } catch (e) { }
@@ -434,11 +444,9 @@ export class RegisterCollaryComponent implements OnInit {
     }
  
     if (this.data?.selectedRecord && this.data.selectedRecord?.geofenceType == 2) { //for use edit
-     
       try {
-        
         let latlng = new google.maps.LatLng(this.data.selectedRecord.polygonText.split(" ")[1], this.data.selectedRecord.polygonText.split(" ")[0]);
-        const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latlng });
+        this.existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latlng });
         this.circle = new google.maps.Circle({
           strokeColor: '#FF0000',
           fillColor: '#FF0000',
@@ -450,7 +458,6 @@ export class RegisterCollaryComponent implements OnInit {
           center: latlng,
           radius: this.data.selectedRecord.distance,
         });
-        console.log(this.circle);
         map.panTo(latlng);
         this.setZoomLevel(this.data.selectedRecord.distance);
 
@@ -465,8 +472,8 @@ export class RegisterCollaryComponent implements OnInit {
         const info = new google.maps.InfoWindow({
           content: hc
         })
-        existingMarker.addListener('click', () => {
-          info.open(this.map, existingMarker);
+        this.existingMarker.addListener('click', () => {
+          info.open(this.map,  this.existingMarker);
         })
 
       } catch (e) { }
