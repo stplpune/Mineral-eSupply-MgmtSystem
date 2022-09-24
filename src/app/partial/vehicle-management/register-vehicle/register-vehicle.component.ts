@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfigService } from 'src/app/configs/config.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
@@ -23,7 +25,7 @@ export class RegisterVehicleComponent implements OnInit {
   filterVehicleFrm!: FormGroup;
   stateNameArr: any [] = [];
   districtNameArr: any = [];
-  transportTypeArr = ['Vehicle', 'Barge'];
+  transportTypeArr = ['Vehicle'];
   vehicleTypeArr = [{ id: 1, type: 'Tractor' }, { id: 2, type: 'Truck' }, { id: 3, type: 'Hywa' }, { id: 4, type: 'Other' }, { id: 6, type: 'Tipper' }];
   blockStsArr = [{ value: true, status: 'Block' }, { value: false, status: 'Unblock' }];
   isEdit: boolean = false;
@@ -33,18 +35,19 @@ export class RegisterVehicleComponent implements OnInit {
   pageSize = 10;
   displayedColumns: string[] = ['vehicleRegistrationNo', 'ownerName', 'isVerified', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
-  dataSource: any [] = [];
+  dataSource: any;
   eventFrontImg: any;
   eventSideImg: any;
   eventNumPlateImg: any;
   telecomProviderArr = ['Vodafone', 'Idea', 'Airtel', 'Jio', 'BSNL'];
-  verificationStsArr = [{ id: 0, value: 'Yes' }, { id: 1, value: 'No' }]
+  verificationStsArr = [{ id: 1, value: 'Yes' }, { id: 0, value: 'No' }]
   isImageUplaod: boolean = false;
   isSubmitted: boolean = false;
   @ViewChild('state') private refState!: ElementRef;
   @ViewChild('district') private refDistrict!: ElementRef;
   @ViewChild('series') private refSeries!: ElementRef;
   @ViewChild('number') private refNumber!: ElementRef;
+  @ViewChild(MatSort) sort!: MatSort;
 
   get f() { return this.regVehicleFrm.controls };
 
@@ -63,7 +66,7 @@ export class RegisterVehicleComponent implements OnInit {
   ngOnInit(): void {
     this.createVehicleForm();
     this.createFilterForm();
-    this.getStateNames();
+    // this.getStateNames();
     this.getVehicleList();
   }
 
@@ -121,8 +124,6 @@ export class RegisterVehicleComponent implements OnInit {
       numberPlateImage: ['', [Validators.required]],
       RFID: ['']
     })
-
-    this.onTransportType(this.regVehicleFrm.value.transportType);
     this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
   }
 
@@ -140,7 +141,8 @@ export class RegisterVehicleComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200 && res.responseData) {
-          this.dataSource = res.responseData.responseData1;
+          this.dataSource = new MatTableDataSource(res.responseData.responseData1);
+          this.dataSource.sort = this.sort;
           this.totalRows = res.responseData.responseData2.totalCount;
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
@@ -154,43 +156,7 @@ export class RegisterVehicleComponent implements OnInit {
     })
   }
 
-  onTransportType(val: any){
-    this.regVehicleFrm.patchValue({
-      state: '',
-      district: '',
-      number: '',
-      series: ''
-    });
-    if(val == "Vehicle"){
-      this.regVehicleFrm.controls['numberFormat'].setValidators([Validators.required]);
-      this.regVehicleFrm.controls['state'].setValidators([Validators.required, Validators.pattern(this.vs.onlyAlphabet), Validators.maxLength(2), Validators.minLength(2)]);
-      this.regVehicleFrm.controls['district'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(2), Validators.minLength(2)]);
-      this.regVehicleFrm.controls['number'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(4), Validators.minLength(4)]);
-    }else{
-      // alert("in else")
-      this.regVehicleFrm.controls['numberFormat'].clearValidators();
-      this.regVehicleFrm.controls['district'].clearValidators();
-      this.regVehicleFrm.controls['state'].setValidators([Validators.required, Validators.pattern(this.vs.onlyAlphabet), Validators.maxLength(3), Validators.minLength(3)]);      
-      this.regVehicleFrm.controls['number'].setValidators([Validators.required, Validators.pattern(this.vs.onlyNumbers), Validators.maxLength(5), Validators.minLength(5)]);
-      this.regVehicleFrm.patchValue({
-        numberFormat: 'New'
-      });
-      this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
-    }
-    this.regVehicleFrm.controls['state'].updateValueAndValidity();
-    this.regVehicleFrm.controls['district'].updateValueAndValidity();
-    this.regVehicleFrm.controls['number'].updateValueAndValidity();
-    this.regVehicleFrm.controls['numberFormat'].updateValueAndValidity();
-  }
-
   onNumberFormatChange(val: any){
-    // alert("in fun")
-    this.regVehicleFrm.patchValue({
-      state: '',
-      district: '',
-      number: '',
-      series: ''
-    })
     if(val == "Old"){
       this.regVehicleFrm.controls['series'].clearValidators();
       this.regVehicleFrm.controls['district'].clearValidators();
@@ -297,6 +263,7 @@ export class RegisterVehicleComponent implements OnInit {
             })  
             this.isImageUplaod = true; 
             this.commonMethod.matSnackBar(res.statusMessage, 0);
+            this.saveData();
           }else{
             this.isImageUplaod = false; 
             this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -336,6 +303,7 @@ export class RegisterVehicleComponent implements OnInit {
       district: row.district,
       series: row.series,
       number: row.number,
+      numberFormat: row.state.length == 2 ? 'New' : 'Old',
       isBlock: row.isBlock,
       remark: row.remark,
       ownerName: row.ownerName,
@@ -359,118 +327,119 @@ export class RegisterVehicleComponent implements OnInit {
       sideImage: row.sideImage,
       numberPlateImage: row.numberPlateImage
     })
+    this.regVehicleFrm.controls['ownerName'].disable();
+    this.regVehicleFrm.controls['ownerMobileNumber'].disable();
+    this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
   }
 
   saveUpdate(formData: any, action: any) {
-    console.log(this.regVehicleFrm)
-    console.log(this.isImageUplaod)
+    // console.log(this.regVehicleFrm)
+    // console.log(this.isImageUplaod)
     this.isSubmitted = true;
     this.spinner.show();
     if (this.regVehicleFrm.invalid) {
       this.spinner.hide();
       return;
     }else{
+      console.log(this.regVehicleFrm)
       this.isSubmitted = false;
-      if(this.isImageUplaod != true){
-        this.spinner.hide();
-        this.commonMethod.matSnackBar('Plaese upload images', 1);
-      }else{
-        var req = {
-          "id": this.isEdit == true ? this.updateId : 0,
-          ...this.regVehicleFrm.value,
-          "length": parseInt(this.regVehicleFrm.value.length),
-          "width": parseInt(this.regVehicleFrm.value.width),
-          'isBlock': this.regVehicleFrm.value.isBlock ? this.regVehicleFrm.value.isBlock : false,
-          "oldState": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.state : "",
-          "oldNum": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.number : "",
-          "createdBy": this.webStorageService.getUserId(),
-          'flag': "",
-          'pageName': "",
-          // "modifiedBy": 0,
-          "createdDate": new Date(),
-          "modifiedDate": new Date(),
-          // "isDeleted": true,
-          // "vehicleRegistrationNo": "string",
-          // "state": "string",
-          // "district": "string",
-          // "series": "string",
-          // "number": "string",
-          // "ownerName": "string",
-          "capacity": 0,
-          // "vehicleTypeId": 0,
-          // "vehicleOwnerId": 0,
-          // "ownerMobileNo": "string",
-          // "driverName": "string",
-          // "driverMobileNo": "string",
-          // "address": "string",
-          // "licenseNo": "string",
-          // "permitNo": "string",
-          "trainingDate": "2022-09-23T12:26:20.443Z",
-          "serviceProvider": "",
-          // "deviceId": "string",
-          // "deviceCompanyId": 0,
-          // "deviceSIMNo": "string",
-          "activationKey": "",
-          "activationKey1ExpireDate": "2022-09-23T12:26:20.443Z",
-          "activationKey1LockOutCount": 0,
-          "version": "",
-          "registrationId": "",
-          "transporterMobileNo": "",
-          "transporterId": 0,
-          "nfcTagId": "",
-          "isRegisteredByOffice": true,
-          "registeredBy": 0,
-          "ownerAadharNo": 0,
-          "ownerAadharFilePath": "",
-          "taxFilePath": "",
-          "insuranceFilePath": "",
-          "permitFilePath": "",
-          "certificateFilePath": "",
-          "rlw": 0,
-          "ulw": 0,
-          "cc": 0,
-          "receiptNo": "",
-          "amount": 0,
-          "applicationFormFilePath": "",
-          "invoiceCounter": 0,
-          "transportType": "",
-          "remark": "",
-          "originalDeviceId": "",
-          "height": 0,
-          "isVerified": true,
-          "isForceValidateGPSDataConsistent": true,
-          "forceValidateBy": 0,
-          "forceValidateDate": "2022-09-23T12:26:20.443Z",
-          "blockedBy": 0,
-          "blockedDate": "2022-09-23T12:26:20.443Z",
-          "isSuspicious": true,
-          "suspiciousReason": "",
-          "suspiciousDate": "2022-09-23T12:26:20.443Z",
-          "manufacturerId": 0,
-          "tenantId": "",
-          "rfid": "",
-          "mobileNo": "",
-        }
-
-        console.log(req)
-
-        this.apiService.setHttp('post', "api/VehicleRegistration/SaveUpdateVehicleRegistration", false, req, false, 'WBMiningService');
-        this.apiService.getHttp().subscribe({
-          next: (res: any) => {
-            if (res.statusCode === 200) {
-              this.spinner.hide();
-              this.getVehicleList();
-              this.onCancelRecord();
-              this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
-            } else {
-              this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
-            }
-            this.spinner.hide();
-          },
-          error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
-        })
-      }
+      this.onUpload();
     }
+  }
+
+  saveData(){
+    var req = {
+      "id": this.isEdit == true ? this.updateId : 0,
+      ...this.regVehicleFrm.value,
+      "length": parseFloat(this.regVehicleFrm.value.length),
+      "width": parseFloat(this.regVehicleFrm.value.width),
+      'isBlock': this.regVehicleFrm.value.isBlock ? this.regVehicleFrm.value.isBlock : false,
+      "oldState": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.state : "",
+      "oldNum": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.number : "",
+      "createdBy": this.webStorageService.getUserId(),
+      'flag': this.isEdit == true ? "u" : 'i',
+      'pageName': "",
+      // "modifiedBy": 0,
+      "createdDate": new Date(),
+      "modifiedDate": new Date(),
+      // "isDeleted": true,
+      // "vehicleRegistrationNo": "string",
+      // "state": "string",
+      // "district": "string",
+      // "series": "string",
+      // "number": "string",
+      // "ownerName": "string",
+      "capacity": 0,
+      // "vehicleTypeId": 0,
+      // "vehicleOwnerId": 0,
+      // "ownerMobileNo": "string",
+      // "driverName": "string",
+      // "driverMobileNo": "string",
+      // "address": "string",
+      // "licenseNo": "string",
+      // "permitNo": "string",
+      "trainingDate": new Date(),
+      "serviceProvider": "",
+      // "deviceId": "string",
+      // "deviceCompanyId": 0,
+      // "deviceSIMNo": "string",
+      "activationKey": "",
+      "activationKey1ExpireDate": new Date(),
+      "activationKey1LockOutCount": 0,
+      "version": "",
+      "registrationId": "",
+      "transporterMobileNo": "",
+      "transporterId": 0,
+      "nfcTagId": "",
+      "isRegisteredByOffice": true,
+      "registeredBy": 0,
+      "ownerAadharNo": 0,
+      "ownerAadharFilePath": "",
+      "taxFilePath": "",
+      "insuranceFilePath": "",
+      "permitFilePath": "",
+      "certificateFilePath": "",
+      "rlw": 0,
+      "ulw": 0,
+      "cc": 0,
+      "receiptNo": "",
+      "amount": 0,
+      "applicationFormFilePath": "",
+      "invoiceCounter": 0,
+      "originalDeviceId": "",
+      "height": 0,
+      "isVerified": true,
+      "isForceValidateGPSDataConsistent": true,
+      "forceValidateBy": 0,
+      "forceValidateDate": "2022-09-23T12:26:20.443Z",
+      "blockedBy": 0,
+      "blockedDate": "2022-09-23T12:26:20.443Z",
+      "isSuspicious": true,
+      "suspiciousReason": "",
+      "suspiciousDate": "2022-09-23T12:26:20.443Z",
+      "manufacturerId": 0,
+      "tenantId": "",
+      "rfid": "",
+      "mobileNo": "",
+    }
+
+    console.log(req)
+
+    this.apiService.setHttp('post', "api/VehicleRegistration/SaveUpdateVehicleRegistration", false, req, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          this.spinner.hide();
+          this.getVehicleList();
+          this.onCancelRecord();
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
+        } else {
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+        }
+        this.spinner.hide();
+      },
+      error: ((error: any) => { this.error.handelError(error.status); this.spinner.hide(); })
+    })
   }
 
   onCancelRecord(){
