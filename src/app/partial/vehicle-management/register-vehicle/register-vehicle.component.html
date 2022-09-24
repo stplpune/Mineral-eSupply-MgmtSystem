@@ -28,25 +28,25 @@
                     </form>
                 </div>
                 <div class="card-body">
-                    <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+                    <table mat-table [dataSource]="dataSource" matSort class="dashboard-table w-100">
 
                         <ng-container matColumnDef="rowNumber">
                             <th mat-header-cell *matHeaderCellDef>Sr.No </th>
-                            <td mat-cell *matCellDef="let element">{{element.rowNumber}} </td>
+                            <td mat-cell *matCellDef="let element; let i = index;"> {{i+1 + (paginator.pageIndex * paginator.pageSize)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="vehicleRegistrationNo">
-                            <th mat-header-cell *matHeaderCellDef>Vehicle No </th>
-                            <td mat-cell *matCellDef="let element">{{element.vehicleRegistrationNo}} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle No </th>
+                            <td mat-cell *matCellDef="let element">{{element.vehicleRegistrationNo | uppercase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="ownerName">
-                            <th mat-header-cell *matHeaderCellDef>Owner Name</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner Name</th>
                             <td mat-cell *matCellDef="let element"> {{element.ownerName | titlecase}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="isVerified">
-                            <th mat-header-cell *matHeaderCellDef>OTP verification</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>OTP verification</th>
                             <td mat-cell *matCellDef="let element"> {{element.isVerified == true ? 'Yes' : 'No'}} </td>
                         </ng-container>
 
@@ -84,7 +84,7 @@
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
                                         <mat-label class="form-label text-muted">Transport Type: </mat-label>
                                         <mat-radio-group aria-label="Select an option" formControlName="transportType">
-                                            <mat-radio-button *ngFor="let t of transportTypeArr" [value]="t" (change)="onTransportType(f['transportType'].value)">
+                                            <mat-radio-button *ngFor="let t of transportTypeArr" [value]="t">
                                                 {{t}}
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -95,9 +95,8 @@
                                         <!-- </mat-form-field> -->
                                     </div>
                                 </div>
-                                <div class="col-sm-6" *ngIf="f['transportType'].value == 'Vehicle'">
+                                <div class="col-sm-6">
                                     <div class="d-block">
-                                        <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
                                         <mat-label class="form-label text-muted d-block"> Number Format: </mat-label>
                                         <mat-radio-group aria-label="Select an option" formControlName="numberFormat" (change)="onNumberFormatChange(f['numberFormat'].value)">
                                             <mat-radio-button value="Old" class="me-3">Old</mat-radio-button>
@@ -107,27 +106,25 @@
                                             <span *ngIf="f['numberFormat']?.hasError('required')"> Please select number
                                                 format</span>
                                         </mat-error>
-                                        <!-- </mat-form-field> -->
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <label *ngIf="f['transportType'].value == 'Vehicle'">Vehicle Number</label>
-                                <label *ngIf="f['transportType'].value != 'Vehicle'">Barge Number</label>
                                 <div class="col-sm-12">
                                     <div class="">
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25">
-                                            <input class="text-uppercase" #state autofocus matInput placeholder="state" formControlName="state" [maxlength]="(f['numberFormat'].value == 'New' && f['transportType'].value == 'Vehicle') ? 2 : 3" (input)="changesFocusInput('state')">
-                                        </mat-form-field>
-                                        <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['transportType'].value == 'Vehicle' && f['numberFormat'].value != 'Old'">
-                                            <input matInput #district placeholder="district" formControlName="district" maxlength="2" (input)="changesFocusInput('district')">
+                                            <input class="text-uppercase" #state autofocus matInput formControlName="state" [maxlength]="(f['numberFormat'].value == 'New' && f['transportType'].value == 'Vehicle') ? 2 : 3" (input)="changesFocusInput('state')">
                                         </mat-form-field>
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['numberFormat'].value != 'Old'">
-                                            <input matInput #series class="text-uppercase" placeholder="series" formControlName="series" maxlength="2" (input)="changesFocusInput('series')">
+                                            <input matInput #district formControlName="district" maxlength="2" (input)="changesFocusInput('district')">
+                                        </mat-form-field>
+                                        <mat-form-field [appearance]="configService.matFormField" class="w-25" *ngIf="f['numberFormat'].value != 'Old'">
+                                            <input matInput #series class="text-uppercase" formControlName="series" maxlength="2" (input)="changesFocusInput('series')">
                                         </mat-form-field>
                                         <mat-form-field [appearance]="configService.matFormField" class="w-25">
-                                            <input matInput #number placeholder="number" formControlName="number" [maxlength]="f['transportType'].value == 'Vehicle' ? 4 : 5">
+                                            <input matInput #number formControlName="number" maxlength="4">
                                         </mat-form-field>
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100" *ngIf="f['transportType'].value != 'Vehicle'">
                                             <input matInput formControlName="bargeNumber" maxlength="10">
@@ -161,7 +158,18 @@
                                     <input matInput formControlName="remark">
                                 </mat-form-field>
                             </div>
-
+                            
+                            <div class="">
+                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                                    <mat-label>Owner Mobile Number </mat-label>
+                                    <input type="text" matInput formControlName="ownerMobileNumber" maxlength="10">
+                                    <mat-error *ngIf="f['ownerMobileNumber'].errors">
+                                        <span *ngIf="f['ownerMobileNumber']?.hasError('required')"> Please enter owner number</span>
+                                        <span *ngIf="f['ownerMobileNumber']?.hasError('pattern')"> Please enter valid owner number</span>
+                                        <span *ngIf="f['ownerMobileNumber']?.hasError('minlength')"> Please enter maximum 10 digits</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
 
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
@@ -170,18 +178,6 @@
                                     <mat-error *ngIf="f['ownerName'].errors">
                                         <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner name</span>
                                         <span *ngIf="f['ownerName']?.hasError('pattern')"> Please enter valid owner name</span>
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            
-                            <div class="">
-                                <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                    <mat-label>Owner Mobile Number </mat-label>
-                                    <input matInput formControlName="ownerMobileNumber" maxlength="10">
-                                    <mat-error *ngIf="f['ownerMobileNumber'].errors">
-                                        <span *ngIf="f['ownerMobileNumber']?.hasError('required')"> Please enter owner number</span>
-                                        <span *ngIf="f['ownerMobileNumber']?.hasError('pattern')"> Please enter valid owner number</span>
-                                        <span *ngIf="f['ownerMobileNumber']?.hasError('minlength')"> Please enter maximum 10 digits</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -390,8 +386,8 @@
                                 <div class="row g-3">
                                     <div class="col-sm-auto">
                                         <div class="upload-image">
-                                            <!-- <img [src]="f['frontImage'].value ? f['frontImage'].value : '../../../../assets/images/front_vehicle.svg'" alt=""> -->
-                                            <img src="https://wbminingservices.mahamining.com/UploadDocuments/CoalAllocationDocuments/PAN_6624e7a1-ed67-4819-a946-fd69c435491f.jpg" alt="">
+                                            <img [src]="f['frontImage'].value ? f['frontImage'].value : '../../../../assets/images/front_vehicle.svg'" alt="">
+                                            <!-- <img src="https://wbminingservices.mahamining.com/UploadDocuments/CoalAllocationDocuments/PAN_6624e7a1-ed67-4819-a946-fd69c435491f.jpg" alt=""> -->
                                             <input type="file" (change)="onFileSelected($event, 'frontImg')" #fileInput>
                                             <button class="btn" type="button" (click)="fileInput.click()" *ngIf="!f['frontImage'].value"><i class="fa-solid fa-plus"></i></button>
                                             <button class="btn" type="button" (click)="deleteUploadedImage('frontImg')" *ngIf="f['frontImage'].value"><i class="fa-solid fa-trash"></i></button>
@@ -425,12 +421,12 @@
                                             <span *ngIf="f['numberPlateImage']?.hasError('required')"> Please upload number plate image</span>
                                         </mat-error>
                                     </div>
-                                    <button class="btn btn-main" type="button" (click)="onUpload()">Upload</button>
+                                    <!-- <button class="btn btn-main" type="button" (click)="onUpload()">Upload</button> -->
                                 </div>
                             </div>
                         </div>
                         <div class="text-end">
-                            <button type="button" mat-raised-button class="btn-outline-main" (click)="onCancelRecord()">Cancel</button>
+                            <button type="reset" mat-raised-button class="btn-outline-main" (click)="onCancelRecord()">Cancel</button>
                             <button class="btn btn-main" type="submit">{{ isEdit ? 'Update' : 'Submit' }}</button>
                         </div>
                     </form>
