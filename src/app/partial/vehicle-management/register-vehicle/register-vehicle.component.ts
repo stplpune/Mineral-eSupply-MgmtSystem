@@ -40,7 +40,7 @@ export class RegisterVehicleComponent implements OnInit {
   eventSideImg: any;
   eventNumPlateImg: any;
   telecomProviderArr = ['Vodafone', 'Idea', 'Airtel', 'Jio', 'BSNL'];
-  verificationStsArr = [{ id: 1, value: 'Yes' }, { id: 0, value: 'No' }]
+  verificationStsArr = [{ id: 0, value: 'All' }, { id: 1, value: 'Yes' }, { id: 2, value: 'No' }]
   isImageUplaod: boolean = false;
   isSubmitted: boolean = false;
   @ViewChild('state') private refState!: ElementRef;
