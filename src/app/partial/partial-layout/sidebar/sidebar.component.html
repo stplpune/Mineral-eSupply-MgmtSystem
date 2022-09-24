@@ -1,4 +1,4 @@
-<nav id="sidebar" class="sidebar" [ngClass]="{'sidebar-bg' : hasBackgroundImage()}" (mouseleave) ="mouseleave()">
+<nav id="sidebar" class="sidebar" [ngClass]="{'sidebar-bg' : hasBackgroundImage()}"  (mouseover)="mouseOver()" (mouseleave)="mouseLeave()">
   <div class="sidebar-content">
     <perfect-scrollbar>
       <div class="sidebar-header" routerLink="/dashboard">
@@ -24,13 +24,13 @@
               <span>{{menu.pageName}} </span>
             </a>
 
-            <a *ngIf="menu.pageURL.length > 1"  (click)='toggle(menu)'>
+            <a *ngIf="menu.pageURL.length > 1"  (click)='mouseOutFlag =false; toggle(menu)'>
               <i class="{{menu.pageIcon}}"></i>
               <span>{{menu.pageGroup}} </span>
             </a>
             <div *ngIf="menu.pageURL.length  > 1" class="sidebar-submenu" [@slide]="getState(menu)" >
               <ul>
-                <li *ngFor="let submenu of menu.pageName; let i  = index"  routerLinkActive="active">
+                <li class="child-active" *ngFor="let submenu of menu.pageName; let i  = index"  routerLinkActive="active">
                   <a routerLink="{{menu.pageURL[i]}}" > {{submenu}}
                   </a>
                 </li>

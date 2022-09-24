@@ -77,21 +77,22 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   getState(currentMenu?: any) {
     if (currentMenu.active) {
-      return  'down';
+      return  this.mouseOutFlag ? 'up' : 'down';
     } else {
       return 'up';
     }
-
   }
 
   hasBackgroundImage() {
     return this.sidebarservice.hasBackgroundImage;
   }
 
-  mouseleave() {
-    this.loginPages.map((element: any) => {
-        element.active = false;
-    })
+  mouseLeave() {
+   this.mouseOutFlag = true;
+  }
+
+  mouseOver(){
+    this.mouseOutFlag = false;
   }
 
   // ---------------------------------------------for search fun start heare ----------------------------------------------//
