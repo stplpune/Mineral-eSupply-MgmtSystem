@@ -5,16 +5,17 @@ import { AgmCoreModule } from '@agm/core';
 import { ConfigService } from '../configs/config.service';
 import { AgmDrawingModule } from '@agm/drawing';
 import { AngularMaterialModule } from './angular-material.module';
+import { UpperCaseTextDirective } from './directive/upper-case-text.directive';
 
 
 @NgModule({
-  declarations: [AgmMapComponent],
+  declarations: [AgmMapComponent,UpperCaseTextDirective],
   imports: [
     CommonModule,
     AngularMaterialModule,
     AgmDrawingModule,
     AgmCoreModule.forRoot(ConfigService.googleApiObj),
   ],
-  exports: [AgmMapComponent]
+  exports: [AgmMapComponent,UpperCaseTextDirective],
 })
 export class ShardModule { }
