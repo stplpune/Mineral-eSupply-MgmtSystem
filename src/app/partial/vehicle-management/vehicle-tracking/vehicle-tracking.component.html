@@ -140,10 +140,12 @@
                                     </mat-list-item>
                                 </mat-list>
                             </div>
-                            <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas"
+                            <agm-map  class="gmap_canvas position-relative" id="googlemaps" [latitude]='lat' [longitude]='long' [zoom]="zoom" (mapReady)="onMapReady($event)"
+                            [mapTypeId]="viewType"> </agm-map>
+                            <!-- <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas"
                                     src="https://maps.google.com/maps?q=shaurya%20technosoft&t=&z=13&ie=UTF8&iwloc=&output=embed"
                                     frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -153,7 +155,7 @@
                 </button>
 
                 <div class="row gx-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="card border-main">
                             <div class="card-header text-main small">
                                 Active
@@ -174,7 +176,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="card border-main">
                             <div class="card-header text-main small">
                                 <div class="d-flex small justify-content-between">
@@ -195,7 +197,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <!-- <div class="col-sm-4">
                         <div class="card border-main">
                             <div class="card-header text-main small">
                                 <div class="d-flex justify-content-between">
@@ -207,7 +209,7 @@
                                 <mat-slider aria-label="unit(s)" class="w-100"></mat-slider>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
