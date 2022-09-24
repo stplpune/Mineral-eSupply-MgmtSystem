@@ -45,6 +45,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   stateFilterArray: any[] = [];
   districtArray: any[] = [];
   yearArray: any[] = [];
+  btnText = 'Submit';  
 
   latitude: any;
   longitude: any;
@@ -104,11 +105,11 @@ export class ConsumerRegistrationComponent implements OnInit {
 
   getConsumerRegistration() {
       let formData = this.filterForm.value;
-      let obj = 'Search= ' + formData.searchText + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
-      this.callApiService.setHttp('get', "api/ConsumerRegistration?" + obj, false, false, false, 'WBMiningService');
+      let obj = 'Search= ' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
+      this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200 && res.responseData.responseData1) {
+          if (res.statusCode == 200 && res.responseData.responseData1) {
             this.dataSource = new MatTableDataSource(res.responseData.responseData1);
             this.totalRows = res.responseData.responseData2.totalCount;
             this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
@@ -291,22 +292,22 @@ export class ConsumerRegistrationComponent implements OnInit {
     })
   }
 
-  verifyPAN_Number_Inside() {  // Verify PAN Exist Or Not
-    if (this.consumerRegiForm.controls['panNo'].status == 'VALID') {
-      this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.consumerRegiForm.value.panNo, false, false, false, 'WBMiningService');
-      this.callApiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode === 200) {
-            this.commonService.matSnackBar(res.statusMessage, 1);
-            this.consumerRegiForm.controls['panNo'].setValue('');
-          } else {
-            this.commonService.matSnackBar(res.statusMessage, 0);
-          }
-        },
-        error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-      })
-    }
-  }
+  // verifyPAN_Number_Inside() {  // Verify PAN Exist Or Not
+  //   if (this.consumerRegiForm.controls['panNo'].status == 'VALID') {
+  //     this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.consumerRegiForm.value.panNo, false, false, false, 'WBMiningService');
+  //     this.callApiService.getHttp().subscribe({
+  //       next: (res: any) => {
+  //         if (res.statusCode == 200) {
+  //           this.commonService.matSnackBar(res.statusMessage, 1);
+  //           this.consumerRegiForm.controls['panNo'].setValue('');
+  //         } else {
+  //           this.commonService.matSnackBar(res.statusMessage, 0);
+  //         }
+  //       },
+  //       error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+  //     })
+  //   }
+  // }
 
   onSubmit() {
     this.addDocumentNumber();
@@ -330,7 +331,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     } else {
 
       let obj = {
-        "id": 0,
+        "id": formData?.id,
         "stateId": formData.stateId,
         "districtId": formData.districtId,
         "consumerTypeId": formData.consumerTypeId == 'Individual' ? 1 : 2,
@@ -367,6 +368,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   }
 
   editConsumerRegForm(data: any) { // Patch Data
+    this.btnText = 'Update';
     this.getEditConsumerRegArray = data;
     this.consumerTypeCheck(data?.consumerTypeId == 1 ? 'Individual' : 'Organization');
     this.consumerRegiForm.patchValue({

@@ -45,5 +45,13 @@ export const PartialLayoutRoutes: Routes = [
 
   // ------------------------------------------Settings  ----------------------------------------------------------//
   { path: 'user-right-access', loadChildren: () => import('../../partial/settings/user-right-access/user-right-access.module').then(m => m.UserRightAccessModule), data: { title: 'User Right Access' },  canActivate: [ExpenseGuard]  },
+  
+  
+  // ------------------------------------------Account Management  ----------------------------------------------------------//
+  { path: 'payment-receipt', loadChildren: () => import('../../partial/account-management/payment-receipt/payment-receipt.module').then(m => m.PaymentReceiptModule), data: { title: 'Payments / Receipts' },  canActivate: [ExpenseGuard] },
+  { path: 'refund', loadChildren: () => import('../../partial/account-management/refund/refund.module').then(m => m.RefundModule), data: { title: 'Refunds' },  canActivate: [ExpenseGuard] },
+  { path: 'forfeit', loadChildren: () => import('../../partial/account-management/forfeit/forfeit.module').then(m => m.ForfeitModule), data: { title: 'Forfeit' },  canActivate: [ExpenseGuard] },
+  { path: 'ledger', loadChildren: () => import('../../partial/account-management/ledger/ledger.module').then(m => m.LedgerModule), data: { title: 'Ledger' },  canActivate: [ExpenseGuard] },
+
 
 ];

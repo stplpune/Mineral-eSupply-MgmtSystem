@@ -77,7 +77,6 @@ export class CoalAllocationComponent implements OnInit {
     public configService: ConfigService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-
   ) { }
 
   ngOnInit(): void {
@@ -112,12 +111,12 @@ export class CoalAllocationComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.validationService.valEmailId)]],
       organizationType: [''],
       contactPersonName: [''],
-      contactPersonMobileNo: [''],
+      contactPersonMobileNo: ['', Validators.pattern(this.validationService.valMobileNo)],
       address: ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       pinCode: ['', [Validators.required, Validators.pattern(this.validationService.valPinCode)]],
       stateId: [36],
       districtId: [''],
-      applicationYear: ['', Validators.required],
+      applicationYear: [new Date().getFullYear(), Validators.required],
       allocatedQty: ['', Validators.required],
       reasonForApply: ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
 
@@ -239,22 +238,22 @@ export class CoalAllocationComponent implements OnInit {
     })
   }
 
-  verifyPAN_Number_Inside() {
-    if(this.coalAllocationRegiForm.controls['panNo'].status == 'VALID'){
-    this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.coalAllocationRegiForm.value.panNo, false, false, false, 'WBMiningService');
-    this.callApiService.getHttp().subscribe({
-      next: (res: any) => {
-        if (res.statusCode === 200) {
-          this.commonService.matSnackBar(res.statusMessage, 1);
-          this.coalAllocationRegiForm.controls['panNo'].setValue('');
-        } else {
-          this.commonService.matSnackBar(res.statusMessage, 0);
-        }
-      },
-      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-    })
-  }
-  }
+  // verifyPAN_Number_Inside() {
+  //   if(this.coalAllocationRegiForm.controls['panNo'].status == 'VALID'){
+  //   this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.coalAllocationRegiForm.value.panNo, false, false, false, 'WBMiningService');
+  //   this.callApiService.getHttp().subscribe({
+  //     next: (res: any) => {
+  //       if (res.statusCode == 200) {
+  //         this.commonService.matSnackBar(res.statusMessage, 1);
+  //         this.coalAllocationRegiForm.controls['panNo'].setValue('');
+  //       } else {
+  //         this.commonService.matSnackBar(res.statusMessage, 0);
+  //       }
+  //     },
+  //     error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+  //   })
+  // }
+  // }
 
   onSubmit() {
     this.addDocumentNumber();
@@ -561,7 +560,7 @@ export class CoalAllocationComponent implements OnInit {
       this.callApiService.setHttp('post', "CoalApplication/GenerateOTP?mobileNumber=" + this.coalAllocationRegiForm.value.mobile, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200) {
+          if (res.statusCode == 200) {
             this.commonService.matSnackBar(res.statusMessage, 0);
             this.sentOtpText = 'Resend OTP';
             this.disableBtnSendOTP = true;
@@ -582,7 +581,7 @@ export class CoalAllocationComponent implements OnInit {
       this.callApiService.setHttp('post', "CoalApplication/ValidateOTP?" + obj, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200) {
+          if (res.statusCode == 200) {
           } else {
             this.commonService.matSnackBar(res.statusMessage, 0);
             this.coalAllocationRegiForm.controls['verfiedOTPId'].setValue('');
@@ -610,6 +609,15 @@ export class CoalAllocationComponent implements OnInit {
   //................   Send Otp Timer Code End Here ...................//
 
   // ...........................................  Sent Otp Code End Here ........................................//
+
+  // clearOnBlurValue(flag:any){  // not allow only zero Value
+  //   let subject:any = /^0+$/;
+  //   if(flag == 'accountNo' && this.coalAllocationRegiForm.value.accountNo.match(subject)){
+  //     this.coalAllocationRegiForm.controls['accountNo'].setValue('');
+  //   }else if(flag == 'incorporationCerti_No' && this.coalAllocationRegiForm.value.incorporationCerti_No.match(subject)){
+  //     this.coalAllocationRegiForm.controls['incorporationCerti_No'].setValue('');
+  //   }
+  //  }
 
 
 }
