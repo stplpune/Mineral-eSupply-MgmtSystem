@@ -32,8 +32,8 @@
                                     <div class="col-sm"></div>
                                 </div>
                             </div>
-                            <div class="col-sm">
-                                <button mat-raised-button class="btn btn-secondary w-100" type="submit">
+                            <div class="col-sm text-end">
+                                <button mat-raised-button class="btn btn-secondary" type="submit">
                                     <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                                 </button>
                             </div>
@@ -41,50 +41,52 @@
                     </form>
                 </div>
                 <div class="card-body">
-                    <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
 
-                        <ng-container matColumnDef="rowNumber">
-                            <th mat-header-cell *matHeaderCellDef>Sr.No </th>
-                            <td mat-cell *matCellDef="let element">{{element.rowNumber}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="rowNumber">
+                                <th mat-header-cell *matHeaderCellDef>Sr.No </th>
+                                <td mat-cell *matCellDef="let element">{{element.rowNumber}} </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="collieryName">
-                            <th mat-header-cell *matHeaderCellDef>Collary Name </th>
-                            <td mat-cell *matCellDef="let element">{{element.collieryName | uppercase}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="collieryName">
+                                <th mat-header-cell *matHeaderCellDef>Collary Name </th>
+                                <td mat-cell *matCellDef="let element">{{element.collieryName | uppercase}} </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="districtName">
-                            <th mat-header-cell *matHeaderCellDef>District</th>
-                            <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="districtName">
+                                <th mat-header-cell *matHeaderCellDef>District</th>
+                                <td mat-cell *matCellDef="let element"> {{element.districtName}} </td>
+                            </ng-container>
 
-                        <!-- <ng-container matColumnDef="collieryAddress">
+                            <!-- <ng-container matColumnDef="collieryAddress">
                             <th mat-header-cell *matHeaderCellDef>Address </th>
                             <td mat-cell *matCellDef="let element">{{element.collieryAddress}}</td>
                         </ng-container> -->
 
-                        <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> Action</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="d-flex align-items-center">
-                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                                        (click)="editCollaryRecord(element.id)">
-                                        <mat-icon>edit</mat-icon>
-                                    </button>
-                                    <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
-                                        (click)="deleteCollaryRecord(element)">
-                                        <mat-icon>delete_outline</mat-icon>
-                                    </button>
-                                </div>
-                            </td>
-                        </ng-container>
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> Action</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="d-flex align-items-center">
+                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
+                                            (click)="editCollaryRecord(element.id)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
+                                            (click)="deleteCollaryRecord(element)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
 
-                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                            <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                        </tr>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                    </table>
+                            <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                            </tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
                     <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)"
                         showFirstLastButtons></mat-paginator>
                 </div>
@@ -118,10 +120,10 @@
                                     district.</span>
                             </mat-error>
                         </mat-form-field>
-                    
+
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Contact Person Mobile No.</mat-label>
-                            <input id="colliery_name" matInput formControlName="contactNo" maxlength="200">
+                            <input id="colliery_name" matInput formControlName="contactNo" maxlength="10">
                             <mat-error *ngIf="fc['contactNo'].errors">
                                 <span class="text-danger" *ngIf="fc['contactNo'].errors?.['pattern']">Please enter
                                     valid Contact No.</span>
@@ -137,16 +139,16 @@
                         </mat-form-field>
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Address</mat-label>
-                            <textarea matInput formControlName="collieryAddress" #search maxlength="500"></textarea>
+                            <textarea matInput formControlName="collieryAddress" #search maxlength="500" (keyup)="validation.removeSpaceAtBegining($event)"></textarea>
                             <mat-error>
                                 <span class="text-danger" *ngIf="fc['collieryAddress'].errors?.['required']">Please
                                     enter address.</span>
                             </mat-error>
                         </mat-form-field>
                         <div class="mb-3 position-relative">
-                            <agm-map  [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
+                            <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
                                 (mapReady)="onMapReady($event)"></agm-map>
-                                <button class="btn-map-close" (click)="removeShape()" *ngIf="isShapeDrawn"
+                            <button class="btn-map-close" (click)="removeShape()" *ngIf="isShapeDrawn"
                                 aria-label="Remove Shape"><i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
@@ -154,16 +156,18 @@
                             <div class="col-sm-6">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Latitude</mat-label>
-                                    <input id="colliery_name" [readonly]="true" matInput formControlName="latitude" maxlength="200">
+                                    <input id="colliery_name" [readonly]="true" matInput formControlName="latitude"
+                                        maxlength="200">
                                 </mat-form-field>
                             </div>
                             <div class="col-sm-6">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Longitude</mat-label>
-                                    <input id="colliery_name"  [readonly]="true"  matInput formControlName="longitude" maxlength="200">
+                                    <input id="colliery_name" [readonly]="true" matInput formControlName="longitude"
+                                        maxlength="200">
                                 </mat-form-field>
                             </div>
-                           
+
                             <!-- <div class="col-sm-auto">
                                 <button mat-mini-fab color="warn">
                                     <mat-icon>location_on</mat-icon>

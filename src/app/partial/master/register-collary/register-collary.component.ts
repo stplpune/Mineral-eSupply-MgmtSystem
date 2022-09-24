@@ -73,7 +73,6 @@ export class RegisterCollaryComponent implements OnInit {
   constructor(public configService:ConfigService,
     private fb: FormBuilder,
     public apiService: CallApiService,
-    public frmValid: FormsValidationService,
     public commonMethod: CommonMethodsService,
     public error: ErrorHandlerService, 
     private webStorageService:WebStorageService,
@@ -96,14 +95,14 @@ export class RegisterCollaryComponent implements OnInit {
   createFilterForm(){
     this.frm = this.fb.group({
       districtIdFltr: [''],
-      collaryNameFltr: ['', [Validators.pattern(this.frmValid.alphabetsWithSpace)]]
+      collaryNameFltr: ['', [Validators.pattern(this.validation.alphabetsWithSpace)]]
     })
   }
 
   createCollaryForm(){
     this.frmCollary = this.fb.group({
       districtId: ['', [Validators.required]],
-      collieryName: ['', [Validators.required, Validators.pattern(this.frmValid.alphabetsWithSpace)]],
+      collieryName: ['', [Validators.required,Validators.pattern(this.validation.alphaNumericWithSpace)]],
       collieryAddress: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
       longitude: ['', [Validators.required]],
