@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from './common-methods.service';
 
 @Injectable({
@@ -7,10 +8,11 @@ import { CommonMethodsService } from './common-methods.service';
 })
 export class ErrorHandlerService {
 
-  constructor(private commonMethods:CommonMethodsService) { }
+  constructor(private commonMethods:CommonMethodsService, private spinner: NgxSpinnerService) { }
 
   handelError(error: any) {
     let msg: string = '';
+    this.spinner.hide();
     switch (Number(error)) {
       case 0: msg += "No Date Found"; break;
       case 101: msg += "Switching protocols"; break;
