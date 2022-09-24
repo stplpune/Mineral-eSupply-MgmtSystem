@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LedgerRoutingModule } from './ledger-routing.module';
 import { LedgerComponent } from './ledger.component';
+import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { LedgerComponent } from './ledger.component';
   ],
   imports: [
     CommonModule,
-    LedgerRoutingModule
+    LedgerRoutingModule,
+    AngularMaterialModule
   ]
 })
 export class LedgerModule { }

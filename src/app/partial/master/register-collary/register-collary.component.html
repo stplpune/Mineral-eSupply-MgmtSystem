@@ -1,9 +1,9 @@
 <div class="container-fluid">
-    <h5 class="page-heading">Register Collary</h5>
+    <h5 class="page-heading">Register colliery</h5>
     <div class="row justify-content-between">
         <div class="col-sm-8">
             <div class="card plain-card mb-3 mb-lg-0">
-                <div class="card-header py-0">
+                <div class="card-header pb-0">
                     <form [formGroup]="frm" (ngSubmit)="onSearch()" autocomplete="off">
                         <div class="row align-items-center">
                             <div class="col-sm-10">
@@ -12,8 +12,8 @@
                                         <mat-form-field [appearance]="configService.matFormFieldFilter" class="w-100">
                                             <mat-label>Select District</mat-label>
                                             <mat-select formControlName="districtIdFltr">
-                                                <mat-option *ngFor="let dist of districtNameArr" [value]="dist.value">{{
-                                                    dist.text }}</mat-option>
+                                                
+                                                <mat-option *ngFor="let dist of districtNameArr" [value]="dist.value">{{ dist.text }}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
@@ -25,7 +25,7 @@
                                             <mat-error>
                                                 <span class="text-danger"
                                                     *ngIf="f['collaryNameFltr'].errors?.['pattern']">Please enter valid
-                                                    collary name.</span>
+                                                    colliery name.</span>
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
@@ -50,7 +50,7 @@
                             </ng-container>
 
                             <ng-container matColumnDef="collieryName">
-                                <th mat-header-cell *matHeaderCellDef>Collary Name </th>
+                                <th mat-header-cell *matHeaderCellDef>colliery Name </th>
                                 <td mat-cell *matCellDef="let element">{{element.collieryName | uppercase}} </td>
                             </ng-container>
 
@@ -115,18 +115,18 @@
         <div class="col-sm-4">
             <div class="card plain-card">
                 <div class="card-header">
-                    Register Colleries
+                    Register Colliery
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off">
+                    <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off" #ngForm="ngForm">
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                            <mat-label>Collary Name</mat-label>
+                            <mat-label>Colliery Name</mat-label>
                             <input matInput formControlName="collieryName" maxlength="200">
                             <mat-error *ngIf="fc['collieryName'].errors">
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please enter
-                                    collary name.</span>
+                                    colliery name.</span>
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['pattern']">Please enter
-                                    valid collary name.</span>
+                                    valid colliery name.</span>
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
@@ -166,8 +166,11 @@
                             </mat-error>
                         </mat-form-field>
                         <div class="mb-3 position-relative">
-                            <agm-map [latitude]="configService.lat" [zoom]="6" [longitude]="configService.long"
-                                (mapReady)="onMapReady($event)"></agm-map>
+                            <agm-map [latitude]="configService.lat"   [zoom]="6" [longitude]="configService.long"
+                                (mapReady)="onMapReady($event)">
+                                <!-- <agm-marker *ngIf="setMarker" [agmFitBounds]="true" [latitude]="frmCollary.value.latitude" [longitude]="frmCollary.value.longitude">
+                                </agm-marker> -->
+                            </agm-map>
                             <button class="btn-map-close" (click)="removeShape()" *ngIf="isShapeDrawn"
                                 aria-label="Remove Shape"><i class="fa-solid fa-xmark"></i>
                             </button>

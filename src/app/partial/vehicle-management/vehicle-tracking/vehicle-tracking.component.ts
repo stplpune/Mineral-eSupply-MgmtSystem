@@ -16,7 +16,7 @@ export class VehicleTrackingComponent implements OnInit {
   map: any;
   line: any;
   directionsService: any;
-  marker!: TravelMarker;
+  marker: any;
   speedMultiplier = 1;
   googleMapType = 'satellite';
 
@@ -69,7 +69,9 @@ export class VehicleTrackingComponent implements OnInit {
       map: this.map,
       icon: "assets/images/end_pin.svg",
     });
-
+    let latlng = new google.maps.LatLng(this.lat, this.long);
+    this.map.panTo(latlng);
+    this.marker && this.marker.setMap(null);
     this.initRoute();
   }
 
@@ -117,8 +119,9 @@ export class VehicleTrackingComponent implements OnInit {
       speed: 50, // default 10 , animation speed
       interval: 10, // default 10, marker refresh time
       speedMultiplier: this.speedMultiplier,
+      cameraOnMarker: true,
       markerOptions: {
-        
+        draggable: true,
         title: 'Travel Marker',
         animation: google.maps.Animation.DROP,
         icon: {
@@ -130,7 +133,7 @@ export class VehicleTrackingComponent implements OnInit {
           // The origin for this image is (0, 0).
           origin: new google.maps.Point(0, 0),
           // The anchor for this image is the base of the flagpole at (0, 32).
-          anchor: new google.maps.Point(8, 18),
+          anchor: new google.maps.Point(17, 30),
         },
       },
     };
