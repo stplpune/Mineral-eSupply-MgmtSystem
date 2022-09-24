@@ -20,6 +20,7 @@ import { MapsAPILoader } from '@agm/core'
   styleUrls: ['./register-collary.component.scss']
 })
 export class RegisterCollaryComponent implements OnInit {
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   
   displayedColumns: string[] = ['rowNumber', 'collieryName', 'districtName', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
@@ -38,7 +39,7 @@ export class RegisterCollaryComponent implements OnInit {
   pageSize = 10;
   circle:any ;
   existingMarker:any;
-  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
+
   
   // map var 
   map: any;
@@ -247,6 +248,7 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   onSubmitCollary(){
+    debugger;
     this.spinner.show();
     if (this.frmCollary.invalid) {
       this.spinner.hide();
@@ -279,8 +281,12 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onCancelRecord(){
-    this.formGroupDirective.resetForm();
-    this.frmCollary.reset();
+    this.formGroupDirective.resetForm({
+      geofenceType:0,
+      distance:0,
+      createdBy:this.webStorageService.getUserId()
+    })
+
     this.removeShape();
     this.isEdit = false;
     this.existingShape?.setMap(null);
@@ -609,7 +615,6 @@ export class RegisterCollaryComponent implements OnInit {
     else if (radius < 15000) {
       zoom = 10;
     }
-    console.log(zoom);
     this.map.setZoom(zoom)
   }
   
