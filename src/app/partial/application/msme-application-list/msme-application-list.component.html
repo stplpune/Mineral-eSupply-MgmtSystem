@@ -95,13 +95,15 @@
                                 </td>
                             </ng-container>
                             <!-- <tr mat-header-row *matHeaderRowDef="['header-row-first-group', 'header-row-second-group']"></tr> -->
+                            <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+                            </tr>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
+                        <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)"
+                        showFirstLastButtons></mat-paginator>
                     </div>
-                    
-                    <mat-paginator  #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)"
-                    showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>

@@ -39,6 +39,7 @@ tr.example-detail-row {
   .example-element-detail {
     overflow: hidden;
     display: flex;
+    height: 320px;
   }
   
   .example-element-diagram {
@@ -56,10 +57,23 @@ tr.example-detail-row {
     line-height: normal;
   }
   
-  .example-element-description {
-    padding: 16px;
-  }
-  
   .example-element-description-attribution {
     opacity: 0.5;
   }
+  .list-group .list-group-item{
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border-bottom: solid 1px var(--card-border-color) !important;
+  }
+  .mapouter {
+    position: relative;
+    text-align: right;
+    height: 500px;
+    width: 500px;
+}
+.gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    height: auto;
+    width: 100%;
+}
