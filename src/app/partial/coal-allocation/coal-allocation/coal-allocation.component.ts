@@ -60,11 +60,13 @@ export class CoalAllocationComponent implements OnInit {
     if (tabLabel == "ECL Monthly Allocation") {
       this.getECLData('ECL');
     } else if (tabLabel == "Coal Distribution" ) {
+      this.coalDistribution =[];
       this.coalDistributionSearch.setValue(this.yearArray[0].text);
       this.getECLData('distribution');
       this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ?this.getcoalDistributionData():'';
     }else if(tabLabel == "MSME Consumer Booking"){
-      this.bookingQtySearch.setValue(this.yearArray[0].text)
+      this.hidebookingtable = false;
+      this.bookingQtySearch.setValue(this.yearArray[0].text);
       this.getBookingData();
     }
 
@@ -98,6 +100,7 @@ export class CoalAllocationComponent implements OnInit {
           this.ECLDatasource = new MatTableDataSource(res.responseData);
           this.spinner.hide();
         } else {
+          this.ECLDatasource =[]
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       },
@@ -186,7 +189,7 @@ export class CoalAllocationComponent implements OnInit {
   disabledQty =true;
   distributionForm !: FormGroup;
   coalDistributionSearch = new FormControl('');
-
+  hidebookingtable:boolean =false;
   defaultDistribution(){
     this.distributionForm = this.fb.group({
       distributionList: this.fb.array([])
@@ -195,14 +198,15 @@ export class CoalAllocationComponent implements OnInit {
 
   getDDistributionData(){
     this.getECLData('distribution');
-    this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ?this.getcoalDistributionData():'';
+    console.log( this.monthlyAllocationDetails[0]?.isCoalDistributed );    
+    this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ?this.getcoalDistributionData():this.coalDistribution =[];
   }
   get distributionListControls() {
     return this.distributionForm.get("distributionList") as FormArray;
   }
 
   getcoalDistributionData(){
-    this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear="+this.monthlySearch.value+"&Year=2022", false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear="+this.coalDistributionSearch.value+"&Year=2022", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
@@ -275,27 +279,102 @@ let data:any=[];
 // ---------------- MSME  Consumer Booking Quantity start here   -----------------------//
 bookingQtySearch = new FormControl('');
 bookingColums =['srno','collieryName','allocationQty','bookingQty','action'];
+bookingPaymentColums =['srno','consumerName','tentitiveQty','bookingQty','amount','status','action'];
 bookingDataSource :any;
+bookingPaymentDataSource : any;
 // distributionColumns: string[] = ['srno',  'collieryName', 'allocationQty'];
 // disabledQty =true;
+coalDistributionMemberArray: any =[];
+bookingPaymentDetails: any =[];
+
+
 
 getBookingData(){
-  this.apiService.setHttp('get', "CoalDistribution/GetConsumerBookingQuantity?MonthYear="+this.bookingQtySearch.value+"&nopage=2022", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('get', "CoalDistribution/GetConsumerBookingQuantity?MonthYear="+this.bookingQtySearch.value+"&nopage=1", false, false, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
         this.spinner.hide();
-        console.log(res)
         this.bookingDataSource = new MatTableDataSource(res.responseData);
         this.commonMethod.matSnackBar(res.statusMessage,0);
 
       } else {
+        this.bookingDataSource =[];
         this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         this.spinner.hide();
       }
     },
     error: ((error: any) => { this.error.handelError(error.status) })
   })
+}
+
+getPaymentForBooking(ele:any){
+  this.apiService.setHttp('get', "CoalDistribution/GetMSMEConsumerDataById?ECLMonthlyAllocationId="+ele.id, false, false, false, 'WBMiningService');
+  this.apiService.getHttp().subscribe({
+    next: (res: any) => {
+      if (res.statusCode === 200) {
+        this.spinner.hide();
+        this.hidebookingtable = true;
+        this.bookingPaymentDetails = res.responseData;
+        this.bookingPaymentDataSource = new MatTableDataSource(res.responseData);
+        this.commonMethod.matSnackBar(res.statusMessage,0);
+      } else {
+        this.bookingPaymentDataSource =[];
+        this.bookingPaymentDetails =[];
+        this.hidebookingtable = true;
+        res.statusCode != 404 ?this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1):'';
+        this.spinner.hide();
+      }
+    },
+    error: ((error: any) => { this.error.handelError(error.status) })
+  })
+}
+
+addRemoveCoalDistributionMember(event:any,object:any){
+  let checkedFlag = event.checked;
+  console.log(object);
+  if(checkedFlag){
+    let obj ={
+      "coalDistributionId": object?.coalDistributionId,
+      "eclPaymentId": 0,
+      "quantity": object.bookingQty,
+      "amount": object.amount,
+    }
+
+    this.coalDistributionMemberArray.push(obj)
+  }else if(!checkedFlag){
+    this.coalDistributionMemberArray.map((ele:any,ind:number)=>{
+      if(ele.coalDistributionId == object?.coalDistributionId){
+        this.coalDistributionMemberArray.splice(ind,1);
+      }
+    })
+  }
+}
+
+paymentForECL(){
+  
+  const initialValue = 0;
+  const quantitySum = this.coalDistributionMemberArray.reduce(
+    (previousValue:any, currentValue:any) => previousValue + Number(currentValue.quantity),
+    initialValue
+  );
+  const amountSum = this.coalDistributionMemberArray.reduce(
+    (previousValue:any, currentValue:any) => previousValue + Number(currentValue.amount),
+    initialValue
+  );
+
+  let obj ={
+    "monthYear": this.bookingQtySearch.value,
+    "quantity": quantitySum,
+    "amount": 0,
+    "createdBy": 0,
+    "coalDistributionMember": [
+      {
+        "coalDistributionId": 0,
+        "eclPaymentId": 0
+      }
+    ]
+  }
 }
 
 }
