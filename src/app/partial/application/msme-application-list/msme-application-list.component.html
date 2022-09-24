@@ -4,102 +4,101 @@
         <div class="col-sm-12">
             <div class="card plain-card">
                 <div class="card-header pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                                        <mat-label>Select Year</mat-label>
-                                        <input matInput [matDatepicker]="picker1">
-                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker1 startView="multi-year"></mat-datepicker>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-sm-3">
-                                    <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                                        <mat-label> Search </mat-label>
-                                        <input matInput type="search">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-sm-auto">
-                                    <button mat-raised-button class="btn-secondary">
-                                        Search
-                                    </button>
+                    <form [formGroup]="filterForm" (ngSubmit)="searchData()">
+                        <div class="row align-items-center">
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                            <mat-label>Select Year</mat-label>
+                                            <mat-select formControlName="applicationYear">
+                                                <mat-option *ngFor="let year of yearArray" [value]="year">{{year}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
+                                            <mat-label>Application Number/Consumer Name</mat-label>
+                                            <input matInput placeholder="Application Number/Consumer Name" formControlName="applicationNumber">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <button type="submit" mat-raised-button class="btn-secondary">
+                                            Search
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="card-body">
-                    <table class="dashboard-table table table-bordered w-100">
-                        <thead>
-                            <tr>
-                                <th rowspan="2">SR. No.</th>
-                                <th rowspan="2">Application No.</th>
-                                <th rowspan="2">Application Sub Date</th>
-                                <th rowspan="2">Year</th>
-                                <th rowspan="2">Allocated Quantity (Tonnes)</th>
-                                <th rowspan="2">Level-1 Status</th>
-                                <th rowspan="2">Level-2 Status</th>
-                                <th colspan="2" class="text-center">Upload Document</th>
-                            </tr>
-                            <tr>
-                                <th>Agrement  </th>
-                                <th>Security Deposit</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-        
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="">
-                                        <mat-label>Wb-500916541</mat-label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="">
-                                        <mat-label>02-09-2022</mat-label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="">
-                                        <mat-label>2022</mat-label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="">
-                                        <mat-label>10000</mat-label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="">
-                                        <mat-label>Approved</mat-label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="">
-                                        <mat-label>Pending</mat-label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Doc No</button>
-                                        <input type="file" >
-                                      </div>
-                                    
-                                </td>
-                                <td>
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn btn-main"><i class="fa fa-upload me-2" aria-hidden="true"></i>Doc No</button>
-                                        <input type="file" >
-                                      </div>
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
+                    <table mat-table [dataSource]="dataSource" matSort class="dashboard-table w-100">
+                        <ng-container matColumnDef="srno">
+                            <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                            <td mat-cell *matCellDef="let element let i = index">{{((pageNumber + 1) * 10 + i + 1)-20}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="applicationNumber">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Application Number </th>
+                            <td mat-cell *matCellDef="let element"> {{element.applicationNumber}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="application_date">
+                            <th mat-header-cell *matHeaderCellDef> Application Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.applicationDate}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="applicationYear">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Year </th>
+                            <td mat-cell *matCellDef="let element"> {{element.applicationYear}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="allocatedQty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated Quantity </th>
+                            <td mat-cell *matCellDef="let element"> {{element.allocatedQty}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="level1Status">
+                            <th mat-header-cell *matHeaderCellDef> Level-1 Status </th>
+                            <td mat-cell *matCellDef="let element" [class]="element.coalApplicationApproverDetails[0].applicationStatusText == 'Pending' ? 'text-warning' : element.coalApplicationApproverDetails[0].applicationStatusText == 'Approved' ? 'text-success' : 'text-danger'"> {{element.coalApplicationApproverDetails[0].applicationStatusText}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="level2Status">
+                            <th mat-header-cell *matHeaderCellDef> Level-2 Status </th>
+                            <td mat-cell *matCellDef="let element" [class]="element.coalApplicationApproverDetails[0].applicationStatusText == 'Pending' ? 'text-warning' : element.coalApplicationApproverDetails[0].applicationStatusText == 'Approved' ? 'text-success' : 'text-danger'"> {{element.coalApplicationApproverDetails[1].applicationStatusText}} </td>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="header-row-first-group">
+                            <th mat-header-cell *matHeaderCellDef 
+                                [attr.colspan]="7"> 
+                            </th>
+                        </ng-container>
+                        <ng-container matColumnDef="header-row-second-group">
+                            <th mat-header-cell *matHeaderCellDef 
+                                [attr.colspan]="2"> 
+                                Upload Document 
+                            </th>
+                        </ng-container> -->
+                        <ng-container matColumnDef="AGREMENT">
+                            <th mat-header-cell *matHeaderCellDef> AGREMENT </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <div class="upload-btn-wrapper">
+                                <input type="file" (change)="uploadMsmeDoc($event, element.id, 1)" #fileInput>
+                                <button type="button" class="btn btn-main" *ngIf="!element.aggrementDocumentPath" (click)="fileInput.click()"><i class="fa fa-upload me-2" aria-hidden="true"></i>Doc No</button> 
+                            </div>
+                            <button type="button"  *ngIf="element.aggrementDocumentPath" class="btn btn-main"  (click)="viewDocument(element.aggrementDocumentPath)"><i class="fa fa-eye me-2" aria-hidden="true"></i>View</button>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="SECURITY DEPOSIT">
+                            <th mat-header-cell *matHeaderCellDef> SECURITY DEPOSIT </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <div class="upload-btn-wrapper">
+                                <input type="file" (change)="uploadMsmeDoc($event, element.id, 2)" #fileInput1>
+                                <button type="button"  *ngIf="!element.securityDocumentPath" class="btn btn-main" (click)="fileInput1.click()"><i class="fa fa-upload me-2" aria-hidden="true"></i>Doc No</button>
+                            </div>
+                            <button type="button"  *ngIf="element.securityDocumentPath" class="btn btn-main" (click)="viewDocument(element.securityDocumentPath)"><i class="fa fa-eye me-2" aria-hidden="true"></i>View</button>
+                            </td>
+                        </ng-container>
+                        <!-- <tr mat-header-row *matHeaderRowDef="['header-row-first-group', 'header-row-second-group']"></tr> -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
+                    <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)"
+                    showFirstLastButtons></mat-paginator>
                 </div>
             </div>
         </div>
