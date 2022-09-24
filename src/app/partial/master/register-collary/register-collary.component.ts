@@ -200,7 +200,6 @@ export class RegisterCollaryComponent implements OnInit {
           },
           isHide:true
       }
-
       this.onMapReady(this.map);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
@@ -380,7 +379,6 @@ export class RegisterCollaryComponent implements OnInit {
         let latLng = this.FN_CN_poly2latLang(existingShape);
         map.setCenter(latLng); map.fitBounds(OBJ_fitBounds);
         const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latLng });
-
         let hc = "<table><tbody>";
         hc += '<tr><td colspan="2"><h6>Selected Colliery Details</h6></td></tr>';
         hc += '<tr><td>Colliery Name</td><td>: ' + (this.data.selectedRecord.collieryName || "-") + '</td></tr>';
@@ -439,6 +437,7 @@ export class RegisterCollaryComponent implements OnInit {
         
         let latlng = new google.maps.LatLng(this.data.selectedRecord.polygonText.split(" ")[1], this.data.selectedRecord.polygonText.split(" ")[0]);
         const existingMarker = new google.maps.Marker({ map: map, draggable: false, position: latlng });
+        // existingMarker.setMap(null);
         this.circle = new google.maps.Circle({
           strokeColor: '#FF0000',
           fillColor: '#FF0000',
