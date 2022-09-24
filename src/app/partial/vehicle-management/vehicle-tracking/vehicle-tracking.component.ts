@@ -27,7 +27,7 @@ export class VehicleTrackingComponent implements OnInit {
   }
 
   setMapData() {
-    this.lat = 23.7153288;
+    this.lat = 23.680899;
     this.long =  86.927182;
     this.zoom = 11;
     this.viewType = this.configService.viewType;
@@ -41,7 +41,7 @@ export class VehicleTrackingComponent implements OnInit {
   bindTable() {
 
   }
-
+  // 23.680899,86.937182
   //------------------------------------------------------ agm mrker controls start heare --------------------------------------------------//
 
   mockDirections() {
