@@ -202,7 +202,6 @@ export class RegisterCollaryComponent implements OnInit {
           },
           isHide:true
       }
-
       this.onMapReady(this.map);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
