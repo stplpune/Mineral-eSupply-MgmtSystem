@@ -101,7 +101,7 @@
                     <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off">
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Collary Name</mat-label>
-                            <input id="colliery_name" matInput formControlName="collieryName" maxlength="200">
+                            <input matInput formControlName="collieryName" maxlength="200">
                             <mat-error *ngIf="fc['collieryName'].errors">
                                 <span class="text-danger" *ngIf="fc['collieryName'].errors?.['required']">Please enter
                                     collary name.</span>
@@ -123,7 +123,7 @@
 
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Contact Person Mobile No.</mat-label>
-                            <input id="colliery_name" matInput formControlName="contactNo" maxlength="10">
+                            <input  matInput formControlName="contactNo" maxlength="10">
                             <mat-error *ngIf="fc['contactNo'].errors">
                                 <span class="text-danger" *ngIf="fc['contactNo'].errors?.['pattern']">Please enter
                                     valid Contact No.</span>
@@ -131,9 +131,9 @@
                         </mat-form-field>
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Contact Email ID</mat-label>
-                            <input id="colliery_name" matInput formControlName="emailId" maxlength="200">
+                            <input  matInput formControlName="emailId" maxlength="200">
                             <mat-error *ngIf="fc['emailId'].errors">
-                                <span class="text-danger" *ngIf="fc['emailId'].errors?.['pattern']">Please enter
+                                <span class="text-danger" *ngIf="fc['emailId'].errors?.['email']">Please enter
                                     valid email Id</span>
                             </mat-error>
                         </mat-form-field>
@@ -179,7 +179,7 @@
                             <textarea matInput formControlName="remark" #search maxlength="500"></textarea>
                         </mat-form-field>
                         <div class="d-flex align-items-center justify-content-between">
-                            <button type="reset" mat-raised-button class="btn-outline-main"
+                            <button type="button" mat-raised-button class="btn-outline-main"
                                 (click)="onCancelRecord()">Cancel</button>
                             <button type="submit" mat-raised-button class="btn-main">{{ isEdit ? 'Update' : 'Submit'
                                 }}</button>

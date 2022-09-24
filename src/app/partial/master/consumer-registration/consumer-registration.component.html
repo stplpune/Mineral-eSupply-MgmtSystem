@@ -48,43 +48,46 @@
 
                             <ng-container matColumnDef="srno">
                                 <th mat-header-cell *matHeaderCellDef> No. </th>
-                                <td mat-cell *matCellDef="let element"> {{element.srno}} </td>
+                                <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i +
+                                    1)-20}} </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="state">
+                            <ng-container matColumnDef="stateId">
                                 <th mat-header-cell *matHeaderCellDef> State </th>
-                                <td mat-cell *matCellDef="let element"> {{element.state}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.stateId}} </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="consumer_name">
+                            <ng-container matColumnDef="consumerName">
                                 <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
-                                <td mat-cell *matCellDef="let element"> {{element.consumer_name}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.consumerName}} </td>
                             </ng-container>
-                            <ng-container matColumnDef="consumer_type">
-                                <th mat-header-cell *matHeaderCellDef> Consumer Type </th>
-                                <td mat-cell *matCellDef="let element"> {{element.consumer_type}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="mobile_no">
+                            <ng-container matColumnDef="mobileNo">
                                 <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
-                                <td mat-cell *matCellDef="let element"> {{element.mobile_no}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
                             </ng-container>
-                            <ng-container matColumnDef="email">
+                            <ng-container matColumnDef="consumerTypeId">
+                                <th mat-header-cell *matHeaderCellDef> Consumer Type </th>
+                                <td mat-cell *matCellDef="let element"> {{element.consumerTypeId}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="emailId">
                                 <th mat-header-cell *matHeaderCellDef> Email </th>
-                                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
                             </ng-container>
-                            <ng-container matColumnDef="pan">
+                            <ng-container matColumnDef="consumerDocuments">
                                 <th mat-header-cell *matHeaderCellDef> PAN </th>
-                                <td mat-cell *matCellDef="let element"> {{element.pan}} </td>
+                                <td mat-cell *matCellDef="let element">
+                                    <ng-container *ngFor='let ele of element.bidderUserDocuments'>{{ele.documentName == 'PAN'?
+                                        ele.documentNo : '' }}</ng-container>
+                                </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
                                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="d-flex align-items-center">
-                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2">
+                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editConsumerRegForm(element)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
-                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger">
+                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteConformation(element?.id)">
                                             <mat-icon>delete_outline</mat-icon>
                                         </button>
                                     </div>
