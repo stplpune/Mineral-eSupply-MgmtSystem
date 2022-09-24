@@ -320,7 +320,6 @@ mat-form-field{
 .dash-card .card-body{
   background-color:var(--card-bg-color);
   color: var(--text-color);
-  border-radius: 0.375rem;
 }
 input[placeholder],
 ::placeholder {
@@ -436,3 +435,7 @@ input[placeholder],
   border-radius: 0!important;
 }
 
+.disabled {
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.38);
+}
