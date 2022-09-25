@@ -8,6 +8,7 @@
                         <mat-form-field appearance="legacy" class="w-100">
                             <mat-label>Select Year</mat-label>
                             <mat-select formControlName="applicationYear">
+                                <mat-option value="" >All Year</mat-option>
                                 <mat-option *ngFor="let year of yearArray" [value]="year">{{year}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -99,9 +100,17 @@
                             </mat-menu>
                         </td>
                     </ng-container>
+                    <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                        <td class="alert alert-danger text-center m-2 mt-2" colspan="9">No data found </td>
+                    </tr>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+                <ng-container *ngIf="totalRows>10">
+                    <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
+                        (page)="pageChanged($event)">
+                    </mat-paginator>
+                </ng-container>
             </div>
 
         </div>

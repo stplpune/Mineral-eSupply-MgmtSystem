@@ -67,7 +67,7 @@ export class ApplicationComponent implements OnInit {
     this.districtArray = [];
     this.commonService.getDistrictByStateId(36).subscribe({
       next: (response: any) => {
-        this.districtArray.push({ 'value': 0, 'text': 'All District' }, ...response);
+        this.districtArray.push({ 'value': '', 'text': 'All District' }, ...response);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
