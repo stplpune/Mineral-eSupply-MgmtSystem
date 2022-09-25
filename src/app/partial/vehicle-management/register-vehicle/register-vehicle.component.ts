@@ -153,7 +153,7 @@ export class RegisterVehicleComponent implements OnInit {
           this.dataSource = [];
           this.totalRows = 0;
           this.paginator.pageIndex = 0;
-          // this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
         this.spinner.hide();
       },
