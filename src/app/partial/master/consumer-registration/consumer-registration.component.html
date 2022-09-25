@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-sm-2 text-end">
                                 <button mat-raised-button class="btn btn-secondary"
-                                    (click)="pageNumber = 1;getConsumerRegistration()">
+                                    (click)="pageNumber = 1;getConsumerRegistration();clearForm()">
                                     <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                                 </button>
                             </div>
@@ -56,9 +56,9 @@
                                     1)-20}} </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="stateId">
+                            <ng-container matColumnDef="stateName">
                                 <th mat-header-cell *matHeaderCellDef> State </th>
-                                <td mat-cell *matCellDef="let element"> {{element.stateId}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.stateName}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="consumerName">
@@ -71,7 +71,7 @@
                             </ng-container>
                             <ng-container matColumnDef="consumerTypeId">
                                 <th mat-header-cell *matHeaderCellDef> Consumer Type </th>
-                                <td mat-cell *matCellDef="let element"> {{element.consumerTypeId}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.consumerTypeId == 1 ? 'Individual' : 'Organization'}} </td>
                             </ng-container>
                             <ng-container matColumnDef="emailId">
                                 <th mat-header-cell *matHeaderCellDef> Email </th>
