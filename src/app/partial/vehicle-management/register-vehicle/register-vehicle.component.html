@@ -151,40 +151,36 @@
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <input class="text-uppercase" #state autofocus matInput formControlName="state"
                                             [maxlength]="(f['numberFormat'].value == 'New' && f['transportType'].value == 'Vehicle') ? 2 : 3"
-                                            (input)="changesFocusInput('state')">
+                                            (input)="changesFocusInput('state')" (keypress)="vs.onlyAlphabets($event)">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-3" *ngIf="f['numberFormat'].value != 'Old'">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <input matInput #district formControlName="district" maxlength="2"
-                                            (input)="changesFocusInput('district')">
+                                            (input)="changesFocusInput('district')" (keypress)="vs.acceptedOnlyNumbers($event)">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-3" *ngIf="f['numberFormat'].value != 'Old'">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <input matInput #series class="text-uppercase" formControlName="series"
-                                            maxlength="2" (input)="changesFocusInput('series')">
+                                            maxlength="2" (input)="changesFocusInput('series')" (keypress)="vs.onlyAlphabets($event)">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-3">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                                        <input matInput #number formControlName="number" maxlength="4">
+                                        <input matInput #number formControlName="number" maxlength="4" (keypress)="vs.acceptedOnlyNumbers($event)">
                                     </mat-form-field>
                                 </div>
                                 <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100" *ngIf="f['transportType'].value != 'Vehicle'">
                                     <input matInput formControlName="bargeNumber" maxlength="10">
                                 </mat-form-field> -->
 
-                                <mat-error
-                                    *ngIf="isSubmitted && (f['state'].errors || f['district'].errors || f['series'].errors || f['number'].errors)">
-                                    <span
-                                        *ngIf="f['state']?.hasError('required') || f['district']?.hasError('required') || f['series']?.hasError('required') || f['number']?.hasError('required')">
+                                <mat-error *ngIf="isSubmitted && (f['state'].errors || f['district'].errors || f['series'].errors || f['number'].errors)">
+                                    <span *ngIf="f['state']?.hasError('required') || f['district']?.hasError('required') || f['series']?.hasError('required') || f['number']?.hasError('required')">
                                         Please enter vehicle number</span>
-                                    <span
-                                        *ngIf="f['state']?.hasError('pattern') || f['district']?.hasError('pattern') || f['series']?.hasError('pattern') || f['number']?.hasError('pattern')">
+                                    <span *ngIf="f['state']?.hasError('pattern') || f['district']?.hasError('pattern') || f['series']?.hasError('pattern') || f['number']?.hasError('pattern')">
                                         Please enter valid vehicle number</span>
-                                    <span
-                                        *ngIf="f['state']?.hasError('minlength') || f['district']?.hasError('minlength') || f['series']?.hasError('minlength') || f['number']?.hasError('minlength')">
+                                    <span *ngIf="f['state']?.hasError('minlength') || f['district']?.hasError('minlength') || f['series']?.hasError('minlength') || f['number']?.hasError('minlength')">
                                         Please enter valid vehicle number</span>
                                 </mat-error>
                             </div>
