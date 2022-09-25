@@ -1,446 +1,443 @@
 <div class="container-fluid">
     <h5 class="page-heading">Consumer Registration</h5>
-    <div class="row justify-content-between">
-        <div class="col-sm-8 mb-3">
-            <div class="card plain-card">
-                <div class="card-header pb-2 pb-lg-0">
-                    <form [formGroup]="filterForm">
-                        <div class="row align-items-center">
-                            <div class="col-sm-3">
-                                <mat-form-field class="example-full-width" [appearance]=configService.matFormField
-                                    class="w-100">
+    <div class="card card-body">
+        <div class="row justify-content-between">
+            <div class="col-sm-8 mb-3">
+                <div class="card plain-card">
+                    <div class="card-header pb-0">
+                        <form [formGroup]="filterForm">
+                            <div class="row align-items-center">
+                                <div class="col-sm-3">
+                                    <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                                        class="w-100">
+                                        <mat-label>Select State</mat-label>
+                                        <mat-select formControlName="stateId">
+                                            <mat-option *ngFor="let stateObj of stateFilterArray" [value]="stateObj.value">
+                                                {{stateObj.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-3">
+                                    <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                                        class="w-100">
+                                        <mat-label>Consumer Type</mat-label>
+                                        <mat-select formControlName="consumerType">
+                                            <mat-option [disabled]="true">Select Consumer Type</mat-option>
+                                            <mat-option *ngFor="let appliType of applicationTypeFilterArray"
+                                                [value]="appliType == 'All' ? 0 : appliType == 'Individual' ? 1 : 2">
+                                                {{appliType}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                                        class="w-100">
+                                        <mat-label> Name / Moblie No. / PAN</mat-label>
+                                        <input matInput formControlName="searchText">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-2 text-end">
+                                    <button mat-raised-button class="btn btn-secondary"
+                                        (click)="pageNumber = 1;getConsumerRegistration();clearForm()">
+                                        <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSource" class="dashboard-table">
+    
+                                <ng-container matColumnDef="srno">
+                                    <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                                    <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i +
+                                        1)-20}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="consumerName">
+                                    <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.consumerName}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="mobileNo">
+                                    <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="consumerTypeId">
+                                    <th mat-header-cell *matHeaderCellDef> Consumer Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.consumerTypeId == 1 ? 'Individual' : 'Organization'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="emailId">
+                                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="consumerDocuments">
+                                    <th mat-header-cell *matHeaderCellDef> PAN </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <ng-container *ngFor='let ele of element.consumerDocuments'>{{ele.documentName ==
+                                            'PAN' ?
+                                            ele.documentNo : '' }}</ng-container>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu" xPosition="before">
+                                            <button mat-menu-item (click)="editConsumerRegForm(element)">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Edit</span>
+                                                    <mat-icon>edit</mat-icon>
+                                                </div>
+                                            </button>
+                                            <button mat-menu-item (click)="deleteConformation(element?.id)">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span>Delete</span>
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </div>
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                    <!-- <td mat-cell *matCellDef="let element">
+                                        <div class="d-flex align-items-center">
+                                            <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editConsumerRegForm(element)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                            <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteConformation(element?.id)">
+                                                <mat-icon>delete_outline</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td> -->
+                                </ng-container>
+                                <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                    <td class="alert alert-danger text-center m-2 mt-2" colspan="8">No data found </td>
+                                </tr>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                        <ng-container *ngIf="totalRows>10">
+                            <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
+                                (page)="pageChanged($event)">
+                            </mat-paginator>
+                        </ng-container>
+    
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-sm-4">
+                <div class="card plain-card">
+                    <div class="card-header"> Add Consumer </div>
+    
+                    <!-- ////////////////////..................  Add And Update Form Code Start Here ..................////////////////////// -->
+    
+                    <form [formGroup]="consumerRegiForm" #formDirective="ngForm" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
                                     <mat-label>Select State</mat-label>
-                                    <mat-select formControlName="stateId">
-                                        <mat-option *ngFor="let stateObj of stateFilterArray" [value]="stateObj.value">
+                                    <mat-select formControlName="stateId"
+                                        (selectionChange)="consumerRegiForm.controls['districtId'].setValue('');getDistrict(consumerRegiForm.value.stateId);addRemoveValiDistrict(consumerRegiForm.value.stateId)">
+                                        <mat-option *ngFor="let stateObj of stateArray" [disabled]="stateObj.value == 0"
+                                            [value]="stateObj.value">
                                             {{stateObj.text}}
                                         </mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="f.stateId.errors?.required"> State is required</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-3">
-                                <mat-form-field class="example-full-width" [appearance]=configService.matFormField
-                                    class="w-100">
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Select District</mat-label>
+                                    <mat-select formControlName="districtId"
+                                        [disabled]="!consumerRegiForm.value.stateId || consumerRegiForm.value.stateId != 36">
+                                        <mat-option *ngFor="let districtObj of districtArray"
+                                            [disabled]="districtObj.value == 0" [value]="districtObj.value">
+                                            {{districtObj.text}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="f.districtId.errors?.required"> District is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
                                     <mat-label>Consumer Type</mat-label>
-                                    <mat-select formControlName="consumerType">
+                                    <mat-select formControlName="consumerTypeId"
+                                        (selectionChange)="consumerTypeCheck(consumerRegiForm.value.consumerTypeId)">
                                         <mat-option [disabled]="true">Select Consumer Type</mat-option>
-                                        <mat-option *ngFor="let appliType of applicationTypeFilterArray"
-                                            [value]="appliType == 'All' ? 0 : appliType == 'Individual' ? 1 : 2">
+                                        <mat-option *ngFor="let appliType of applicationTypeArray" [value]="appliType">
                                             {{appliType}}
                                         </mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="f.consumerTypeId.errors?.required"> Consumer Type is required
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-4">
-                                <mat-form-field class="example-full-width" [appearance]=configService.matFormField
-                                    class="w-100">
-                                    <mat-label> Name / Moblie No. / PAN</mat-label>
-                                    <input matInput formControlName="searchText">
+                            <div class="mb-0" *ngIf="hideOrganization">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Organization Type</mat-label>
+                                    <mat-select formControlName="organizationTypeId">
+                                        <mat-option *ngFor="let organType of organTypeArray"
+                                            [disabled]="organType.value == 0" [value]="organType.value">
+                                            {{organType.text}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="f.organizationTypeId.errors?.required"> Organization Type is required
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-2 text-end">
-                                <button mat-raised-button class="btn btn-secondary"
-                                    (click)="pageNumber = 1;getConsumerRegistration();clearForm()">
-                                    <i class="fa-solid fa-magnifying-glass me-2"></i>Search
-                                </button>
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Consumer Name</mat-label>
+                                    <input matInput class="text-capitalize" autocomplete="nope" value="" maxlength="50"
+                                        (keyup)="validationService.removeSpaceAtBegining($event)"
+                                        formControlName="consumerName">
+                                    <mat-error *ngIf="f.consumerName.errors">
+                                        <span class="text-danger" *ngIf="f.consumerName.errors?.required">
+                                            Consumer Name is required.</span>
+                                        <span class="text-danger" *ngIf="f.consumerName.errors?.pattern">
+                                            Please enter Valid Consumer Name</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Mobile Number</mat-label>
+                                    <input matInput type="text" formControlName="mobileNo" autocomplete="nope" [readonly]="btnText == 'Update' ? true : false"
+                                        (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10"
+                                        autocomplete="off">
+                                    <mat-error *ngIf="f.mobileNo.errors">
+                                        <span class="text-danger" *ngIf="f.mobileNo.errors?.required">
+                                            Mobile Number is required.</span>
+                                        <span class="text-danger" *ngIf="f.mobileNo.errors?.pattern">
+                                            Please enter Valid Mobile Number</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Email ID</mat-label>
+                                    <input matInput type="text" formControlName="emailId" autocomplete="nope" maxlength="50"
+                                        (keypress)="validationService.emailRegex($event)">
+                                    <mat-error *ngIf="f.emailId.errors">
+                                        <span class="text-danger" *ngIf="f.emailId.errors?.required">E-mail ID is
+                                            required</span>
+                                        <span class="text-danger" *ngIf="f.emailId.errors?.pattern">Please Enter Valid Email
+                                            Id</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <input matInput type="address" autocapitalize="off" spellcheck="off" maxlength="200"
+                                        formControlName="address" autocomplete="nope" #search placeholder="Address"
+                                        (keyup)="validationService.removeSpaceAtBegining($event)">
+                                    <mat-error *ngIf="f.address.errors">
+                                        <span class="text-danger" *ngIf="f.address.errors?.required">Address is
+                                            required</span>
+                                        <span class="text-danger" *ngIf="f.address.errors?.pattern">Please
+                                            Enter Valid Address </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Pincode</mat-label>
+                                    <input matInput type="text" formControlName="pinCode" autocomplete="nope"
+                                        (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
+                                    <mat-error *ngIf="f.pinCode.errors">
+                                        <span class="text-danger" *ngIf="f.pinCode.errors?.required">PinCode is
+                                            required</span>
+                                        <span class="text-danger" *ngIf="f.pinCode.errors?.pattern">Please Enter Valid
+                                            PinCode</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0" *ngIf="hideOrganization">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Contact Person Name</mat-label>
+                                    <input matInput formControlName="contactPersonName" autocomplete="nope" maxlength="50"
+                                    class="text-capitalize" (keyup)="validationService.removeSpaceAtBegining($event)">
+                                    <mat-error *ngIf="f.contactPersonName.errors">
+                                        <span class="text-danger" *ngIf="f.contactPersonName.errors?.required">
+                                            Contact Person Name is required.</span>
+                                        <span class="text-danger" *ngIf="f.contactPersonName.errors?.pattern">
+                                            Please Enter Valid Contact Person Name</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0" *ngIf="hideOrganization">
+                                <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                    <mat-label>Contact Person Mob No</mat-label>
+                                    <input matInput type="text" formControlName="contactPersonMobileNo" autocomplete="nope"
+                                        (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10">
+                                    <mat-error *ngIf="f.contactPersonMobileNo.errors?.pattern"> Please enter Valid Contact
+                                        Person Mobile No.</mat-error>
+                                </mat-form-field>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table mat-table [dataSource]="dataSource" class="dashboard-table">
-
-                            <ng-container matColumnDef="srno">
-                                <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
-                                <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i +
-                                    1)-20}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="consumerName">
-                                <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
-                                <td mat-cell *matCellDef="let element"> {{element.consumerName}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="mobileNo">
-                                <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
-                                <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="consumerTypeId">
-                                <th mat-header-cell *matHeaderCellDef> Consumer Type </th>
-                                <td mat-cell *matCellDef="let element"> {{element.consumerTypeId == 1 ? 'Individual' : 'Organization'}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="emailId">
-                                <th mat-header-cell *matHeaderCellDef> Email </th>
-                                <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="consumerDocuments">
-                                <th mat-header-cell *matHeaderCellDef> PAN </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <ng-container *ngFor='let ele of element.consumerDocuments'>{{ele.documentName ==
-                                        'PAN' ?
-                                        ele.documentNo : '' }}</ng-container>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="action">
-                                <th mat-header-cell *matHeaderCellDef> Actions </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <button mat-icon-button [matMenuTriggerFor]="menu">
-                                        <mat-icon>more_vert</mat-icon>
-                                    </button>
-                                    <mat-menu #menu="matMenu" xPosition="before">
-                                        <button mat-menu-item (click)="editConsumerRegForm(element)">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span>Edit</span>
-                                                <mat-icon>edit</mat-icon>
-                                            </div>
-                                        </button>
-                                        <button mat-menu-item (click)="deleteConformation(element?.id)">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span>Delete</span>
-                                                <mat-icon>delete_outline</mat-icon>
-                                            </div>
-                                        </button>
-                                    </mat-menu>
-                                </td>
-                                <!-- <td mat-cell *matCellDef="let element">
+                        <div class="card-header">
+                            Allotment Details
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5 col-sm-5">
+                                    <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                        <mat-label>Year</mat-label>
+                                        <mat-select formControlName="allotmentYear">
+                                            <mat-option [disabled]="true">Select Year</mat-option>
+                                            <mat-option *ngFor="let year of yearArray" [value]="year">
+                                                {{year}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="f.allotmentYear.errors?.required"> Year is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-7 col-sm-7">
+                                    <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                        <mat-label>Allocated Quantity</mat-label>
+                                        <input matInput type="text" placeholder="Quantity"
+                                            formControlName="allocatedQty"
+                                            (keypress)="validationService.acceptedOnlyNumbers_floatValue($event)"
+                                            maxlength="6">
+                                        <span matSuffix>Tonnes</span>
+                                        <mat-error *ngIf="f.allocatedQty.errors">
+                                            <span class="text-danger"
+                                                *ngIf="f.allocatedQty.errors?.required">Allocated
+                                                Quantity is
+                                                required</span>
+                                            <span class="text-danger" *ngIf="f.allocatedQty.errors?.pattern">Please
+                                                Enter
+                                                Valid
+                                                Allocated Quantity</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 col-sm-8">
+                                    <div class="mb-0">
+                                        <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                            <mat-label>District Recommendation Letter</mat-label>
+                                            <input matInput type="text" formControlName="districtRecometnLetter"
+                                                (keypress)="validationService.acceptedOnlyNumbers($event)"
+                                                maxlength="15" autocomplete="nope">
+                                            <mat-icon matSuffix (click)="fileInputDRL.click()">cloud_upload
+                                                <input type="file"
+                                                    (change)="documentUpload($event,5,'District Recommendation Letter')"
+                                                    #fileInputDRL />
+                                            </mat-icon>
+                                            <mat-error *ngIf="f.districtRecometnLetter.errors">
+                                                <span class="text-danger"
+                                                    *ngIf="f.districtRecometnLetter.errors?.pattern">
+                                                    Please enter Valid District Recommendation Letter</span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-sm-4" *ngIf="DRLSymbolHide">
                                     <div class="d-flex align-items-center">
-                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2" (click)="editConsumerRegForm(element)">
-                                            <mat-icon>edit</mat-icon>
+                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
+                                            (click)="viewDocument(5)">
+                                            <mat-icon>remove_red_eye</mat-icon>
                                         </button>
-                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger" (click)="deleteConformation(element?.id)">
+                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
+                                            (click)="deleteDocument(5)">
                                             <mat-icon>delete_outline</mat-icon>
                                         </button>
                                     </div>
-                                </td> -->
-                            </ng-container>
-                            <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                                <td class="alert alert-danger text-center m-2 mt-2" colspan="8">No data found </td>
-                            </tr>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                    </div>
-                    <ng-container *ngIf="totalRows>10">
-                        <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
-                            (page)="pageChanged($event)">
-                        </mat-paginator>
-                    </ng-container>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="card plain-card">
-                <div class="card-header"> Add Consumer </div>
-
-                <!-- ////////////////////..................  Add And Update Form Code Start Here ..................////////////////////// -->
-
-                <form [formGroup]="consumerRegiForm" #formDirective="ngForm" enctype="multipart/form-data">
-                    <div class="card-body">
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Select State</mat-label>
-                                <mat-select formControlName="stateId"
-                                    (selectionChange)="consumerRegiForm.controls['districtId'].setValue('');getDistrict(consumerRegiForm.value.stateId);addRemoveValiDistrict(consumerRegiForm.value.stateId)">
-                                    <mat-option *ngFor="let stateObj of stateArray" [disabled]="stateObj.value == 0"
-                                        [value]="stateObj.value">
-                                        {{stateObj.text}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="f.stateId.errors?.required"> State is required</mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Select District</mat-label>
-                                <mat-select formControlName="districtId"
-                                    [disabled]="!consumerRegiForm.value.stateId || consumerRegiForm.value.stateId != 36">
-                                    <mat-option *ngFor="let districtObj of districtArray"
-                                        [disabled]="districtObj.value == 0" [value]="districtObj.value">
-                                        {{districtObj.text}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="f.districtId.errors?.required"> District is required</mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Consumer Type</mat-label>
-                                <mat-select formControlName="consumerTypeId"
-                                    (selectionChange)="consumerTypeCheck(consumerRegiForm.value.consumerTypeId)">
-                                    <mat-option [disabled]="true">Select Consumer Type</mat-option>
-                                    <mat-option *ngFor="let appliType of applicationTypeArray" [value]="appliType">
-                                        {{appliType}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="f.consumerTypeId.errors?.required"> Consumer Type is required
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0" *ngIf="hideOrganization">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Organization Type</mat-label>
-                                <mat-select formControlName="organizationTypeId">
-                                    <mat-option *ngFor="let organType of organTypeArray"
-                                        [disabled]="organType.value == 0" [value]="organType.value">
-                                        {{organType.text}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="f.organizationTypeId.errors?.required"> Organization Type is required
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Consumer Name</mat-label>
-                                <input matInput class="text-capitalize" autocomplete="nope" value="" maxlength="50"
-                                    (keyup)="validationService.removeSpaceAtBegining($event)"
-                                    formControlName="consumerName">
-                                <mat-error *ngIf="f.consumerName.errors">
-                                    <span class="text-danger" *ngIf="f.consumerName.errors?.required">
-                                        Consumer Name is required.</span>
-                                    <span class="text-danger" *ngIf="f.consumerName.errors?.pattern">
-                                        Please enter Valid Consumer Name</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Mobile Number</mat-label>
-                                <input matInput type="text" formControlName="mobileNo" autocomplete="nope" [readonly]="btnText == 'Update' ? true : false"
-                                    (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10"
-                                    autocomplete="off">
-                                <mat-error *ngIf="f.mobileNo.errors">
-                                    <span class="text-danger" *ngIf="f.mobileNo.errors?.required">
-                                        Mobile Number is required.</span>
-                                    <span class="text-danger" *ngIf="f.mobileNo.errors?.pattern">
-                                        Please enter Valid Mobile Number</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Email ID</mat-label>
-                                <input matInput type="text" formControlName="emailId" autocomplete="nope" maxlength="50"
-                                    (keypress)="validationService.emailRegex($event)">
-                                <mat-error *ngIf="f.emailId.errors">
-                                    <span class="text-danger" *ngIf="f.emailId.errors?.required">E-mail ID is
-                                        required</span>
-                                    <span class="text-danger" *ngIf="f.emailId.errors?.pattern">Please Enter Valid Email
-                                        Id</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <input matInput type="address" autocapitalize="off" spellcheck="off" maxlength="200"
-                                    formControlName="address" autocomplete="nope" #search placeholder="Address"
-                                    (keyup)="validationService.removeSpaceAtBegining($event)">
-                                <mat-error *ngIf="f.address.errors">
-                                    <span class="text-danger" *ngIf="f.address.errors?.required">Address is
-                                        required</span>
-                                    <span class="text-danger" *ngIf="f.address.errors?.pattern">Please
-                                        Enter Valid Address </span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Pincode</mat-label>
-                                <input matInput type="text" formControlName="pinCode" autocomplete="nope"
-                                    (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="6">
-                                <mat-error *ngIf="f.pinCode.errors">
-                                    <span class="text-danger" *ngIf="f.pinCode.errors?.required">PinCode is
-                                        required</span>
-                                    <span class="text-danger" *ngIf="f.pinCode.errors?.pattern">Please Enter Valid
-                                        PinCode</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0" *ngIf="hideOrganization">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Contact Person Name</mat-label>
-                                <input matInput formControlName="contactPersonName" autocomplete="nope" maxlength="50"
-                                class="text-capitalize" (keyup)="validationService.removeSpaceAtBegining($event)">
-                                <mat-error *ngIf="f.contactPersonName.errors">
-                                    <span class="text-danger" *ngIf="f.contactPersonName.errors?.required">
-                                        Contact Person Name is required.</span>
-                                    <span class="text-danger" *ngIf="f.contactPersonName.errors?.pattern">
-                                        Please Enter Valid Contact Person Name</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="mb-0" *ngIf="hideOrganization">
-                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Contact Person Mob No</mat-label>
-                                <input matInput type="text" formControlName="contactPersonMobileNo" autocomplete="nope"
-                                    (keypress)="validationService.acceptedOnlyNumbers($event)" maxlength="10">
-                                <mat-error *ngIf="f.contactPersonMobileNo.errors?.pattern"> Please enter Valid Contact
-                                    Person Mobile No.</mat-error>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="">
-                            <div class="card-header px-0">
-                                Allotment Details
+                                </div>
                             </div>
-                            <div class="card-body px-0">
-                                <div class="row">
-                                    <div class="col-5 col-sm-5">
+
+                        </div>
+
+                        <div class="card-header">
+                            KYC
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="mb-0">
                                         <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                            <mat-label>Year</mat-label>
-                                            <mat-select formControlName="allotmentYear">
-                                                <mat-option [disabled]="true">Select Year</mat-option>
-                                                <mat-option *ngFor="let year of yearArray" [value]="year">
-                                                    {{year}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <mat-error *ngIf="f.allotmentYear.errors?.required"> Year is required
-                                            </mat-error>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-7 col-sm-7">
-                                        <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                            <mat-label>Allocated Quantity</mat-label>
-                                            <input matInput type="text" placeholder="Quantity"
-                                                formControlName="allocatedQty"
-                                                (keypress)="validationService.acceptedOnlyNumbers_floatValue($event)"
-                                                maxlength="6">
-                                            <span matSuffix>Tonnes</span>
-                                            <mat-error *ngIf="f.allocatedQty.errors">
-                                                <span class="text-danger"
-                                                    *ngIf="f.allocatedQty.errors?.required">Allocated
-                                                    Quantity is
-                                                    required</span>
-                                                <span class="text-danger" *ngIf="f.allocatedQty.errors?.pattern">Please
-                                                    Enter
-                                                    Valid
-                                                    Allocated Quantity</span>
+                                            <mat-label>PAN Number</mat-label>
+                                            <!-- (blur)="verifyPAN_Number_Inside()" -->
+                                            <input matInput type="text" uppercase maxlength="10"
+                                                (keyup)="validationService.removeSpaceAtBegining($event)"
+                                                formControlName="panNo" [readonly]="btnText == 'Update' ? true : false">
+                                            <mat-icon matSuffix (click)="fileInputPan.click()">cloud_upload
+                                                <input type="file" (change)="documentUpload($event,1,'PAN')"
+                                                    #fileInputPan />
+                                            </mat-icon>
+                                            <mat-error *ngIf="f.panNo.errors" autocomplete="off">
+                                                <span class="text-danger" *ngIf="f.panNo.errors?.required">PAN
+                                                    Number is
+                                                    required.</span>
+                                                <span class="text-danger" *ngIf="f.panNo.errors?.pattern">Please
+                                                    enter
+                                                    Valid PAN Number.</span>
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-8 col-sm-8">
-                                        <div class="mb-0">
-                                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                                <mat-label>District Recommendation Letter</mat-label>
-                                                <input matInput type="text" formControlName="districtRecometnLetter"
-                                                    (keypress)="validationService.acceptedOnlyNumbers($event)"
-                                                    maxlength="15" autocomplete="nope">
-                                                <mat-icon matSuffix (click)="fileInputDRL.click()">cloud_upload
-                                                    <input type="file"
-                                                        (change)="documentUpload($event,5,'District Recommendation Letter')"
-                                                        #fileInputDRL />
-                                                </mat-icon>
-                                                <mat-error *ngIf="f.districtRecometnLetter.errors">
-                                                    <span class="text-danger"
-                                                        *ngIf="f.districtRecometnLetter.errors?.pattern">
-                                                        Please enter Valid District Recommendation Letter</span>
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-sm-4" *ngIf="DRLSymbolHide">
-                                        <div class="d-flex align-items-center">
-                                            <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                                                (click)="viewDocument(5)">
-                                                <mat-icon>remove_red_eye</mat-icon>
-                                            </button>
-                                            <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
-                                                (click)="deleteDocument(5)">
-                                                <mat-icon>delete_outline</mat-icon>
-                                            </button>
-                                        </div>
+                                <div class="col-sm-4" *ngIf="panSymbolHide">
+                                    <div class="d-flex align-items-center">
+                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
+                                            (click)="viewDocument(1)">
+                                            <mat-icon>remove_red_eye</mat-icon>
+                                        </button>
+                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
+                                            (click)="deleteDocument(1)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
                                     </div>
                                 </div>
-
                             </div>
-                        </div>
 
-                        <div class="my-2">
-                            <div class="card-header px-0">
-                                KYC
-                            </div>
-                            <div class="card-body px-0">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="mb-0">
-                                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                                <mat-label>PAN Number</mat-label>
-                                                <!-- (blur)="verifyPAN_Number_Inside()" -->
-                                                <input matInput type="text" uppercase maxlength="10"
-                                                    (keyup)="validationService.removeSpaceAtBegining($event)"
-                                                    formControlName="panNo" [readonly]="btnText == 'Update' ? true : false">
-                                                <mat-icon matSuffix (click)="fileInputPan.click()">cloud_upload
-                                                    <input type="file" (change)="documentUpload($event,1,'PAN')"
-                                                        #fileInputPan />
-                                                </mat-icon>
-                                                <mat-error *ngIf="f.panNo.errors" autocomplete="off">
-                                                    <span class="text-danger" *ngIf="f.panNo.errors?.required">PAN
-                                                        Number is
-                                                        required.</span>
-                                                    <span class="text-danger" *ngIf="f.panNo.errors?.pattern">Please
-                                                        enter
-                                                        Valid PAN Number.</span>
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4" *ngIf="panSymbolHide">
-                                        <div class="d-flex align-items-center">
-                                            <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                                                (click)="viewDocument(1)">
-                                                <mat-icon>remove_red_eye</mat-icon>
-                                            </button>
-                                            <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
-                                                (click)="deleteDocument(1)">
-                                                <mat-icon>delete_outline</mat-icon>
-                                            </button>
-                                        </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="mb-0">
+                                        <mat-form-field [appearance]=configService.matFormField class="w-100">
+                                            <mat-label>GST</mat-label>
+                                            <input matInput type="text" formControlName="gstNo" autocomplete="nope"
+                                                maxlength="15" (keypress)="validationService.noSpaces($event)">
+                                            <mat-icon matSuffix (click)="fileInputGst.click()">cloud_upload
+                                                <input type="file" (change)="documentUpload($event,3,'GST')"
+                                                    #fileInputGst />
+                                            </mat-icon>
+                                            <mat-error *ngIf="f.gstNo.errors?.pattern">Please Enter Valid GST
+                                                Number.
+                                            </mat-error>
+                                        </mat-form-field>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="mb-0">
-                                            <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                                <mat-label>GST</mat-label>
-                                                <input matInput type="text" formControlName="gstNo" autocomplete="nope"
-                                                    maxlength="15" (keypress)="validationService.noSpaces($event)">
-                                                <mat-icon matSuffix (click)="fileInputGst.click()">cloud_upload
-                                                    <input type="file" (change)="documentUpload($event,3,'GST')"
-                                                        #fileInputGst />
-                                                </mat-icon>
-                                                <mat-error *ngIf="f.gstNo.errors?.pattern">Please Enter Valid GST
-                                                    Number.
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4" *ngIf="gstSymbolHide">
-                                        <div class="d-flex align-items-center">
-                                            <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                                                (click)="viewDocument(3)">
-                                                <mat-icon>remove_red_eye</mat-icon>
-                                            </button>
-                                            <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
-                                                (click)="deleteDocument(3)">
-                                                <mat-icon>delete_outline</mat-icon>
-                                            </button>
-                                        </div>
+                                <div class="col-sm-4" *ngIf="gstSymbolHide">
+                                    <div class="d-flex align-items-center">
+                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
+                                            (click)="viewDocument(3)">
+                                            <mat-icon>remove_red_eye</mat-icon>
+                                        </button>
+                                        <button mat-icon-button class="bg-danger bg-opacity-10 text-danger"
+                                            (click)="deleteDocument(3)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between px-3 pb-3 pt-0">
                             <button mat-raised-button type="button" class="btn-outline-main"
                                 (click)="clearForm()">Cancel</button>
                             <button mat-raised-button type="submit" (click)="onSubmit()"
                                 class="btn-main">{{btnText}}</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
