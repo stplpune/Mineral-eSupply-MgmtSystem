@@ -3,10 +3,20 @@
     <div class="col-sm-12">
         <div class="card plain-card">
             <div class="card-header pb-0">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="me-5 ">Ledger</span>
-                    <div class="row flex-fill">
-                        <div class="col-sm-5">
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="me-5">Ledger</span>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>To Ledger</mat-label>
+                                <mat-select>
+                                    <mat-option >Opt 1</mat-option>
+                                    <mat-option >Opt 2</mat-option>
+                                    <mat-option >Opt 3</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3">
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>From Date</mat-label>
                                 <input matInput [matDatepicker]="fromdate">
@@ -15,7 +25,7 @@
                                 <mat-datepicker #fromdate></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm">
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>To Date</mat-label>
                                 <input matInput [matDatepicker]="todate">
@@ -34,7 +44,7 @@
             <div class="card-body">
                 <table mat-table [dataSource]="dataSource" class="dashboard-table">
                     <ng-container matColumnDef="particulars">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                        <th mat-header-cell *matHeaderCellDef> Particulars </th>
                         <td mat-cell *matCellDef="let element"> {{element.particulars}}
                         </td>
                     </ng-container>
@@ -57,8 +67,8 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-                <div class="row justify-content-end">
-                    <div class="col-sm-6 form-container">
+                <div class="row justify-content-around">
+                    <div class="col-sm-5 form-container">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <label class="form-label">Opening Balance</label>
