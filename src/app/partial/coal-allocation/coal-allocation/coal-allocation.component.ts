@@ -78,7 +78,7 @@ export class CoalAllocationComponent implements OnInit {
       this.documentPath = '';
       this.isDocumentUpload = false;
       this.eclSearchData.setValue(this.yearArray[0].text);
-      this.eclPaymentDetails();
+      this.eclPaymentData();
     } else if (tabLabel == "Sales Order") {
       this.hidesubmitBtn=false;
       this.eclsearchFrm.setValue(this.yearArray[0].text);
@@ -86,7 +86,7 @@ export class CoalAllocationComponent implements OnInit {
       this.getSalesOrderData();
     }else if(tabLabel == 'Delivery Order'){
       this.searchDeliveryOrder.setValue(this.yearArray[0].text);
-      this.getDelivery()
+      this.getDeliveryData();
     }
 
   }
@@ -234,7 +234,7 @@ export class CoalAllocationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.spinner.hide();
-          this.commonMethod.matSnackBar(res.statusMessage, 0);
+          // this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.coalDistribution = res.responseData;
           this.bindDistribution();
 
@@ -319,7 +319,7 @@ export class CoalAllocationComponent implements OnInit {
         if (res.statusCode === 200) {
           this.spinner.hide();
           this.bookingDataSource = new MatTableDataSource(res.responseData);
-          this.commonMethod.matSnackBar(res.statusMessage, 0);
+          // this.commonMethod.matSnackBar(res.statusMessage, 0);
 
         } else {
           this.bookingDataSource = [];
@@ -421,8 +421,8 @@ export class CoalAllocationComponent implements OnInit {
   isDocumentUpload: boolean = false;
   documentPath: any;
   minDate = new Date();
-  @ViewChild('eclFormDirective')
-  private eclFormDirective!: NgForm
+  @ViewChild('FormDirectiveEcl')
+  private FormDirectiveEcl!: NgForm
 
   defaultsclFrm() {
     this.eclPaymentFrom = this.fb.group({
@@ -441,7 +441,7 @@ export class CoalAllocationComponent implements OnInit {
     return this.eclPaymentFrom.controls;
   }
 
-  eclPaymentDetails() {
+  eclPaymentData() {
     this.documentPath = '';
     this.isDocumentUpload = false;
     this.spinner.show();
@@ -471,9 +471,6 @@ export class CoalAllocationComponent implements OnInit {
 
   }
 
-  eclUpdateData(object: any) {
-    console.log(object);
-  }
 
   updateEclPaymentData() {
     this.spinner.show();
@@ -570,7 +567,7 @@ export class CoalAllocationComponent implements OnInit {
 
   clearEclForm() {
     this.eclPaymentFrom.reset();
-    this.eclFormDirective && this.eclFormDirective.resetForm()
+    this.FormDirectiveEcl && this.FormDirectiveEcl.resetForm()
 
   }
   convertIntoDateFormat(date: any) {
@@ -677,9 +674,67 @@ export class CoalAllocationComponent implements OnInit {
 
 // --------------------- Delivery Order start here --------------------------//
 searchDeliveryOrder =  new FormControl('');
+deliveryOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo',  'action'];
+deliveryDataSource :any ;
+genrateDataSource:any;
+updateGenrateDataSource: any;
+getDeliveryData(){
+  this.spinner.show();
+  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.getHttp().subscribe({
+    next: (res: any) => {
+      if (res.statusCode === 200) {
+        this.spinner.hide();
+        this.deliveryDataSource = new MatTableDataSource(res.responseData);
+        // this.commonMethod.matSnackBar(res.statusMessage, 0);
+      } else {
+        this.deliveryDataSource = [];
+        res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
+        this.spinner.hide();
+      }
+    },
+    error: ((error: any) => { this.error.handelError(error.status) })
+  })
+}
 
-getDelivery(){
-  
+
+
+getDelivaryDatById(id:any){
+  this.spinner.show();
+  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.getHttp().subscribe({
+    next: (res: any) => {
+      if (res.statusCode === 200) {
+        this.spinner.hide();
+        this.updateGenrateDataSource = new MatTableDataSource(res.responseData);
+        // this.commonMethod.matSnackBar(res.statusMessage, 0);
+      } else {
+        this.deliveryDataSource = [];
+        res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
+        this.spinner.hide();
+      }
+    },
+    error: ((error: any) => { this.error.handelError(error.status) })
+  })
+}
+
+
+generateOrderSaveUpdate(){
+  this.spinner.show();
+  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.getHttp().subscribe({
+    next: (res: any) => {
+      if (res.statusCode === 200) {
+        this.spinner.hide();
+        this.genrateDataSource = new MatTableDataSource(res.responseData);
+      } else {
+        this.genrateDataSource = [];
+        res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
+        this.spinner.hide();
+      }
+    },
+    error: ((error: any) => { this.error.handelError(error.status) })
+  })
 }
 
 }
