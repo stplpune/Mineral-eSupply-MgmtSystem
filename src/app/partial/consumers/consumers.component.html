@@ -1,90 +1,106 @@
 <div class="container-fluid">
     <h5 class="page-heading">MSME Consumer List</h5>
-    <div class="card">
-        <div class="card-header">
-            <div class="row align-items-center">
-                <div class="col-sm-3">
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Organization Type</mat-label>
-                            <mat-select>
-                                <mat-option>Type 1</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+    <div class="col-sm-13 mb-3">
+        <div class="card plain-card">
+            <div class="card-header pb-2 pb-lg-0">
+                <form [formGroup]="filterForm">
+                    <div class="row align-items-center">
+                        <div class="col-sm-3">
+                            <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                                class="w-100">
+                                <mat-label>Select State</mat-label>
+                                <mat-select formControlName="stateId">
+                                    <mat-option *ngFor="let stateObj of stateFilterArray" [value]="stateObj.value">
+                                        {{stateObj.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3">
+                            <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                                class="w-100">
+                                <mat-label>Consumer Type</mat-label>
+                                <mat-select formControlName="consumerType">
+                                    <mat-option [disabled]="true">Select Consumer Type</mat-option>
+                                    <mat-option *ngFor="let appliType of applicationTypeFilterArray"
+                                        [value]="appliType == 'All' ? 0 : appliType == 'Individual' ? 1 : 2">
+                                        {{appliType}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                                class="w-100">
+                                <mat-label> Name / Moblie No. / PAN</mat-label>
+                                <input matInput formControlName="searchText">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-2 text-end">
+                            <button mat-raised-button class="btn btn-secondary"
+                                (click)="pageNumber = 1;getConsumerRegistration();">
+                                <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Search</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-2">
-                    <div class="mb-0">
-                        <button mat-raised-button class="btn btn-secondary">
-                            <i class="fa-solid fa-magnifying-glass me-2"></i>Search
-                        </button>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-4 text-end">
-                    <div class="mb-0">
-                        <button mat-raised-button class="btn btn-main ">
-                            <i class="fa-solid fa-plus me-2"></i>Add New
-                        </button>
-                    </div>
-                </div>
+                </form>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
-                    <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr.No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.srno}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="consumer_name">
-                        <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.consumer_name}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="district">
-                        <th mat-header-cell *matHeaderCellDef> District </th>
-                        <td mat-cell *matCellDef="let element"> {{element.district}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="consumer_address">
-                        <th mat-header-cell *matHeaderCellDef> Consumer Address </th>
-                        <td mat-cell *matCellDef="let element"> {{element.consumer_address}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="mobile_no">
-                        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
-                        <td mat-cell *matCellDef="let element"> {{element.mobile_no}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="email">
-                        <th mat-header-cell *matHeaderCellDef> Email ID</th>
-                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="quantity_allocated">
-                        <th mat-header-cell *matHeaderCellDef> Quantity Allocated (T)</th>
-                        <td mat-cell *matCellDef="let element"> {{element.quantity_allocated}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="lifted_quantity">
-                        <th mat-header-cell *matHeaderCellDef> Lifted Quantity (T)</th>
-                        <td mat-cell *matCellDef="let element"> {{element.lifted_quantity}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef> Action </th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="">
-                                <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2">
-                                    <mat-icon>remove_red_eye</mat-icon>
-                                </button>
-                            </div>
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="dashboard-table">
+
+                        <ng-container matColumnDef="srno">
+                            <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                            <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i +
+                                1)-20}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="consumerName">
+                            <th mat-header-cell *matHeaderCellDef> Consumer Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.consumerName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="mobileNo">
+                            <th mat-header-cell *matHeaderCellDef> Mobile Number </th>
+                            <td mat-cell *matCellDef="let element"> {{element.mobileNo}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="consumerTypeId">
+                            <th mat-header-cell *matHeaderCellDef> Consumer Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.consumerTypeId == 1 ? 'Individual' : 'Organization'}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="emailId">
+                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="consumerDocuments">
+                            <th mat-header-cell *matHeaderCellDef> PAN </th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngFor='let ele of element.consumerDocuments'>{{ele.documentName ==
+                                    'PAN' ?
+                                    ele.documentNo : '' }}</ng-container>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Actions </th>
+                            <td mat-cell *matCellDef="let element">
+                                <a href="/consumer-details">
+                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
+                                </a>
+                            </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                            <td class="alert alert-danger text-center m-2 mt-2" colspan="8">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <ng-container *ngIf="totalRows>10">
+                    <mat-paginator [pageSizeOptions]="[10]" [length]="totalRows" showFirstLastButtons
+                        (page)="pageChanged($event)">
+                    </mat-paginator>
+                </ng-container>
+
             </div>
         </div>
     </div>
