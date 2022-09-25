@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register-collary.component.scss']
 })
 export class RegisterCollaryComponent implements OnInit {
-  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
+  @ViewChild('formGroupDirective') formGroupDirective!: FormGroupDirective;
 
 
   displayedColumns: string[] = ['rowNumber', 'collieryName', 'districtName', 'action',];
@@ -271,9 +271,11 @@ export class RegisterCollaryComponent implements OnInit {
         next: (res: any) => {
           if (res.statusCode == 200) {
             this.spinner.hide();
+            this.resetFullMap();
             this.onCancelRecord();
             this.getCollaryList();
-
+          
+            // added
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
             this.spinner.hide();
@@ -286,7 +288,18 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
 
+  resetFullMap(){
+    this.data = {
+      selectedRecord: {
+        latLng: '22.9868' + ',' + '87.8550'
+      },
+      isHide: true
+    }
+    this.onMapReady(this.map, true);
+  }
+
   onCancelRecord() {
+    this.frmCollary.reset();
     this.formGroupDirective.resetForm();
     this.frmCollary.reset({
       geofenceType: 0,
@@ -303,10 +316,10 @@ export class RegisterCollaryComponent implements OnInit {
   //-------------------------------------------- agm map fn start heare ------------------------------//
 
 
-  onMapReady(map?: any) {
+  onMapReady(map?: any, resetShape?:boolean) {
     this.isHide = this.data?.isHide || false;
     this.map = map;
-    if (this.isEdit) {
+    if (this.isEdit || resetShape) {
       this.exiShapeRemove();
     } else {
       this.drawingManager = new google.maps.drawing.DrawingManager({
@@ -333,7 +346,7 @@ export class RegisterCollaryComponent implements OnInit {
       });
     }
 
-    if(!this.data?.selectedRecord.polygonText && this.data?.selectedRecord.latLng){ // not pol text and then show marker
+    if(!this.data?.selectedRecord.polygonText && this.data?.selectedRecord.latLng && this.isEdit){ // not pol text and then show marker
       const latLong = new google.maps.LatLng(this.data?.selectedRecord.latLng.split(',')[0],this.data?.selectedRecord.latLng.split(',')[1]);
 
       if (latLong) {

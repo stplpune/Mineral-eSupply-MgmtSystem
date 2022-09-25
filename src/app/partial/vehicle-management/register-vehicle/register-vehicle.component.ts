@@ -34,7 +34,7 @@ export class RegisterVehicleComponent implements OnInit {
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
-  displayedColumns: string[] = ['SrNo', 'vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'isVerified', 'action',];
+  displayedColumns: string[] = ['SrNo', 'vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   dataSource: any;
   eventFrontImg: any;
@@ -77,7 +77,7 @@ export class RegisterVehicleComponent implements OnInit {
 
   createFilterForm(){
     this.filterVehicleFrm = this.fb.group({
-      verificationStatus: [this.verificationStsArr[0].id],
+      // verificationStatus: [this.verificationStsArr[0].id],
       textSearch: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]]
     })
 
@@ -134,9 +134,8 @@ export class RegisterVehicleComponent implements OnInit {
 
   getQueryString(){
     let str = "?pageno=" + this.pageNo + "&pagesize=" + this.pageSize;
-    str += "&IsVerified=" + this.filterVehicleFrm.value.verificationStatus;
+    // str += "&IsVerified=" + this.filterVehicleFrm.value.verificationStatus;
     this.filterVehicleFrm && this.filterVehicleFrm.value.textSearch && (str += "&Search=" + this.filterVehicleFrm.value.textSearch);
-    // str += (this.filterVehicleFrm.value.verificationStatus ? "&pageno=" : "?pageno=") + this.pageNo + "&pagesize=" + this.pageSize;
     return str;
   }
 
@@ -149,12 +148,12 @@ export class RegisterVehicleComponent implements OnInit {
           this.dataSource = new MatTableDataSource(res.responseData.responseData1);
           this.dataSource.sort = this.sort;
           this.totalRows = res.responseData.responseData2.totalCount;
-          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
+          // this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.dataSource = [];
           this.totalRows = 0;
           this.paginator.pageIndex = 0;
-          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          // this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
         this.spinner.hide();
       },
@@ -373,8 +372,8 @@ export class RegisterVehicleComponent implements OnInit {
       "length": parseFloat(this.regVehicleFrm.value.length),
       "width": parseFloat(this.regVehicleFrm.value.width),
       'isBlock': this.regVehicleFrm.value.isBlock ? this.regVehicleFrm.value.isBlock : false,
-      "oldState": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.state : "",
-      "oldNum": this.regVehicleFrm.value.transportType != 'Vehicle' ? this.regVehicleFrm.value.number : "",
+      "oldState": this.regVehicleFrm.value.state,
+      "oldNum": this.regVehicleFrm.value.number,
       "createdBy": this.webStorageService.getUserId(),
       'flag': this.isEdit == true ? "u" : 'i',
       'pageName': "",
@@ -469,9 +468,9 @@ export class RegisterVehicleComponent implements OnInit {
       transportType: 'Vehicle',
       numberFormat: 'New'
     });
-    this.filterVehicleFrm.patchValue({
-      verificationStatus: [this.verificationStsArr[0].id]
-    })
+    // this.filterVehicleFrm.patchValue({
+    //   verificationStatus: [this.verificationStsArr[0].id]
+    // })
     this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
     this.isEdit = false;
     this.clearFileInput();
