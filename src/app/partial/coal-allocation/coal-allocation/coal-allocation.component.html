@@ -1,753 +1,839 @@
 <div class="container-fluid">
-  <div class="page-heading">Coal Allocation
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <mat-tab-group (selectedTabChange)="tabChange($event)">
-        <mat-tab label="ECL Monthly Allocation">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-8">
-                <div class="card plain-card">
-                  <div class="card-header">
-                    <div class="row col-2">
-                      <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                        <mat-label>Month & Year</mat-label>
-                        <mat-select [formControl]="monthlySearch" (selectionChange)="getECLData('ECL')">
-                          <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
-                            {{yearMonth.text}}
-                          </mat-option>
-                        </mat-select>
-                        <!-- <mat-error *ngIf="f.districtId.errors">
-                                            <span *ngIf="f.districtId?.hasError('required')">Please Select District</span>
-                                          </mat-error> -->
-                      </mat-form-field>
-                    </div>
-
-                  </div>
-                  <div class="card-body">
-                    <table mat-table #useraddDocument [dataSource]="ECLDatasource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
-
-
-                      <ng-container matColumnDef="collieryName">
-                        <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="allocationQty">
-                        <th mat-header-cell *matHeaderCellDef> Document No </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef>Action </th>
-                        <td mat-cell *matCellDef="let element let i =index">
-                          <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                            (click)="updateECl(element)">
-                            <mat-icon>edit</mat-icon>
-                          </button>
-                        </td>
-                      </ng-container>
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                      </tr>
-                      <tr mat-header-row *matHeaderRowDef="ECLColumns"></tr>
-                      <tr mat-row *matRowDef="let row; columns: ECLColumns;"></tr>
-                    </table>
-
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card">
-                  <div class="card-body">
-                    <form [formGroup]="monthlyFrmECl">
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Month & Year</mat-label>
-                          <mat-select formControlName="monthYear">
-                            <mat-option *ngFor="let year of yearArray" [value]="year.text">
-                              {{year.text}}
-                            </mat-option>
-                          </mat-select>
-                          <mat-error *ngIf="monthlyFrmECl.controls['monthYear'].errors">
-                            <span *ngIf="monthlyFrmECl.controls['monthYear'].hasError('required')">Please Select Month &
-                              Year</span>
-                          </mat-error>
-                        </mat-form-field>
-
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Colliery Name</mat-label>
-
-                          <mat-select formControlName="collieryId">
-                            <mat-option *ngFor="let colliery of collieryArray" [value]="colliery.id">
-                              {{colliery.collieryName}}
-                            </mat-option>
-                          </mat-select>
-                          <mat-error *ngIf="monthlyFrmECl.controls['collieryId'].errors">
-                            <span *ngIf="monthlyFrmECl.controls['collieryId'].hasError('required')">Please Select
-                              Colliery Name</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Allocated Quantity</mat-label>
-                          <input matInput placeholder="Enter Allocated Quantity" formControlName="allocationQty">
-                          <mat-error *ngIf="monthlyFrmECl.controls['allocationQty'].errors">
-                            <span *ngIf="monthlyFrmECl.controls['allocationQty'].hasError('required')">Please Enter
-                              Allocated Quantity</span>
-                            <span *ngIf="monthlyFrmECl.controls['allocationQty'].hasError('pattern')">Please Enter Valid
-                              Allocated Quantity</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="text-end">
-                        <button class="btn btn-main" (click)="SaveUpdateECl()">{{saveUpdateBtnECL}}</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-        </mat-tab>
-        <mat-tab label="Coal Distribution">
-
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="card plain-card">
-                  <div class="card-header">
-                    <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                      <mat-label>Month & Year</mat-label>
-                      <mat-select [formControl]="coalDistributionSearch" (selectionChange)="getDDistributionData()">
-                        <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
-                          {{yearMonth.text}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="card-body">
-                    <table mat-table #useraddDocument [dataSource]="ECLDatasource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
-
-
-                      <ng-container matColumnDef="collieryName">
-                        <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="allocationQty">
-                        <th mat-header-cell *matHeaderCellDef> ECL Allocation Quantity (T) </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
-                      </ng-container>
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                      </tr>
-                      <!-- <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                                          <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                                        </tr> -->
-                      <tr mat-header-row *matHeaderRowDef="distributionColumns"></tr>
-                      <tr mat-row *matRowDef="let row; columns: distributionColumns;"></tr>
-                    </table>
-                    <div *ngIf="monthlyAllocationDetails[0]?.isCoalDistributed != 1">
-                      <button class="btn btn-main" type="submit" (click)="getcoalDistributionData()">Distribute</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card plain-card">
-                  <div class="card-body">
-                    <form [formGroup]="distributionForm" autocomplete="off">
-                      <table class="dashboard-table table">
-                        <thead>
-                          <tr>
-                            <th>Sr.No</th>
-                            <th>MSME Consumer Name</th>
-                            <th>Tentative Quantity Allocation (Tones)</th>
-                          </tr>
-                        </thead>
-                        <tbody formArrayName="distributionList">
-                          <tr *ngFor="let itemrow of distributionListControls.controls; let i=index;let l=last"
-                            [formGroupName]="i">
-                            <td>
-                              {{i+1}}
-                            </td>
-                            <td class="pb-0">
-                              <input formControlName="consumerName" [readOnly]="true"
-                                style="border: 0px; box-shadow: none;">
-                            </td>
-                            <td class="pb-0">
-                              <mat-form-field [appearance]="configService.matFormField" [class.disabled]="disabledQty">
-                                <mat-label>Quantity </mat-label>
-                                <input matInput placeholder="Enter Quantity" formControlName="tentitiveQty"
-                                  maxlength="20">
-                              </mat-form-field>
-                              <!-- <input class="form-control"  > -->
-                              <!-- <input class="form-control" > -->
-                              <!-- <div class="errorText" *ngIf="distributionListControls.controls[i].get('mineralCharge')?.errors?.['pattern']">
-                                                            invalid</div> -->
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-
-                    </form>
-
-
-                    <div class="d-flex align-items-center justify-content-between"
-                      *ngIf="monthlyAllocationDetails[0]?.isCoalDistributed != 1 && coalDistribution.length">
-                      <button class="btn bg-opacity-10 text-dark" (click)="disabledQty= false">Edit</button>
-                      <button class="btn btn-main" type="submit" (click)="createNewDistributer()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-tab>
-        <mat-tab label="MSME Consumer Booking">
-
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="card">
-                  <div class="card-header">
-                    <mat-form-field [appearance]="configService.matFormField" class="">
-                      <mat-label>Month & Year</mat-label>
-                      <mat-select [formControl]="bookingQtySearch" (selectionChange)="getBookingData()">
-                        <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
-                          {{yearMonth.text}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="card-body">
-                    <table mat-table [dataSource]="bookingDataSource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
-
-
-                      <ng-container matColumnDef="collieryName">
-                        <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="allocationQty">
-                        <th mat-header-cell *matHeaderCellDef> ECL Allocation Quantity (T) </th>
-                        <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="bookingQty">
-                        <th mat-header-cell *matHeaderCellDef> Booking Qty (T) </th>
-                        <td mat-cell *matCellDef="let element"> {{element.bookingQty}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef> Action</th>
-                        <td mat-cell *matCellDef="let element">
-                          <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2 bg-primary"
-                            (click)="getPaymentForBooking(element)">
-                            <mat-icon>remove_red_eye</mat-icon>
-                          </button>
-                        </td>
-                      </ng-container>
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="5">No data found </td>
-                      </tr>
-                      <!-- <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                                              <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                                            </tr> -->
-                      <tr mat-header-row *matHeaderRowDef="bookingColums"></tr>
-                      <tr mat-row *matRowDef="let row; columns: bookingColums;"></tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6" *ngIf="hidebookingtable">
-                <div class="card plain-card">
-                  <div class="card-body">
-                    <table mat-table [dataSource]="bookingPaymentDataSource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
-
-
-                      <ng-container matColumnDef="consumerName">
-                        <th mat-header-cell *matHeaderCellDef>MSME Consumer Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.consumerName | titlecase}} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="tentitiveQty">
-                        <th mat-header-cell *matHeaderCellDef> Tentative Qty</th>
-                        <td mat-cell *matCellDef="let element"> {{element.tentitiveQty }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="bookingQty">
-                        <th mat-header-cell *matHeaderCellDef>Booking</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bookingQty}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="amount">
-                        <th mat-header-cell *matHeaderCellDef>Amount</th>
-                        <td mat-cell *matCellDef="let element"> {{element.amount | currency:'INR'}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef>Status</th>
-                        <td mat-cell *matCellDef="let element">
-                          <span> {{element.status}}</span>
-                          {{element.status}}
-                        </td>
-                      </ng-container>
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef> Action</th>
-                        <td mat-cell *matCellDef="let element">
-                          <span *ngIf="element?.eclPaymentId == 0">
-                            <mat-checkbox class="example-margin" 
-                            (change)="addRemoveCoalDistributionMember($event,element)"></mat-checkbox>
-                          </span>                          
-                        </td>
-                      </ng-container>
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
-                      </tr>
-                      <!-- <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                                              <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                                            </tr> -->
-                      <tr mat-header-row *matHeaderRowDef="bookingPaymentColums"></tr>
-                      <tr mat-row *matRowDef="let row; columns: bookingPaymentColums;"></tr>
-                    </table>
-                    <div class="text-end my-3" *ngIf="bookingPaymentDetails.length">
-                      <button class="btn btn-main" (click)="paymentForECL()">Accept Payment for ECL </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-tab>
-        <mat-tab label="ECL Payment">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-8">
-                <div class="card plain-card">
-                  <div class="card-header">
-                    <mat-form-field [appearance]="configService.matFormField" class="">
-                      <mat-label>Month & Year</mat-label>
-                      <mat-select [formControl]="eclSearchData" (selectionChange)="eclPaymentData()">
-                        <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
-                          {{yearMonth.text}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <!-- (selectionChange)="getDDistributionData()" -->
-                  </div>
-                  <div class="card-body">
-                    <table mat-table [dataSource]="eclPaymentDatasource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
-
-
-                      <ng-container matColumnDef="collieryName">
-                        <th mat-header-cell *matHeaderCellDef>Collieary Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.collieryName | titlecase}} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="bookingID">
-                        <th mat-header-cell *matHeaderCellDef> Booking Id</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bookingID }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="amount">
-                        <th mat-header-cell *matHeaderCellDef>Amount</th>
-                        <td mat-cell *matCellDef="let element"> {{element.amount | currency:'INR' }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef>Date</th>
-                        <td mat-cell *matCellDef="let element"> {{element?.date }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="transactionNo">
-                        <th mat-header-cell *matHeaderCellDef>Transaction No</th>
-                        <td mat-cell *matCellDef="let element"> {{element.transactionNo }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef>Status</th>
-                        <td mat-cell *matCellDef="let element">
-                          <p class="badge"
-                            [ngClass]="{'bg-success': element.status ==1 , 'bg-warning text-dark':  (element.status == 0 ||element.status == null ) }">
-                            {{element.status == 0 || element.status == null ? 'Pending' :'Success'}}</p>
-                        </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef>Action</th>
-                        <td mat-cell *matCellDef="let element">
-                          <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                            [disabled]="element.status ==1" (click)="eclPatchData(element)">
-                            <mat-icon>edit</mat-icon>
-                          </button>
-                          <span class="text-left mnw-70 d-inline-block px-1" *ngIf="element.status == 1">
-                            <span> <a class="fa fa-file-alt text-primary" href="{{element?.pdf}}"
-                                target="_blank"></a></span></span>
-                        </td>
-                      </ng-container>
-
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="8">No data found </td>
-                      </tr>
-                      <tr mat-header-row *matHeaderRowDef="eclPaymentColums"></tr>
-                      <tr mat-row *matRowDef="let row; columns: eclPaymentColums;"></tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="card plain-card">
-                  <div class="card-body">
-                    <form [formGroup]="eclPaymentFrom" #FormDirectiveEcl="ngForm">
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Booking ID</mat-label>
-                          <input matInput placeholder="Enter Booking ID" formControlName="bookinId" [readonly]="true">
-                          <mat-error *ngIf="eclFormControl.bookinId.errors">
-                            <span *ngIf="eclFormControl.bookinId?.hasError('required')"> Please Enter Booking ID </span>
-                            <span *ngIf="eclFormControl.bookinId?.hasError('pattern')"> Please Enter Valid full
-                              Name</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>WBMDTCL Account</mat-label>
-                          <mat-select formControlName="wbAccountId">
-                            <mat-option *ngFor="let account of WBMDTCLAccountArray" [value]="account.id">
-                              {{account?.bankAccountName}}</mat-option>
-                          </mat-select>
-                          <mat-error *ngIf="eclFormControl.wbAccountId.errors">
-                            <span *ngIf="eclFormControl.wbAccountId?.hasError('required')"> Please Select WBMDTCL
-                              Account </span>
-                            <!-- <span *ngIf="eclFormControl.wbAccountId?.hasError('pattern')"> Please Enter Valid full Name</span> -->
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>ECL Account</mat-label>
-                          <mat-select formControlName="eclAccountId">
-                            <mat-option *ngFor="let account of eclBankListArray" [value]="account.id">
-                              {{account?.bankAccountName}}</mat-option>
-                          </mat-select>
-                          <mat-error *ngIf="eclFormControl.eclAccountId.errors">
-                            <span *ngIf="eclFormControl.eclAccountId?.hasError('required')"> Please Select ECL Account
-                            </span>
-                            <!-- <span *ngIf="eclFormControl.eclAccountId?.hasError('pattern')"> Please Enter Valid full Name</span> -->
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Quantity</mat-label>
-                          <input matInput formControlName="quantity" [readonly]="true">
-                          <mat-error *ngIf="eclFormControl.quantity.errors">
-                            <span *ngIf="eclFormControl.quantity?.hasError('required')"> Please Enter Quantity </span>
-                            <span *ngIf="eclFormControl.quantity?.hasError('pattern')"> Please Enter Valid
-                              Quantity</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Amount</mat-label>
-                          <input matInput formControlName="amount" (keypress)="validation.onlyDigits($event)">
-                          <mat-error *ngIf="eclFormControl.amount.errors">
-                            <span *ngIf="eclFormControl.amount?.hasError('required')"> Please Enter Amount</span>
-                            <span *ngIf="eclFormControl.amount?.hasError('pattern')"> Please Enter Valid Amount</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Transaction Date</mat-label>
-                          <input matInput [matDatepicker]="datepicker" formControlName="transactionDate"
-                            [readonly]="true" [min]="minDate">
-                          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-                          <mat-datepicker #datepicker [disabled]="false">
-                          </mat-datepicker>
-
-                          <mat-error *ngIf="eclFormControl.transactionDate.errors">
-                            <span *ngIf="eclFormControl.transactionDate?.hasError('required')"> Please Enter Transaction
-                              Date </span>
-                            <span *ngIf="eclFormControl.transactionDate?.hasError('pattern')"> Please Enter Valid full
-                              Name</span>
-                          </mat-error>
-                        </mat-form-field>
-
-                      </div>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>UTR Number</mat-label>
-                          <input matInput formControlName="utrNo" (keyup)="validation.removeSpaceAtBegining($event)">
-                          <mat-error *ngIf="eclFormControl.utrNo.errors">
-                            <span *ngIf="eclFormControl.utrNo?.hasError('required')"> Please Enter UTR Number </span>
-                            <span *ngIf="eclFormControl.utrNo?.hasError('pattern')"> Please Enter Valid UTR Numbe</span>
-                          </mat-error>
-                        </mat-form-field>
-                        <div class="upload-btn-wrapper">
-                          <button mat-raised-button class="btn-main">
-                            <mat-icon>upload</mat-icon>
-                          </button>
-                          <input type="file" (change)="documentUpload($event)">
-                          <ng-container *ngIf="isDocumentUpload">
-                            <img src="../../../assets/images/success.svg" class="uploadDocImg mx-1 border-0"
-                              style="height: 20px; width: 20px;" id="PanImg" alt="Document Uploaded Successfully"
-                              title="Document Uploaded Successfully">
-                              <!-- <span class="text-left mnw-70 d-inline-block px-1" *ngIf="isDocumentUpload">
-                                <span> <a class="fa fa-file-alt text-primary" href="{{element?.pdf}}"
-                                    target="_blank"></a></span></span> -->
-                          </ng-container>
+  <div class="page-heading">Coal Allocation</div>
+  <div class="card card-body p-0">
+    <div class="row">
+      <div class="col-sm-12">
+        <mat-tab-group (selectedTabChange)="tabChange($event)">
+          <mat-tab label="ECL Monthly Allocation">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="card plain-card">
+                    <div class="card-header pb-0">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-3">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select [formControl]="monthlySearch" (selectionChange)="getECLData('ECL')">
+                              <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
+                                {{yearMonth.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
                         </div>
                       </div>
-                      <div class="text-end">
-                        <button class="btn btn-main" (click)="updateEclPaymentData()">Submit</button>
-                        <!-- <button class="btn btn-main">cancle</button> -->
-                      </div>
-                    </form>
 
+                    </div>
+                    <div class="card-body">
+                      <table mat-table #useraddDocument [dataSource]="ECLDatasource" class="dashboard-table w-100">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collieryName">
+                          <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="allocationQty">
+                          <th mat-header-cell *matHeaderCellDef> Document No </th>
+                          <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef>Action </th>
+                          <td mat-cell *matCellDef="let element let i =index">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                              <button mat-menu-item (click)="updateECl(element)">
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span>Edit</span>
+                                  <mat-icon>edit</mat-icon>
+                                </div>
+                              </button>
+                            </mat-menu>
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="ECLColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ECLColumns;"></tr>
+                      </table>
+
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </mat-tab>
-        <mat-tab label="Sales Order">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="card">
-                  <div class="card-header">
-                    <mat-form-field [appearance]="configService.matFormField" class="">
-                      <mat-label>Month & Year</mat-label>
-                      <mat-select [formControl]="eclsearchFrm" (selectionChange)="getSalesOrderData()">
-                        <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
-                          {{yearMonth.text}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <!-- (selectionChange)="getDDistributionData()" -->
-                  </div>
-                  <div class="card-body">
-                    <table mat-table [dataSource]="salesOrderDataSource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
+                <div class="col-sm-4">
+                  <div class="card plain-card">
+                    <div class="card-header">ECL Monthly Allocation</div>
+                    <div class="card-body">
+                      <form [formGroup]="monthlyFrmECl">
+                        <div class="">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select formControlName="monthYear">
+                              <mat-option *ngFor="let year of yearArray" [value]="year.text">
+                                {{year.text}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="monthlyFrmECl.controls['monthYear'].errors">
+                              <span *ngIf="monthlyFrmECl.controls['monthYear'].hasError('required')">Please Select Month
+                                &
+                                Year</span>
+                            </mat-error>
+                          </mat-form-field>
 
+                        </div>
+                        <div class="">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Colliery Name</mat-label>
 
-                      <ng-container matColumnDef="bookingID">
-                        <th mat-header-cell *matHeaderCellDef>BookingID</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bookingID }} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="collieryName">
-                        <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.collieryName }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="quantity">
-                        <th mat-header-cell *matHeaderCellDef>Quantity</th>
-                        <td mat-cell *matCellDef="let element"> {{element.quantity }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef>Date</th>
-                        <td mat-cell *matCellDef="let element"> {{element?.date }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="salesOrderNo">
-                        <th mat-header-cell *matHeaderCellDef>Sales OrderNo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.salesOrderNo }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="salesOrderDate">
-                        <th mat-header-cell *matHeaderCellDef>Date</th>
-                        <td mat-cell *matCellDef="let element">
-                          {{element.salesOrderDate}}
-                        </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef>Date</th>
-                        <td mat-cell *matCellDef="let element">
-                          <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                          [disabled]="element.status ==1" (click)="patchSalesOrder(element)">    <mat-icon>edit</mat-icon></button>
-                    
-                        </td>
-                      </ng-container>
-
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
-                      </tr>
-                      <tr mat-header-row *matHeaderRowDef="salesOrderColums"></tr>
-                      <tr mat-row *matRowDef="let row; columns: salesOrderColums;"></tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6" *ngIf="hidesubmitBtn">
-                <div class="card">
-                  <div class="card-body">
-                    <form [formGroup]="salesOrderFrm" #formDirective="ngForm">
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Booking ID</mat-label>
-                          <input matInput placeholder="Enter Booking ID" formControlName="bookingID" [readonly]="true">
-                          <mat-error *ngIf="salesFormControls.bookingID.errors">
-                            <span *ngIf="salesFormControls.bookingID?.hasError('required')"> Please Enter Booking ID</span>
-                            <span *ngIf="salesFormControls.bookingID?.hasError('pattern')"> Please Enter Valid Booking ID</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Colliery Name</mat-label>     
-                          <mat-select formControlName="collieryId" [disabled]="true">
-                            <mat-option *ngFor="let colliery of collieryArray" [value]="colliery.id">
-                              {{colliery.collieryName}}
-                            </mat-option>
-                          </mat-select>                       
-                          <mat-error *ngIf="salesFormControls.collieryId.errors">
-                            <span *ngIf="salesFormControls.collieryId?.hasError('required')"> Please Enter Colliery Name </span>
-                            <span *ngIf="salesFormControls.collieryId?.hasError('pattern')"> Please Enter Valid Colliery Name</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Qantity</mat-label>
-                          <input matInput placeholder="Enter Qantity" formControlName="quantity" [readonly]="true">
-                          <mat-error *ngIf="salesFormControls.quantity.errors">
-                            <span *ngIf="salesFormControls.quantity?.hasError('required')"> Please Enter Qantity</span>
-                            <span *ngIf="salesFormControls.quantity?.hasError('pattern')"> Please Enter Qantity</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Sales Order no</mat-label>
-                          <input matInput placeholder="Enter Sales Order no" formControlName="salesOrderNo">
-                          <mat-error *ngIf="salesFormControls.salesOrderNo.errors">
-                            <span *ngIf="salesFormControls.salesOrderNo?.hasError('required')"> Please Enter Sales Order no </span>
-                            <span *ngIf="salesFormControls.salesOrderNo?.hasError('pattern')"> Please Enter Valid Sales Order no</span>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="">
-                        <mat-form-field [appearance]="configService.matFormField" class="w-100">
-                          <mat-label>Sales order Date</mat-label>
-                          <input matInput [matDatepicker]="picker" formControlName="salesOrderDate"
-                          [readonly]="true" [min]="minDate">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker [disabled]="false">
-                        </mat-datepicker>
-                        <mat-error *ngIf="salesFormControls.salesOrderDate.errors">
-                          <span *ngIf="salesFormControls.salesOrderDate?.hasError('required')"> Please Enter Transaction
-                            Date </span>
-                          <!-- <span *ngIf="salesFormControls.salesOrderDate?.hasError('pattern')"> Please Enter Valid full
-                            Name</span> -->
-                        </mat-error>  
-                      </mat-form-field>
-                      </div>
-                      <div class="text-end" >
-                        <button class="btn btn-main" (click)="saveUpdateSalesOrder()">Submit</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </mat-tab>
-        <mat-tab label="Delivery Order">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="card">
-                  <div class="card-header">
-                    <mat-form-field [appearance]="configService.matFormField" class="">
-                      <mat-label>Month & Year</mat-label>
-                      <mat-select [formControl]="searchDeliveryOrder" (selectionChange)="getDeliveryData()" > 
-                        <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
-                          {{yearMonth.text}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="card-body">
-                    <table mat-table [dataSource]="deliveryDataSource" class="dashboard-table w-100">
-                      <ng-container matColumnDef="srno">
-                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                      </ng-container>
-
-
-                      <ng-container matColumnDef="bookingID">
-                        <th mat-header-cell *matHeaderCellDef>Booking ID </th>
-                        <td mat-cell *matCellDef="let element"> {{element.bookingID }} </td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="collieryName">
-                        <th mat-header-cell *matHeaderCellDef> Collieary Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.collieryName }} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="quantity">
-                        <th mat-header-cell *matHeaderCellDef>Quantity</th>
-                        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="salesOrderNo">
-                        <th mat-header-cell *matHeaderCellDef>ECL Sales Order No</th>
-                        <td mat-cell *matCellDef="let element"> {{element.salesOrderNo}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef>Generate DO</th>
-                        <td mat-cell *matCellDef="let element">
-                          <button mat-button color="primary" (click)="getDelivaryDatById(element.id)">Generate</button>
-                        </td>
-                      </ng-container>
-                      
-                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                        <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
-                      </tr>
-                      <tr mat-header-row *matHeaderRowDef="deliveryOrderColums"></tr>
-                      <tr mat-row *matRowDef="let row; columns: deliveryOrderColums;"></tr>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="card">
-                  <div class="card-body">
-                    table
-
-                    <div class="text-end">
-                      <button class="btn btn-main" type="submit">Save</button>
+                            <mat-select formControlName="collieryId">
+                              <mat-option *ngFor="let colliery of collieryArray" [value]="colliery.id">
+                                {{colliery.collieryName}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="monthlyFrmECl.controls['collieryId'].errors">
+                              <span *ngIf="monthlyFrmECl.controls['collieryId'].hasError('required')">Please Select
+                                Colliery Name</span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Allocated Quantity</mat-label>
+                            <input matInput placeholder="Enter Allocated Quantity" formControlName="allocationQty">
+                            <mat-error *ngIf="monthlyFrmECl.controls['allocationQty'].errors">
+                              <span *ngIf="monthlyFrmECl.controls['allocationQty'].hasError('required')">Please Enter
+                                Allocated Quantity</span>
+                              <span *ngIf="monthlyFrmECl.controls['allocationQty'].hasError('pattern')">Please Enter
+                                Valid
+                                Allocated Quantity</span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="text-end">
+                          <button mat-raised-button class="btn-main"
+                            (click)="SaveUpdateECl()">{{saveUpdateBtnECL}}</button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
+
+          </mat-tab>
+
+          <mat-tab label="Coal Distribution">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card plain-card">
+                    <div class="card-header pb-0">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-3">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select [formControl]="coalDistributionSearch"
+                              (selectionChange)="getDDistributionData()">
+                              <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
+                                {{yearMonth.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table mat-table #useraddDocument [dataSource]="ECLDatasource" class="dashboard-table w-100 mb-3">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collieryName">
+                          <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="allocationQty">
+                          <th mat-header-cell *matHeaderCellDef> ECL Allocation Quantity (T) </th>
+                          <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="distributionColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: distributionColumns;"></tr>
+                      </table>
+                      <div *ngIf="monthlyAllocationDetails[0]?.isCoalDistributed != 1" class="text-end">
+                        <button mat-raised-button class="btn-main" type="submit"
+                          (click)="getcoalDistributionData()">Distribute</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card plain-card">
+                    <div class="card-body">
+                      <form [formGroup]="distributionForm" autocomplete="off">
+                        <table class="dashboard-table table">
+                          <thead>
+                            <tr>
+                              <th>Sr.No</th>
+                              <th>MSME Consumer Name</th>
+                              <th>Tentative Quantity Allocation (Tones)</th>
+                            </tr>
+                          </thead>
+                          <tbody formArrayName="distributionList">
+                            <tr *ngFor="let itemrow of distributionListControls.controls; let i=index;let l=last"
+                              [formGroupName]="i">
+                              <td>
+                                {{i+1}}
+                              </td>
+                              <td class="pb-0">
+                                <input formControlName="consumerName" [readOnly]="true"
+                                  style="border: 0px; box-shadow: none;">
+                              </td>
+                              <td class="pb-0">
+                                <mat-form-field [appearance]="configService.matFormField"
+                                  [class.disabled]="disabledQty">
+                                  <mat-label>Quantity </mat-label>
+                                  <input matInput placeholder="Enter Quantity" formControlName="tentitiveQty"
+                                    maxlength="20">
+                                </mat-form-field>
+                                <!-- <input class="form-control"  > -->
+                                <!-- <input class="form-control" > -->
+                                <!-- <div class="errorText" *ngIf="distributionListControls.controls[i].get('mineralCharge')?.errors?.['pattern']">
+                                                              invalid</div> -->
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </form>
+
+
+                      <div class="d-flex align-items-center justify-content-between"
+                        *ngIf="monthlyAllocationDetails[0]?.isCoalDistributed != 1 && coalDistribution.length">
+                        <button class="btn bg-opacity-10 text-dark" (click)="disabledQty= false">Edit</button>
+                        <button class="btn btn-main" type="submit" (click)="createNewDistributer()">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="MSME Consumer Booking">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card plain-card">
+                    <div class="card-header pb-0">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-4">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select [formControl]="bookingQtySearch" (selectionChange)="getBookingData()">
+                              <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
+                                {{yearMonth.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table mat-table [dataSource]="bookingDataSource" class="dashboard-table w-100">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collieryName">
+                          <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.collieryName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="allocationQty">
+                          <th mat-header-cell *matHeaderCellDef> ECL Allocation Quantity (T) </th>
+                          <td mat-cell *matCellDef="let element"> {{element.allocationQty}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bookingQty">
+                          <th mat-header-cell *matHeaderCellDef> Booking Qty (T) </th>
+                          <td mat-cell *matCellDef="let element"> {{element.bookingQty}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef> Action</th>
+                          <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                              <button mat-menu-item (click)="getPaymentForBooking(element)">
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span>View</span>
+                                  <mat-icon>remove_red_eye</mat-icon>
+                                </div>
+                              </button>
+                            </mat-menu>
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="5">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="bookingColums"></tr>
+                        <tr mat-row *matRowDef="let row; columns: bookingColums;"></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6" *ngIf="hidebookingtable">
+                  <div class="card plain-card">
+                    <div class="card-body">
+                      <table mat-table [dataSource]="bookingPaymentDataSource" class="dashboard-table w-100 mb-3">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="consumerName">
+                          <th mat-header-cell *matHeaderCellDef>MSME Consumer Name </th>
+                          <td mat-cell *matCellDef="let element"> {{element.consumerName | titlecase}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="tentitiveQty">
+                          <th mat-header-cell *matHeaderCellDef> Tentative Qty</th>
+                          <td mat-cell *matCellDef="let element"> {{element.tentitiveQty }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bookingQty">
+                          <th mat-header-cell *matHeaderCellDef>Booking</th>
+                          <td mat-cell *matCellDef="let element"> {{element.bookingQty}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="amount">
+                          <th mat-header-cell *matHeaderCellDef>Amount</th>
+                          <td mat-cell *matCellDef="let element"> {{element.amount | currency:'INR'}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                          <th mat-header-cell *matHeaderCellDef>Status</th>
+                          <td mat-cell *matCellDef="let element">
+                            <span> {{element.status}}</span>
+                            {{element.status}}
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef> Action</th>
+                          <td mat-cell *matCellDef="let element">
+                            <span *ngIf="element?.eclPaymentId == 0">
+                              <mat-checkbox class="example-margin"
+                                (change)="addRemoveCoalDistributionMember($event,element)"></mat-checkbox>
+                            </span>
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
+                        </tr>
+                        <!-- <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                                <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                                              </tr> -->
+                        <tr mat-header-row *matHeaderRowDef="bookingPaymentColums"></tr>
+                        <tr mat-row *matRowDef="let row; columns: bookingPaymentColums;"></tr>
+                      </table>
+                      <div class="text-end" *ngIf="bookingPaymentDetails.length">
+                        <button mat-raised-button class="btn-main" (click)="paymentForECL()">Accept Payment for ECL
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="ECL Payment">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="card plain-card">
+                    <div class="card-header pb-0">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-3">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select [formControl]="eclSearchData" (selectionChange)="eclPaymentData()">
+                              <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
+                                {{yearMonth.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table mat-table [dataSource]="eclPaymentDatasource" class="dashboard-table w-100">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collieryName">
+                          <th mat-header-cell *matHeaderCellDef>Collieary Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.collieryName | titlecase}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bookingID">
+                          <th mat-header-cell *matHeaderCellDef> Booking Id</th>
+                          <td mat-cell *matCellDef="let element"> {{element.bookingID }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="amount">
+                          <th mat-header-cell *matHeaderCellDef>Amount</th>
+                          <td mat-cell *matCellDef="let element"> {{element.amount | currency:'INR' }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="date">
+                          <th mat-header-cell *matHeaderCellDef>Date</th>
+                          <td mat-cell *matCellDef="let element"> {{element?.date }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="transactionNo">
+                          <th mat-header-cell *matHeaderCellDef>Transaction No</th>
+                          <td mat-cell *matCellDef="let element"> {{element.transactionNo }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                          <th mat-header-cell *matHeaderCellDef>Status</th>
+                          <td mat-cell *matCellDef="let element">
+                            <span class="badge"
+                              [ngClass]="{'bg-success': element.status ==1 , 'bg-warning text-dark':  (element.status == 0 ||element.status == null ) }">
+                              {{element.status == 0 || element.status == null ? 'Pending' :'Success'}}</span>
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef>Action</th>
+                          <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                              <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                              <button mat-menu-item [disabled]="element.status ==1" (click)="eclPatchData(element)">
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span>Edit</span>
+                                  <mat-icon>edit</mat-icon>
+                                </div>
+                              </button>
+                              <a mat-menu-item *ngIf="element.status == 1" href="{{element?.pdf}}" target="_blank">
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span>View</span>
+                                  <mat-icon>visibility</mat-icon>
+                                </div>
+                              </a>
+                            </mat-menu>
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="8">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="eclPaymentColums"></tr>
+                        <tr mat-row *matRowDef="let row; columns: eclPaymentColums;"></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card plain-card">
+                    <div class="card-header">ECL Payment</div>
+                    <div class="card-body">
+                      <form [formGroup]="eclPaymentFrom" #FormDirectiveEcl="ngForm" (ngSubmit)="updateEclPaymentData()">
+                        <div class="mb-0">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>Booking ID</mat-label>
+                            <input matInput placeholder="Enter Booking ID" formControlName="bookinId" [readonly]="true">
+                            <mat-error *ngIf="eclFormControl.bookinId.errors">
+                              <span *ngIf="eclFormControl.bookinId?.hasError('required')"> Please Enter Booking ID
+                              </span>
+                              <span *ngIf="eclFormControl.bookinId?.hasError('pattern')"> Please Enter Valid full
+                                Name</span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-0">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>WBMDTCL Account</mat-label>
+                            <mat-select formControlName="wbAccountId">
+                              <mat-option *ngFor="let account of WBMDTCLAccountArray" [value]="account.id">
+                                {{account?.bankAccountName}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="eclFormControl.wbAccountId.errors">
+                              <span *ngIf="eclFormControl.wbAccountId?.hasError('required')"> Please Select WBMDTCL
+                                Account </span>
+                              <!-- <span *ngIf="eclFormControl.wbAccountId?.hasError('pattern')"> Please Enter Valid full Name</span> -->
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-0">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>ECL Account</mat-label>
+                            <mat-select formControlName="eclAccountId">
+                              <mat-option *ngFor="let account of eclBankListArray" [value]="account.id">
+                                {{account?.bankAccountName}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="eclFormControl.eclAccountId.errors">
+                              <span *ngIf="eclFormControl.eclAccountId?.hasError('required')"> Please Select ECL Account
+                              </span>
+                              <!-- <span *ngIf="eclFormControl.eclAccountId?.hasError('pattern')"> Please Enter Valid full Name</span> -->
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-6 col-6">
+                            <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                              <mat-label>Quantity</mat-label>
+                              <input matInput formControlName="quantity" [readonly]="true">
+                              <mat-error *ngIf="eclFormControl.quantity.errors">
+                                <span *ngIf="eclFormControl.quantity?.hasError('required')"> Please Enter Quantity </span>
+                                <span *ngIf="eclFormControl.quantity?.hasError('pattern')"> Please Enter Valid
+                                  Quantity</span>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-6 col-6">
+                            <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                              <mat-label>Amount</mat-label>
+                              <input matInput formControlName="amount" (keypress)="validation.onlyDigits($event)">
+                              <mat-error *ngIf="eclFormControl.amount.errors">
+                                <span *ngIf="eclFormControl.amount?.hasError('required')"> Please Enter Amount</span>
+                                <span *ngIf="eclFormControl.amount?.hasError('pattern')"> Please Enter Valid Amount</span>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="mb-0">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>Transaction Date</mat-label>
+                            <input matInput [matDatepicker]="datepicker" formControlName="transactionDate"
+                              [readonly]="true" [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker [disabled]="false">
+                            </mat-datepicker>
+                            <mat-error *ngIf="eclFormControl.transactionDate.errors">
+                              <span *ngIf="eclFormControl.transactionDate?.hasError('required')"> Please Enter
+                                Transaction
+                                Date </span>
+                              <span *ngIf="eclFormControl.transactionDate?.hasError('pattern')"> Please Enter Valid full
+                                Name</span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-75">
+                            <mat-label>UTR Number</mat-label>
+                            <input matInput formControlName="utrNo" (keyup)="validation.removeSpaceAtBegining($event)">
+                            <mat-error *ngIf="eclFormControl.utrNo.errors">
+                              <span *ngIf="eclFormControl.utrNo?.hasError('required')"> Please Enter UTR Number </span>
+                              <span *ngIf="eclFormControl.utrNo?.hasError('pattern')"> Please Enter Valid UTR
+                                Numbe</span>
+                            </mat-error>
+                          </mat-form-field>
+                          <div class="upload-btn-wrapper">
+                            <button mat-icon-button class="btn-main">
+                              <mat-icon>upload</mat-icon>
+                            </button>
+                            <input type="file" (change)="documentUpload($event)">
+                            <ng-container *ngIf="isDocumentUpload">
+                              <img src="../../../assets/images/success.svg" class="uploadDocImg mx-1 border-0"
+                                style="height: 20px; width: 20px;" id="PanImg" alt="Document Uploaded Successfully"
+                                title="Document Uploaded Successfully">
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                          <button mat-raised-button class="btn-main">Submit</button>
+                          <!-- <button class="btn btn-main">cancle</button> -->
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Sales Order">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="card plain-card">
+                    <div class="card-header pb-0">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-3">
+                          <mat-form-field [appearance]="configService.matFormField" appearance="legacy" class="w-100">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select [formControl]="eclsearchFrm" (selectionChange)="getSalesOrderData()">
+                              <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
+                                {{yearMonth.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table mat-table [dataSource]="salesOrderDataSource" class="dashboard-table w-100">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bookingID">
+                          <th mat-header-cell *matHeaderCellDef>BookingID</th>
+                          <td mat-cell *matCellDef="let element"> {{element.bookingID }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collieryName">
+                          <th mat-header-cell *matHeaderCellDef>Colliery Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.collieryName }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="quantity">
+                          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                          <td mat-cell *matCellDef="let element"> {{element.quantity }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="date">
+                          <th mat-header-cell *matHeaderCellDef>Date</th>
+                          <td mat-cell *matCellDef="let element"> {{element?.date }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="salesOrderNo">
+                          <th mat-header-cell *matHeaderCellDef>Sales OrderNo</th>
+                          <td mat-cell *matCellDef="let element"> {{element.salesOrderNo }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="salesOrderDate">
+                          <th mat-header-cell *matHeaderCellDef>Date</th>
+                          <td mat-cell *matCellDef="let element">
+                            {{element.salesOrderDate}}
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef>Date</th>
+                          <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                              <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu" xPosition="before">
+                              <button mat-menu-item [disabled]="element.status ==1" (click)="patchSalesOrder(element)">
+                                  <div class="d-flex justify-content-between align-items-center">
+                                      <span>Edit</span>
+                                      <mat-icon>edit</mat-icon>
+                                  </div>
+                              </button>
+                          </mat-menu>
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="salesOrderColums"></tr>
+                        <tr mat-row *matRowDef="let row; columns: salesOrderColums;"></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4" *ngIf="hidesubmitBtn">
+                  <div class="card plain-card">
+                    <div class="card-header">Sales Order</div>
+                    <div class="card-body">
+                      <form [formGroup]="salesOrderFrm" #formDirective="ngForm">
+                        <div class=",b-0">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Booking ID</mat-label>
+                            <input matInput placeholder="Enter Booking ID" formControlName="bookingID"
+                              [readonly]="true">
+                            <mat-error *ngIf="salesFormControls.bookingID.errors">
+                              <span *ngIf="salesFormControls.bookingID?.hasError('required')"> Please Enter Booking
+                                ID</span>
+                              <span *ngIf="salesFormControls.bookingID?.hasError('pattern')"> Please Enter Valid Booking
+                                ID</span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-0">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Colliery Name</mat-label>
+                            <mat-select formControlName="collieryId" [disabled]="true">
+                              <mat-option *ngFor="let colliery of collieryArray" [value]="colliery.id">
+                                {{colliery.collieryName}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="salesFormControls.collieryId.errors">
+                              <span *ngIf="salesFormControls.collieryId?.hasError('required')"> Please Enter Colliery
+                                Name
+                              </span>
+                              <span *ngIf="salesFormControls.collieryId?.hasError('pattern')"> Please Enter Valid
+                                Colliery
+                                Name</span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-6 col-6">
+                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                              <mat-label>Qantity</mat-label>
+                              <input matInput placeholder="Enter Qantity" formControlName="quantity" [readonly]="true">
+                              <mat-error *ngIf="salesFormControls.quantity.errors">
+                                <span *ngIf="salesFormControls.quantity?.hasError('required')"> Please Enter
+                                  Qantity</span>
+                                <span *ngIf="salesFormControls.quantity?.hasError('pattern')"> Please Enter Qantity</span>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-6 col-6">
+                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                              <mat-label>Sales Order no</mat-label>
+                              <input matInput placeholder="Enter Sales Order no" formControlName="salesOrderNo">
+                              <mat-error *ngIf="salesFormControls.salesOrderNo.errors">
+                                <span *ngIf="salesFormControls.salesOrderNo?.hasError('required')"> Please Enter Sales
+                                  Order
+                                  no </span>
+                                <span *ngIf="salesFormControls.salesOrderNo?.hasError('pattern')"> Please Enter Valid
+                                  Sales
+                                  Order no</span>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="mb-0">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100">
+                            <mat-label>Sales order Date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="salesOrderDate" [readonly]="true"
+                              [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker [disabled]="false">
+                            </mat-datepicker>
+                            <mat-error *ngIf="salesFormControls.salesOrderDate.errors">
+                              <span *ngIf="salesFormControls.salesOrderDate?.hasError('required')"> Please Enter
+                                Transaction
+                                Date </span>
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="text-end">
+                          <button mat-raised-button class="btn-main" (click)="saveUpdateSalesOrder()">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Delivery Order">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card plain-card">
+                    <div class="card-header pb-0">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-4">
+                          <mat-form-field [appearance]="configService.matFormField" class="w-100" appearance="legacy">
+                            <mat-label>Month & Year</mat-label>
+                            <mat-select [formControl]="searchDeliveryOrder" (selectionChange)="getDeliveryData()">
+                              <mat-option *ngFor="let yearMonth of yearArray" [value]="yearMonth.text">
+                                {{yearMonth.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table mat-table [dataSource]="deliveryDataSource" class="dashboard-table w-100">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bookingID">
+                          <th mat-header-cell *matHeaderCellDef>Booking ID </th>
+                          <td mat-cell *matCellDef="let element"> {{element.bookingID }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collieryName">
+                          <th mat-header-cell *matHeaderCellDef> Collieary Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.collieryName }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="quantity">
+                          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="salesOrderNo">
+                          <th mat-header-cell *matHeaderCellDef>ECL Sales Order No</th>
+                          <td mat-cell *matCellDef="let element"> {{element.salesOrderNo}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef>Generate DO</th>
+                          <td mat-cell *matCellDef="let element">
+                            <button mat-button 
+                              (click)="getDelivaryDatById(element.bookingID)">{{element.id == 0 ?
+                              'Generate':'View'}}</button>
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="deliveryOrderColums"></tr>
+                        <tr mat-row *matRowDef="let row; columns: deliveryOrderColums;"></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <table mat-table [dataSource]="updateGenrateDataSource" class="dashboard-table w-100"
+                        *ngIf="hideDeliveryTable">
+                        <ng-container matColumnDef="srno">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                          <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="consumerName">
+                          <th mat-header-cell *matHeaderCellDef>MSME Consumer </th>
+                          <td mat-cell *matCellDef="let element"> {{element.consumerName }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                          <th mat-header-cell *matHeaderCellDef> Date</th>
+                          <td mat-cell *matCellDef="let element"> {{element.monthYear }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="quantity">
+                          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="doNumber">
+                          <th mat-header-cell *matHeaderCellDef>DoNumber</th>
+                          <td mat-cell *matCellDef="let element"> {{element.doNumber?element?.doNumber:'-'}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="doDate">
+                          <th mat-header-cell *matHeaderCellDef>Do Date </th>
+                          <td mat-cell *matCellDef="let element"> {{element.doDate?element?.doNumber:element?.soDate |
+                            date: 'dd/MM/yyyy'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef>PDF</th>
+                          <td mat-cell *matCellDef="let element">
+
+                          </td>
+                        </ng-container>
+                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                          <td class="alert alert-danger text-center m-2 mt-2" colspan="7">No data found </td>
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="orderColumsById"></tr>
+                        <tr mat-row *matRowDef="let row; columns: orderColumsById;"></tr>
+                      </table>
+
+                      <div class="text-end">
+                        <button class="btn btn-main" type="button" (click)="generateOrderSaveUpdate()"
+                          *ngIf="hideSaveBtn">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
     </div>
   </div>
 

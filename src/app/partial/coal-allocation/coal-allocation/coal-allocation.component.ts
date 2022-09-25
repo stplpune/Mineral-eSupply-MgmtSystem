@@ -86,6 +86,8 @@ export class CoalAllocationComponent implements OnInit {
       this.getSalesOrderData();
     }else if(tabLabel == 'Delivery Order'){
       this.searchDeliveryOrder.setValue(this.yearArray[0].text);
+      this.hideDeliveryTable =false;
+      this.hideSaveBtn=false
       this.getDeliveryData();
     }
 
@@ -676,11 +678,16 @@ export class CoalAllocationComponent implements OnInit {
 // --------------------- Delivery Order start here --------------------------//
 searchDeliveryOrder =  new FormControl('');
 deliveryOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo',  'action'];
+orderColumsById = ['srno',  'consumerName', 'date', 'quantity','doNumber', 'doDate','action'];
 deliveryDataSource :any ;
 genrateDataSource:any;
 updateGenrateDataSource: any;
-
+hideDeliveryTable : boolean =false;
+updateDelivaryData:any;
+hideSaveBtn:boolean =false;
 getDeliveryData(){
+  this.updateDelivaryData=[];
+  this.hideDeliveryTable =false;
   this.spinner.show();
   this.apiService.setHttp('get', "CoalDistribution/GetDeliverOrderData?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
@@ -688,7 +695,6 @@ getDeliveryData(){
       if (res.statusCode === 200) {
         this.spinner.hide();
         this.deliveryDataSource = new MatTableDataSource(res.responseData);
-        // this.commonMethod.matSnackBar(res.statusMessage, 0);
       } else {
         this.deliveryDataSource = [];
         res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
@@ -700,16 +706,19 @@ getDeliveryData(){
 }
 
 
-
+bookingId = 0;
 getDelivaryDatById(id:any){
+  this.hideDeliveryTable=true;
+  this.bookingId =id;
   this.spinner.show();
-  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('get', "CoalDistribution/GetMSMEConsumerDevliveryOrderById?BookingID=" + id, false, false, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
         this.spinner.hide();
+        this. updateDelivaryData =res.responseData
+        this. updateDelivaryData[0].deliveryId == 0?this.hideSaveBtn=true :'';
         this.updateGenrateDataSource = new MatTableDataSource(res.responseData);
-        // this.commonMethod.matSnackBar(res.statusMessage, 0);
       } else {
         this.deliveryDataSource = [];
         res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
@@ -722,16 +731,33 @@ getDelivaryDatById(id:any){
 
 
 generateOrderSaveUpdate(){
+  let  obj:any;
+  let array:any = []
+  this.updateDelivaryData.map((ele:any)=>{
+   obj={
+    "id": 0,
+    "salesOrderId": ele?.salesOrderId,
+    "msmeId":ele?.msmeId,
+    "monthYear":this.searchDeliveryOrder.value,
+    "doNumber": ele?.doNumber,
+    "doDate":ele?.doDate ? ele.doDate :ele.soDate ,
+    "createdBy": this.webStorageService.getUserId()
+  }
+  array.push(obj);
+ }) 
+
   this.spinner.show();
-  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('post', "CoalDistribution/GenerateDeliveryOrder", false,array, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
         this.spinner.hide();
-        this.genrateDataSource = new MatTableDataSource(res.responseData);
-      } else {
-        this.genrateDataSource = [];
-        res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
+        this.getDelivaryDatById(this.bookingId)
+        this.commonMethod.matSnackBar(res.statusMessage,0);
+        this.hideSaveBtn= false;
+        this.updateDelivaryData=[];
+      } else {    
+        this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) ;
         this.spinner.hide();
       }
     },
