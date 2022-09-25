@@ -314,17 +314,19 @@ export class RegisterCollaryComponent implements OnInit {
           drawingModes: [google.maps.drawing.OverlayType.POLYGON, google.maps.drawing.OverlayType.CIRCLE],
         },
         circleOptions: {
-          fillColor: "#00FF00",
-          strokeColor: "#00FF00",
+          strokeColor: '#FF0000',
+          fillColor: '#FF0000',
           clickable: false,
           editable: true,
           zIndex: 1,
+          fillOpacity: 0.35,
         },
         polygonOptions: {
-          fillColor: "#00FF00",
-          strokeColor: "#00FF00",
+          strokeColor: '#FF0000',
+          fillColor: '#FF0000',
           draggable: true,
           editable: true,
+          fillOpacity: 0.35,
         },
         map: map
       });
@@ -437,8 +439,8 @@ export class RegisterCollaryComponent implements OnInit {
     if (this.data?.newRecord?.geofenceType == 2) {
       let latlng = new google.maps.LatLng(this.data?.newRecord.latLng.split(",")[0], this.data?.newRecord.latLng.split(",")[1]);
       let circle = new google.maps.Circle({
-        strokeColor: '#00FF00',
-        fillColor: '#00FF00',
+        strokeColor: '#FF0000',
+        fillColor: '#FF0000',
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillOpacity: 0.35,
