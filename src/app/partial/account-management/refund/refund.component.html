@@ -1,1 +1,172 @@
-<p>refund works!</p>
+<div class="container-fluid">
+    <h5 class="page-heading">Refund</h5>
+
+    <div class="card plain-card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-5">
+                    <mat-form-field appearance="legacy" class="w-100">
+                        <mat-label>To Ledger</mat-label>
+                        <mat-select>
+                            <mat-option >Opt 1</mat-option>
+                            <mat-option >Opt 2</mat-option>
+                            <mat-option >Opt 3</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card card-body">
+                        <div class="form-container">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                        <mat-label>Choose Date</mat-label>
+                                        <input matInput [matDatepicker]="picker">
+                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                        <mat-label>Bill No.</mat-label>
+                                        <input matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>From Ledger</mat-label>
+                                    <mat-select>
+                                        <mat-option>Opt 1</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                        <mat-label>Amount</mat-label>
+                                        <input matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field appearance="legacy" class="w-100">
+                                        <mat-label>Payment Mode</mat-label>
+                                        <mat-select>
+                                            <mat-option>opt1</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Transaction No.</mat-label>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Narration</mat-label>
+                                    <textarea matInput></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Customer Account</mat-label>
+                                    <mat-select>
+                                        <mat-option>opt1</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-0 text-end">
+                                <button mat-raised-button class="btn-main">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="me-5 flex-fill">Ledger</span>
+                                <div class="row flex-fill">
+                                    <div class="col-sm-5">
+                                        <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-label>From Date</mat-label>
+                                            <input matInput [matDatepicker]="fromdate">
+                                            <mat-datepicker-toggle matSuffix [for]="fromdate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #fromdate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-label>To Date</mat-label>
+                                            <input matInput [matDatepicker]="todate">
+                                            <mat-datepicker-toggle matSuffix [for]="todate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #todate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <button mat-raised-button
+                                            class="btn-secondary">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table mat-table [dataSource]="dataSource" class="dashboard-table">
+                                <ng-container matColumnDef="particulars">
+                                    <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.particulars}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="date">
+                                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="debit">
+                                    <th mat-header-cell *matHeaderCellDef> Debit </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.debit}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="credit">
+                                    <th mat-header-cell *matHeaderCellDef> Credit </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.credit}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="remarks">
+                                    <th mat-header-cell *matHeaderCellDef> Remark </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.remark}} </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                            <div class="row justify-content-end">
+                                <div class="col-sm-6 form-container">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <label class="form-label">Opening Balance</label>
+                                            <div class="form-data">12,00,254</div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <label class="form-label">Current Balance</label>
+                                            <div class="form-data">12,00,254</div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <label class="form-label">Closing Balance</label>
+                                            <div class="form-data">12,00,254</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
