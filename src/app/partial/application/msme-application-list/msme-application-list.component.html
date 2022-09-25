@@ -55,13 +55,20 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated<br>Quantity </th>
                                 <td mat-cell *matCellDef="let element"> {{element.allocatedQty}} </td>
                             </ng-container>
-                            <!-- <ng-container matColumnDef="level1Status">
-                                <th mat-header-cell *matHeaderCellDef> Level-1 Status </th>
-                                <td mat-cell *matCellDef="let element"><h6 class="mb-0"><span [class]="element.coalApplicationApproverDetails[0].applicationStatusText == 'Pending' ? 'badge bg-warning bg-opacity-25 text-dark fw-normal' : element.coalApplicationApproverDetails[0].applicationStatusText == 'Approved' ? 'badge bg-success bg-opacity-25 text-success fw-normal' : 'badge bg-danger bg-opacity-25 text-danger fw-normal'">{{element.coalApplicationApproverDetails[0].applicationStatusText}}</span></h6> </td>
-                            </ng-container> -->
-                            <ng-container matColumnDef="level2Status">
-                                <th mat-header-cell *matHeaderCellDef> Status </th>
-                                <td mat-cell *matCellDef="let element"><h6 class="mb-0"><span [class]="element.coalApplicationApproverDetails[1].applicationStatusText == 'Pending' ? 'badge bg-warning bg-opacity-25 text-dark fw-normal' : element.coalApplicationApproverDetails[1].applicationStatusText == 'Approved' ? 'badge bg-success bg-opacity-25 text-success fw-normal' : 'badge bg-danger bg-opacity-25 text-danger fw-normal'"> {{element.coalApplicationApproverDetails[1].applicationStatusText}} </span></h6></td>
+                            <ng-container matColumnDef="approval_status">
+                                <th mat-header-cell *matHeaderCellDef> Approval<br>Status </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <ng-container *ngFor="let item of element?.coalApplicationApproverDetails">
+                                        <!-- <span class="badge mb-0"  [ngClass]="{'bg-success bg-opacity-25 fw-normal text-success': item?.applicationStatusText =='Approved','bg-danger bg-opacity-25 text-danger fw-normal': item?.applicationStatusText=='Rejected' ,'bg-warning bg-opacity-25 text-dark fw-normal': (item?.applicationStatusText == null || item?.applicationStatusText =='Pending') }">
+        
+                                    {{item.applicationStatusText}}
+                                   </span><br> -->
+                                        <span class="badge mb-0"
+                                            [class]="item?.applicationStatusText =='Approved' ? 'bg-success bg-opacity-25 text-success' : item?.applicationStatusText =='Pending' ? 'bg-warning bg-opacity-25 text-dark' : 'bg-danger bg-opacity-25 text-danger' ">
+                                            {{item.applicationStatusText}}
+                                        </span><br>
+                                    </ng-container>
+                                </td>
                             </ng-container>
                             <!-- <ng-container matColumnDef="header-row-first-group">
                                 <th mat-header-cell *matHeaderCellDef 
