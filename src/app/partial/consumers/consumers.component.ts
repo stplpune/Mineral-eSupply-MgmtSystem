@@ -8,6 +8,7 @@ import { CallApiService } from 'src/app/core/services/call-api.service';
 import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
+import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 
 @Component({
   selector: 'app-consumers',
@@ -31,6 +32,7 @@ export class ConsumersComponent implements OnInit {
     public commonService: CommonMethodsService,
     public errorSerivce: ErrorHandlerService,
     public configService: ConfigService,
+    public validationService: FormsValidationService,
     public commonApiCallService: CommonApiCallService,
     private spinner: NgxSpinnerService) { }
 

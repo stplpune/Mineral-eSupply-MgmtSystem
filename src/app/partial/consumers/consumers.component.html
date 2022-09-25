@@ -33,7 +33,7 @@
                             <mat-form-field class="example-full-width" [appearance]=configService.matFormField
                                 class="w-100">
                                 <mat-label> Name / Moblie No. / PAN</mat-label>
-                                <input matInput formControlName="searchText">
+                                <input matInput formControlName="searchText" (keypress)="validationService.noSpaces($event)">
                             </mat-form-field>
                         </div>
                         <div class="col-sm-2 text-end">
