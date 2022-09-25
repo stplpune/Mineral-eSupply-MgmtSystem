@@ -23,7 +23,7 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 export class MsmeApplicationListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['srno', 'applicationNumber', 'application_date', 'applicationYear', 'allocatedQty', 'level1Status', 'level2Status', 'AGREMENT', 'SECURITY DEPOSIT'];
+  displayedColumns: string[] = ['srno', 'applicationNumber', 'application_date', 'applicationYear', 'allocatedQty', 'level2Status', 'AGREMENT', 'SECURITY DEPOSIT'];
   dataSource:any;
   yearArray:any =[];
   filterForm:any;
