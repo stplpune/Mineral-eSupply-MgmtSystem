@@ -34,7 +34,7 @@ export class RegisterVehicleComponent implements OnInit {
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
-  displayedColumns: string[] = ['SrNo', 'vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'action',];
+  displayedColumns: string[] = ['SrNo', 'vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'driverMobileNo', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   dataSource: any;
   eventFrontImg: any;
@@ -117,10 +117,10 @@ export class RegisterVehicleComponent implements OnInit {
       licenseNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       deviceCompanyName: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]],
       deviceId: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
-      deviceSIMNo: ['', [Validators.pattern(this.vs.valMobileNo)]],
-      secondarySIMNo: ['', [Validators.pattern(this.vs.valMobileNo)]],
-      primaryTelecomProvider: [''],
-      secondaryTelecomProvider: [''],
+      deviceSIMNo: ['', [Validators.required, Validators.pattern(this.vs.valMobileNo)]],
+      secondarySIMNo: ['', [Validators.required, Validators.pattern(this.vs.valMobileNo)]],
+      primaryTelecomProvider: ['', [Validators.required]],
+      secondaryTelecomProvider: ['', [Validators.required]],
       length: ['', [Validators.pattern(this.vs.numbersWithDot)]],
       width: ['', [Validators.pattern(this.vs.numbersWithDot)]],
       // otp: ['', [Validators.pattern(this.vs.onlyNumbers)]],
@@ -319,10 +319,10 @@ export class RegisterVehicleComponent implements OnInit {
     this.isImageUplaod = true;
     this.regVehicleFrm.patchValue({
       transportType: row.transportType,
-      state: row.state,
+      state:  row.oldState ? row.oldState : row.state,
       district: row.district,
       series: row.series,
-      number: row.number,
+      number: row.oldNum ? row.oldNum : row.number,
       numberFormat: row.state.length == 2 ? 'New' : 'Old',
       isBlock: row.isBlock,
       remark: row.remark,
@@ -372,8 +372,12 @@ export class RegisterVehicleComponent implements OnInit {
       "length": parseFloat(this.regVehicleFrm.value.length),
       "width": parseFloat(this.regVehicleFrm.value.width),
       'isBlock': this.regVehicleFrm.value.isBlock ? this.regVehicleFrm.value.isBlock : false,
-      "oldState": this.regVehicleFrm.value.state,
-      "oldNum": this.regVehicleFrm.value.number,
+      "oldState": this.regVehicleFrm.value.numberFormat == 'Old' ? this.regVehicleFrm.value.state : '',
+      "oldNum": this.regVehicleFrm.value.numberFormat == 'Old' ? this.regVehicleFrm.value.number : '',
+      "state": this.regVehicleFrm.value.numberFormat != 'Old' ? this.regVehicleFrm.value.state : '',
+      "district": this.regVehicleFrm.value.numberFormat != 'Old' ? this.regVehicleFrm.value.district : '',
+      "series": this.regVehicleFrm.value.numberFormat != 'Old' ? this.regVehicleFrm.value.series : '',
+      "number": this.regVehicleFrm.value.numberFormat != 'Old' ? this.regVehicleFrm.value.number : '',
       "createdBy": this.webStorageService.getUserId(),
       'flag': this.isEdit == true ? "u" : 'i',
       'pageName': "",
@@ -466,7 +470,8 @@ export class RegisterVehicleComponent implements OnInit {
     // this.regVehicleFrm.reset();
     this.regVehicleFrm.patchValue({
       transportType: 'Vehicle',
-      numberFormat: 'New'
+      numberFormat: 'New',
+      isBlock: false
     });
     // this.filterVehicleFrm.patchValue({
     //   verificationStatus: [this.verificationStsArr[0].id]
