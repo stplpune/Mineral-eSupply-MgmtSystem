@@ -166,7 +166,7 @@
                             </mat-error>
                         </mat-form-field>
                         <div class="mb-3 position-relative">
-                            <agm-map [latitude]="configService.lat"   [zoom]="6" [longitude]="configService.long"
+                            <agm-map [latitude]="lat"   [zoom]="6" [longitude]="long"
                                 (mapReady)="onMapReady($event)">
                                 <!-- <agm-marker *ngIf="setMarker" [agmFitBounds]="true" [latitude]="frmCollary.value.latitude" [longitude]="frmCollary.value.longitude">
                                 </agm-marker> -->

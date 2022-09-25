@@ -86,7 +86,7 @@ export class VehicleTrackingComponent implements OnInit {
     });
 
     let emi = "<table class='text-start'><tbody>";
-    emi += '<tr><td colspan="2"><p class="mb-1 fw-bold">Destination</p></td></tr>';
+    emi += '<tr><td colspan="2"><p class="mb-1 fw-bold">MSME Details</p></td></tr>';
     emi += '<tr><td>Name :</td><td>Kalisen Power Station</td></tr>';
     emi += '<tr><td>Address : </td><td>Kalisen, Bankura - Bishnupur Rd, Manipur, West Bengal 722144</td></tr>';
     emi += "</tbody></table>";
