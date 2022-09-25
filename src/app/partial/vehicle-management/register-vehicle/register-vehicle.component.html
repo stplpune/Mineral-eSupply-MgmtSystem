@@ -222,8 +222,6 @@
                                             number</span>
                                         <span *ngIf="f['ownerMobileNo']?.hasError('pattern')"> Please enter valid
                                             owner number</span>
-                                        <span *ngIf="f['ownerMobileNo']?.hasError('minlength')"> Please enter
-                                            maximum 10 digits</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -304,8 +302,6 @@
                                                 mobile number</span>
                                             <span *ngIf="f['driverMobileNo']?.hasError('pattern')"> Please enter valid
                                                 driver mobile number</span>
-                                            <span *ngIf="f['driverMobileNo']?.hasError('minlength')"> Please enter
-                                                maximum 10 digits</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
@@ -317,8 +313,6 @@
                                         <mat-error *ngIf="f['eTpMobileNumber'].errors">
                                             <span *ngIf="f['eTpMobileNumber']?.hasError('pattern')"> Please enter valid
                                                 eTP mobile number</span>
-                                            <span *ngIf="f['eTpMobileNumber']?.hasError('minlength')"> Please enter
-                                                maximum 10 digits</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
@@ -381,8 +375,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Device Sim No 1</mat-label>
-                                        <input matInput formControlName="deviceSIMNo" maxlength="13"
-                                            (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput formControlName="deviceSIMNo" maxlength="10"
+                                            (keypress)="vs.onlyDigitsExcludeZeroAtStart($event)">
                                         <mat-error *ngIf="f['deviceSIMNo'].errors">
                                             <span *ngIf="f['deviceSIMNo']?.hasError('pattern')"> Please enter valid
                                                 device SIM</span>
@@ -403,8 +397,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Device Sim No 2</mat-label>
-                                        <input matInput formControlName="secondarySIMNo" maxlength="13"
-                                            (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput formControlName="secondarySIMNo" maxlength="10"
+                                            (keypress)="vs.onlyDigitsExcludeZeroAtStart($event)">
                                         <mat-error *ngIf="f['secondarySIMNo'].errors">
                                             <span *ngIf="f['secondarySIMNo']?.hasError('pattern')"> Please enter valid
                                                 device SIM</span>
