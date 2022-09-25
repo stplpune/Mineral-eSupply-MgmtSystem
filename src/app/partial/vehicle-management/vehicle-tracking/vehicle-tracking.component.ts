@@ -64,11 +64,41 @@ export class VehicleTrackingComponent implements OnInit {
       map: this.map,
       icon: "assets/images/start_pin.svg"
     });
+
+    let smi = "<table><tbody>";
+    smi += '<tr><td colspan="2"><h6 class="mb-0">Colliery Details</h6></td></tr>';
+    smi += '<tr><td colspan="2"><p class="mb-0">Name : Krishnanagar Coal Area </h4></td></p>';
+    smi += '<tr><td colspan="2"><p class="mb-0">Address : Raghunathpur, West Bengal 722202</h4></td></p>';
+    smi += "</tbody></table>";
+
+    const info = new google.maps.InfoWindow({
+      content: smi
+    })
+
+    startMarker.addListener('click', () => {
+      info.open(this.map, startMarker);
+    })
+
     const endMarker = new google.maps.Marker({
       position: end,
       map: this.map,
       icon: "assets/images/end_pin.svg",
     });
+
+    let emi = "<table><tbody>";
+    emi += '<tr><td colspan="2"><h6 class="mb-0">Destination</h6></td></tr>';
+    emi += '<tr><td colspan="2"><p class="mb-0">Name : Kalisen Power Station</h4></td></p>';
+    emi += '<tr><td colspan="2"><p class="mb-0">Address : Kalisen, Bankura - Bishnupur Rd, Manipur, West Bengal 722144</h4></td></p>';
+    emi += "</tbody></table>";
+
+    const eminfo = new google.maps.InfoWindow({
+      content: emi
+    })
+
+    endMarker.addListener('click', () => {
+      eminfo.open(this.map, endMarker);
+    })
+
     let latlng = new google.maps.LatLng(this.lat, this.long);
     this.map.panTo(latlng);
     this.marker && this.marker.setMap(null);
@@ -93,7 +123,7 @@ export class VehicleTrackingComponent implements OnInit {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsService.route(request, (response: any, status: any) => {
       // Empty response as API KEY EXPIRED
-      console.log(response);
+  
       if (status == google.maps.DirectionsStatus.OK) {
         var legs = response.routes[0].legs;
         for (let i = 0; i < legs.length; i++) {

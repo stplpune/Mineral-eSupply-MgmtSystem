@@ -433,6 +433,9 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
+                                <div class="text-end position-relative">
+                                    <button class="btn-deleteall bg-danger bg-opacity-10 text-danger" type="button" (click)="deleteUploadedImage()" *ngIf="f['frontImage'].value && f['sideImage'].value && f['numberPlateImage'].value">Delete All</button>
+                                </div>
                                 <div class="row g-3">
                                     <div class="col-sm-auto">
                                         <div class="upload-image">
@@ -483,7 +486,7 @@
                                         </mat-error>
                                     </div>
                                     
-                                    <button class="btn-outline" type="button" (click)="deleteUploadedImage()" *ngIf="f['frontImage'].value && f['sideImage'].value && f['numberPlateImage'].value">Delete All</button>
+                                    
                                     <!-- <button class="btn btn-main" type="button" (click)="onUpload()">Upload</button> -->
                                 </div>
                             </div>

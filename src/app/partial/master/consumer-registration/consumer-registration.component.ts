@@ -30,15 +30,15 @@ export class ConsumerRegistrationComponent implements OnInit {
   pageNumber: number = 1;
   pagesize: number = 10;
   totalRows: any;
-  highlightedRow:any;
-  dataSource:any;
-  displayedColumns: string[] = ['srno', 'stateId', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
+  highlightedRow: any;
+  dataSource: any;
+  displayedColumns: string[] = ['srno', 'stateName', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
 
   consumerRegiForm: FormGroup | any;
   @ViewChild('formDirective')
   private formDirective!: NgForm;
   applicationTypeArray = ['Individual', 'Organization'];
-  applicationTypeFilterArray = ['All','Individual', 'Organization'];
+  applicationTypeFilterArray = ['All', 'Individual', 'Organization'];
   hideIndividual: boolean = true;
   hideOrganization: boolean = false;
   organTypeArray: any[] = [];
@@ -46,7 +46,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   stateFilterArray: any[] = [];
   districtArray: any[] = [];
   yearArray: any[] = [];
-  btnText = 'Submit';  
+  btnText = 'Submit';
 
   latitude: any;
   longitude: any;
@@ -94,7 +94,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.searchAddressToPincode();
   }
 
-//........................ filter Code Start Here ..................................//
+  //........................ filter Code Start Here ..................................//
 
   defaultFilterForm() {
     this.filterForm = this.fb.group({
@@ -105,28 +105,29 @@ export class ConsumerRegistrationComponent implements OnInit {
   }
 
   getConsumerRegistration() {
-      let formData = this.filterForm.value;
-      let obj = 'Textsearch=' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
-      this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
-      this.callApiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode == 200 && res.responseData.responseData1) {
-            this.dataSource = new MatTableDataSource(res.responseData.responseData1);
-            this.totalRows = res.responseData.responseData2.totalCount;
-            this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
-            this.spinner.hide();
-          } else {
-            this.spinner.hide();
-            this.dataSource = [];
-            this.commonService.matSnackBar(res.statusMessage, 0);
-          }
-        },
-        error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-      })
+    let formData = this.filterForm.value;
+    let obj = 'Textsearch=' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
+    this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
+    this.callApiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200 && res.responseData.responseData1) {
+          this.dataSource = new MatTableDataSource(res.responseData.responseData1);
+          this.totalRows = res.responseData.responseData2.totalCount;
+          this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          this.dataSource = [];
+          this.commonService.matSnackBar(res.statusMessage, 0);
+        }
+      },
+      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+    })
   }
 
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
+    this.clearForm();
     this.getConsumerRegistration();
   }
 
@@ -155,7 +156,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       "id": this.highlightedRow,
       "deletedBy": 1
     }
-    
+
     this.callApiService.setHttp('DELETE', "api/ConsumerRegistration/DeleteConsumer", false, obj, false, 'WBMiningService');
     this.callApiService.getHttp().subscribe({
       next: (res: any) => {
@@ -163,6 +164,7 @@ export class ConsumerRegistrationComponent implements OnInit {
           this.commonService.matSnackBar(res.statusMessage, 0);
           this.pageNumber = 1;
           this.getConsumerRegistration();
+          this.clearForm();
         } else {
           this.commonService.checkDataType(res.statusMessage) == false ? this.errorSerivce.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);;
         }
@@ -189,7 +191,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       contactPersonName: [''],
       contactPersonMobileNo: [''],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validationService.valMobileNo)]],
-      allotmentYear: ['', [Validators.required]],
+      allotmentYear: [new Date().getFullYear(), [Validators.required]],
       allocatedQty: ['', [Validators.required]],
       flag: ['i'],
 
@@ -361,7 +363,6 @@ export class ConsumerRegistrationComponent implements OnInit {
         if (res.statusCode == "200") {
           this.commonService.matSnackBar(res.statusMessage, 0);
           this.getConsumerRegistration();
-          this.btnText = 'Submit';
           this.clearForm();
         } else {
           this.commonService.matSnackBar(res.statusMessage, 1);
@@ -393,7 +394,8 @@ export class ConsumerRegistrationComponent implements OnInit {
       allocatedQty: data?.allocatedQty,
       flag: 'u',
     })
-    this.consumerDocuments = data?.consumerDocuments;
+    this.consumerDocuments = [...data?.consumerDocuments];
+    // this.consumerDocuments = data?.consumerDocuments;
     this.documentSymbolHide();
     this.consumerDocuments.map((ele: any) => {
       switch (ele.documentTypeId) {
@@ -408,13 +410,13 @@ export class ConsumerRegistrationComponent implements OnInit {
   clearForm() {
     this.consumerRegiForm.reset();
     this.formDirective && this.formDirective.resetForm();
+    this.btnText = 'Submit';
     this.defaultMainForm();
     this.defaultDocSymbolHide();
     this.consumerDocuments = [];
     this.defaultfilenativeElementClear();
     this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
   }
-
 
   //.........................................Address to get Pincode Code Start Here ..................................................//
 
