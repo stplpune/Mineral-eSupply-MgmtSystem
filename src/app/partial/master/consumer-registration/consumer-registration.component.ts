@@ -30,15 +30,15 @@ export class ConsumerRegistrationComponent implements OnInit {
   pageNumber: number = 1;
   pagesize: number = 10;
   totalRows: any;
-  highlightedRow:any;
-  dataSource:any;
+  highlightedRow: any;
+  dataSource: any;
   displayedColumns: string[] = ['srno', 'stateId', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
 
   consumerRegiForm: FormGroup | any;
   @ViewChild('formDirective')
   private formDirective!: NgForm;
   applicationTypeArray = ['Individual', 'Organization'];
-  applicationTypeFilterArray = ['All','Individual', 'Organization'];
+  applicationTypeFilterArray = ['All', 'Individual', 'Organization'];
   hideIndividual: boolean = true;
   hideOrganization: boolean = false;
   organTypeArray: any[] = [];
@@ -46,7 +46,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   stateFilterArray: any[] = [];
   districtArray: any[] = [];
   yearArray: any[] = [];
-  btnText = 'Submit';  
+  btnText = 'Submit';
 
   latitude: any;
   longitude: any;
@@ -94,7 +94,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.searchAddressToPincode();
   }
 
-//........................ filter Code Start Here ..................................//
+  //........................ filter Code Start Here ..................................//
 
   defaultFilterForm() {
     this.filterForm = this.fb.group({
@@ -105,24 +105,24 @@ export class ConsumerRegistrationComponent implements OnInit {
   }
 
   getConsumerRegistration() {
-      let formData = this.filterForm.value;
-      let obj = 'Textsearch=' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
-      this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
-      this.callApiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode == 200 && res.responseData.responseData1) {
-            this.dataSource = new MatTableDataSource(res.responseData.responseData1);
-            this.totalRows = res.responseData.responseData2.totalCount;
-            this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
-            this.spinner.hide();
-          } else {
-            this.spinner.hide();
-            this.dataSource = [];
-            this.commonService.matSnackBar(res.statusMessage, 0);
-          }
-        },
-        error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-      })
+    let formData = this.filterForm.value;
+    let obj = 'Textsearch=' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
+    this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
+    this.callApiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == 200 && res.responseData.responseData1) {
+          this.dataSource = new MatTableDataSource(res.responseData.responseData1);
+          this.totalRows = res.responseData.responseData2.totalCount;
+          this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          this.dataSource = [];
+          this.commonService.matSnackBar(res.statusMessage, 0);
+        }
+      },
+      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+    })
   }
 
   pageChanged(event: any) {
@@ -155,7 +155,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       "id": this.highlightedRow,
       "deletedBy": 1
     }
-    
+
     this.callApiService.setHttp('DELETE', "api/ConsumerRegistration/DeleteConsumer", false, obj, false, 'WBMiningService');
     this.callApiService.getHttp().subscribe({
       next: (res: any) => {
@@ -414,7 +414,6 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.defaultfilenativeElementClear();
     this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
   }
-
 
   //.........................................Address to get Pincode Code Start Here ..................................................//
 
