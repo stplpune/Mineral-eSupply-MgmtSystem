@@ -45,6 +45,8 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   // map var 
+  lat =22.9868;
+  long = 87.8550;
   map: any;
   drawingManager: any;
   centerMarker: any = undefined;
@@ -90,7 +92,6 @@ export class RegisterCollaryComponent implements OnInit {
     public validation: FormsValidationService,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader,
-    private router:Router,
   ) {
   }
 

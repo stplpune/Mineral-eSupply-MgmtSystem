@@ -1,70 +1,74 @@
 <div class="container-fluid">
     <h5 class="page-heading">Application</h5>
-    <div class="card plain-card">
-        <div class="card-header py-0">
-          <form [formGroup]="filterForm">
-            <div class="row align-items-center">
-              <div class="col-6 col-sm">
-                  <mat-form-field appearance="legacy" class="w-100">
-                      <mat-label>Select Year</mat-label>
-                      <mat-select formControlName="applicationYear">
-                          <mat-option *ngFor="let year of yearArray" [value]="year">{{year}}</mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="col-6 col-sm">
-                  <mat-form-field appearance="legacy" class="w-100">
-                      <mat-label>Select District</mat-label>
-                      <mat-select formControlName="districtId">
-                        <mat-option *ngFor="let district of districtArray" [value]="district.value">{{district.text}}</mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="col-sm">
-                  <mat-form-field appearance="legacy" class="w-100">
-                      <mat-label>Application Number/Consumer Name</mat-label>
-                      <input matInput placeholder="Application Number/Consumer Name" formControlName="applicationNumber">
-                  </mat-form-field>
-              </div>
-              <div class="col-sm-3 text-end">
-                  <button class="btn btn-main" (click)="searchData()"><i class="fa fa-search me-2" aria-hidden="true"></i>Search</button>
-              </div>
-          </div>
-          </form>
+    <div class="card plain-card border-0">
+        <div class="card-header pb-0">
+            <form [formGroup]="filterForm">
+                <div class="row align-items-center">
+                    <div class="col-6 col-sm-1">
+                        <mat-form-field appearance="legacy" class="w-100">
+                            <mat-label>Select Year</mat-label>
+                            <mat-select formControlName="applicationYear">
+                                <mat-option *ngFor="let year of yearArray" [value]="year">{{year}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        <mat-form-field appearance="legacy" class="w-100">
+                            <mat-label>Select District</mat-label>
+                            <mat-select formControlName="districtId">
+                                <mat-option *ngFor="let district of districtArray" [value]="district.value">
+                                    {{district.text}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field appearance="legacy" class="w-100">
+                            <mat-label>Application Number/Consumer Name</mat-label>
+                            <input matInput placeholder="Application Number/Consumer Name"
+                                formControlName="applicationNumber">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-auto">
+                        <button class="btn-secondary" mat-raised-button (click)="searchData()"><i
+                                class="fa fa-search me-2" aria-hidden="true"></i>Search</button>
+                    </div>
+                </div>
+            </form>
 
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
-
                     <ng-container matColumnDef="srno">
                         <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                        <td mat-cell *matCellDef="let element let i = index">{{((pageNumber + 1) * 10 + i + 1)-20}} </td>
+                        <td mat-cell *matCellDef="let element let i = index">{{((pageNumber + 1) * 10 + i + 1)-20}}
+                        </td>
                     </ng-container>
-    
-    
                     <ng-container matColumnDef="approval_status">
-                        <th mat-header-cell *matHeaderCellDef> Approval Status </th>
+                        <th mat-header-cell *matHeaderCellDef> Approval<br>Status </th>
                         <td mat-cell *matCellDef="let element">
-                          <ng-container *ngFor="let item of element?.coalApplicationApproverDetails">
-                           <p class="badge"  [ngClass]="{'bg-success': item?.applicationStatusText =='Approved','bg-danger': item?.applicationStatusText=='Rejected' ,'bg-warning text-dark': (item?.applicationStatusText == null || item?.applicationStatusText =='Pending') }">
+                            <ng-container *ngFor="let item of element?.coalApplicationApproverDetails">
+                                <!-- <span class="badge mb-0"  [ngClass]="{'bg-success bg-opacity-25 fw-normal text-success': item?.applicationStatusText =='Approved','bg-danger bg-opacity-25 text-danger fw-normal': item?.applicationStatusText=='Rejected' ,'bg-warning bg-opacity-25 text-dark fw-normal': (item?.applicationStatusText == null || item?.applicationStatusText =='Pending') }">
+
                             {{item.applicationStatusText}}
-                           </p>
-                          </ng-container>
-                          </td>
+                           </span><br> -->
+                                <span class="badge mb-0"
+                                    [class]="item?.applicationStatusText =='Approved' ? 'bg-success bg-opacity-25 text-success' : item?.applicationStatusText =='Pending' ? 'bg-warning bg-opacity-25 text-dark' : 'bg-danger bg-opacity-25 text-danger' ">
+                                    {{item.applicationStatusText}}
+                                </span><br>
+                            </ng-container>
+                        </td>
                     </ng-container>
-    
                     <ng-container matColumnDef="application_number">
                         <th mat-header-cell *matHeaderCellDef> Application Number </th>
                         <td mat-cell *matCellDef="let element"> {{element.applicationNumber}} </td>
                     </ng-container>
-    
                     <ng-container matColumnDef="application_date">
                         <th mat-header-cell *matHeaderCellDef> Application Date </th>
                         <td mat-cell *matCellDef="let element"> {{element.applicationDate}} </td>
                     </ng-container>
                     <ng-container matColumnDef="allocated_quantity">
-                        <th mat-header-cell *matHeaderCellDef> Allocated Quantity </th>
+                        <th mat-header-cell *matHeaderCellDef> Allocated<br>Quantity </th>
                         <td mat-cell *matCellDef="let element"> {{element.allocatedQty}} </td>
                     </ng-container>
                     <ng-container matColumnDef="Year">
@@ -80,18 +84,26 @@
                         <td mat-cell *matCellDef="let element"> {{element.district}} </td>
                     </ng-container>
                     <ng-container matColumnDef="view">
-                        <th mat-header-cell *matHeaderCellDef> View </th>
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
                         <td mat-cell *matCellDef="let element">
-                            <a [routerLink]="'../approval/'+element?.id">
-                            <mat-icon>remove_red_eye</mat-icon>
-                        </a>
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                                <button mat-menu-item [routerLink]="'../approval/'+element?.id">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>View</span>
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </div>
+                                </button>
+                            </mat-menu>
                         </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
             </div>
-            
+
         </div>
     </div>
 </div>

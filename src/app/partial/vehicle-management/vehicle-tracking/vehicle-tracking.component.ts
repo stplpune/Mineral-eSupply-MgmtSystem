@@ -65,10 +65,10 @@ export class VehicleTrackingComponent implements OnInit {
       icon: "assets/images/start_pin.svg"
     });
 
-    let smi = "<table><tbody>";
-    smi += '<tr><td colspan="2"><h6 class="mb-0">Colliery Details</h6></td></tr>';
-    smi += '<tr><td colspan="2"><p class="mb-0">Name : Krishnanagar Coal Area </h4></td></p>';
-    smi += '<tr><td colspan="2"><p class="mb-0">Address : Raghunathpur, West Bengal 722202</h4></td></p>';
+    let smi = "<table class='text-start'><tbody>";
+    smi += '<tr><td colspan="2"><p class="mb-1 fw-bold">Colliery Details</p></td></tr>';
+    smi += '<tr><td>Name : </td><td>Krishnanagar Coal Area</td></tr>';
+    smi += '<tr><td>Address :</td><td>Raghunathpur, West Bengal 722202</td></tr>';
     smi += "</tbody></table>";
 
     const info = new google.maps.InfoWindow({
@@ -85,10 +85,10 @@ export class VehicleTrackingComponent implements OnInit {
       icon: "assets/images/end_pin.svg",
     });
 
-    let emi = "<table><tbody>";
-    emi += '<tr><td colspan="2"><h6 class="mb-0">Destination</h6></td></tr>';
-    emi += '<tr><td colspan="2"><p class="mb-0">Name : Kalisen Power Station</h4></td></p>';
-    emi += '<tr><td colspan="2"><p class="mb-0">Address : Kalisen, Bankura - Bishnupur Rd, Manipur, West Bengal 722144</h4></td></p>';
+    let emi = "<table class='text-start'><tbody>";
+    emi += '<tr><td colspan="2"><p class="mb-1 fw-bold">MSME Details</p></td></tr>';
+    emi += '<tr><td>Name :</td><td>Kalisen Power Station</td></tr>';
+    emi += '<tr><td>Address : </td><td>Kalisen, Bankura - Bishnupur Rd, Manipur, West Bengal 722144</td></tr>';
     emi += "</tbody></table>";
 
     const eminfo = new google.maps.InfoWindow({

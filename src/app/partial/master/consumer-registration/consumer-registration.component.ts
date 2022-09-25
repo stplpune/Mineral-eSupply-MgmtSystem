@@ -32,7 +32,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   totalRows: any;
   highlightedRow: any;
   dataSource: any;
-  displayedColumns: string[] = ['srno', 'stateName', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
+  displayedColumns: string[] = ['srno', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
 
   consumerRegiForm: FormGroup | any;
   @ViewChild('formDirective')
