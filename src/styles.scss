@@ -189,6 +189,8 @@ body {
   vertical-align: middle !important;
   background-color: var(--bg-color) !important;
   color: var(--text-color);
+  word-wrap: break-word!important;
+    word-break: break-word!important;
 }
 
 .upload-table td {

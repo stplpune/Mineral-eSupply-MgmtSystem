@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-8 mb-3 mb-lg-0 ">
             <div class="card plain-card">
-                <div class="card-header pb-2 pb-lg-0">
+                <div class="card-header  pb-lg-0">
                     <form [formGroup]="filterVehicleFrm" (ngSubmit)="onVehicleSearch()">
                         <div class="row">
                             <!-- <div class="col-sm-3">
@@ -15,7 +15,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div> -->
-                            <div class="col-sm">
+                            <div class="col-7 col-sm">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Vehicle No/Name/Mobile No</mat-label>
                                     <input matInput formControlName="textSearch"
@@ -26,7 +26,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-auto text-end">
+                            <div class="col-5 col-sm-auto text-end">
                                 <button mat-raised-button type="submit" class="btn btn-secondary">
                                     <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                                 </button>
