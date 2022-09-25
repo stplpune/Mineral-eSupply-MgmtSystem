@@ -30,6 +30,7 @@ export class RegisterCollaryComponent implements OnInit {
   frmCollary!: FormGroup;
   isfilterSubmit: boolean = false;
   districtNameArr: any[] = [];
+  placeMarker: any;
   get f() { return this.frm.controls };
   selectedCustomer: any;
   get fc() { return this.frmCollary.controls };
@@ -184,7 +185,6 @@ export class RegisterCollaryComponent implements OnInit {
           this.shareDataService.setGeofence(res.responseData);
           this.updateId = res.responseData.id;
 
-
           this.frmCollary.patchValue({
             collieryName: res.responseData.collieryName,
             districtId: res.responseData.districtId,
@@ -302,6 +302,7 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onMapReady(map?: any) {
+
     this.isHide = this.data?.isHide || false;
     this.map = map;
     if (this.isEdit) {
@@ -329,8 +330,26 @@ export class RegisterCollaryComponent implements OnInit {
       });
     }
 
-    this.mapsAPILoader.load().then(() => {
+    const latLong=new google.maps.LatLng(this.data?.selectedRecord.latLng.split(',')[0],this.data?.selectedRecord.latLng.split(',')[1]);
+    if (latLong) {
+      this.placeMarker = new google.maps.Marker({
+        position: latLong,
+        draggable: true,
+        map: map,
+      });
 
+      google.maps.event.addListener(map, 'dragend', e => {
+        console.log(e.latLng.lat().toFixed(6))
+        this.placeMarker.setPosition(map.getCenter())
+      
+        this.map?.panTo(e.latLng);
+      });
+
+      map.setCenter({ lat:Number(this.data?.selectedRecord?.latLng.split(',')[0]), lng:Number(this?.data?.selectedRecord.latLng.split(',')[1])})
+
+    }
+    
+    this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef?.nativeElement);
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
@@ -511,6 +530,7 @@ export class RegisterCollaryComponent implements OnInit {
 
   exiShapeRemove(){
     this.existingShape?.setMap(null);
+    this.placeMarker?.setMap(null);
     this.circle?.setMap(null);
     this.existingMarker?.setMap(null);
     this.drawingManager.setDrawingMode(null);
