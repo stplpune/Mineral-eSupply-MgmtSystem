@@ -304,10 +304,14 @@ export class RegisterVehicleComponent implements OnInit {
       sideImage : '',
       numberPlateImage : ''
     });
+    this.clearFileInput();
+    this.isImageUplaod = false;
+  }
+
+  clearFileInput(){
     this.fileInput.nativeElement.value = "";
     this.fileInput1.nativeElement.value = "";
     this.fileInput2.nativeElement.value = "";
-    this.isImageUplaod = false;
   }
 
   editVehicleRecord(row: any){
@@ -470,6 +474,7 @@ export class RegisterVehicleComponent implements OnInit {
     })
     this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
     this.isEdit = false;
+    this.clearFileInput();
   }
 
 }
