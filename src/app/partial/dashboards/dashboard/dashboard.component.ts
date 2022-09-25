@@ -62,43 +62,19 @@ export class DashboardComponent implements OnInit {
     //area chart static data
     this.monthDataSeries1 = {
       prices: [
-        200,
-        220,
-        180,
-        190,
-        220,
-        180,
-        220,
-        200,
-        220,
-        180,
-        190,
-        220,
-        180,
-        220,
-        200,
-        220,
-        180,
-        190,
-        220,
-        180,
-        220,
+        950,
+        910,
+        920,
+        940,
+        960,
+        980,
+        970,
+        1000,
+        1020,
+        1000,
+        1010,
       ],
       dates: [
-        "01 Sep 2022",
-        "02 Sep 2022",
-        "03 Sep 2022",
-        "04 Sep 2022",
-        "15 Sep 2022",
-        "06 Sep 2022",
-        "07 Sep 2022",
-        "08 Sep 2022",
-        "09 Sep 2022",
-        "10 Sep 2022",
-        "11 Sep 2022",
-        "12 Sep 2022",
-        "13 Sep 2022",
-        "15 Sep 2022",
         "16 Sep 2022",
         "17 Sep 2022",
         "18 Sep 2022",
@@ -112,11 +88,10 @@ export class DashboardComponent implements OnInit {
         "26 Sep 2022",
       ]
     }
-
     this.chartOptions = {
       series: [
         {
-          name: "STOCK ABC",
+          name: "Coal Lifting",
           data: this.monthDataSeries1.prices
         }
       ],

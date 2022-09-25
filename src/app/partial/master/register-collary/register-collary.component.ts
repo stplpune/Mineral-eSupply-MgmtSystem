@@ -90,7 +90,6 @@ export class RegisterCollaryComponent implements OnInit {
     public validation: FormsValidationService,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader,
-    private router:Router,
   ) {
   }
 
