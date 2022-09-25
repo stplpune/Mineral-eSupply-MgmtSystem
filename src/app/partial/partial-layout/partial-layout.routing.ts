@@ -7,7 +7,7 @@ export const PartialLayoutRoutes: Routes = [
 
   // -------------------------Master routing  use for Admin, WBMDTCL--------------------------------------------------------//
   { path: 'register-user', loadChildren: () => import('../../partial/master/register-user/register-user.module').then(m => m.RegisterUserModule), data: { title: 'Register User' },  canActivate: [ExpenseGuard] },
-  { path: 'register-collary', loadChildren: () => import('../../partial/master/register-collary/register-collary.module').then(m => m.RegisterCollaryModule), data: { title: 'Register Collary' },  canActivate: [ExpenseGuard]  },
+  { path: 'register-collary', loadChildren: () => import('../../partial/master/register-collary/register-collary.module').then(m => m.RegisterCollaryModule), data: { title: 'Register Colliery' },  canActivate: [ExpenseGuard]  },
   { path: 'coal-grade-master', loadChildren: () => import('../../partial/master/coal-grade-master/coal-grade-master.module').then(m => m.CoalGradeMasterModule), data: { title: 'Coal Grade Master' },  canActivate: [ExpenseGuard]  },
   { path: 'document-master', loadChildren: () => import('../../partial/master/document-master/document-master.module').then(m => m.DocumentMasterModule), data: { title: 'Document Master' },  canActivate: [ExpenseGuard]  },
   { path: 'grade-wise-rate-card-chart', loadChildren: () => import('../../partial/master/grade-wise-rate-card-chart/grade-wise-rate-card-chart.module').then(m => m.GradeWiseRateCardChartModule), data: { title: 'Grade Wise Rate Card Chart' },  canActivate: [ExpenseGuard]  },
@@ -45,5 +45,13 @@ export const PartialLayoutRoutes: Routes = [
 
   // ------------------------------------------Settings  ----------------------------------------------------------//
   { path: 'user-right-access', loadChildren: () => import('../../partial/settings/user-right-access/user-right-access.module').then(m => m.UserRightAccessModule), data: { title: 'User Right Access' },  canActivate: [ExpenseGuard]  },
+  
+  
+  // ------------------------------------------Account Management  ----------------------------------------------------------//
+  { path: 'payment-receipt', loadChildren: () => import('../../partial/account-management/payment-receipt/payment-receipt.module').then(m => m.PaymentReceiptModule), data: { title: 'Payments / Receipts' },  canActivate: [ExpenseGuard] },
+  { path: 'refund', loadChildren: () => import('../../partial/account-management/refund/refund.module').then(m => m.RefundModule), data: { title: 'Refunds' },  canActivate: [ExpenseGuard] },
+  { path: 'forfeit', loadChildren: () => import('../../partial/account-management/forfeit/forfeit.module').then(m => m.ForfeitModule), data: { title: 'Forfeit' },  canActivate: [ExpenseGuard] },
+  { path: 'ledger', loadChildren: () => import('../../partial/account-management/ledger/ledger.module').then(m => m.LedgerModule), data: { title: 'Ledger' },  canActivate: [ExpenseGuard] },
+
 
 ];

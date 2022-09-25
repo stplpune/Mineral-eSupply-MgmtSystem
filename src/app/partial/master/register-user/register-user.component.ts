@@ -21,7 +21,7 @@ import { AddUserComponent } from './add-user/add-user.component';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent implements OnInit {
-  displayedColumns: string[] = ['srno', 'fullName', 'mobileNo', 'designation', 'userType', 'userSubType', 'districtName', 'action'];
+  displayedColumns: string[] = ['srno', 'fullName', 'mobileNo', 'designation', 'userType', 'userSubType', 'districtName','block-unblock', 'action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource: any;
   filterForm!: FormGroup;

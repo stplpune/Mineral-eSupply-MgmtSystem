@@ -33,7 +33,7 @@ export class CoalAllocationComponent implements OnInit {
   stateArray: any[] = [];
   districtArray: any[] = [];
   applicationTypeName = 'Individual';
-
+  editcheckFlag:boolean = true;   
 
   panSymbolHide: boolean = false;
   aadharSymbolHide: boolean = false;
@@ -77,7 +77,6 @@ export class CoalAllocationComponent implements OnInit {
     public configService: ConfigService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-
   ) { }
 
   ngOnInit(): void {
@@ -112,12 +111,12 @@ export class CoalAllocationComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.pattern(this.validationService.valEmailId)]],
       organizationType: [''],
       contactPersonName: [''],
-      contactPersonMobileName: [''],
+      contactPersonMobileNo: ['', Validators.pattern(this.validationService.valMobileNo)],
       address: ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
       pinCode: ['', [Validators.required, Validators.pattern(this.validationService.valPinCode)]],
       stateId: [36],
       districtId: [''],
-      applicationYear: ['', Validators.required],
+      applicationYear: [new Date().getFullYear(), Validators.required],
       allocatedQty: ['', Validators.required],
       reasonForApply: ['', [Validators.required, Validators.pattern('^[^[ ]+|[ ][gm]+$')]],
 
@@ -150,6 +149,7 @@ export class CoalAllocationComponent implements OnInit {
 
   applicationTypeCheck(flag: any) {
     this.applicationTypeName = flag;
+    this.editcheckFlag = true;
     this.formDirective && this.formDirective.resetForm();
     this.defaultMainForm();
     this.otpCounter = of([]); this.sentOtpText = 'Send OTP'; this.disableBtnSendOTP = false;
@@ -212,18 +212,24 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   verifyPAN_Number() {
-    this.clearForm();
+    this.coalApplicationDocuments = [];
+    this.defaultDocSymbolHide();
+    this.defaultMainForm();
+    // this.clearForm();
     if (this.verifyPANForm.invalid) {
       return;
     }
     this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.verifyPANForm.value.verifyPANNumber, false, false, false, 'WBMiningService');
     this.callApiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === 200) {
+        if (res.statusCode == 200) {
+          this.patchVerifiedData(res.responseData);
           this.disableDiv = true;
+          this.editcheckFlag = false;
           this.commonService.matSnackBar(res.statusMessage, 1);
         } else {
           this.disableDiv = false;
+          this.editcheckFlag = true;
           this.coalAllocationRegiForm.controls['panNo'].setValue(this.verifyPANForm.value.verifyPANNumber.toUpperCase());
           this.commonService.matSnackBar(res.statusMessage, 0);
         }
@@ -232,22 +238,22 @@ export class CoalAllocationComponent implements OnInit {
     })
   }
 
-  verifyPAN_Number_Inside() {
-    if(this.coalAllocationRegiForm.controls['panNo'].status == 'VALID'){
-    this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.coalAllocationRegiForm.value.panNo, false, false, false, 'WBMiningService');
-    this.callApiService.getHttp().subscribe({
-      next: (res: any) => {
-        if (res.statusCode === 200) {
-          this.commonService.matSnackBar(res.statusMessage, 1);
-          this.coalAllocationRegiForm.controls['panNo'].setValue('');
-        } else {
-          this.commonService.matSnackBar(res.statusMessage, 0);
-        }
-      },
-      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-    })
-  }
-  }
+  // verifyPAN_Number_Inside() {
+  //   if(this.coalAllocationRegiForm.controls['panNo'].status == 'VALID'){
+  //   this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.coalAllocationRegiForm.value.panNo, false, false, false, 'WBMiningService');
+  //   this.callApiService.getHttp().subscribe({
+  //     next: (res: any) => {
+  //       if (res.statusCode == 200) {
+  //         this.commonService.matSnackBar(res.statusMessage, 1);
+  //         this.coalAllocationRegiForm.controls['panNo'].setValue('');
+  //       } else {
+  //         this.commonService.matSnackBar(res.statusMessage, 0);
+  //       }
+  //     },
+  //     error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+  //   })
+  // }
+  // }
 
   onSubmit() {
     this.addDocumentNumber();
@@ -259,7 +265,7 @@ export class CoalAllocationComponent implements OnInit {
       this.commonService.matSnackBar("PAN Document is Required..!!!", 1);
       this.commonService.scrollBar(400);
       return;
-    } else if (this.coalAllocationRegiForm.value.contactPersonMobileName == this.coalAllocationRegiForm.value.applicantMobileNo) {
+    } else if (this.coalAllocationRegiForm.value.contactPersonMobileNo == this.coalAllocationRegiForm.value.applicantMobileNo) {
       this.commonService.matSnackBar("Mobile Number & Contact Person Mobile No. should be different.", 1);
       return;
     }
@@ -272,7 +278,7 @@ export class CoalAllocationComponent implements OnInit {
           "applicantName": formData.name,
           "applicantMobileNo": formData.mobile,
           "applicantEmailId": formData.email,
-          "applicationNumber": "9789797767",
+          "applicationNumber": "",
         }
       } else {
         typeObj = {
@@ -280,8 +286,8 @@ export class CoalAllocationComponent implements OnInit {
           "organizationNumber": formData.mobile,
           "organizationEmail": formData.email,
           "contactPersonName": formData.contactPersonName,
-          "contactPersonMobileName": formData.contactPersonMobileName,
-          "organizationType": formData.organizationType || 0,
+          "contactPersonMobileNo": formData.contactPersonMobileNo,
+          "organizationTypeId": formData.organizationType || 0,
         }
       }
 
@@ -307,6 +313,7 @@ export class CoalAllocationComponent implements OnInit {
           this.verifyPanForm();
           this.defaultDocSymbolHide();
           this.disableDiv = true;
+          this.editcheckFlag = true;
           // this.sentOtpText = 'Send OTP';
           this.clearForm();
         } else {
@@ -318,8 +325,41 @@ export class CoalAllocationComponent implements OnInit {
     }
   }
 
+  patchVerifiedData(data: any) { // Patch Data
+    this.applicationTypeName = data?.bidderType; // add for radio button
+    this.applicationTypeCheck(data?.applicationType == 1 ? 'Individual' : 'Organization');
+    this.coalAllocationRegiForm.patchValue({
+      id: data?.id,
+      name: data?.applicationType == 1 ? data?.applicantName : data?.organizationName,
+      mobile: data?.applicationType == 1 ? data?.applicantMobileNo : data?.organizationNumber,
+      email: data?.applicationType == 1 ? data?.applicantEmailId : data?.organizationEmail,
+      organizationType: data?.organizationTypeId,
+      contactPersonName: data?.contactPersonName,
+      contactPersonMobileNo: data?.contactPersonMobileNo,
+      address: data?.address,
+      pinCode: data?.pinCode,
+      stateId: data?.stateId,
+      districtId: data?.districtId,
+      applicationYear: data?.applicationYear,
+      allocatedQty: data?.allocatedQty,
+      reasonForApply: data?.reasonForApply,
+    })
+    this.coalApplicationDocuments = data?.coalApplicationDocuments;
+    this.documentSymbolHide();
+    this.coalApplicationDocuments.map((ele: any) => {      
+      switch (ele.documentTypeId) {
+        case 1: this.coalAllocationRegiForm.controls['panNo'].setValue(ele.documentNo); break;
+        case 2: this.coalAllocationRegiForm.controls['aadharNo'].setValue(ele.documentNo); break;
+        case 3: this.coalAllocationRegiForm.controls['gstNo'].setValue(ele.documentNo); break;
+        case 4: this.coalAllocationRegiForm.controls['incorporation_Date'].setValue(new Date(ele.documentNo)); break;
+        case 5: this.coalAllocationRegiForm.controls['districtRecometnLetter'].setValue(ele.documentNo); break;
+        default:
+      }
+    });
+  }
 
   clearForm() {
+    this.editcheckFlag = true;
     this.coalAllocationRegiForm.reset();
     this.formDirective && this.formDirective.resetForm();
     this.defaultMainForm();
@@ -494,7 +534,7 @@ export class CoalAllocationComponent implements OnInit {
 
   documentNumberObj(docNo: any, documentTypeId: any) {
     let obj = {
-      "documentTypeId": documentTypeId,
+      "documentTypeId": documentTypeId,   
       "documentName": '',
       "documentNo": docNo,
       "documentPath": ''
@@ -520,7 +560,7 @@ export class CoalAllocationComponent implements OnInit {
       this.callApiService.setHttp('post', "CoalApplication/GenerateOTP?mobileNumber=" + this.coalAllocationRegiForm.value.mobile, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200) {
+          if (res.statusCode == 200) {
             this.commonService.matSnackBar(res.statusMessage, 0);
             this.sentOtpText = 'Resend OTP';
             this.disableBtnSendOTP = true;
@@ -541,7 +581,7 @@ export class CoalAllocationComponent implements OnInit {
       this.callApiService.setHttp('post', "CoalApplication/ValidateOTP?" + obj, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200) {
+          if (res.statusCode == 200) {
           } else {
             this.commonService.matSnackBar(res.statusMessage, 0);
             this.coalAllocationRegiForm.controls['verfiedOTPId'].setValue('');
@@ -569,6 +609,15 @@ export class CoalAllocationComponent implements OnInit {
   //................   Send Otp Timer Code End Here ...................//
 
   // ...........................................  Sent Otp Code End Here ........................................//
+
+  // clearOnBlurValue(flag:any){  // not allow only zero Value
+  //   let subject:any = /^0+$/;
+  //   if(flag == 'accountNo' && this.coalAllocationRegiForm.value.accountNo.match(subject)){
+  //     this.coalAllocationRegiForm.controls['accountNo'].setValue('');
+  //   }else if(flag == 'incorporationCerti_No' && this.coalAllocationRegiForm.value.incorporationCerti_No.match(subject)){
+  //     this.coalAllocationRegiForm.controls['incorporationCerti_No'].setValue('');
+  //   }
+  //  }
 
 
 }

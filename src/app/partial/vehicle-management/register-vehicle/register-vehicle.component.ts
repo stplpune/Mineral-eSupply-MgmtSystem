@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,7 +22,8 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 export class RegisterVehicleComponent implements OnInit {
 
   regVehicleFrm !: FormGroup;
-  filterVehicleFrm!: FormGroup;
+  filterVehicleFrm!: FormGroup;  
+  @ViewChild('formDirective') formDirective!: NgForm;
   stateNameArr: any [] = [];
   districtNameArr: any = [];
   transportTypeArr = ['Vehicle'];
@@ -33,23 +34,27 @@ export class RegisterVehicleComponent implements OnInit {
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
-  displayedColumns: string[] = ['vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'isVerified', 'action',];
+  displayedColumns: string[] = ['SrNo', 'vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'isVerified', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   dataSource: any;
   eventFrontImg: any;
   eventSideImg: any;
   eventNumPlateImg: any;
   telecomProviderArr = ['Vodafone', 'Idea', 'Airtel', 'Jio', 'BSNL'];
-  verificationStsArr = [{ id: 1, value: 'Yes' }, { id: 0, value: 'No' }]
+  verificationStsArr = [{ id: 0, value: 'All' }, { id: 1, value: 'Yes' }, { id: 2, value: 'No' }]
   isImageUplaod: boolean = false;
   isSubmitted: boolean = false;
   @ViewChild('state') private refState!: ElementRef;
   @ViewChild('district') private refDistrict!: ElementRef;
   @ViewChild('series') private refSeries!: ElementRef;
   @ViewChild('number') private refNumber!: ElementRef;
+  @ViewChild('fileInput1') fileInput1!: ElementRef;
+  @ViewChild('fileInput2') fileInput2!: ElementRef;
+  @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild(MatSort) sort!: MatSort;
 
   get f() { return this.regVehicleFrm.controls };
+  get fr() { return this.filterVehicleFrm.controls };
 
   constructor(public configService :ConfigService, 
     public fb: FormBuilder,    
@@ -73,7 +78,7 @@ export class RegisterVehicleComponent implements OnInit {
   createFilterForm(){
     this.filterVehicleFrm = this.fb.group({
       verificationStatus: [this.verificationStsArr[0].id],
-      textSearch: ['']
+      textSearch: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]]
     })
 
   }
@@ -106,7 +111,7 @@ export class RegisterVehicleComponent implements OnInit {
       driverName: ['', [Validators.required, Validators.pattern(this.vs.alphabetsWithSpace)]],
       driverMobileNo: ['', [Validators.required, Validators.pattern(this.vs.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       eTpMobileNumber: ['', [Validators.pattern(this.vs.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
-      ownerMobileNumber: ['', [Validators.required, Validators.pattern(this.vs.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
+      ownerMobileNo: ['', [Validators.required, Validators.pattern(this.vs.valMobileNo), Validators.minLength(10), Validators.maxLength(10)]],
       vehicleTypeId: [0],
       permitNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       licenseNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
@@ -148,6 +153,7 @@ export class RegisterVehicleComponent implements OnInit {
         } else {
           this.dataSource = [];
           this.totalRows = 0;
+          this.paginator.pageIndex = 0;
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
         this.spinner.hide();
@@ -276,27 +282,42 @@ export class RegisterVehicleComponent implements OnInit {
     }
   }
 
-  deleteUploadedImage(type: any){
-    if(type == 'frontImg'){
-      this.regVehicleFrm.patchValue({
-        frontImage : ''
-      }) 
-      this.isImageUplaod = false;   
-    }else if(type == 'sideImg'){
-      this.regVehicleFrm.patchValue({
-        sideImage : ''
-      }) 
-      this.isImageUplaod = false;
-    }else if(type == 'numberPlateImg'){
-      this.regVehicleFrm.patchValue({
-        numberPlateImage : ''
-      }) 
-      this.isImageUplaod = false;
-    }
+  deleteUploadedImage(){
+    // if(type == 'frontImg'){
+    //   this.regVehicleFrm.patchValue({
+    //     frontImage : ''
+    //   }) 
+    //   this.isImageUplaod = false;   
+    // }else if(type == 'sideImg'){
+    //   this.regVehicleFrm.patchValue({
+    //     sideImage : ''
+    //   }) 
+    //   this.isImageUplaod = false;
+    // }else if(type == 'numberPlateImg'){
+    //   this.regVehicleFrm.patchValue({
+    //     numberPlateImage : ''
+    //   }) 
+    //   this.isImageUplaod = false;
+    // }
+    this.regVehicleFrm.patchValue({
+      frontImage : '',
+      sideImage : '',
+      numberPlateImage : ''
+    });
+    this.clearFileInput();
+    this.isImageUplaod = false;
+  }
+
+  clearFileInput(){
+    this.fileInput.nativeElement.value = "";
+    this.fileInput1.nativeElement.value = "";
+    this.fileInput2.nativeElement.value = "";
   }
 
   editVehicleRecord(row: any){
-    console.log(row)
+    this.isEdit = true;
+    this.updateId = row.id;
+    this.isImageUplaod = true;
     this.regVehicleFrm.patchValue({
       transportType: row.transportType,
       state: row.state,
@@ -307,7 +328,7 @@ export class RegisterVehicleComponent implements OnInit {
       isBlock: row.isBlock,
       remark: row.remark,
       ownerName: row.ownerName,
-      ownerMobileNumber: row.ownerMobileNumber,
+      ownerMobileNo: row.ownerMobileNo,
       address: row.address,
       driverName: row.driverName,
       driverMobileNo: row.driverMobileNo,
@@ -327,8 +348,6 @@ export class RegisterVehicleComponent implements OnInit {
       sideImage: row.sideImage,
       numberPlateImage: row.numberPlateImage
     })
-    this.regVehicleFrm.controls['ownerName'].disable();
-    // this.regVehicleFrm.controls['ownerMobileNumber'].disable();
     this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
   }
 
@@ -343,7 +362,7 @@ export class RegisterVehicleComponent implements OnInit {
     }else{
       console.log(this.regVehicleFrm)
       this.isSubmitted = false;
-      this.onUpload();
+      this.isImageUplaod != true ? this.onUpload() : this.saveData();
     }
   }
 
@@ -443,15 +462,19 @@ export class RegisterVehicleComponent implements OnInit {
   }
 
   onCancelRecord(){
-    this.regVehicleFrm.reset();
     this.isSubmitted = false;
+    this.formDirective.resetForm();
+    // this.regVehicleFrm.reset();
     this.regVehicleFrm.patchValue({
       transportType: 'Vehicle',
       numberFormat: 'New'
     });
-    this.regVehicleFrm.controls['ownerName'].enable();
-    this.regVehicleFrm.controls['ownerMobileNumber'].enable();
+    this.filterVehicleFrm.patchValue({
+      verificationStatus: [this.verificationStsArr[0].id]
+    })
+    this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
     this.isEdit = false;
+    this.clearFileInput();
   }
 
 }

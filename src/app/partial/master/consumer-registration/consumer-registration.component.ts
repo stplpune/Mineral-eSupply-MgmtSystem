@@ -14,6 +14,8 @@ import { MapsAPILoader } from '@agm/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -30,12 +32,13 @@ export class ConsumerRegistrationComponent implements OnInit {
   totalRows: any;
   highlightedRow:any;
   dataSource:any;
-  displayedColumns:any;
+  displayedColumns: string[] = ['srno', 'stateId', 'consumerName', 'mobileNo', 'consumerTypeId', 'emailId', 'consumerDocuments', 'action'];
 
   consumerRegiForm: FormGroup | any;
   @ViewChild('formDirective')
   private formDirective!: NgForm;
   applicationTypeArray = ['Individual', 'Organization'];
+  applicationTypeFilterArray = ['All','Individual', 'Organization'];
   hideIndividual: boolean = true;
   hideOrganization: boolean = false;
   organTypeArray: any[] = [];
@@ -43,6 +46,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   stateFilterArray: any[] = [];
   districtArray: any[] = [];
   yearArray: any[] = [];
+  btnText = 'Submit';  
 
   latitude: any;
   longitude: any;
@@ -76,6 +80,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private spinner: NgxSpinnerService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -83,7 +88,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.getConsumerRegistration();
     this.defaultMainForm();
     this.getState();
-    this.getStateFilter();
+    // this.getStateFilter();
     this.getOrganizationtype();
     this.getyearDropDown();
     this.searchAddressToPincode();
@@ -93,19 +98,19 @@ export class ConsumerRegistrationComponent implements OnInit {
 
   defaultFilterForm() {
     this.filterForm = this.fb.group({
-      consumerType: [''],
-      stateId: [36],
+      consumerType: [0],
+      stateId: [0],
       searchText: [''],
     })
   }
 
   getConsumerRegistration() {
       let formData = this.filterForm.value;
-      let obj = 'Search= ' + formData.searchText + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
-      this.callApiService.setHttp('get', "api/ConsumerRegistration?" + obj, false, false, false, 'WBMiningService');
+      let obj = 'Textsearch=' + formData.searchText?.trim() + '&ConsumerTypeId=' + parseInt(formData.consumerType) + '&StateId=' + formData.stateId + '&pageno=' + this.pageNumber + '&pagesize=' + this.pagesize
+      this.callApiService.setHttp('get', "api/ConsumerRegistration/GetConsumerDetails?" + obj, false, false, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe({
         next: (res: any) => {
-          if (res.statusCode === 200 && res.responseData.responseData1) {
+          if (res.statusCode == 200 && res.responseData.responseData1) {
             this.dataSource = new MatTableDataSource(res.responseData.responseData1);
             this.totalRows = res.responseData.responseData2.totalCount;
             this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
@@ -123,6 +128,47 @@ export class ConsumerRegistrationComponent implements OnInit {
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
     this.getConsumerRegistration();
+  }
+
+  deleteConformation(id: any) {
+    this.highlightedRow = id;
+    let obj: any = ConfigService.dialogObj;
+    obj['p1'] = 'Are you sure you want to delete this record?';
+    obj['cardTitle'] = 'Delete';
+    obj['successBtnText'] = 'Delete';
+    obj['cancelBtnText'] = 'Cancel';
+    obj['inputType'] = false;
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: this.configService.dialogBoxWidth[0],
+      data: obj,
+      disableClose: this.configService.disableCloseBtnFlag,
+    })
+    dialog.afterClosed().subscribe(res => {
+      if (res == 'Yes') {
+        this.deleteConsumer();
+      }
+    })
+  }
+
+  deleteConsumer() {  // this.highlightedRow == id
+    let obj = {
+      "id": this.highlightedRow,
+      "deletedBy": 1
+    }
+    
+    this.callApiService.setHttp('DELETE', "api/ConsumerRegistration/DeleteConsumer", false, obj, false, 'WBMiningService');
+    this.callApiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == "200") {
+          this.commonService.matSnackBar(res.statusMessage, 0);
+          this.pageNumber = 1;
+          this.getConsumerRegistration();
+        } else {
+          this.commonService.checkDataType(res.statusMessage) == false ? this.errorSerivce.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);;
+        }
+      },
+      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+    });
   }
 
   //........................ filter Code End Here ..................................//
@@ -220,16 +266,6 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.commonApiCallService.getState().subscribe({
       next: (response: any) => {
         this.stateArray.push({ text: "Select State", value: 0 }, ...response);
-        this.getDistrict(this.consumerRegiForm.value.stateId);
-        this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
-      },
-      error: (err => { this.errorSerivce.handelError(err) })
-    })
-  }
-
-  getStateFilter() {
-    this.commonApiCallService.getState().subscribe({
-      next: (response: any) => {
         this.stateFilterArray.push({ text: "All", value: 0 }, ...response);
         this.getDistrict(this.consumerRegiForm.value.stateId);
         this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
@@ -237,6 +273,17 @@ export class ConsumerRegistrationComponent implements OnInit {
       error: (err => { this.errorSerivce.handelError(err) })
     })
   }
+
+  // getStateFilter() {
+  //   this.commonApiCallService.getState().subscribe({
+  //     next: (response: any) => {
+  //       this.stateFilterArray.push({ text: "All", value: 0 }, ...response);
+  //       this.getDistrict(this.consumerRegiForm.value.stateId);
+  //       this.addRemoveValiDistrict(this.consumerRegiForm.value.stateId);
+  //     },
+  //     error: (err => { this.errorSerivce.handelError(err) })
+  //   })
+  // }
 
   getDistrict(stateId: any) {
     this.commonApiCallService.getDistrictByStateId(stateId).subscribe({
@@ -247,22 +294,22 @@ export class ConsumerRegistrationComponent implements OnInit {
     })
   }
 
-  verifyPAN_Number_Inside() {  // Verify PAN Exist Or Not
-    if (this.consumerRegiForm.controls['panNo'].status == 'VALID') {
-      this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.consumerRegiForm.value.panNo, false, false, false, 'WBMiningService');
-      this.callApiService.getHttp().subscribe({
-        next: (res: any) => {
-          if (res.statusCode === 200) {
-            this.commonService.matSnackBar(res.statusMessage, 1);
-            this.consumerRegiForm.controls['panNo'].setValue('');
-          } else {
-            this.commonService.matSnackBar(res.statusMessage, 0);
-          }
-        },
-        error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-      })
-    }
-  }
+  // verifyPAN_Number_Inside() {  // Verify PAN Exist Or Not
+  //   if (this.consumerRegiForm.controls['panNo'].status == 'VALID') {
+  //     this.callApiService.setHttp('get', "CoalApplication/GetCoalApplicationDetailsUsingPAN?panNumber=" + this.consumerRegiForm.value.panNo, false, false, false, 'WBMiningService');
+  //     this.callApiService.getHttp().subscribe({
+  //       next: (res: any) => {
+  //         if (res.statusCode == 200) {
+  //           this.commonService.matSnackBar(res.statusMessage, 1);
+  //           this.consumerRegiForm.controls['panNo'].setValue('');
+  //         } else {
+  //           this.commonService.matSnackBar(res.statusMessage, 0);
+  //         }
+  //       },
+  //       error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+  //     })
+  //   }
+  // }
 
   onSubmit() {
     this.addDocumentNumber();
@@ -286,7 +333,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     } else {
 
       let obj = {
-        "id": 0,
+        "id": formData?.id,
         "stateId": formData.stateId,
         "districtId": formData.districtId,
         "consumerTypeId": formData.consumerTypeId == 'Individual' ? 1 : 2,
@@ -313,6 +360,9 @@ export class ConsumerRegistrationComponent implements OnInit {
       this.callApiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.commonService.matSnackBar(res.statusMessage, 0);
+          this.getConsumerRegistration();
+          this.btnText = 'Submit';
+          this.clearForm();
         } else {
           this.commonService.matSnackBar(res.statusMessage, 1);
         }
@@ -323,13 +373,14 @@ export class ConsumerRegistrationComponent implements OnInit {
   }
 
   editConsumerRegForm(data: any) { // Patch Data
+    this.btnText = 'Update';
     this.getEditConsumerRegArray = data;
     this.consumerTypeCheck(data?.consumerTypeId == 1 ? 'Individual' : 'Organization');
     this.consumerRegiForm.patchValue({
       id: data?.id,
       stateId: data?.stateId,
       districtId: data?.districtId,
-      consumerTypeId: data?.consumerTypeId,
+      consumerTypeId: data?.consumerTypeId == 1 ? 'Individual' : 'Organization',
       organizationTypeId: data?.organizationTypeId,
       consumerName: data?.consumerName,
       emailId: data?.emailId,
@@ -342,7 +393,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       allocatedQty: data?.allocatedQty,
       flag: 'u',
     })
-    this.consumerDocuments = data?.bidderUserDocuments || data?.bidderDocumentslst;
+    this.consumerDocuments = data?.consumerDocuments;
     this.documentSymbolHide();
     this.consumerDocuments.map((ele: any) => {
       switch (ele.documentTypeId) {

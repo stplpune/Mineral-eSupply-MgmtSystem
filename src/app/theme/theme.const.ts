@@ -19,7 +19,7 @@ export const themes: any = {
         '--card-bg-color': '#3F4853',
         '--form-label-color': '#eee',
         '--form-data-color': 'rgb(251, 170, 93)',
-        '--card-border-color': '#3F4853'
+        '--card-border-color': '#2B3036'
     }
 };
 
