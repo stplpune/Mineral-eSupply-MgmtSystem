@@ -36,9 +36,10 @@ export class GenerateMsmeInvoiceChallanComponent implements OnInit {
   getMSMEData() {
     this.spinner.show();
     let formData = this.filterForm.value;
-    let fromDate = this.datePipe.transform(formData.fromDate,'dd-MM-yyyy');
-    let toDate = this.datePipe.transform(formData.toDate,'dd-MM-yyyy');
-    this.apiService.setHttp('get', "/MSMEInvoice/GetMSMEInvoice?fromDate=" + fromDate + "&toDate=" + toDate + "&searchValue=" + formData.searchValue + "&pageNo=" + this.pageSize + "&pageSize=1", false, false, false, 'WBMiningService');
+    let fromDate:any = this.datePipe.transform(formData.fromDate,'dd-MM-yyyy');
+    let toDate:any = this.datePipe.transform(formData.toDate,'dd-MM-yyyy');
+    // this.apiService.setHttp('get', "MSMEInvoice/GetMSMEInvoice + "&pageNo=" + this.pageSize + "&pageSize=10", false, false, false, 'WBMiningService');
+    this.apiService.setHttp('get', "MSMEInvoice/GetMSMEInvoice?pageNo=1&pageSize=10&fromDate=" + fromDate ? fromDate : '' + "&toDate=" + toDate ? toDate : '' + "&searchValue=" + formData.searchValue, false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == 200) {
