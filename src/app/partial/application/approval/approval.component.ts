@@ -22,6 +22,8 @@ import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.c
 export class ApprovalComponent implements OnInit {
   remarkTableColumns: string[] = ['srno', 'approverTypeName', 'remark', 'applicationStatusText'];
   documentTableColums: string[] = ['srno', 'documentName', 'documentNo', 'view'];
+  applTableColums: string[] = ['srno', 'documentName', 'view'];
+  
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   remarkTable: any;
   applicationId!: number;
@@ -34,6 +36,8 @@ export class ApprovalComponent implements OnInit {
   isDocumentUpload: boolean = false;
   hideApproveButton:boolean =false;
   hideDocumentUpload: boolean = false;
+  applicationTableDetails:any;
+
   constructor(private fb: FormBuilder,
     public commonMethod: CommonMethodsService,
     public apiService: CallApiService,
@@ -46,6 +50,7 @@ export class ApprovalComponent implements OnInit {
     public dialog: MatDialog,
     public fileUploadService: FileUploadService,
     private spinner: NgxSpinnerService, private router: Router, private route: ActivatedRoute) { }
+
   ngOnInit(): void {
     this.defaultForm();
     this.applicationId = this.route.snapshot.params['id'];
@@ -90,6 +95,12 @@ export class ApprovalComponent implements OnInit {
           this.applicationDetails = res.responseData;
          this.remarkDetails.forEach((ele:any) => { ele.coalApplicationDocuments.length?ele.coalApplicationDocuments.forEach((element:any ) =>{this.applicationDetails?.coalApplicationDocuments.push(element) }) :' ' });
           this.documentTable = new MatTableDataSource(this.applicationDetails?.coalApplicationDocuments);
+          let appArray = [
+            {srNo:',1', 'documentName':'Agreement', documentPath:this.applicationDetails?.aggrementDocumentPath},
+            {srNo:',2', 'documentName':'Security Deposite', documentPath:this.applicationDetails?.securityDocumentPath},
+            
+        ]
+          this.applicationTableDetails = appArray;
           this.spinner.hide();
         } else {
           this.spinner.hide();

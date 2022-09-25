@@ -86,6 +86,8 @@ export class CoalAllocationComponent implements OnInit {
       this.getSalesOrderData();
     }else if(tabLabel == 'Delivery Order'){
       this.searchDeliveryOrder.setValue(this.yearArray[0].text);
+      this.hideDeliveryTable =false;
+      this.hideSaveBtn=false
       this.getDeliveryData();
     }
 
@@ -228,7 +230,6 @@ export class CoalAllocationComponent implements OnInit {
   getcoalDistributionData() {
     let year:any = this.coalDistributionSearch.value;
       year= year.split('-');
-      console.log(year)
     this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear=" + this.coalDistributionSearch.value + "&Year="+year[1], false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -263,8 +264,7 @@ export class CoalAllocationComponent implements OnInit {
   createNewDistributer() {
     let data: any = [];
     console.log(this.distributionForm.value);
-    let formValue = this.distributionForm.value
-    debugger
+    let formValue = this.distributionForm.value;
     formValue?.distributionList.forEach((ele: any) => {
       let obj = {
         "id": 0,
@@ -278,15 +278,13 @@ export class CoalAllocationComponent implements OnInit {
     })
 
 
-    data.forEach((ele: any) => {
+    data.forEach((ele: any,ind:number) => {
       this.apiService.setHttp('post', "CoalDistribution/Create", false, ele, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
           if (res.statusCode === 200) {
             this.spinner.hide();
-            console.log(res);
-            // this.commonMethod.matSnackBar(res.statusMessage, 0); 
-
+            data.length -1 == ind ? (this.commonMethod.matSnackBar(res.statusMessage, 0),this.getcoalDistributionData()):'';
           } else {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
             this.spinner.hide();
@@ -641,6 +639,7 @@ export class CoalAllocationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.getSalesOrderData();
           this.clearSalesOrderForm();
           this.spinner.hide();
         } else {
@@ -654,7 +653,11 @@ export class CoalAllocationComponent implements OnInit {
 
   patchSalesOrder(data: any) {
     this.salesOrderUpdateData =data;
-    let date =data.salesOrderDate.split('-')[1]+'-'+data.salesOrderDate.split('-')[0]+'-'+data.salesOrderDate.split('-')[2];
+    let date ='' ;
+    if(data.salesOrderDate){
+      date = data.salesOrderDate.split('-')[1]+'-'+data.salesOrderDate.split('-')[0]+'-'+data.salesOrderDate.split('-')[2];
+    }
+    
     this.commonMethod.checkDataType(data.id) == true ?(this.saveUpdatesalesBtn = 'Update', this.hidesubmitBtn = true) :(this.saveUpdatesalesBtn = 'Submit', this.hidesubmitBtn = true);
 
     this.salesOrderFrm.patchValue({
@@ -675,18 +678,23 @@ export class CoalAllocationComponent implements OnInit {
 // --------------------- Delivery Order start here --------------------------//
 searchDeliveryOrder =  new FormControl('');
 deliveryOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo',  'action'];
+orderColumsById = ['srno',  'consumerName', 'date', 'quantity','doNumber', 'doDate','action'];
 deliveryDataSource :any ;
 genrateDataSource:any;
 updateGenrateDataSource: any;
+hideDeliveryTable : boolean =false;
+updateDelivaryData:any;
+hideSaveBtn:boolean =false;
 getDeliveryData(){
+  this.updateDelivaryData=[];
+  this.hideDeliveryTable =false;
   this.spinner.show();
-  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('get', "CoalDistribution/GetDeliverOrderData?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
         this.spinner.hide();
         this.deliveryDataSource = new MatTableDataSource(res.responseData);
-        // this.commonMethod.matSnackBar(res.statusMessage, 0);
       } else {
         this.deliveryDataSource = [];
         res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
@@ -698,16 +706,19 @@ getDeliveryData(){
 }
 
 
-
+bookingId = 0;
 getDelivaryDatById(id:any){
+  this.hideDeliveryTable=true;
+  this.bookingId =id;
   this.spinner.show();
-  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('get', "CoalDistribution/GetMSMEConsumerDevliveryOrderById?BookingID=" + id, false, false, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
         this.spinner.hide();
+        this. updateDelivaryData =res.responseData
+        this. updateDelivaryData[0].deliveryId == 0?this.hideSaveBtn=true :'';
         this.updateGenrateDataSource = new MatTableDataSource(res.responseData);
-        // this.commonMethod.matSnackBar(res.statusMessage, 0);
       } else {
         this.deliveryDataSource = [];
         res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
@@ -720,16 +731,33 @@ getDelivaryDatById(id:any){
 
 
 generateOrderSaveUpdate(){
+  let  obj:any;
+  let array:any = []
+  this.updateDelivaryData.map((ele:any)=>{
+   obj={
+    "id": 0,
+    "salesOrderId": ele?.salesOrderId,
+    "msmeId":ele?.msmeId,
+    "monthYear":this.searchDeliveryOrder.value,
+    "doNumber": ele?.doNumber,
+    "doDate":ele?.doDate ? ele.doDate :ele.soDate ,
+    "createdBy": this.webStorageService.getUserId()
+  }
+  array.push(obj);
+ }) 
+
   this.spinner.show();
-  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('post', "CoalDistribution/GenerateDeliveryOrder", false,array, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
         this.spinner.hide();
-        this.genrateDataSource = new MatTableDataSource(res.responseData);
-      } else {
-        this.genrateDataSource = [];
-        res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
+        this.getDelivaryDatById(this.bookingId)
+        this.commonMethod.matSnackBar(res.statusMessage,0);
+        this.hideSaveBtn= false;
+        this.updateDelivaryData=[];
+      } else {    
+        this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) ;
         this.spinner.hide();
       }
     },
