@@ -53,7 +53,7 @@
                         <div class="col-4 col-sm-4 p-3">
                             <img src="assets/images/Collieries.svg" class="dash-icon">
                             <h4>{{dashboardDetails?.collaries}}</h4>
-                            <small>Collaries</small>
+                            <small>Collieries</small>
                         </div>
                         <div class="col-4 col-sm-4 border-start border-end p-3">
                             <img src="assets/images/Vehicle.svg" class="dash-icon">
@@ -96,7 +96,7 @@
         </div>
         <div class="col-sm-4">
             <div class="card dash-card">
-                <div class="card-header">Location Of Collaries</div>
+                <div class="card-header">Location Of Collieries</div>
                 <div class="card-body">
                     <agm-map [latitude]="configService.lat" [fitBounds]="true"  [zoom]="8" [longitude]="configService.long">
                         <agm-marker [agmFitBounds]="true" [agmFitBounds]="true" *ngFor="let marker of resLocationOfCollaries"

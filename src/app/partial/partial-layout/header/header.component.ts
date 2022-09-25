@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200 && res.responseData) {
           this.loggedInData = res.responseData[0];
-          this.openUserModal(this.loggedInData);
+          this.loggedInData.userTypeId == 3 ? this.router.navigate(['/consumer-details']) : this.openUserModal(this.loggedInData);
         } else {
         }
       },
