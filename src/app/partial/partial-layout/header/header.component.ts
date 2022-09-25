@@ -6,6 +6,10 @@ import { LogoutComponent } from '../../dialogs/logout/logout.component';
 import { SidebarService } from '../sidebar/sidebar.service';
 import { ThemeService } from 'src/app/theme/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { WebStorageService } from 'src/app/core/services/web-storage.service';
+import { AddUserComponent } from '../../master/register-user/add-user/add-user.component';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
+import { CallApiService } from 'src/app/core/services/call-api.service';
 
 @Component({
   selector: 'app-header',
@@ -15,8 +19,18 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 export class HeaderComponent implements OnInit {
 
   activeTheme: any;
+  loggedInData: any;
   @HostBinding('class') className = '';
-  constructor(public sidebarservice: SidebarService, private overlay: OverlayContainer, private ThemeService: ThemeService, public dialog: MatDialog, private router:Router) { }
+  constructor(
+    public sidebarservice: SidebarService, 
+    private overlay: OverlayContainer, 
+    private ThemeService: ThemeService, 
+    public dialog: MatDialog, 
+    private router:Router,
+    public error: ErrorHandlerService,
+    public apiService: CallApiService,
+    public localStorageData: WebStorageService) {
+    }
 
   toggleSidebar() {
     this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
@@ -46,6 +60,33 @@ export class HeaderComponent implements OnInit {
       data: '',
     });
     dialogRef.afterClosed().subscribe((result: any) => {
+    });
+  }
+
+  getUserDataById(id: any) {
+    this.apiService.setHttp('get', "UserRegistration/GetUserDetailsById?Id=" + id, false, false, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200 && res.responseData) {
+          this.loggedInData = res.responseData[0];
+          this.openUserModal(this.loggedInData);
+        } else {
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    });
+  }
+  
+  openUserModal(obj?: any){
+    obj['cardTitle'] = 'Profile';
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      width: '600px',
+      height: 'auto',
+      disableClose: true,
+      data: obj ? obj : '',
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      
     });
   }
 
