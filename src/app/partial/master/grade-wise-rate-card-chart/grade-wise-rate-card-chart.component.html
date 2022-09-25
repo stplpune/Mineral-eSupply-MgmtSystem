@@ -33,31 +33,31 @@
                         <td mat-cell *matCellDef="let element"> {{element.coalGradeName | titlecase}} </td>
                     </ng-container>
                     <ng-container matColumnDef="unit">
-                        <th mat-header-cell *matHeaderCellDef> Unit (Rs./Tonne) </th>
+                        <th mat-header-cell *matHeaderCellDef> Unit</th>
                         <td mat-cell *matCellDef="let element"> {{element.unit ? element.unit : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="baseRate">
-                        <th mat-header-cell *matHeaderCellDef> Base Rate </th>
+                        <th mat-header-cell *matHeaderCellDef> Base Rate <br>(₹/Tonne)</th>
                         <td mat-cell *matCellDef="let element"> {{element.baseRate ? element.baseRate :'-'}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="royalty">
+                    <!-- <ng-container matColumnDef="royalty">
                         <th mat-header-cell *matHeaderCellDef> Royalty</th>
                         <td mat-cell *matCellDef="let element"> {{element.royalty ? element.royalty : '-'}} </td>
-                    </ng-container>
+                    </ng-container> -->
                     <ng-container matColumnDef="cgst">
-                        <th mat-header-cell *matHeaderCellDef> CGST (7%)</th>
+                        <th mat-header-cell *matHeaderCellDef> CGST <br>(2.5%)</th>
                         <td mat-cell *matCellDef="let element"> {{element.cgst ? element.cgst : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="sgst">
-                        <th mat-header-cell *matHeaderCellDef> SGST (7%)</th>
+                        <th mat-header-cell *matHeaderCellDef> SGST <br>(2.5%)</th>
                         <td mat-cell *matCellDef="let element"> {{element.sgst ? element.sgst : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="igst">
-                        <th mat-header-cell *matHeaderCellDef> IGST (14%)</th>
+                        <th mat-header-cell *matHeaderCellDef> IGST <br>(5%)</th>
                         <td mat-cell *matCellDef="let element"> {{element.igst ? element.igst : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="cess">
-                        <th mat-header-cell *matHeaderCellDef> CESS</th>
+                        <th mat-header-cell *matHeaderCellDef> CESS <br>(₹/Tonne)</th>
                         <td mat-cell *matCellDef="let element"> {{element.cess ? element.cess : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="action">

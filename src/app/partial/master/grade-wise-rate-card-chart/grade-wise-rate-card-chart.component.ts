@@ -20,7 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class GradeWiseRateCardChartComponent implements OnInit {
 
-  displayedColumns: string[] = ['srno', 'coalGradeName','unit','baseRate','royalty','cgst','sgst','igst','cess','action'];
+  displayedColumns: string[] = ['srno', 'coalGradeName','unit','baseRate','cgst','sgst','igst','cess','action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource: any;
   searchText = new FormControl('');

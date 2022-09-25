@@ -135,13 +135,13 @@ export class DashboardComponent implements OnInit {
       },
 
       title: {
-        text: "Fundamental Analysis of Stocks",
+        text: "(In Metric Tonne)",
         align: "left"
       },
-      subtitle: {
-        text: "Price Movements",
-        align: "left"
-      },
+      // subtitle: {
+      //   text: "Price Movements",
+      //   align: "left"
+      // },
       labels: this.monthDataSeries1.dates,
       xaxis: {
         type: "datetime"
