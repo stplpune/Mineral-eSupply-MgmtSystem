@@ -117,8 +117,8 @@ export class RegisterVehicleComponent implements OnInit {
       licenseNo: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
       deviceCompanyName: ['', [Validators.pattern(this.vs.alphaNumericWithSpace)]],
       deviceId: ['', [Validators.pattern(this.vs.alphaNumericOnly)]],
-      deviceSIMNo: ['', [Validators.pattern(this.vs.onlyNumbers)]],
-      secondarySIMNo: ['', [Validators.pattern(this.vs.onlyNumbers)]],
+      deviceSIMNo: ['', [Validators.pattern(this.vs.valMobileNo)]],
+      secondarySIMNo: ['', [Validators.pattern(this.vs.valMobileNo)]],
       primaryTelecomProvider: [''],
       secondaryTelecomProvider: [''],
       length: ['', [Validators.pattern(this.vs.numbersWithDot)]],
@@ -153,7 +153,7 @@ export class RegisterVehicleComponent implements OnInit {
           this.dataSource = [];
           this.totalRows = 0;
           this.paginator.pageIndex = 0;
-          // this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
         this.spinner.hide();
       },

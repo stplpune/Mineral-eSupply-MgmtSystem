@@ -66,9 +66,11 @@ export class MsmeApplicationListComponent implements OnInit {
     }
 
     getData() {
-      this.spinner.show()
+      this.spinner.show();
       let formValue = this.filterForm.value;
       let paramList: string = "applicationYear=" + formValue.applicationYear + "&pageNo=" + this.pageNumber + "&pageSize=" + 10;
+      let checkSubUserTypeId = this.webStorageService.getSubUserType()
+      checkSubUserTypeId == 6 ? paramList+='&userId='+this.webStorageService.getUserId():''; // 6 is consumer
       this.commonMethod.checkDataType(formValue.applicationNumber.trim()) == true ? paramList += "&applicationNumber=" + formValue.applicationNumber : '';
       this.apiService.setHttp('get', "CoalApplication/GetCoalApplicationView?" + paramList, false, false, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
