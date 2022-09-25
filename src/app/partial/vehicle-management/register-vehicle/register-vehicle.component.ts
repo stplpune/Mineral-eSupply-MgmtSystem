@@ -319,10 +319,10 @@ export class RegisterVehicleComponent implements OnInit {
     this.isImageUplaod = true;
     this.regVehicleFrm.patchValue({
       transportType: row.transportType,
-      state: row.state,
+      state:  row.oldState ? row.oldState : row.state,
       district: row.district,
       series: row.series,
-      number: row.number,
+      number: row.oldNum ? row.oldNum : row.number,
       numberFormat: row.state.length == 2 ? 'New' : 'Old',
       isBlock: row.isBlock,
       remark: row.remark,
