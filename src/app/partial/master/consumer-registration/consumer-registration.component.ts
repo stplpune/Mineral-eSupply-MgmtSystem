@@ -357,8 +357,10 @@ export class ConsumerRegistrationComponent implements OnInit {
         "flag": formData.flag,
         "consumerDocuments": this.consumerDocuments
       }
+     
+      let TypeUrl = this.btnText == 'Update' ? 'PUT' : 'POST' ;
 
-      this.callApiService.setHttp('POST', 'api/ConsumerRegistration/SaveUpdateConsumerRegistration', false, obj, false, 'WBMiningService');
+      this.callApiService.setHttp(TypeUrl, 'api/ConsumerRegistration', false, obj, false, 'WBMiningService');
       this.callApiService.getHttp().subscribe((res: any) => {
         if (res.statusCode == "200") {
           this.commonService.matSnackBar(res.statusMessage, 0);
