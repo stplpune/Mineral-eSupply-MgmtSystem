@@ -23,7 +23,7 @@ export class RegisterVehicleComponent implements OnInit {
 
   regVehicleFrm !: FormGroup;
   filterVehicleFrm!: FormGroup;  
-  @ViewChild(FormGroupDirective) formGroupDirective!: NgForm;
+  @ViewChild('formDirective') formDirective!: NgForm;
   stateNameArr: any [] = [];
   districtNameArr: any = [];
   transportTypeArr = ['Vehicle'];
@@ -34,7 +34,7 @@ export class RegisterVehicleComponent implements OnInit {
   totalRows: any;
   pageNo = 1;
   pageSize = 10;
-  displayedColumns: string[] = ['vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'isVerified', 'action',];
+  displayedColumns: string[] = ['SrNo', 'vehicleRegistrationNo', 'ownerName', 'ownerMobileNo', 'isVerified', 'action',];
   @ViewChild(MatPaginator, {static:false}) paginator!: MatPaginator;
   dataSource: any;
   eventFrontImg: any;
@@ -48,6 +48,9 @@ export class RegisterVehicleComponent implements OnInit {
   @ViewChild('district') private refDistrict!: ElementRef;
   @ViewChild('series') private refSeries!: ElementRef;
   @ViewChild('number') private refNumber!: ElementRef;
+  @ViewChild('fileInput1') fileInput1!: ElementRef;
+  @ViewChild('fileInput2') fileInput2!: ElementRef;
+  @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild(MatSort) sort!: MatSort;
 
   get f() { return this.regVehicleFrm.controls };
@@ -300,7 +303,10 @@ export class RegisterVehicleComponent implements OnInit {
       frontImage : '',
       sideImage : '',
       numberPlateImage : ''
-    }) 
+    });
+    this.fileInput.nativeElement.value = "";
+    this.fileInput1.nativeElement.value = "";
+    this.fileInput2.nativeElement.value = "";
     this.isImageUplaod = false;
   }
 
@@ -417,7 +423,7 @@ export class RegisterVehicleComponent implements OnInit {
       "invoiceCounter": 0,
       "originalDeviceId": "",
       "height": 0,
-      "isVerified": true,
+      "isVerified": false,
       "isForceValidateGPSDataConsistent": true,
       "forceValidateBy": 0,
       "forceValidateDate": "2022-09-23T12:26:20.443Z",
@@ -453,12 +459,16 @@ export class RegisterVehicleComponent implements OnInit {
 
   onCancelRecord(){
     this.isSubmitted = false;
-    this.formGroupDirective.resetForm();
-    this.regVehicleFrm.reset();
+    this.formDirective.resetForm();
+    // this.regVehicleFrm.reset();
     this.regVehicleFrm.patchValue({
       transportType: 'Vehicle',
       numberFormat: 'New'
     });
+    this.filterVehicleFrm.patchValue({
+      verificationStatus: [this.verificationStsArr[0].id]
+    })
+    this.onNumberFormatChange(this.regVehicleFrm.value.numberFormat);
     this.isEdit = false;
   }
 
