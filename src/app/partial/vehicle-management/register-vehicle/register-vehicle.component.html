@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-sm-8">
             <div class="card plain-card">
-                <div class="card-header pb-0">
+                <div class="card-header pb-2 pb-lg-0">
                     <form [formGroup]="filterVehicleFrm" (ngSubmit)="onVehicleSearch()">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <!-- <div class="col-sm-3">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>All OTP Verification</mat-label>
                                     <mat-select formControlName="verificationStatus">
@@ -13,17 +13,19 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                             <div class="col-sm">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Vehicle No/Name/Mobile No</mat-label>
-                                    <input matInput formControlName="textSearch" (keyup)="vs.removeSpaceAtBegining($event)">
+                                    <input matInput formControlName="textSearch"
+                                        (keyup)="vs.removeSpaceAtBegining($event)">
                                     <mat-error *ngIf="fr['textSearch'].errors">
-                                        <span *ngIf="fr['textSearch']?.hasError('pattern')"> Please enter valid input</span>
+                                        <span *ngIf="fr['textSearch']?.hasError('pattern')"> Please enter valid
+                                            input</span>
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-sm-auto">
+                            <div class="col-sm-auto text-end">
                                 <button mat-raised-button type="submit" class="btn btn-secondary">
                                     <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                                 </button>
@@ -32,52 +34,70 @@
                     </form>
                 </div>
                 <div class="card-body">
-                    <table mat-table [dataSource]="dataSource" matSort class="dashboard-table w-100">
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSource" matSort class="dashboard-table w-100">
 
-                        <ng-container matColumnDef="SrNo">
-                            <th mat-header-cell *matHeaderCellDef>Sr.No </th>
-                            <td mat-cell *matCellDef="let element; let i = index;"> {{i+1 + (paginator.pageIndex *
-                                paginator.pageSize)}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="SrNo">
+                                <th mat-header-cell *matHeaderCellDef>Sr.No </th>
+                                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1 + (paginator.pageIndex *
+                                    paginator.pageSize)}} </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="vehicleRegistrationNo">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle No </th>
-                            <td mat-cell *matCellDef="let element">{{element.vehicleRegistrationNo | uppercase}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="vehicleRegistrationNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle No </th>
+                                <td mat-cell *matCellDef="let element">{{element.vehicleRegistrationNo | uppercase}}
+                                </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="ownerName">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.ownerName | titlecase}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="ownerName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element.ownerName | titlecase}} </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="ownerMobileNo">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner Mobile Number</th>
-                            <td mat-cell *matCellDef="let element"> {{element.ownerMobileNo | titlecase}} </td>
-                        </ng-container>
+                            <ng-container matColumnDef="ownerMobileNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner Mobile Number</th>
+                                <td mat-cell *matCellDef="let element"> {{element.ownerMobileNo | titlecase}} </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="isVerified">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>OTP verification</th>
-                            <td mat-cell *matCellDef="let element" [class]="element.isVerified == true ? 'text-success' : 'text-danger'"> {{element.isVerified == true ? 'Yes' : 'No'}} </td>
-                        </ng-container>
+                            <!-- <ng-container matColumnDef="isVerified">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>OTP verification</th>
+                                <td mat-cell *matCellDef="let element"
+                                    [class]="element.isVerified == true ? 'text-success' : 'text-danger'">
+                                    {{element.isVerified == true ? 'Yes' : 'No'}} </td>
+                            </ng-container> -->
 
-                        <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> Action</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="d-flex align-items-center">
-                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
-                                        (click)="editVehicleRecord(element)">
-                                        <mat-icon>edit</mat-icon>
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> Action</th>
+                                <!-- <td mat-cell *matCellDef="let element">
+                                    <div class="d-flex align-items-center">
+                                        <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2"
+                                            (click)="editVehicleRecord(element)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </td> -->
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                                        <mat-icon>more_vert</mat-icon>
                                     </button>
-                                </div>
-                            </td>
-                        </ng-container>
+                                    <mat-menu #menu="matMenu" xPosition="before">
+                                        <button mat-menu-item  (click)="editVehicleRecord(element)">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span>Edit</span>
+                                                <mat-icon>edit</mat-icon>
+                                            </div>
+                                        </button>
+                                    </mat-menu>
+                                </td>
+                            </ng-container>
 
-                        <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                            <td class="alert alert-danger text-center m-2 mt-2" colspan="6">No data found </td>
-                        </tr>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                    </table>
+                            <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                                <td class="alert alert-danger text-center m-2 mt-2" colspan="6">No data found </td>
+                            </tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
                     <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)"
                         showFirstLastButtons></mat-paginator>
                 </div>
@@ -87,8 +107,8 @@
             <div class="card plain-card">
                 <div class="card-header">Register Vehicle</div>
                 <div class="card-body">
-                    <form [formGroup]="regVehicleFrm" #formDirective="ngForm" (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')"
-                        enctype="multipart/form-data">
+                    <form [formGroup]="regVehicleFrm" #formDirective="ngForm"
+                        (ngSubmit)="saveUpdate(regVehicleFrm.value, 'add_update')" enctype="multipart/form-data">
                         <div class="form-container">
                             <div class="row mb-3">
                                 <div class="col-sm-6 ">
@@ -157,11 +177,14 @@
 
                                 <mat-error
                                     *ngIf="isSubmitted && (f['state'].errors || f['district'].errors || f['series'].errors || f['number'].errors)">
-                                    <span *ngIf="f['state']?.hasError('required') || f['district']?.hasError('required') || f['series']?.hasError('required') || f['number']?.hasError('required')">
+                                    <span
+                                        *ngIf="f['state']?.hasError('required') || f['district']?.hasError('required') || f['series']?.hasError('required') || f['number']?.hasError('required')">
                                         Please enter vehicle number</span>
-                                    <span *ngIf="f['state']?.hasError('pattern') || f['district']?.hasError('pattern') || f['series']?.hasError('pattern') || f['number']?.hasError('pattern')">
+                                    <span
+                                        *ngIf="f['state']?.hasError('pattern') || f['district']?.hasError('pattern') || f['series']?.hasError('pattern') || f['number']?.hasError('pattern')">
                                         Please enter valid vehicle number</span>
-                                    <span *ngIf="f['state']?.hasError('minlength') || f['district']?.hasError('minlength') || f['series']?.hasError('minlength') || f['number']?.hasError('minlength')">
+                                    <span
+                                        *ngIf="f['state']?.hasError('minlength') || f['district']?.hasError('minlength') || f['series']?.hasError('minlength') || f['number']?.hasError('minlength')">
                                         Please enter valid vehicle number</span>
                                 </mat-error>
                             </div>
@@ -170,8 +193,10 @@
                                     <mat-label class="form-label"> Block/Unblock: </mat-label>
                                     <div class="d-block mt-2">
                                         <!-- <mat-form-field [appearance]="configService.matFormField" class="w-100"> -->
-                                        <mat-radio-group aria-label="Select an option" formControlName="isBlock">
-                                            <mat-radio-button *ngFor="let b of blockStsArr" [value]="b.value" class="me-4">
+                                        <mat-radio-group aria-label="Select an option" formControlName="isBlock"
+                                            class="d-flex">
+                                            <mat-radio-button *ngFor="let b of blockStsArr" [value]="b.value"
+                                                class="me-4">
                                                 {{b.status}}
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -190,7 +215,8 @@
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Owner Mobile Number </mat-label>
-                                    <input type="text" matInput formControlName="ownerMobileNo" maxlength="10" [readonly]="isEdit" (keypress)="vs.acceptedOnlyNumbers($event)">
+                                    <input type="text" matInput formControlName="ownerMobileNo" maxlength="10"
+                                        [readonly]="isEdit" (keypress)="vs.acceptedOnlyNumbers($event)">
                                     <mat-error *ngIf="f['ownerMobileNo'].errors">
                                         <span *ngIf="f['ownerMobileNo']?.hasError('required')"> Please enter owner
                                             number</span>
@@ -205,7 +231,8 @@
                             <div class="">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Owner Name </mat-label>
-                                    <input class="text-capitalize" matInput formControlName="ownerName" maxlength="50" [readonly]="isEdit">
+                                    <input class="text-capitalize" matInput formControlName="ownerName" maxlength="50"
+                                        [readonly]="isEdit">
                                     <mat-error *ngIf="f['ownerName'].errors">
                                         <span *ngIf="f['ownerName']?.hasError('required')"> Please enter owner
                                             name</span>
@@ -270,7 +297,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Driver Mobile Number</mat-label>
-                                        <input matInput formControlName="driverMobileNo" maxlength="10" (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput formControlName="driverMobileNo" maxlength="10"
+                                            (keypress)="vs.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['driverMobileNo'].errors">
                                             <span *ngIf="f['driverMobileNo']?.hasError('required')"> Please enter driver
                                                 mobile number</span>
@@ -284,7 +312,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>eTP App Mobile Number</mat-label>
-                                        <input matInput formControlName="eTpMobileNumber" maxlength="10" (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput formControlName="eTpMobileNumber" maxlength="10"
+                                            (keypress)="vs.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['eTpMobileNumber'].errors">
                                             <span *ngIf="f['eTpMobileNumber']?.hasError('pattern')"> Please enter valid
                                                 eTP mobile number</span>
@@ -352,7 +381,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Device Sim No 1</mat-label>
-                                        <input matInput formControlName="deviceSIMNo" maxlength="13" (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput formControlName="deviceSIMNo" maxlength="13"
+                                            (keypress)="vs.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['deviceSIMNo'].errors">
                                             <span *ngIf="f['deviceSIMNo']?.hasError('pattern')"> Please enter valid
                                                 device SIM</span>
@@ -373,7 +403,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Device Sim No 2</mat-label>
-                                        <input matInput formControlName="secondarySIMNo" maxlength="13" (keypress)="vs.acceptedOnlyNumbers($event)">
+                                        <input matInput formControlName="secondarySIMNo" maxlength="13"
+                                            (keypress)="vs.acceptedOnlyNumbers($event)">
                                         <mat-error *ngIf="f['secondarySIMNo'].errors">
                                             <span *ngIf="f['secondarySIMNo']?.hasError('pattern')"> Please enter valid
                                                 device SIM</span>
@@ -394,7 +425,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Length (Meter)</mat-label>
-                                        <input matInput formControlName="length" maxlength="6" (keypress)="vs.acceptedOnlyNumbers_floatValue($event)">
+                                        <input matInput formControlName="length" maxlength="6"
+                                            (keypress)="vs.acceptedOnlyNumbers_floatValue($event)">
                                         <mat-error *ngIf="f['length'].errors">
                                             <span *ngIf="f['length']?.hasError('pattern')"> Please enter valid
                                                 length</span>
@@ -404,7 +436,8 @@
                                 <div class="col-sm-6">
                                     <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                         <mat-label>Width (Meter)</mat-label>
-                                        <input matInput formControlName="width" maxlength="6" (keypress)="vs.acceptedOnlyNumbers_floatValue($event)">
+                                        <input matInput formControlName="width" maxlength="6"
+                                            (keypress)="vs.acceptedOnlyNumbers_floatValue($event)">
                                         <mat-error *ngIf="f['width'].errors">
                                             <span *ngIf="f['width']?.hasError('pattern')"> Please enter valid
                                                 width</span>
@@ -434,7 +467,10 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="text-end position-relative">
-                                    <button class="btn-deleteall bg-danger bg-opacity-10 text-danger" type="button" (click)="deleteUploadedImage()" *ngIf="f['frontImage'].value && f['sideImage'].value && f['numberPlateImage'].value">Delete All</button>
+                                    <button class="btn-deleteall bg-danger bg-opacity-10 text-danger" type="button"
+                                        (click)="deleteUploadedImage()"
+                                        *ngIf="f['frontImage'].value && f['sideImage'].value && f['numberPlateImage'].value">Delete
+                                        All</button>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-sm-auto">
@@ -485,8 +521,8 @@
                                                 number plate image</span>
                                         </mat-error>
                                     </div>
-                                    
-                                    
+
+
                                     <!-- <button class="btn btn-main" type="button" (click)="onUpload()">Upload</button> -->
                                 </div>
                             </div>
