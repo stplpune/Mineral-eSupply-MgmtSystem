@@ -3,24 +3,27 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="d-flex align-items-center mb-2 mb-sm-0">
-                    <a class="me-4 pe-4 border-end border-secondary d-none d-sm-block" routerLink="screen-reader-access">Screen Reader Access</a>
-                    <a class="me-4 pe-4 border-end border-secondary d-none d-sm-block" routerLink="#">Skip to Main Content</a>
-                    <div class="d-flex align-items-center">
+                    <a class="me-4 pe-4 border-end border-secondary d-none d-sm-block"
+                        routerLink="screen-reader-access">Screen Reader Access</a>
+                    <a class="me-4 pe-4 border-end border-secondary d-none d-sm-block" routerLink="#">Skip to Main
+                        Content</a>
+                    <!-- <div class="d-flex align-items-center">
                         <span class="me-2">Color -</span>
                         <div class="btn-group btn-group-sm ms-2" role="group" aria-label="Theme">
-                        <button type="button" class="btn-color white" (click)="onClickThemeChange('light')">
-                        </button>
-                        <button type="button" class="btn-color black" (click)="onClickThemeChange('dark')">
-                        </button>
-                    </div>
-                    </div>
+                            <button type="button" class="btn-color white" (click)="onClickThemeChange('light')">
+                            </button>
+                            <button type="button" class="btn-color black" (click)="onClickThemeChange('dark')">
+                            </button>
+                        </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-sm-6 text-end">
                 <div class="d-flex align-items-center justify-content-sm-end justify-content-between">
                     <div class="d-flex align-items-center me-4 pe-4 border-end border-secondary">
                         <span class="me-2">Font Size -</span>
-                        <button type="button" class="btn-font" id="smallSize" (click)="onChangeFontSize('small')">A-</button>
+                        <button type="button" class="btn-font" id="smallSize"
+                            (click)="onChangeFontSize('small')">A-</button>
                         <button type="button" class="btn-font mx-2" (click)="onChangeFontSize('medium')">A</button>
                         <button type="button" class="btn-font white" (click)="onChangeFontSize('large')">A+</button>
                     </div>
@@ -62,23 +65,25 @@
                             <a class="nav-link" routerLink="about-us" routerLinkActive="active">About</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Application
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Application
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" routerLink="coal-allocation-web">Coal Allocation</a></li>
+                                <li><a class="dropdown-item" routerLink="coal-allocation-web">Coal Allocation</a></li>
                             </ul>
-                          </li>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" routerLink="contact-us" routerLinkActive="active">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link login" routerLink="../login" routerLinkActive="active"><i class="fa-solid fa-user me-2"></i>Login</a>
+                            <a class="nav-link login" routerLink="../login" routerLinkActive="active"><i
+                                    class="fa-solid fa-user me-2"></i>Login</a>
                         </li>
                     </ul>
                     <div class="d-flex current-date text-end">
                         {{todayDate[0]}}<br>{{commonService.getCurrentTime() | async | date:
-                            'hh:mm:ss'}}
+                        'hh:mm:ss'}}
                     </div>
                 </div>
             </div>
