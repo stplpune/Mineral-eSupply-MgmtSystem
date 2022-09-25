@@ -232,9 +232,8 @@
                         </div>
                         <div class="mb-0">
                             <mat-form-field [appearance]=configService.matFormField class="w-100">
-                                <mat-label>Address</mat-label>
                                 <input matInput type="address" autocapitalize="off" spellcheck="off" maxlength="200"
-                                    formControlName="address" autocomplete="nope" #search
+                                    formControlName="address" autocomplete="nope" #search placeholder="Address"
                                     (keyup)="validationService.removeSpaceAtBegining($event)">
                                 <mat-error *ngIf="f.address.errors">
                                     <span class="text-danger" *ngIf="f.address.errors?.required">Address is
@@ -261,7 +260,7 @@
                             <mat-form-field [appearance]=configService.matFormField class="w-100">
                                 <mat-label>Contact Person Name</mat-label>
                                 <input matInput formControlName="contactPersonName" autocomplete="nope" maxlength="50"
-                                    (keyup)="validationService.removeSpaceAtBegining($event)">
+                                class="text-capitalize" (keyup)="validationService.removeSpaceAtBegining($event)">
                                 <mat-error *ngIf="f.contactPersonName.errors">
                                     <span class="text-danger" *ngIf="f.contactPersonName.errors?.required">
                                         Contact Person Name is required.</span>
