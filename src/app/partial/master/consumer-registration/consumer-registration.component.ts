@@ -189,7 +189,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       contactPersonName: [''],
       contactPersonMobileNo: [''],
       mobileNo: ['', [Validators.required, Validators.pattern(this.validationService.valMobileNo)]],
-      allotmentYear: ['', [Validators.required]],
+      allotmentYear: [new Date().getFullYear(), [Validators.required]],
       allocatedQty: ['', [Validators.required]],
       flag: ['i'],
 
@@ -361,7 +361,6 @@ export class ConsumerRegistrationComponent implements OnInit {
         if (res.statusCode == "200") {
           this.commonService.matSnackBar(res.statusMessage, 0);
           this.getConsumerRegistration();
-          this.btnText = 'Submit';
           this.clearForm();
         } else {
           this.commonService.matSnackBar(res.statusMessage, 1);
@@ -408,6 +407,7 @@ export class ConsumerRegistrationComponent implements OnInit {
   clearForm() {
     this.consumerRegiForm.reset();
     this.formDirective && this.formDirective.resetForm();
+    this.btnText = 'Submit';
     this.defaultMainForm();
     this.defaultDocSymbolHide();
     this.consumerDocuments = [];
