@@ -2,11 +2,11 @@
     <h5 class="page-heading">MSME Consumer List</h5>
     <div class="col-sm-13 mb-3">
         <div class="card plain-card">
-            <div class="card-header pb-2 pb-lg-0">
+            <div class="card-header pb-0">
                 <form [formGroup]="filterForm">
                     <div class="row align-items-center">
-                        <div class="col-sm-3">
-                            <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                        <div class="col-sm-2">
+                            <mat-form-field [appearance]=configService.matFormField
                                 class="w-100">
                                 <mat-label>Select State</mat-label>
                                 <mat-select formControlName="stateId">
@@ -16,8 +16,8 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-3">
-                            <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                        <div class="col-sm-2">
+                            <mat-form-field [appearance]=configService.matFormField
                                 class="w-100">
                                 <mat-label>Consumer Type</mat-label>
                                 <mat-select formControlName="consumerType">
@@ -30,26 +30,24 @@
                             </mat-form-field>
                         </div>
                         <div class="col-sm-4">
-                            <mat-form-field class="example-full-width" [appearance]=configService.matFormField
+                            <mat-form-field [appearance]=configService.matFormField
                                 class="w-100">
                                 <mat-label> Name / Moblie No. / PAN</mat-label>
                                 <input matInput formControlName="searchText" (keypress)="validationService.noSpaces($event)">
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-2 text-end">
+                        <div class="col-sm-auto">
                             <button mat-raised-button class="btn btn-secondary"
                                 (click)="pageNumber = 1;getConsumerRegistration();">
                                 <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                             </button>
                         </div>
-                        <div class="col-2 text-end">
-                            <div class="mb-0">
-                                <a href="/consumer-registration">
-                                    <button type="button" mat-raised-button class="btn btn-main ">
-                                        <i class="fa-solid fa-plus me-2"></i>Add New
-                                    </button>
-                                </a>
-                            </div>
+                        <div class="col-sm text-end">
+                            <a href="/consumer-registration">
+                                <button type="button" mat-raised-button class="btn btn-main ">
+                                    <i class="fa-solid fa-plus me-2"></i>Add New
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -57,7 +55,6 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table mat-table [dataSource]="dataSource" class="dashboard-table">
-
                         <ng-container matColumnDef="srno">
                             <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
                             <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i +
@@ -90,11 +87,17 @@
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Actions </th>
                             <td mat-cell *matCellDef="let element">
-                                <a href="/consumer-details">
-                                    <button mat-icon-button class="bg-dark bg-opacity-10 text-dark mx-2">
-                                        <mat-icon>remove_red_eye</mat-icon>
-                                    </button>
-                                </a>
+                                <button mat-icon-button [matMenuTriggerFor]="menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu" xPosition="before">
+                                    <a mat-menu-item href="/consumer-details">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>View</span>
+                                            <mat-icon>remove_red_eye</mat-icon>
+                                        </div>
+                                    </a>
+                                </mat-menu>
                             </td>
                         </ng-container>
                         <tr class="mat-row p-2 w-100" *matNoDataRow col>
