@@ -127,6 +127,7 @@ export class ConsumerRegistrationComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.pageIndex + 1;
+    this.clearForm();
     this.getConsumerRegistration();
   }
 
@@ -163,6 +164,7 @@ export class ConsumerRegistrationComponent implements OnInit {
           this.commonService.matSnackBar(res.statusMessage, 0);
           this.pageNumber = 1;
           this.getConsumerRegistration();
+          this.clearForm();
         } else {
           this.commonService.checkDataType(res.statusMessage) == false ? this.errorSerivce.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);;
         }
@@ -392,7 +394,8 @@ export class ConsumerRegistrationComponent implements OnInit {
       allocatedQty: data?.allocatedQty,
       flag: 'u',
     })
-    this.consumerDocuments = data?.consumerDocuments;
+    this.consumerDocuments = [...data?.consumerDocuments];
+    // this.consumerDocuments = data?.consumerDocuments;
     this.documentSymbolHide();
     this.consumerDocuments.map((ele: any) => {
       switch (ele.documentTypeId) {
