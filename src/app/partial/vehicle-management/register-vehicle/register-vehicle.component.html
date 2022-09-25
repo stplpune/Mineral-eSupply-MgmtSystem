@@ -5,7 +5,7 @@
                 <div class="card-header pb-2 pb-lg-0">
                     <form [formGroup]="filterVehicleFrm" (ngSubmit)="onVehicleSearch()">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <!-- <div class="col-sm-3">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>All OTP Verification</mat-label>
                                     <mat-select formControlName="verificationStatus">
@@ -13,7 +13,7 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                             <div class="col-sm">
                                 <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                     <mat-label>Vehicle No/Name/Mobile No</mat-label>
@@ -59,12 +59,12 @@
                                 <td mat-cell *matCellDef="let element"> {{element.ownerMobileNo | titlecase}} </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="isVerified">
+                            <!-- <ng-container matColumnDef="isVerified">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>OTP verification</th>
                                 <td mat-cell *matCellDef="let element"
                                     [class]="element.isVerified == true ? 'text-success' : 'text-danger'">
                                     {{element.isVerified == true ? 'Yes' : 'No'}} </td>
-                            </ng-container>
+                            </ng-container> -->
 
                             <ng-container matColumnDef="action">
                                 <th mat-header-cell *matHeaderCellDef> Action</th>
