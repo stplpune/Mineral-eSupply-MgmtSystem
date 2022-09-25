@@ -228,7 +228,6 @@ export class CoalAllocationComponent implements OnInit {
   getcoalDistributionData() {
     let year:any = this.coalDistributionSearch.value;
       year= year.split('-');
-      console.log(year)
     this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear=" + this.coalDistributionSearch.value + "&Year="+year[1], false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -263,8 +262,7 @@ export class CoalAllocationComponent implements OnInit {
   createNewDistributer() {
     let data: any = [];
     console.log(this.distributionForm.value);
-    let formValue = this.distributionForm.value
-    debugger
+    let formValue = this.distributionForm.value;
     formValue?.distributionList.forEach((ele: any) => {
       let obj = {
         "id": 0,
@@ -278,15 +276,13 @@ export class CoalAllocationComponent implements OnInit {
     })
 
 
-    data.forEach((ele: any) => {
+    data.forEach((ele: any,ind:number) => {
       this.apiService.setHttp('post', "CoalDistribution/Create", false, ele, false, 'WBMiningService');
       this.apiService.getHttp().subscribe({
         next: (res: any) => {
           if (res.statusCode === 200) {
             this.spinner.hide();
-            console.log(res);
-            // this.commonMethod.matSnackBar(res.statusMessage, 0); 
-
+            data.length -1 == ind ? (this.commonMethod.matSnackBar(res.statusMessage, 0),this.getcoalDistributionData()):'';
           } else {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
             this.spinner.hide();
@@ -641,6 +637,7 @@ export class CoalAllocationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.commonMethod.matSnackBar(res.statusMessage, 0);
+          this.getSalesOrderData();
           this.clearSalesOrderForm();
           this.spinner.hide();
         } else {
@@ -654,7 +651,11 @@ export class CoalAllocationComponent implements OnInit {
 
   patchSalesOrder(data: any) {
     this.salesOrderUpdateData =data;
-    let date =data.salesOrderDate.split('-')[1]+'-'+data.salesOrderDate.split('-')[0]+'-'+data.salesOrderDate.split('-')[2];
+    let date ='' ;
+    if(data.salesOrderDate){
+      date = data.salesOrderDate.split('-')[1]+'-'+data.salesOrderDate.split('-')[0]+'-'+data.salesOrderDate.split('-')[2];
+    }
+    
     this.commonMethod.checkDataType(data.id) == true ?(this.saveUpdatesalesBtn = 'Update', this.hidesubmitBtn = true) :(this.saveUpdatesalesBtn = 'Submit', this.hidesubmitBtn = true);
 
     this.salesOrderFrm.patchValue({
@@ -678,9 +679,10 @@ deliveryOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOr
 deliveryDataSource :any ;
 genrateDataSource:any;
 updateGenrateDataSource: any;
+
 getDeliveryData(){
   this.spinner.show();
-  this.apiService.setHttp('get', "CoalDistribution/GetEClPaymentDetails?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
+  this.apiService.setHttp('get', "CoalDistribution/GetDeliverOrderData?MonthYear=" + this.searchDeliveryOrder.value + "&nopage=1", false, false, false, 'WBMiningService');
   this.apiService.getHttp().subscribe({
     next: (res: any) => {
       if (res.statusCode === 200) {
