@@ -58,11 +58,14 @@ export class LoginComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode == "200") {
+          if(res.responseData2.length == 0){
+            this.commonMethod.matSnackBar("You have not given Read Write access to your account. Please contact the administrator.", 1);
+            return
+          }
           localStorage.setItem('loggedInData', JSON.stringify(res));
           sessionStorage.setItem('loggedIn', 'true');
           let urlPath = this.WebStorage.redirectToDashborad();
-          this.router.navigate(['../' + urlPath], { relativeTo: this.route })
-          // this.router.navigate(['../dashboard'], { relativeTo: this.route });
+          this.router.navigate(['../' + urlPath], { relativeTo: this.route });
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
