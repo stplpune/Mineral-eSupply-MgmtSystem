@@ -118,7 +118,7 @@
                     Register Colliery
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off" #ngForm="ngForm">
+                    <form [formGroup]="frmCollary" (ngSubmit)="onSubmitCollary()" autocomplete="off" #formGroupDirective="ngForm">
                         <mat-form-field [appearance]="configService.matFormField" class="w-100">
                             <mat-label>Colliery Name</mat-label>
                             <input matInput formControlName="collieryName" maxlength="200">

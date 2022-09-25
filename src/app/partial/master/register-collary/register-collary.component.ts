@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register-collary.component.scss']
 })
 export class RegisterCollaryComponent implements OnInit {
-  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
+  @ViewChild('formGroupDirective') formGroupDirective!: FormGroupDirective;
 
 
   displayedColumns: string[] = ['rowNumber', 'collieryName', 'districtName', 'action',];
@@ -299,6 +299,7 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   onCancelRecord() {
+    this.frmCollary.reset();
     this.formGroupDirective.resetForm();
     this.frmCollary.reset({
       geofenceType: 0,
