@@ -22,7 +22,7 @@
                   <th mat-header-cell *matHeaderCellDef>Status </th>
                   <td mat-cell *matCellDef="let element">
                     <span class="badge"
-                      [ngClass]="{'bg-success bg-opacity-10 text-white': element?.applicationStatusText =='Approved','bg-danger bg-opacity-10 text-danger': element?.applicationStatusText=='Rejected' ,'bg-warning text-dark bg-opacity-10': (element?.applicationStatusText == null || element?.applicationStatusText =='Pending') }">
+                      [ngClass]="{'bg-success bg-opacity-10 text-white': element?.applicationStatusText =='Approved','bg-danger bg-opacity-10 ': element?.applicationStatusText=='Rejected' ,'bg-warning text-dark bg-opacity-10': (element?.applicationStatusText == null || element?.applicationStatusText =='Pending') }">
                       {{element.applicationStatusText}}
                     </span>
                   </td>

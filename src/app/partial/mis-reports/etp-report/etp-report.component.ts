@@ -20,7 +20,7 @@ export class EtpReportComponent implements OnInit {
   ngOnInit(): void {
   }
   dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['srno', 'Challan_No', 'Vehicle_No', 'Mineral','Grade','Colliery_Name','Destination','Quantity'];
+  columnsToDisplay = ['Sr.No.', 'Challan_No', 'Vehicle_No', 'Mineral','Grade','Colliery_Name','Destination','Quantity'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: PeriodicElement | any;
 

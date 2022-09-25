@@ -1,112 +1,116 @@
 <div class="container-fluid">
     <h5 class="page-heading">Booking Payment</h5>
-    <div class="row justify-content-between">
-        <div class="col-sm-8">
-            <div class="">
-                <p>Table</p>
+    <div class="card card-body">
+        <div class="row">
+            <div class="col-sm-8">
+                Table
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card plain-card">
-                <div class="card-body">
-                    <div class="mb-1">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Choose a date</mat-label>
-                            <input matInput [matDatepicker]="picker">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Allocated Quantity (T)</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Booking Quantity (T)</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                    </div>
-                    <div class="text-end">
-                        <button mat-raised-button class="btn-main">Submit</button>
+            <div class="col-sm-4">
+                <div class="card plain-card mb-3">
+                    <div class="card-body">
+                        <div class="mb-0">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-6">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Allocated Quantity (T)</mat-label>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-6 col-6">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Booking Quantity (T)</mat-label>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button mat-raised-button class="btn-main">Submit</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="card plain-card my-2">
-                <div class="card-body">
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Amount</mat-label>
-                            <input matInput>
-                            <mat-error></mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Payment Mode</mat-label>
-                            <input matInput>
-                            <mat-error></mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="text-end">
-                        <button mat-raised-button class="btn-main">Pay</button>
+    
+                <div class="card plain-card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-6">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Amount</mat-label>
+                                    <input matInput>
+                                    <mat-error></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-6 col-6">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Payment Mode</mat-label>
+                                    <input matInput>
+                                    <mat-error></mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button mat-raised-button class="btn-main">Pay</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="card plain-card">
-                <div class="card-body">
-                    <div class="mb-1">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>WBMDTC Bank Act</mat-label>
-                            <input matInput>
-                            <mat-error></mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label> Benifitiary Bank</mat-label>
-                            <input matInput>
-                            <mat-error></mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Amount</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-error></mat-error>
-                    </div>
-                    <div class="mb-1">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>Choose a date</mat-label>
-                            <input matInput [matDatepicker]="picker">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div class="mb-0">
-                        <mat-form-field appearance="legacy" class="w-100">
-                            <mat-label>UTR Number</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-error></mat-error>
-                    </div>
-                    <div class="upload-btn-wrapper mb-3">
-                        <button class="btn btn-main">
-                            <i class="fa fa-upload me-2" aria-hidden="true"></i>
-                            Attach Receipt of Bank Payment
-                        </button>
-                        <input type="file">
-                    </div>
-                    <div class="text-end">
-                        <button mat-raised-button class="btn-main">Submit</button>
+    
+                <div class="card plain-card">
+                    <div class="card-body">
+                        <div class="mb-1">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label>WBMDTC Bank Act</mat-label>
+                                <input matInput>
+                                <mat-error></mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-0">
+                            <mat-form-field appearance="legacy" class="w-100">
+                                <mat-label> Benifitiary Bank</mat-label>
+                                <input matInput>
+                                <mat-error></mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-6">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Amount</mat-label>
+                                    <input matInput>
+                                </mat-form-field>
+                                <mat-error></mat-error>
+                            </div>
+                            <div class="col-sm-6 col-6">
+                                <mat-form-field appearance="legacy" class="w-100">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input matInput [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <mat-form-field appearance="legacy" class="w-50">
+                                <mat-label>UTR Number</mat-label>
+                                <input matInput>
+                            </mat-form-field>
+                            <div class="upload-btn-wrapper mb-3">
+                                <button class="btn btn-main">
+                                    <i class="fa fa-upload me-2" aria-hidden="true"></i>
+                                    Attach Bank Payment
+                                </button>
+                                <input type="file">
+                            </div>
+                        </div>
+                        
+                        <div class="text-end">
+                            <button mat-raised-button class="btn-main">Submit</button>
+                        </div>
                     </div>
                 </div>
             </div>

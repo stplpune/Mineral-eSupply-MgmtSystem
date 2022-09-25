@@ -113,15 +113,18 @@ export class CoalAllocationComponent implements OnInit {
       searchData = this.coalDistributionSearch.value
     }
     this.spinner.show();
+    this.monthlyAllocationDetails =[];
     this.apiService.setHttp('get', "ECLMonthlyAllocation/GetAll?MonthYear=" + searchData + "&nopage=1", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
-          this.monthlyAllocationDetails = res.responseData
+          this.monthlyAllocationDetails = res.responseData;
+          // flag ==  'distribution' && this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : '';
           this.ECLDatasource = new MatTableDataSource(res.responseData);
           this.spinner.hide();
         } else {
-          this.ECLDatasource = []
+          this.ECLDatasource = [];
+          this.monthlyAllocationDetails =[];
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
         }
       },
@@ -210,7 +213,7 @@ export class CoalAllocationComponent implements OnInit {
   disabledQty = true;
   distributionForm !: FormGroup;
   coalDistributionSearch = new FormControl('');
-  hidebookingtable: boolean = false;
+  distributeBtn:boolean = false ;
 
   defaultDistribution() {
     this.distributionForm = this.fb.group({
@@ -220,8 +223,9 @@ export class CoalAllocationComponent implements OnInit {
 
   getDDistributionData() {
     this.getECLData('distribution');
-    console.log(this.monthlyAllocationDetails[0]?.isCoalDistributed);
-    this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : this.coalDistribution = [];
+
+    
+    
   }
   get distributionListControls() {
     return this.distributionForm.get("distributionList") as FormArray;
@@ -237,7 +241,8 @@ export class CoalAllocationComponent implements OnInit {
           this.spinner.hide();
           // this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.coalDistribution = res.responseData;
-          this.bindDistribution();
+
+          this.coalDistribution.length ? this.bindDistribution() :this.distributionForm.reset();
 
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
@@ -284,7 +289,7 @@ export class CoalAllocationComponent implements OnInit {
         next: (res: any) => {
           if (res.statusCode === 200) {
             this.spinner.hide();
-            data.length -1 == ind ? (this.commonMethod.matSnackBar(res.statusMessage, 0),this.getcoalDistributionData()):'';
+            data.length -1 == ind ? (this.commonMethod.matSnackBar(res.statusMessage, 0),this. getECLData('distribution') ):'';
           } else {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
             this.spinner.hide();
@@ -303,14 +308,14 @@ export class CoalAllocationComponent implements OnInit {
   bookingPaymentColums = ['srno', 'consumerName', 'tentitiveQty', 'bookingQty', 'amount', 'status', 'action'];
   bookingDataSource: any;
   bookingPaymentDataSource: any;
-  // distributionColumns: string[] = ['srno',  'collieryName', 'allocationQty'];
-  // disabledQty =true;
   coalDistributionMemberArray: any = [];
   bookingPaymentDetails: any = [];
   eclMonthlyAllocationId: any;
+  hidebookingtable: boolean = false;
 
 
   getBookingData() {
+    this.hidebookingtable =false;
     this.apiService.setHttp('get', "CoalDistribution/GetConsumerBookingQuantity?MonthYear=" + this.bookingQtySearch.value + "&nopage=1", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -384,6 +389,7 @@ export class CoalAllocationComponent implements OnInit {
     const quantitySum = this.coalDistributionMemberArray.reduce((previousValue: any, currentValue: any) => previousValue + Number(currentValue.quantity), initialValue);
     const amountSum = this.coalDistributionMemberArray.reduce((previousValue: any, currentValue: any) => previousValue + Number(currentValue.amount), initialValue);
     this.coalDistributionMemberArray.map((ele: any) => { delete ele.quantity, delete ele.amount });
+  
     let obj = {
       "monthYear": this.bookingQtySearch.value,
       "quantity": quantitySum,
@@ -391,7 +397,7 @@ export class CoalAllocationComponent implements OnInit {
       "createdBy": 0,
       "coalDistributionMember": this.coalDistributionMemberArray
     }
-
+   
     this.apiService.setHttp('post', "CoalDistribution/AcceptForECLPayment", false, obj, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -399,6 +405,7 @@ export class CoalAllocationComponent implements OnInit {
           this.spinner.hide();
           this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.getPaymentForBooking();
+          this.coalDistributionMemberArray =[];
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           this.spinner.hide();
@@ -501,6 +508,7 @@ export class CoalAllocationComponent implements OnInit {
           this.commonMethod.matSnackBar(res.statusMessage, 0);
           this.documentPath = '';
           this.isDocumentUpload = false;
+          this.eclPaymentData();
           this.clearEclForm();
         } else {
           this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
