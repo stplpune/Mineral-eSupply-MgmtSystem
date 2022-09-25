@@ -51,7 +51,7 @@ export class GradeWiseRateCardChartComponent implements OnInit {
     this.callApiService.setHttp('get', "CoalGradewiseRateMaster?" + obj, false, false, false, 'WBMiningService');
     this.callApiService.getHttp().subscribe({
       next: (res: any) => {
-        if (res.statusCode === 200) {
+        if (res.statusCode == 200) {
           this.dataSource = new MatTableDataSource(res.responseData.responseData1);
           this.totalRows = res.responseData.responseData2?.totalCount;
           this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
@@ -69,45 +69,45 @@ export class GradeWiseRateCardChartComponent implements OnInit {
     this.getCoalGradewiseRateMaster();
   }
 
-  // deleteConformation(id: any) {
-  //   this.highlightedRow = id;
-  //   let obj: any = ConfigService.dialogObj;
-  //   obj['p1'] = 'Are you sure you want to delete this record?';
-  //   obj['cardTitle'] = 'Delete';
-  //   obj['successBtnText'] = 'Delete';
-  //   obj['cancelBtnText'] = 'Cancel';
-  //   obj['inputType'] = false;
-  //   const dialog = this.dialog.open(ConfirmationComponent, {
-  //     width: this.configService.dialogBoxWidth[0],
-  //     data: obj,
-  //     disableClose: this.configService.disableCloseBtnFlag,
-  //   })
-  //   dialog.afterClosed().subscribe(res => {
-  //     if (res == 'Yes') {
-  //       this.deleteGradeCard();
-  //     }
-  //   })
-  // }
+  deleteConformation(id: any) {
+    this.highlightedRow = id;
+    let obj: any = ConfigService.dialogObj;
+    obj['p1'] = 'Are you sure you want to delete this record?';
+    obj['cardTitle'] = 'Delete';
+    obj['successBtnText'] = 'Delete';
+    obj['cancelBtnText'] = 'Cancel';
+    obj['inputType'] = false;
+    const dialog = this.dialog.open(ConfirmationComponent, {
+      width: this.configService.dialogBoxWidth[0],
+      data: obj,
+      disableClose: this.configService.disableCloseBtnFlag,
+    })
+    dialog.afterClosed().subscribe(res => {
+      if (res == 'Yes') {
+        this.deleteGradeCard();
+      }
+    })
+  }
 
-  // deleteGradeCard() {
-  //   let obj = {
-  //     "id": this.highlightedRow,
-  //     "deletedBy": 1
-  //   } 
-  //   this.callApiService.setHttp('DELETE', "CoalGradewiseRateMaster/DeleteCoalGradeRateMaster", false, obj, false, 'WBMiningService');
-  //   this.callApiService.getHttp().subscribe({
-  //     next: (res: any) => {
-  //       if (res.statusCode === "200") {
-  //         this.commonService.matSnackBar(res.statusMessage, 0);
-  //         this.pageNumber = 1;
-  //         this.getCoalGradewiseRateMaster();
-  //       } else {
-  //         this.commonService.checkDataType(res.statusMessage) == false ? this.errorSerivce.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);;
-  //       }
-  //     },
-  //     error: ((error: any) => { this.errorSerivce.handelError(error.status) })
-  //   });
-  // }
+  deleteGradeCard() {
+    let obj = {
+      "id": this.highlightedRow,
+      "deletedBy": 1
+    } 
+    this.callApiService.setHttp('DELETE', "CoalGradewiseRateMaster/DeleteCoalGradeRateMaster", false, obj, false, 'WBMiningService');
+    this.callApiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode == "200") {
+          this.commonService.matSnackBar(res.statusMessage, 0);
+          this.pageNumber = 1;
+          this.getCoalGradewiseRateMaster();
+        } else {
+          this.commonService.checkDataType(res.statusMessage) == false ? this.errorSerivce.handelError(res.statusCode) : this.commonService.matSnackBar(res.statusMessage, 1);;
+        }
+      },
+      error: ((error: any) => { this.errorSerivce.handelError(error.status) })
+    });
+  }
 
     openAddRateCardrModal(obj: any) {
       this.highlightedRow = obj.id;
