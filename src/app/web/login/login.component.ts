@@ -1,8 +1,6 @@
 import { ErrorHandlerService } from './../../core/services/error-handler.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
 import { CommonMethodsService } from 'src/app/core/services/common-methods.service';
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { CallApiService } from 'src/app/core/services/call-api.service';
@@ -35,7 +33,7 @@ export class LoginComponent implements OnInit {
   defaultForm() {
     this.loginFrm = this.fb.group({
       userName: ['', [Validators.required, Validators.pattern(this.validation.valMobileNo)],],
-      passWord: ['', [Validators.required, Validators.pattern(this.validation.valPassword)]],
+      passWord: ['', [Validators.required]],
       captcha: ['', Validators.required]
     });
   }
