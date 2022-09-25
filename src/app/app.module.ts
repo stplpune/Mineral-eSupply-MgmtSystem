@@ -65,6 +65,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AgmCoreModule.forRoot(ConfigService.googleApiObj),
   ],
   providers: [Title,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

@@ -11,6 +11,7 @@ import { ErrorHandlerService } from 'src/app/core/services/error-handler.service
 import { FormsValidationService } from 'src/app/core/services/forms-validation.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { FileUploadService } from 'src/app/core/services/file-upload.service';
+import { DatePipe } from '@angular/common';
 type NewType = FormControl;
 
 @Component({
@@ -47,6 +48,7 @@ export class CoalAllocationComponent implements OnInit {
     public commonService: CommonApiCallService,
     public webStorageService: WebStorageService,
     public fileUploadService: FileUploadService,
+    public datePipe:DatePipe,
     private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
@@ -78,9 +80,13 @@ export class CoalAllocationComponent implements OnInit {
       this.eclSearchData.setValue(this.yearArray[0].text);
       this.eclPaymentDetails();
     } else if (tabLabel == "Sales Order") {
+      this.hidesubmitBtn=false;
       this.eclsearchFrm.setValue(this.yearArray[0].text);
       this.clearSalesOrderForm();
       this.getSalesOrderData();
+    }else if(tabLabel == 'Delivery Order'){
+      this.searchDeliveryOrder.setValue(this.yearArray[0].text);
+      this.getDelivery()
     }
 
   }
@@ -179,7 +185,7 @@ export class CoalAllocationComponent implements OnInit {
     this.saveUpdateBtnECL = 'Submit'
     this.formGroupDirective.resetForm();
     this.UpdateEclData = '';
-    this.monthlySearch = new FormControl(this.yearArray[0].text);
+    // this.monthlySearch = new FormControl(this.yearArray[0].text);
     this.getECLData('ECL');
   }
 
@@ -220,7 +226,10 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   getcoalDistributionData() {
-    this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear=" + this.coalDistributionSearch.value + "&Year=2023", false, false, false, 'WBMiningService');
+    let year:any = this.coalDistributionSearch.value;
+      year= year.split('-');
+      console.log(year)
+    this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear=" + this.coalDistributionSearch.value + "&Year="+year[1], false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
@@ -573,8 +582,10 @@ export class CoalAllocationComponent implements OnInit {
   salesOrderDataSource: any;
   salesOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo', 'salesOrderDate', 'action'];
   @ViewChild('formDirective')
-  private formDirective!: NgForm
-
+  private formDirective!: NgForm;
+  saveUpdatesalesBtn:string = "submit";
+  hidesubmitBtn :boolean =false;
+  salesOrderUpdateData:any;
   defaultSalesFrm() {
     this.salesOrderFrm = this.fb.group({
       "bookingID": ['', [Validators.required]],
@@ -590,6 +601,8 @@ export class CoalAllocationComponent implements OnInit {
 
 
   getSalesOrderData() {
+    this.hidesubmitBtn=false;
+    this.salesOrderUpdateData = '';
     this.apiService.setHttp('get', "CoalDistribution/GetSalesOrderData?MonthYear=" + this.eclsearchFrm.value + "&nopage=1", false, false, false, 'WBMiningService');
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
@@ -607,8 +620,7 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   saveUpdateSalesOrder() {
-    this.spinner.show();
-    
+    this.spinner.show();    
     let formValue = this.salesOrderFrm.value;
     if (this.salesOrderFrm.invalid) {
       this.spinner.hide();
@@ -616,14 +628,14 @@ export class CoalAllocationComponent implements OnInit {
     }
 
     let obj = {
-      "id": 0,
+      "id": this.salesOrderUpdateData.id == 0 ? 0:this.salesOrderUpdateData.id,
       "monthYear": this.eclsearchFrm.value,
       "bookingID": +formValue.bookingID,
       "collieryId": +formValue.collieryId,
       "quantity": +formValue.quantity,
       "salesOrderNo": formValue.salesOrderNo,
       "salesOrderDate": formValue.salesOrderDate,
-      "flag": "i",
+      "flag": this.salesOrderUpdateData.id==0 ?"i":'u',
       "createdBy": this.webStorageService.getUserId(),
     }
 
@@ -644,21 +656,30 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   patchSalesOrder(data: any) {
-    let date =data.salesOrderDate.split('-').join('/');
-    // let date =new Date(data.salesOrderDate);
-    console.log(data,new Date(date))
+    this.salesOrderUpdateData =data;
+    let date =data.salesOrderDate.split('-')[1]+'-'+data.salesOrderDate.split('-')[0]+'-'+data.salesOrderDate.split('-')[2];
+    this.commonMethod.checkDataType(data.id) == true ?(this.saveUpdatesalesBtn = 'Update', this.hidesubmitBtn = true) :(this.saveUpdatesalesBtn = 'Submit', this.hidesubmitBtn = true);
+
     this.salesOrderFrm.patchValue({
       bookingID: data.bookingID,
       collieryId: data.collieryId,
       quantity: data.quantity,
       salesOrderNo: data.salesOrderNo,
-      salesOrderDate:new Date(date),
+      salesOrderDate:new Date(date)
     })
   }
 
   clearSalesOrderForm() {
     this.salesOrderFrm.reset();
     this.formDirective && this.formDirective.resetForm();
+    this.salesOrderUpdateData ='';
   }
+
+// --------------------- Delivery Order start here --------------------------//
+searchDeliveryOrder =  new FormControl('');
+
+getDelivery(){
+  
+}
 
 }
