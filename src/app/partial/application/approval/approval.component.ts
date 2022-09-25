@@ -193,7 +193,7 @@ export class ApprovalComponent implements OnInit {
     let sunUserId = this.webStorageService.getSubUserType();
     if(sunUserId == 2)    {
       this.remarkDetails[0].applicationStatus == 1  || this.remarkDetails[0].applicationStatus == 2 ? (this.hideApproveButton = false,this.hideDocumentUpload = false): (this.hideApproveButton = true ,this.hideDocumentUpload = true);
-    }else if(sunUserId == 3){
+    }else if(sunUserId == 3 && this.remarkDetails[0].applicationStatus == 1){
       this.remarkDetails[1].applicationStatus == 1  || this.remarkDetails[1].applicationStatus == 2 ? this.hideApproveButton = false: this.hideApproveButton = true;
     }else {
       this.hideApproveButton == false;
