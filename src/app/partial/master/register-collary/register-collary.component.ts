@@ -13,6 +13,7 @@ import { WebStorageService } from 'src/app/core/services/web-storage.service';
 import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 import { Subscription } from 'rxjs';
 import { MapsAPILoader } from '@agm/core'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-collary',
@@ -57,6 +58,7 @@ export class RegisterCollaryComponent implements OnInit {
   existingShape: any;
   setMarker: boolean = false;
 
+  
   newRecord: any = {
     latLng: "",
     polygonText: "",
@@ -87,7 +89,8 @@ export class RegisterCollaryComponent implements OnInit {
     public dialog: MatDialog,
     public validation: FormsValidationService,
     private ngZone: NgZone,
-    private mapsAPILoader: MapsAPILoader
+    private mapsAPILoader: MapsAPILoader,
+    private router:Router,
   ) {
   }
 
@@ -269,6 +272,7 @@ export class RegisterCollaryComponent implements OnInit {
             this.spinner.hide();
             this.onCancelRecord();
             this.getCollaryList();
+
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 0);
           } else {
             this.spinner.hide();
@@ -291,10 +295,7 @@ export class RegisterCollaryComponent implements OnInit {
 
     this.removeShape();
     this.isEdit = false;
-    this.existingShape?.setMap(null);
-    this.circle?.setMap(null);
-    this.existingMarker?.setMap(null);
-    this.centerMarker?.setMap(null);
+    this.exiShapeRemove();
   }
 
 
@@ -302,7 +303,6 @@ export class RegisterCollaryComponent implements OnInit {
 
 
   onMapReady(map?: any) {
-
     this.isHide = this.data?.isHide || false;
     this.map = map;
     if (this.isEdit) {
@@ -330,25 +330,26 @@ export class RegisterCollaryComponent implements OnInit {
       });
     }
 
-    const latLong=new google.maps.LatLng(this.data?.selectedRecord.latLng.split(',')[0],this.data?.selectedRecord.latLng.split(',')[1]);
-    if (latLong) {
-      this.placeMarker = new google.maps.Marker({
-        position: latLong,
-        draggable: true,
-        map: map,
-      });
+    if(!this.data?.selectedRecord.polygonText && this.data?.selectedRecord.latLng){ // not pol text and then show marker
+      const latLong = new google.maps.LatLng(this.data?.selectedRecord.latLng.split(',')[0],this.data?.selectedRecord.latLng.split(',')[1]);
 
-      google.maps.event.addListener(map, 'dragend', e => {
-        console.log(e.latLng.lat().toFixed(6))
-        this.placeMarker.setPosition(map.getCenter())
-      
-        this.map?.panTo(e.latLng);
-      });
-
-      map.setCenter({ lat:Number(this.data?.selectedRecord?.latLng.split(',')[0]), lng:Number(this?.data?.selectedRecord.latLng.split(',')[1])})
-
+      if (latLong) {
+        this.placeMarker = new google.maps.Marker({
+          position: latLong,
+          draggable: true,
+          map: map,
+        });
+  
+        this.placeMarker.addListener('dragend',(e:any)=>{
+          this.setLatLong(e.latLng.lat().toFixed(6), e.latLng.lng().toFixed(6)) // set lat long
+          this.map?.panTo(e.latLng);
+        });
+        map.setZoom(8);
+        map.setCenter({ lat:Number(this.data?.selectedRecord?.latLng.split(',')[0]), lng:Number(this?.data?.selectedRecord?.latLng.split(',')[1])})
+      }
     }
     
+
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef?.nativeElement);
       autocomplete.addListener("place_changed", () => {
@@ -530,10 +531,10 @@ export class RegisterCollaryComponent implements OnInit {
 
   exiShapeRemove(){
     this.existingShape?.setMap(null);
-    this.placeMarker?.setMap(null);
     this.circle?.setMap(null);
     this.existingMarker?.setMap(null);
-    this.drawingManager.setDrawingMode(null);
+    this.placeMarker?.setMap(null);
+    this.drawingManager?.setDrawingMode(null);
   }
 
   FN_CN_poly2latLang(poly: any) {
