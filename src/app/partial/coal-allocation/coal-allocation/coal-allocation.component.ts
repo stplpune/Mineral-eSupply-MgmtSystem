@@ -23,7 +23,7 @@ export class CoalAllocationComponent implements OnInit {
   //------------------ ECL Monthly Allocation variable ---------------//
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   @ViewChild(FormGroupDirective) eclClearForm!: FormGroupDirective;
-  ECLColumns: string[] = ['srno', 'collieryName', 'allocationQty', 'action'];
+  ECLColumns: string[] = ['srno', 'collieryName', 'allocationQty'];
   private _monthlyFrmECl!: FormGroup;
   public get monthlyFrmECl(): FormGroup {
     return this._monthlyFrmECl;
@@ -87,14 +87,15 @@ export class CoalAllocationComponent implements OnInit {
     }else if(tabLabel == 'Delivery Order'){
       this.searchDeliveryOrder.setValue(this.yearArray[0].text);
       this.hideDeliveryTable =false;
-      this.hideSaveBtn=false
+      this.hideSaveBtn=false;
+      this.updateGenrateDataSource = [];
       this.getDeliveryData();
     }
 
   }
 
 
-
+  
 
   //------------------ ECL Monthly Allocation start here ---------------//
   defaultFormECL() {
@@ -119,7 +120,7 @@ export class CoalAllocationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.monthlyAllocationDetails = res.responseData;
-          // flag ==  'distribution' && this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : '';
+          flag ==  'distribution' && this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : '';
           this.ECLDatasource = new MatTableDataSource(res.responseData);
           this.spinner.hide();
         } else {
@@ -214,7 +215,7 @@ export class CoalAllocationComponent implements OnInit {
   distributionForm !: FormGroup;
   coalDistributionSearch = new FormControl('');
   distributeBtn:boolean = false ;
-
+  alreadyDistributedDataSource :any;
   defaultDistribution() {
     this.distributionForm = this.fb.group({
       distributionList: this.fb.array([])
@@ -222,14 +223,34 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   getDDistributionData() {
-    this.getECLData('distribution');
-
-    
+    this.getECLData('distribution');    
     
   }
   get distributionListControls() {
     return this.distributionForm.get("distributionList") as FormArray;
   }
+
+  getAlreadyDistributed(){
+  this.spinner.show();
+    this.monthlyAllocationDetails =[];
+    let year:any = this.coalDistributionSearch.value;
+    year= year.split('-');
+  this.apiService.setHttp('get', "CoalDistribution/Distribute?MonthYear=" + this.coalDistributionSearch.value + "&Year="+year[1], false, false, false, 'WBMiningService');
+    this.apiService.getHttp().subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          // flag ==  'distribution' && this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : '';
+          this.alreadyDistributedDataSource = new MatTableDataSource(res.responseData);
+          this.spinner.hide();
+        } else {
+          this.alreadyDistributedDataSource = [];
+          this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
+        }
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
+
 
   getcoalDistributionData() {
     let year:any = this.coalDistributionSearch.value;
@@ -304,7 +325,7 @@ export class CoalAllocationComponent implements OnInit {
 
   // ---------------- MSME  Consumer Booking Quantity start here   -----------------------//
   bookingQtySearch = new FormControl('');
-  bookingColums = ['srno', 'collieryName', 'allocationQty', 'bookingQty', 'action'];
+  bookingColums = ['srno', 'collieryName', 'allocationQty', 'bookingQty'];
   bookingPaymentColums = ['srno', 'consumerName', 'tentitiveQty', 'bookingQty', 'amount', 'status', 'action'];
   bookingDataSource: any;
   bookingPaymentDataSource: any;
@@ -420,7 +441,7 @@ export class CoalAllocationComponent implements OnInit {
   eclPaymentFrom !: FormGroup;
   eclPaymentDatasource: any;
   eclSearchData = new FormControl('');
-  eclPaymentColums = ['srno', 'collieryName', 'bookingID', 'amount', 'date', 'transactionNo', 'status', 'action'];
+  eclPaymentColums = ['srno', 'collieryName', 'bookingID', 'amount', 'date', 'transactionNo', 'status','action'];
   WBMDTCLAccountArray: any;
   eclBankListArray: any;
   isDocumentUpload: boolean = false;
@@ -583,7 +604,7 @@ export class CoalAllocationComponent implements OnInit {
   salesOrderFrm: any;
   eclsearchFrm = new FormControl('');
   salesOrderDataSource: any;
-  salesOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo', 'salesOrderDate', 'action'];
+  salesOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo', 'salesOrderDate','action'];
   @ViewChild('formDirective')
   private formDirective!: NgForm;
   saveUpdatesalesBtn:string = "submit";
@@ -728,7 +749,7 @@ getDelivaryDatById(id:any){
         this. updateDelivaryData[0].deliveryId == 0?this.hideSaveBtn=true :'';
         this.updateGenrateDataSource = new MatTableDataSource(res.responseData);
       } else {
-        this.deliveryDataSource = [];
+        this.updateGenrateDataSource = [];
         res.statusCode != 404 ? this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1) : '';
         this.spinner.hide();
       }

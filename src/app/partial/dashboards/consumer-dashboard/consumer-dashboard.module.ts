@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ConsumerDashboardRoutingModule } from './consumer-dashboard-routing.module';
 import { ConsumerDashboardComponent } from './consumer-dashboard.component';
-
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { ConsumerDashboardComponent } from './consumer-dashboard.component';
   ],
   imports: [
     CommonModule,
-    ConsumerDashboardRoutingModule
+    ConsumerDashboardRoutingModule,
+    NgApexchartsModule
   ]
 })
 export class ConsumerDashboardModule { }
