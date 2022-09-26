@@ -222,26 +222,28 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-6"  *ngIf="monthlyAllocationDetails[0]?.isCoalDistributed != 0 ">
-                  <table mat-table #isAlready [dataSource]="alreadyDistributedDataSource" class="dashboard-table w-100 mb-3">
-                    <ng-container matColumnDef="srno">
-                      <th mat-header-cell *matHeaderCellDef> Sr. No </th>
-                      <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="collieryName">
-                      <th mat-header-cell *matHeaderCellDef>MSME Consumer Name</th>
-                      <td mat-cell *matCellDef="let element"> {{element.consumerName | titlecase}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="allocationQty">
-                      <th mat-header-cell *matHeaderCellDef> Tentative Quantity Allocation (Tones)</th>
-                      <td mat-cell *matCellDef="let element"> {{element.tentitiveQty}} </td>
-                    </ng-container>
-                    <tr class="mat-row p-2 w-100" *matNoDataRow col>
-                      <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
-                    </tr>
-                    <tr mat-header-row *matHeaderRowDef="distributionColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: distributionColumns;"></tr>
-                  </table>
+                <div class="col-sm-6"  *ngIf="monthlyAllocationDetails[0]?.isCoalDistributed != 0 ">
+                  <div class="fixed-height">
+                    <table mat-table #isAlready [dataSource]="alreadyDistributedDataSource" class="dashboard-table w-100 mb-3">
+                      <ng-container matColumnDef="srno">
+                        <th mat-header-cell *matHeaderCellDef> Sr. No </th>
+                        <td mat-cell *matCellDef="let element let i = index">{{i+1}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="collieryName">
+                        <th mat-header-cell *matHeaderCellDef>MSME Consumer Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.consumerName | titlecase}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="allocationQty">
+                        <th mat-header-cell *matHeaderCellDef> Tentative Quantity Allocation (Tones)</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tentitiveQty}} </td>
+                      </ng-container>
+                      <tr class="mat-row p-2 w-100" *matNoDataRow col>
+                        <td class="alert alert-danger text-center m-2 mt-2" colspan="4">No data found </td>
+                      </tr>
+                      <tr mat-header-row *matHeaderRowDef="distributionColumns; sticky: true" ></tr>
+                      <tr mat-row *matRowDef="let row; columns: distributionColumns;"></tr>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
