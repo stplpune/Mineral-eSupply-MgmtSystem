@@ -766,6 +766,15 @@
                             <button mat-button 
                               (click)="getDelivaryDatById(element.bookingID)">{{element.id == 0 ?
                               'Generate':'View'}}</button>
+                              
+                          </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="pdf">
+                          <th mat-header-cell *matHeaderCellDef>PDF </th>
+                          <td mat-cell *matCellDef="let element">
+                            <a class="text-danger" href="https://wbminingservices.mahamining.com/UploadDocuments/CoalAllocationDocuments/PAN_c1f5513b-e6e3-48cc-8eef-0c956397e719.pdf"
+                                  target="_blank"><i class="fa-solid fa-file-pdf"></i></a>
                           </td>
                         </ng-container>
                         <tr class="mat-row p-2 w-100" *matNoDataRow col>
