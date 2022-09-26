@@ -13,7 +13,7 @@
                 <a class="btn btn-light me-1 " (click)="toggleSidebar()">
                     <mat-icon>menu</mat-icon>
                 </a>
-                <p>{{localStorageData.getUserName()}}</p>
+                <p class="mb-0 small text-muted">Welcome <span class="text-main">{{localStorageData.getUserName()}}</span></p>
                 <!-- <a class="btn btn-light" (click)="onClickThemeChange('light')" *ngIf="activeTheme != 'light'">
                     <mat-icon>light_mode</mat-icon>
                 </a>
