@@ -40,9 +40,11 @@
                             </div>
                             <div class="mb-0">
                                 <mat-form-field appearance="legacy" class="w-100">
-                                    <mat-label>From Ledger</mat-label>
+                                    <mat-label>From  Ledger</mat-label>
                                     <mat-select>
-                                        <mat-option>Opt 1</mat-option>
+                                        <mat-option *ngFor="let bank of bankArray" [value]="bank">
+                                            {{bank}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -57,7 +59,10 @@
                                     <mat-form-field appearance="legacy" class="w-100">
                                         <mat-label>Payment Mode</mat-label>
                                         <mat-select>
-                                            <mat-option>Opt 1 </mat-option>
+                                            <mat-option *ngFor="let payment of paymentMode"
+                                                [value]="payment">
+                                                {{payment}}
+                                            </mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>

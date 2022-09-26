@@ -175,7 +175,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-6" *ngIf="webStorageService.getSubUserType() == 3 && applicationTableDetails.length" >
+                <div class="col-sm-6" *ngIf="webStorageService.getSubUserType() == 3 && applicationTableDetails.length !=0" >
                   <table mat-table #document [dataSource]="applicationTableDetails" class="dashboard-table w-100">
                     <ng-container matColumnDef="srno">
                       <th mat-header-cell *matHeaderCellDef> Sr. No </th>

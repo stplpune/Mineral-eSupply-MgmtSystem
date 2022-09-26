@@ -9,8 +9,8 @@
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>Party</mat-label>
                                 <mat-select>
-                                    <mat-option *ngFor="let food of foods" [value]="food.value">
-                                        {{food.viewValue}}
+                                    <mat-option *ngFor="let party of partyArray" [value]="party">
+                                        {{party}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -49,8 +49,8 @@
                                                     <mat-form-field appearance="legacy" class="w-100">
                                                         <mat-label>From Ledger</mat-label>
                                                         <mat-select>
-                                                            <mat-option *ngFor="let food of foods" [value]="food.value">
-                                                                {{food.viewValue}}
+                                                            <mat-option *ngFor="let bank of bankArray" [value]="bank">
+                                                                {{bank}}
                                                             </mat-option>
                                                         </mat-select>
                                                     </mat-form-field>
@@ -66,9 +66,9 @@
                                                         <mat-form-field appearance="legacy" class="w-100">
                                                             <mat-label>Payment Mode</mat-label>
                                                             <mat-select>
-                                                                <mat-option *ngFor="let food of foods"
-                                                                    [value]="food.value">
-                                                                    {{food.viewValue}}
+                                                                <mat-option *ngFor="let payment of paymentMode"
+                                                                    [value]="payment">
+                                                                    {{payment}}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
@@ -214,10 +214,10 @@
                                                 </div>
                                                 <div class="mb-0">
                                                     <mat-form-field appearance="legacy" class="w-100">
-                                                        <mat-label>To Ledger</mat-label>
+                                                        <mat-label> Ledger</mat-label>
                                                         <mat-select>
-                                                            <mat-option *ngFor="let food of foods" [value]="food.value">
-                                                                {{food.viewValue}}
+                                                            <mat-option *ngFor="let bank of bankArray" [value]="bank">
+                                                                {{bank}}
                                                             </mat-option>
                                                         </mat-select>
                                                     </mat-form-field>
@@ -233,9 +233,9 @@
                                                         <mat-form-field appearance="legacy" class="w-100">
                                                             <mat-label>Payment Mode</mat-label>
                                                             <mat-select>
-                                                                <mat-option *ngFor="let food of foods"
-                                                                    [value]="food.value">
-                                                                    {{food.viewValue}}
+                                                                <mat-option *ngFor="let payment of paymentMode"
+                                                                    [value]="payment">
+                                                                    {{payment}}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
@@ -332,17 +332,17 @@
                                                             <li
                                                                 class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <label class="form-label">Opening Balance</label>
-                                                                <div class="form-data">12,00,254</div>
+                                                                <div class="form-data">3,89,400.00</div>
                                                             </li>
                                                             <li
                                                                 class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <label class="form-label">Current Balance</label>
-                                                                <div class="form-data">12,00,254</div>
+                                                                <div class="form-data">3,18,600.00</div>
                                                             </li>
                                                             <li
                                                                 class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <label class="form-label">Closing Balance</label>
-                                                                <div class="form-data">12,00,254</div>
+                                                                <div class="form-data">3,00,900.00</div>
                                                             </li>
                                                         </ul>
                                                     </div>
