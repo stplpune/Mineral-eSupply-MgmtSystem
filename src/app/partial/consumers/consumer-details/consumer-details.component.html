@@ -11,7 +11,8 @@
                                 <div class="row">
                                     <div class="col-sm-auto">
                                         <div class="upload-image">
-                                            <img src="assets/images/user.jpg">
+                                            <img src="assets/images/user.jpg" *ngIf="consumerTypeFlag == 1">
+                                            <img src="assets/images/user1.jpg" *ngIf="consumerTypeFlag == 2">
                                         </div>
                                     </div>
                                     <div class="col-sm">
@@ -643,11 +644,11 @@
                                                 <td>WB12XD1234</td>
                                             </tr>
                                             <tr>
-                                                <td>1</td>
+                                                <td>2</td>
                                                 <td>WB12FR1244</td>
                                             </tr>
                                             <tr>
-                                                <td>1</td>
+                                                <td>3</td>
                                                 <td>WB12XR1534</td>
                                             </tr>
                                         </tbody>
@@ -657,7 +658,15 @@
                             <div class="card">
                                 <div class="card-header">Total Lifting</div>
                                 <div class="card-body">
-                                    table
+                                    <div id="chart">
+                                        <apx-chart 
+                                          [series]="pieChartOptions.series"
+                                          [chart]="pieChartOptions.chart"
+                                          [labels]="pieChartOptions.labels"
+                                          [colors]="pieChartOptions.colors"
+                                          [responsive]="pieChartOptions.responsive"
+                                        ></apx-chart>
+                                      </div>
                                 </div>
                             </div>
                         </div>
@@ -675,12 +684,13 @@
                                             </mat-form-field>
                                         </div>
                                         <div class="col-sm-3">
-                                            <mat-form-field appearance="legacy" class="w-100">
+                                            <mat-form-field [appearance]="configService.matFormField" class="w-100">
                                                 <mat-label>Choose Month/Year</mat-label>
-                                                <input matInput [matDatepicker]="picker">
-                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                            </mat-form-field>
+                                                <input matInput [matDatepicker]="datepicker">
+                                                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                                <mat-datepicker #datepicker>
+                                                </mat-datepicker>
+                                              </mat-form-field>
                                         </div>
                                         <div class="col-sm-auto">
                                             <button mat-raised-button class="btn-secondary">
@@ -690,7 +700,13 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    chart
+                                    <div id="areaChart">
+                                        <apx-chart #areaChart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                            [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                                            [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
+                                            [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
+                                            [subtitle]="chartOptions.subtitle"></apx-chart>
+                                    </div>
                                 </div>
                             </div>
                         </div>

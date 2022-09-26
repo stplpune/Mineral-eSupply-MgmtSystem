@@ -145,7 +145,7 @@ export class DashboardComponent implements OnInit {
       colors: ['#fbaa5d', '#2EBDC2'], //add color
       chart: {
         width: 280,
-        height: 120,
+        height: 115,
         type: "pie"
       },
       labels: ["Allocated", "Balance"],
@@ -157,8 +157,12 @@ export class DashboardComponent implements OnInit {
               width: 200
             },
             legend: {
-              position: "bottom"
-            }
+              show: false,
+            },
+            itemMargin: {
+              horizontal: 5,
+              vertical: 0
+          },
           }
         }
       ]
