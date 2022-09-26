@@ -93,7 +93,7 @@
                                         <mat-icon>more_vert</mat-icon>
                                     </button>
                                     <mat-menu #menu="matMenu" xPosition="before">
-                                        <button mat-menu-item (click)="openUserModal(element)">
+                                        <button mat-menu-item (click)="openUserModal(element)" [disabled]="element.userTypeId == 3">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span>Edit</span>
                                                 <mat-icon>edit</mat-icon>
