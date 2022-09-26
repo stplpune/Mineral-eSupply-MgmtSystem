@@ -14,7 +14,7 @@ export class ErrorHandlerService {
     let msg: string = '';
     this.spinner.hide();
     switch (Number(error)) {
-      case 0: msg += "No Date Found"; break;
+      case 0: msg += "No Data Found"; break;
       case 101: msg += "Switching protocols"; break;
       case 102: msg += "Processing"; break;
       case 103: msg += "Early Hints"; break;
