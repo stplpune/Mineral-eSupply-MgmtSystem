@@ -84,15 +84,19 @@
                         <div class="col-sm-6">Lifting Chart</div>
                         <div class="col-sm-3 form-container">
                             <select class="form-select form-select-sm">
-                                <option value="">Select Month</option>
+                                <option value="" [disabled]="true">Sep 2022</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-sm-8">
-                            asdf
+                        <div class="col-sm-8" id="areaChart">
+                                <apx-chart #areaChart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                    [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                                    [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
+                                    [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
+                                    [subtitle]="chartOptions.subtitle"></apx-chart>
                         </div>
                         <div class="col-sm-4 border-start">
                             <div class="d-flex flex-column border-bottom mb-3">
