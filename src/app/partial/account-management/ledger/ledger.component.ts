@@ -19,14 +19,14 @@ export class LedgerComponent implements OnInit {
 export interface PeriodicElement {
   particulars: string;
   date: string;
-  debit: number;
-  credit: number;
+  debit: string;
+  credit: string;
   remarks: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {date: '12-02-2021', particulars: 'Hydrogen', debit: 1.0079, credit: 45345, remarks:'asf'},
-  {date: '12-02-2021', particulars: 'Helium', debit: 4.0026, credit: 345, remarks:'wer'},
-  {date:'12-02-2021', particulars: 'Lithium', debit: 6.941, credit: 2534, remarks:'asdf'},
-  {date: '12-02-2021', particulars: 'Beryllium', debit: 9.0122, credit: 345, remarks:'asdf'},
+  {date: '12-02-2021', particulars: 'Purchase Order No. 215/25', debit: '53,100', credit:'-', remarks:'-'},
+  {date: '14-02-2021', particulars: 'Purchase GST 5%', debit: '59,100', credit: '-', remarks:'-'},
+  {date:'15-02-2021', particulars: 'HDFC Bank - 60220807120', debit: '-', credit: '1,25,134', remarks:'-'},
+  {date: '21-02-2021', particulars: 'AMCU Sale @ 18%', debit: '-', credit: '3,45,000', remarks:'asdf'},
 ];
