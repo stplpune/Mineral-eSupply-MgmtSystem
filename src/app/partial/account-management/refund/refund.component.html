@@ -18,11 +18,11 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-4 mb-3 mb-lg-0">
                     <div class="card card-body">
                         <div class="form-container">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-6 col-sm-6">
                                     <mat-form-field appearance="legacy" class="w-100">
                                         <mat-label>Choose Date</mat-label>
                                         <input matInput [matDatepicker]="picker">
@@ -31,7 +31,7 @@
                                         <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-6 col-sm-6">
                                     <mat-form-field appearance="legacy" class="w-100">
                                         <mat-label>Bill No.</mat-label>
                                         <input matInput>
@@ -47,13 +47,13 @@
                                 </mat-form-field>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-6 col-sm-6">
                                     <mat-form-field appearance="legacy" class="w-100">
                                         <mat-label>Amount</mat-label>
                                         <input matInput>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-6 col-sm-6">
                                     <mat-form-field appearance="legacy" class="w-100">
                                         <mat-label>Payment Mode</mat-label>
                                         <mat-select>
@@ -91,10 +91,10 @@
                 <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header pb-0">
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-block d-sm-flex justify-content-between align-items-center">
                                 <span class="me-5 flex-fill">Ledger</span>
                                 <div class="row flex-fill">
-                                    <div class="col-sm-5">
+                                    <div class="col-6 col-sm-5">
                                         <mat-form-field appearance="legacy" class="w-100">
                                             <mat-label>From Date</mat-label>
                                             <input matInput [matDatepicker]="fromdate">
@@ -103,7 +103,7 @@
                                             <mat-datepicker #fromdate></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-sm-5">
+                                    <div class="col-6 col-sm-5">
                                         <mat-form-field appearance="legacy" class="w-100">
                                             <mat-label>To Date</mat-label>
                                             <input matInput [matDatepicker]="todate">
@@ -112,7 +112,7 @@
                                             <mat-datepicker #todate></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-sm-auto">
+                                    <div class="col-sm-auto text-end">
                                         <button mat-raised-button
                                             class="btn-secondary">Search</button>
                                     </div>
