@@ -28,13 +28,13 @@ export class WebStorageService {
 
   getSubUserType(){
     let data =this.getLoggedInLocalstorageData();
-    return data.responseData.subUserTypeId
+    return data.responseData?.subUserTypeId
   }
 
   getAllPageName() {
     if (this.checkUserIsLoggedIn() == true) {
       let getAllPageName = this.getLoggedInLocalstorageData();
-      return getAllPageName.responseData2;
+      return getAllPageName?.responseData2;
     }
   }
 

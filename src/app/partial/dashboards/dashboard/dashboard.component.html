@@ -21,10 +21,10 @@
                             <div id="chart">
                                 <apx-chart 
                                   [series]="pieChartOptions?.series"
-                                  [chart]="pieChartOptions.chart"
-                                  [labels]="pieChartOptions.labels"
-                                  [colors]="pieChartOptions.colors"
-                                  [responsive]="pieChartOptions.responsive"
+                                  [chart]="pieChartOptions?.chart"
+                                  [labels]="pieChartOptions?.labels"
+                                  [colors]="pieChartOptions?.colors"
+                                  [responsive]="pieChartOptions?.responsive"
                                 ></apx-chart>
                               </div>
                         </div>
@@ -93,11 +93,11 @@
                 </div>
                 <div class="card-body">
                     <div id="areaChart">
-                        <apx-chart #areaChart [series]="chartOptions.series" [chart]="chartOptions.chart"
-                            [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
-                            [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
-                            [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
-                            [subtitle]="chartOptions.subtitle"></apx-chart>
+                        <apx-chart #areaChart [series]="chartOptions?.series" [chart]="chartOptions?.chart"
+                            [xaxis]="chartOptions?.xaxis" [stroke]="chartOptions.stroke"
+                            [dataLabels]="chartOptions?.dataLabels" [yaxis]="chartOptions?.yaxis"
+                            [labels]="chartOptions?.labels" [legend]="chartOptions.legend" [title]="chartOptions?.title"
+                            [subtitle]="chartOptions?.subtitle"></apx-chart>
                     </div>
                 </div>
             </div>
