@@ -3,7 +3,7 @@
     <div class="col-sm-12">
         <div class="card plain-card">
             <div class="card-header pb-0">
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-block d-sm-flex align-items-center justify-content-between">
                     <span class="me-5">Ledger</span>
                     <div class="row">
                         <div class="col-sm-3">
@@ -16,7 +16,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-6 col-sm-3">
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>From Date</mat-label>
                                 <input matInput [matDatepicker]="fromdate">
@@ -25,7 +25,7 @@
                                 <mat-datepicker #fromdate></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm">
+                        <div class="col-6 col-sm">
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>To Date</mat-label>
                                 <input matInput [matDatepicker]="todate">
@@ -34,7 +34,7 @@
                                 <mat-datepicker #todate></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-auto">
+                        <div class="col-sm-auto text-end">
                             <button mat-raised-button
                                 class="btn-secondary">Search</button>
                         </div>
