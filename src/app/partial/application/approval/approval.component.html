@@ -126,7 +126,7 @@
                     <ng-container matColumnDef="documentName">
                       <th mat-header-cell *matHeaderCellDef>Document Name </th>
                       <td mat-cell *matCellDef="let element"> {{element.documentTypeId == 1 ? 'PAN' : element.documentTypeId == 2 ? 'Aadhar' : element.documentTypeId == 3 ? 'GST' : 
-                        element.documentTypeId == 4 ? 'Incorporation Certificate' : element.documentTypeId == 5 ? 'District Recommendation Letter' : '-'}} </td>
+                        element.documentTypeId == 4 ? 'Incorporation Certificate' : element.documentTypeId == 5 ? 'District Recommendation Letter' : element.documentName}} </td>
                     </ng-container>
                     <ng-container matColumnDef="documentNo">
                       <th mat-header-cell *matHeaderCellDef> Document No </th>
