@@ -318,6 +318,8 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.addDocumentNumberNew();
     let formData = this.consumerRegiForm.value;
 
+    // this.consumerRegiForm.value.organizationTypeId == 0 && this.getEditConsumerRegArray.consumerTypeId == 1 && this.consumerRegiForm.value.organizationTypeId == 0
+
     if (this.consumerRegiForm.invalid) {
       return;
     } else if (this.panSymbolHide != true) {
@@ -386,7 +388,7 @@ export class ConsumerRegistrationComponent implements OnInit {
       consumerTypeId: data?.consumerTypeId == 1 ? 'Individual' : 'Organization',
       organizationTypeId: data?.organizationTypeId,
       consumerName: data?.consumerName,
-      emailId: data?.emailId,
+      emailId: data?.emailId,  
       address: data?.address,
       pinCode: data?.pinCode,
       contactPersonName: data?.contactPersonName,
