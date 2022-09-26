@@ -436,7 +436,7 @@
                           <td class="alert alert-danger text-center m-2 mt-2" colspan="8">No data found </td>
                         </tr>
                         <tr mat-header-row *matHeaderRowDef="eclPaymentColums"></tr>
-                        <tr mat-row *matRowDef="let row; columns: eclPaymentColums;" (click)="eclPatchData(row)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: eclPaymentColums;" (click)="eclPatchData(row)" class="rowselect"></tr>
                       </table>
                     </div>
                   </div>
