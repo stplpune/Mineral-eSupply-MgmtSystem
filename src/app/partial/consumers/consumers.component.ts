@@ -84,4 +84,9 @@ export class ConsumersComponent implements OnInit {
     this.pageNumber = event.pageIndex + 1;
     this.getConsumerRegistration();
   }
+
+  consumerTypePass(flag:any){
+    sessionStorage.setItem('consumerType',flag);
+  }
+
 }

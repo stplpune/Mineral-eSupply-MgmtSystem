@@ -69,7 +69,7 @@ export class CoalAllocationComponent implements OnInit {
       this.coalDistribution = [];
       this.coalDistributionSearch.setValue(this.yearArray[0].text);
       this.getECLData('distribution');
-      this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : '';
+      this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getAlreadyDistributed() : '';
     } else if (tabLabel == "MSME Consumer Booking") {
       this.hidebookingtable = false;
       this.bookingQtySearch.setValue(this.yearArray[0].text);
@@ -120,7 +120,7 @@ export class CoalAllocationComponent implements OnInit {
       next: (res: any) => {
         if (res.statusCode === 200) {
           this.monthlyAllocationDetails = res.responseData;
-          flag ==  'distribution' && this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getcoalDistributionData() : '';
+          flag ==  'distribution' && this.monthlyAllocationDetails[0]?.isCoalDistributed == 1 ? this.getAlreadyDistributed() : '';
           this.ECLDatasource = new MatTableDataSource(res.responseData);
           this.spinner.hide();
         } else {
@@ -224,7 +224,7 @@ export class CoalAllocationComponent implements OnInit {
 
   getDDistributionData() {
     this.getECLData('distribution');    
-    
+    this.alreadyDistributedDataSource =[];
   }
   get distributionListControls() {
     return this.distributionForm.get("distributionList") as FormArray;
@@ -489,7 +489,9 @@ export class CoalAllocationComponent implements OnInit {
   }
 
   eclPatchData(data: any) {
-
+    if(data.status ==1){
+      return
+    }
     this.eclPaymentFrom.patchValue({
       bookinId: data?.bookingID,
       quantity: data?.quantity
