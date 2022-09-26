@@ -477,6 +477,7 @@ export class CoalAllocationComponent implements OnInit {
         if (res.statusCode === 200) {
           this.spinner.hide();
           this.eclPaymentDatasource = new MatTableDataSource(res.responseData);
+          this.clearEclForm();
           // this.commonMethod.matSnackBar(res.statusMessage, 0);
         } else {
           this.eclPaymentDatasource = [];
