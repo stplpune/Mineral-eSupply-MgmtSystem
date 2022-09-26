@@ -318,7 +318,7 @@ export class ConsumerRegistrationComponent implements OnInit {
     this.addDocumentNumberNew();
     let formData = this.consumerRegiForm.value;
 
-    // this.consumerRegiForm.value.organizationTypeId == 0 && this.getEditConsumerRegArray.consumerTypeId == 1 && this.consumerRegiForm.value.organizationTypeId == 0
+  //  (this.consumerRegiForm.value.organizationTypeId == 0 && this.getEditConsumerRegArray.consumerTypeId == 1 && this.consumerRegiForm.value.consumerTypeId == 2) ? (this.consumerRegiForm.controls['organizationTypeId'].setValue(''), this.consumerTypeCheck('Organization')): ''
 
     if (this.consumerRegiForm.invalid) {
       return;
@@ -378,6 +378,8 @@ export class ConsumerRegistrationComponent implements OnInit {
   }
 
   editConsumerRegForm(data: any) { // Patch Data
+    this.consumerDocuments = [];
+    this.clearForm();
     this.btnText = 'Update';
     this.getEditConsumerRegArray = data;
     this.consumerTypeCheck(data?.consumerTypeId == 1 ? 'Individual' : 'Organization');
@@ -398,8 +400,8 @@ export class ConsumerRegistrationComponent implements OnInit {
       allocatedQty: data?.allocatedQty,
       flag: 'u',
     })
-    this.consumerDocuments = [...data?.consumerDocuments];
-    // this.consumerDocuments = data?.consumerDocuments;
+    // this.consumerDocuments = [...data?.consumerDocuments];
+    this.consumerDocuments = data?.consumerDocuments;
     this.documentSymbolHide();
     this.consumerDocuments.map((ele: any) => {
       switch (ele.documentTypeId) {
