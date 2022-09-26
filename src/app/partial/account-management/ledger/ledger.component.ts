@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ledger.component.scss']
 })
 export class LedgerComponent implements OnInit {
-
+  partyArray =['Julfikar Coke Briquette', 'CHANDRA COKE BRIQUETTE','ASIA AND SONS','TAJ GUL FACTORY','STAR COKE BRIQUETTE' ,'Gobinda Coke Briquette','Bani Enterprise'];
+  paymentMode= ['Cash','Cheque','DD',"Net Banking",'UPI'];
   constructor() { }
 
   ngOnInit(): void {

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./forfeit.component.scss']
 })
 export class ForfeitComponent implements OnInit {
-  partyArray =['Julfikar Coke Briquette', 'Julfikar Coke Briquette','CHANDRA COKE BRIQUETTE','ASIA AND SONS','TAJ GUL FACTORY','STAR COKE BRIQUETTE' ,'Gobinda Coke Briquette','Bani Enterprise'];
+  partyArray =['Julfikar Coke Briquette', 'CHANDRA COKE BRIQUETTE','ASIA AND SONS','TAJ GUL FACTORY','STAR COKE BRIQUETTE' ,'Gobinda Coke Briquette','Bani Enterprise'];
   paymentMode= ['Cash','Cheque','DD',"Net Banking",'UPI'];
 bankArray= ['ICICI Bank [909768768786]','HDFC [8457567676866]'];
   constructor() { }

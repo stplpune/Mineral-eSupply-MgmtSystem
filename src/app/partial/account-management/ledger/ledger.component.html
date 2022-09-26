@@ -8,11 +8,11 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <mat-form-field appearance="legacy" class="w-100">
-                                <mat-label>To Ledger</mat-label>
+                                <mat-label>Ledger</mat-label>
                                 <mat-select>
-                                    <mat-option >Opt 1</mat-option>
-                                    <mat-option >Opt 2</mat-option>
-                                    <mat-option >Opt 3</mat-option>
+                                    <mat-option *ngFor="let party of partyArray" [value]="party">
+                                        {{party}}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -70,17 +70,20 @@
                 <div class="row justify-content-around">
                     <div class="col-sm-5 form-container">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center">
                                 <label class="form-label">Opening Balance</label>
-                                <div class="form-data">12,00,254</div>
+                                <div class="form-data">3,89,400.00</div>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center">
                                 <label class="form-label">Current Balance</label>
-                                <div class="form-data">12,00,254</div>
+                                <div class="form-data">3,18,600.00</div>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center">
                                 <label class="form-label">Closing Balance</label>
-                                <div class="form-data">12,00,254</div>
+                                <div class="form-data">3,00,900.00</div>
                             </li>
                         </ul>
                     </div>
