@@ -128,15 +128,27 @@ export class DashboardComponent implements OnInit {
         horizontalAlign: "left"
       }
     };
+  }
 
-    //pie chart static data
+  ngOnInit(): void {
+    this.dashboardData();
+    this. getLocationOfCollaries();
+  }
+
+  dashboardData(){
+    this.commonService.getDashboardData().subscribe({
+      next: (response: any) => {
+        this.dashboardDetails =response.responseData;
+            //pie chart static data
     this.pieChartOptions = {
-      series: [44, 55, 13, 43, 22],
+      series: [this.dashboardDetails?.annualQTY, this.dashboardDetails?.balanceAnnualQTY],
+      colors: ['#fbaa5d', '#2EBDC2'], //add color
       chart: {
-        width: 380,
+        width: 280,
+        height: 120,
         type: "pie"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: ["Allocated", "Balance"],
       responsive: [
         {
           breakpoint: 480,
@@ -151,17 +163,6 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-  }
-
-  ngOnInit(): void {
-    this.dashboardData();
-    this. getLocationOfCollaries();
-  }
-
-  dashboardData(){
-    this.commonService.getDashboardData().subscribe({
-      next: (response: any) => {
-        this.dashboardDetails =response.responseData;
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })

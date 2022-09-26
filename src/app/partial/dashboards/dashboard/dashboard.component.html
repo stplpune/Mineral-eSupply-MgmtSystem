@@ -7,16 +7,26 @@
                 <div class="card-header">Annual Quantity</div>
                 <div class="card-body pt-0">
                     <div class="row gx-1 gy-3">
-                        <div class="col-6 col-sm-12">
-                            <h4 class="text-main">{{dashboardDetails?.annualQTY}}</h4>
-                            <small>Allocated</small>
-                        </div>
-                        <div class="col-6 col-sm-6">
-                            <h4 class="text-green">{{dashboardDetails?.balanceAnnualQTY}}</h4>
-                            <small>Balance</small>
-                        </div>
                         <div class="col-sm-6">
-                            Chart
+                            <div class="d-block mb-3">
+                                <h4 class="text-main">{{dashboardDetails?.annualQTY}}</h4>
+                                <small>Allocated</small>
+                            </div>
+                            <div class="d-block">
+                                <h4 class="text-green">{{dashboardDetails?.balanceAnnualQTY}}</h4>
+                                <small>Balance</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <div id="chart">
+                                <apx-chart 
+                                  [series]="pieChartOptions.series"
+                                  [chart]="pieChartOptions.chart"
+                                  [labels]="pieChartOptions.labels"
+                                  [colors]="pieChartOptions.colors"
+                                  [responsive]="pieChartOptions.responsive"
+                                ></apx-chart>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -39,9 +49,7 @@
                             <h4 class="text-violet">{{dashboardDetails?.monthlyLiftingQTY}}</h4>
                             <small>Lifted</small>
                         </div>
-                        <div class="col-6 col-sm-6">
-                            Chart
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -85,7 +93,7 @@
                 </div>
                 <div class="card-body">
                     <div id="areaChart">
-                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                        <apx-chart #areaChart [series]="chartOptions.series" [chart]="chartOptions.chart"
                             [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
                             [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
                             [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
@@ -122,6 +130,7 @@
                             </agm-info-window>
                         </agm-marker>
                     </agm-map>
+
                 </div>
             </div>
         </div>
