@@ -45,4 +45,10 @@ export class WebStorageService {
       return redirectToDashboard;
     }
   }
+
+getUserName(){
+  let userName = this.getLoggedInLocalstorageData().responseData?.userName;
+  return userName;
+}
+
 }
