@@ -1,9 +1,18 @@
 <div id="loginbox" class="d-flex align-items-center justify-content-between">
     <div class="container">
         <div class="row justify-content-center">
+            <div class="col-sm-4 text-center">
+                <div class="d-flex align-items-center mb-3 justify-content-center">
+                    <img src="assets/images/WBMDTCL_Logo.png" class="me-3">
+                    <p class="mb-0">West Bengal Mineral Development<br>&amp; Trading Corporation Ltd.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
             <div class="col-sm-4">
                 <div class="card card-body">
                     <form [formGroup]="loginFrm" (ngSubmit)="onSubmit()">
+                        
                         <h5>Login</h5>
                         <div class="mb-1">
                             <mat-form-field appearance="outline" class="w-100">

@@ -175,7 +175,7 @@ export class VehicleTrackingComponent implements OnInit {
     
     this.marker.addLocation(route);
 
-    setTimeout(() => this.play(), 2000);
+    // setTimeout(() => this.play(), 2000);
   }
 
   // play animation
