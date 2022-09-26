@@ -95,15 +95,22 @@ export class ApprovalComponent implements OnInit {
           this.applicationDetails = res.responseData;
          this.remarkDetails.forEach((ele:any) => { ele.coalApplicationDocuments.length?ele.coalApplicationDocuments.forEach((element:any ) =>{this.applicationDetails?.coalApplicationDocuments.push(element) }) :' ' });
           this.documentTable = new MatTableDataSource(this.applicationDetails?.coalApplicationDocuments);
-          let appArray = [
-            {srNo:',1', 'documentName':'Agreement', documentPath:this.applicationDetails?.aggrementDocumentPath},
-            {srNo:',2', 'documentName':'Security Deposite', documentPath:this.applicationDetails?.securityDocumentPath},
-            
-        ]
-          this.applicationTableDetails = appArray;
+          if(this.applicationDetails?.aggrementDocumentPath !=''|| this.applicationDetails?.securityDocumentPath!='' ){
+            let appArray = [
+              {srNo:',1', 'documentName':'Agreement', documentPath:this.applicationDetails?.aggrementDocumentPath},
+              {srNo:',2', 'documentName':'Security Deposite', documentPath:this.applicationDetails?.securityDocumentPath},
+              
+          ]
+            this.applicationTableDetails = appArray;
+          }else{
+            this.applicationTableDetails=[];
+          }
+
           this.spinner.hide();
         } else {
           this.spinner.hide();
+          this.documentTable =[];
+          this.applicationDetails =[];
           if (res.statusCode != "404") {
             this.commonMethod.checkDataType(res.statusMessage) == false ? this.error.handelError(res.statusCode) : this.commonMethod.matSnackBar(res.statusMessage, 1);
           }
