@@ -5,18 +5,20 @@
             <div class="row align-items-center">
                 <div class="col-sm-9">
                     <div class="row align-items-center">
-
                         <div class="col-8 col-sm-3">
                             <mat-form-field appearance="legacy" class="w-100">
                                 <mat-label>Enter Coal Grade</mat-label>
                                 <input matInput placeholder="Enter Coal Grade" [formControl]="searchText">
                             </mat-form-field>
                         </div>
-                        <div class="col-4 col-sm-2 text-end">
+                        <div class="col-4 col-sm-auto">
                             <button mat-raised-button class="btn btn-secondary"
                                 (click)="pageNumber = 1;getCoalGradewiseRateMaster()">Search</button>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-3 text-end">
+                    <span class="text-danger small">* All figures are in INR</span>
                 </div>
             </div>
         </div>
@@ -37,7 +39,7 @@
                         <td mat-cell *matCellDef="let element"> {{element.unit ? element.unit : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="baseRate">
-                        <th mat-header-cell *matHeaderCellDef> Base Rate <br>(₹/Tonne)</th>
+                        <th mat-header-cell *matHeaderCellDef> Base Rate <br>(₹/Unit)</th>
                         <td mat-cell *matCellDef="let element"> {{element.baseRate ? element.baseRate :'-'}} </td>
                     </ng-container>
                     <!-- <ng-container matColumnDef="royalty">
@@ -57,7 +59,7 @@
                         <td mat-cell *matCellDef="let element"> {{element.igst ? element.igst : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="cess">
-                        <th mat-header-cell *matHeaderCellDef> CESS <br>(₹/Tonne)</th>
+                        <th mat-header-cell *matHeaderCellDef> CESS <br>(in ₹)</th>
                         <td mat-cell *matCellDef="let element"> {{element.cess ? element.cess : '-'}} </td>
                     </ng-container>
                     <ng-container matColumnDef="action">
