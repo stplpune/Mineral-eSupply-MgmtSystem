@@ -380,8 +380,8 @@
                                         <input matInput formControlName="deviceSIMNo" maxlength="10"
                                             (keypress)="vs.onlyDigitsExcludeZeroAtStart($event)">
                                         <mat-error *ngIf="f['deviceSIMNo'].errors">
-                                            <span *ngIf="f['deviceSIMNo']?.hasError('required')"> Please enter device SIM</span>
-                                            <span *ngIf="f['deviceSIMNo']?.hasError('pattern')"> Please enter valid device SIM</span>
+                                            <span *ngIf="f['deviceSIMNo']?.hasError('required')"> Please enter device SIM number</span>
+                                            <span *ngIf="f['deviceSIMNo']?.hasError('pattern')"> Please enter valid device SIM number</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
@@ -405,8 +405,8 @@
                                         <input matInput formControlName="secondarySIMNo" maxlength="10"
                                             (keypress)="vs.onlyDigitsExcludeZeroAtStart($event)">
                                         <mat-error *ngIf="f['secondarySIMNo'].errors">
-                                            <span *ngIf="f['secondarySIMNo']?.hasError('required')"> Please enter device SIM</span>
-                                            <span *ngIf="f['secondarySIMNo']?.hasError('pattern')"> Please enter valid device SIM</span>
+                                            <span *ngIf="f['secondarySIMNo']?.hasError('required')"> Please enter device SIM number</span>
+                                            <span *ngIf="f['secondarySIMNo']?.hasError('pattern')"> Please enter valid device SIM number</span>
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
