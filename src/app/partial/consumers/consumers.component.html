@@ -91,7 +91,7 @@
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
                                 <mat-menu #menu="matMenu" xPosition="before">
-                                    <a mat-menu-item href="/consumer-details">
+                                    <a mat-menu-item href="/consumer-details" (click)="consumerTypePass(element.consumerTypeId)">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span>View</span>
                                             <mat-icon>remove_red_eye</mat-icon>
