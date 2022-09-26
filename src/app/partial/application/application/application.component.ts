@@ -82,7 +82,6 @@ export class ApplicationComponent implements OnInit {
     this.apiService.getHttp().subscribe({
       next: (res: any) => {
         if (res.statusCode === 200) {
-          console.log(res.responseData[0]);
           this.dataSource = new MatTableDataSource(res.responseData);
           this.totalRows = res.responseData1.totalCount;
           this.totalRows > 10 && this.pageNumber == 1 ? this.paginator?.firstPage() : '';
