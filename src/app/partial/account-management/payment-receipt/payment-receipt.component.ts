@@ -32,7 +32,7 @@ export class PaymentReceiptComponent implements OnInit {
     {value: 'pizza-1', viewValue: 'Pizza'},
     {value: 'tacos-2', viewValue: 'Tacos'},
   ];
-  partyArray =['Julfikar Coke Briquette', 'Julfikar Coke Briquette','CHANDRA COKE BRIQUETTE','ASIA AND SONS','TAJ GUL FACTORY','STAR COKE BRIQUETTE' ,'Gobinda Coke Briquette','Bani Enterprise'];
+  partyArray =['Julfikar Coke Briquette','CHANDRA COKE BRIQUETTE','ASIA AND SONS','TAJ GUL FACTORY','STAR COKE BRIQUETTE' ,'Gobinda Coke Briquette','Bani Enterprise'];
   paymentMode= ['Cash','Cheque','DD',"Net Banking",'UPI'];
 bankArray= ['ICICI Bank [909768768786]','HDFC [8457567676866]'];
   displayedColumns: string[] = ['date', 'particulars', 'debit', 'credit','remarks'];

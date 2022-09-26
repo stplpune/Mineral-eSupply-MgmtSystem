@@ -708,7 +708,7 @@ export class CoalAllocationComponent implements OnInit {
 
 // --------------------- Delivery Order start here --------------------------//
 searchDeliveryOrder =  new FormControl('');
-deliveryOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo',  'action'];
+deliveryOrderColums = ['srno', 'bookingID', 'collieryName', 'quantity', 'salesOrderNo',  'action' ,'pdf'];
 orderColumsById = ['srno',  'consumerName', 'date', 'quantity','doNumber', 'doDate','action'];
 deliveryDataSource :any ;
 genrateDataSource:any;
