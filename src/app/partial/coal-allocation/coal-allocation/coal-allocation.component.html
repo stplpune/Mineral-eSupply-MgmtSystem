@@ -812,8 +812,7 @@
                         </ng-container>
                         <ng-container matColumnDef="doDate">
                           <th mat-header-cell *matHeaderCellDef>DO Date </th>
-                          <td mat-cell *matCellDef="let element"> {{element.doDate?element?.doDate:element?.soDate |
-                            date: 'dd/MM/yyyy'}} </td>
+                          <td mat-cell *matCellDef="let element"> {{element.doDate?(element?.doDate  | date: 'dd/MM/yyyy') :element?.soDate | date: 'dd/MM/yyyy'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
