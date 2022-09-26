@@ -5,12 +5,12 @@
             <div class="col-sm-8 mb-3">
                 <table mat-table [dataSource]="dataSource" class="dashboard-table w-100">
                     <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
                         <td mat-cell *matCellDef="let element let i= index"> {{((pageNumber + 1) * 10 + i + 1)-20}} </td>
                     </ng-container>
     
                     <ng-container matColumnDef="gradeName">
-                        <th mat-header-cell *matHeaderCellDef> Document Name </th>
+                        <th mat-header-cell *matHeaderCellDef> Coal Grade Name </th>
                         <td mat-cell *matCellDef="let element"> {{element.gradeName}} </td>
                     </ng-container>
                     <ng-container matColumnDef="action">
@@ -56,7 +56,7 @@
                     <div class="card-body">
                         <form [formGroup]="coalFrm" (ngSubmit)="saveUpdate()">
                             <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
-                                <mat-label>Coal Name</mat-label>
+                                <mat-label>Grade Name</mat-label>
                                 <input matInput formControlName="coal">
                                 <mat-error *ngIf="coalFrm.controls['coal'].errors">
                                     <span *ngIf="coalFrm.controls['coal']?.hasError('required')"> Please Enter Coal
