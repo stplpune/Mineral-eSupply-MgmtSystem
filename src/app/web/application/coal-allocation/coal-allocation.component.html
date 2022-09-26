@@ -348,13 +348,13 @@
                                     <img src="../../../assets/images/success.svg" class="uploadDocImg mx-1 border-0"
                                         style="height: 20px; width: 20px;" id="PanImg"
                                         alt="Document Uploaded Successfully" title="Document Uploaded Successfully">
-                                    <button mat-mini-fab color="primary" class="mx-3" title="View Uploaded Document"
+                                    <button mat-icon-button  class="mx-3 btn-secondary" title="View Uploaded Document"
                                         (click)="viewDocument(1)">
-                                        <mat-icon>visibility</mat-icon>
+                                        <mat-icon class="text-secondary">visibility</mat-icon>
                                     </button>
-                                    <button mat-mini-fab color="warn" id="PanImg" title="Delete Uploaded Document"
+                                    <button mat-icon-button id="PanImg" class="btn-secondary" title="Delete Uploaded Document"
                                         (click)="deleteDocument(1)">
-                                        <mat-icon>delete</mat-icon>
+                                        <mat-icon class="text-danger">delete</mat-icon>
                                     </button>
                                 </span>
                             </td>

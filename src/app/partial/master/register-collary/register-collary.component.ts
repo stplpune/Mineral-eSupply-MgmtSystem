@@ -14,6 +14,7 @@ import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.c
 import { Subscription } from 'rxjs';
 import { MapsAPILoader } from '@agm/core'
 import { Router } from '@angular/router';
+import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
 
 @Component({
   selector: 'app-register-collary',
@@ -89,6 +90,7 @@ export class RegisterCollaryComponent implements OnInit {
     private shareDataService: ShareDataService,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
+    public commonService: CommonApiCallService,
     public validation: FormsValidationService,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader,
@@ -127,12 +129,9 @@ export class RegisterCollaryComponent implements OnInit {
   }
 
   getDistrictName() {
-    this.apiService.setHttp('get', "DropdownService/GetDistrictDetails?stateId=36", false, false, false, 'WBMiningService');
-    this.apiService.getHttp().subscribe({
+    this.commonService.getDistrictByStateId(36).subscribe({
       next: (res: any) => {
-        if (res.statusCode === 200) {
-          this.districtNameArr.push({ text: "All District", organizationId: 0 }, ...res.responseData);
-        }
+        this.districtNameArr.push({ text: "All District", organizationId: 0 }, ...res);
       },
       error: ((error: any) => { this.error.handelError(error.status) })
     })
