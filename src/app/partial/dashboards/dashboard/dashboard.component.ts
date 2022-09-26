@@ -142,9 +142,10 @@ export class DashboardComponent implements OnInit {
             //pie chart static data
     this.pieChartOptions = {
       series: [this.dashboardDetails?.annualQTY, this.dashboardDetails?.balanceAnnualQTY],
-      colors: ['#5C4742', '#A5978B'], //add color
+      colors: ['#fbaa5d', '#2EBDC2'], //add color
       chart: {
-        width: 380,
+        width: 280,
+        height: 120,
         type: "pie"
       },
       labels: ["Allocated", "Balance"],
