@@ -523,3 +523,10 @@ text.apexcharts-subtitle-text {
 .rowselect{
   cursor:  pointer !important;
 }
+.fixed-height{
+  max-height: 71vh;
+  overflow-y: auto !important;
+}
+.apexcharts-datalabels{
+  display: none !important;
+}
