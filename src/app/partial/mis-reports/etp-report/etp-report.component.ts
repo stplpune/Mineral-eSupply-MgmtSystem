@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-etp-report',
@@ -15,14 +17,29 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class EtpReportComponent implements OnInit {
 
-  constructor() { }
+  collieryArray:any;
+  constructor(
+    public commonService: CommonApiCallService,
+    public error: ErrorHandlerService,
+  ) { }
 
   ngOnInit(): void {
+    this. getCollieryData();
   }
   dataSource = ELEMENT_DATA;
   columnsToDisplay = ['Sr.No.', 'Challan_No', 'Vehicle_No', 'Mineral','Grade','Colliery_Name','Destination','Quantity'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: PeriodicElement | any;
+
+
+  getCollieryData() {
+    this.commonService.getCollieryNameList().subscribe({
+      next: (response: any) => {
+        this.collieryArray = response//.push({ 'value': 0, 'text': 'All State' }, ...response);
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
+  }
 
 }
 export interface PeriodicElement {
