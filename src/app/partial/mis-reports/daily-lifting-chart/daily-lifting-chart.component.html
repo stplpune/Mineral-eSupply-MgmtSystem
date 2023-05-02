@@ -11,9 +11,10 @@
                                     <mat-form-field class="example-full-width" appearance="legacy" class="w-100">
                                         <mat-label>Select Collery</mat-label>
                                         <mat-select>
-                                            <mat-option value="option">Option-1</mat-option>
-                                            <mat-option value="option">Option-2</mat-option>
-                                        </mat-select>
+                                            <mat-option *ngFor="let colliery of collieryArray" [value]="colliery.id">
+                                              {{colliery.collieryName}}
+                                            </mat-option>
+                                          </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-5 col-sm-2">

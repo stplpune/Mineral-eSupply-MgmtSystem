@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonApiCallService } from 'src/app/core/services/common-api-call.service';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-daily-lifting-chart',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DailyLiftingChartComponent implements OnInit {
 
-  constructor() { }
+  collieryArray: any;
+  constructor(
+    public commonService: CommonApiCallService,
+    public error: ErrorHandlerService,
+  ) { }
 
   ngOnInit(): void {
+    this.getCollieryData();
+  }
+
+  getCollieryData() {
+    this.commonService.getCollieryNameList().subscribe({
+      next: (response: any) => {
+        this.collieryArray = response//.push({ 'value': 0, 'text': 'All State' }, ...response);
+      },
+      error: ((error: any) => { this.error.handelError(error.status) })
+    })
   }
 
 }
