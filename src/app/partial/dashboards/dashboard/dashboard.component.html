@@ -9,11 +9,11 @@
                     <div class="row gx-1 gy-3">
                         <div class="col-sm-6">
                             <div class="d-block mb-3">
-                                <h4 class="text-main">{{dashboardDetails?.annualQTY}}</h4>
+                                <h4 class="text-main">{{dashboardDetails?.annualQTY | number}}</h4>
                                 <small>Allocated</small>
                             </div>
                             <div class="d-block">
-                                <h4 class="text-green">{{dashboardDetails?.balanceAnnualQTY}}</h4>
+                                <h4 class="text-green">{{dashboardDetails?.balanceAnnualQTY | number}}</h4>
                                 <small>Balance</small>
                             </div>
                         </div>
@@ -38,15 +38,15 @@
                 <div class="card-body pt-0">
                     <div class="row gx-1 gy-3">
                         <div class="col-6 col-sm-6">
-                            <h4 class="text-main">{{dashboardDetails?.monthlyQTY}}</h4>
+                            <h4 class="text-main">{{dashboardDetails?.monthlyQTY | number}}</h4>
                             <small>Allocated</small>
                         </div>
                         <div class="col-6 col-sm-6">
-                            <h4 class="text-green">{{dashboardDetails?.monthlyBalanceQTY}}</h4>
+                            <h4 class="text-green">{{dashboardDetails?.monthlyBalanceQTY | number}}</h4>
                             <small>Balance</small>
                         </div>
                         <div class="col-6 col-sm-6">
-                            <h4 class="text-violet">{{dashboardDetails?.monthlyLiftingQTY}}</h4>
+                            <h4 class="text-violet">{{dashboardDetails?.monthlyLiftingQTY | number}}</h4>
                             <small>Lifted</small>
                         </div>
                        
