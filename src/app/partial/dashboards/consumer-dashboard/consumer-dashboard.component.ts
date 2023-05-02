@@ -31,17 +31,17 @@ export class ConsumerDashboardComponent implements OnInit {
         900,
       ],
       dates: [
-        "16 Sep 2022",
-        "17 Sep 2022",
-        "18 Sep 2022",
-        "19 Sep 2022",
-        "20 Sep 2022",
-        "21 Sep 2022",
-        "22 Sep 2022",
-        "23 Sep 2022",
-        "24 Sep 2022",
-        "25 Sep 2022",
-        "26 Sep 2022",
+        "16 April 2023",
+        "17 April 2023",
+        "18 April 2023",
+        "19 April 2023",
+        "20 April 2023",
+        "21 April 2023",
+        "22 April 2023",
+        "23 April 2023",
+        "24 April 2023",
+        "25 April 2023",
+        "26 April 2023",
       ]
     }
     this.chartOptions = {

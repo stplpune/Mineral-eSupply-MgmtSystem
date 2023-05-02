@@ -75,17 +75,17 @@ export class DashboardComponent implements OnInit {
         1010,
       ],
       dates: [
-        "20 April 2024",
-        "21 April 2024",
-        "22 April 2024",
-        "23 April 2024",
-        "24 April 2024",
-        "25 April 2024",
-        "26 April 2024",
-        "27 April 2024",
-        "28 April 2024",
-        "29 April 2024",
-        "30 April 2024",
+        "20 April 2023",
+        "21 April 2023",
+        "22 April 2023",
+        "23 April 2023",
+        "24 April 2023",
+        "25 April 2023",
+        "26 April 2023",
+        "27 April 2023",
+        "28 April 2023",
+        "29 April 2023",
+        "30 April 2023",
       ]
     }
     this.chartOptions = {
