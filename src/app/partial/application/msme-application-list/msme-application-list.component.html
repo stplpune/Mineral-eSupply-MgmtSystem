@@ -101,6 +101,7 @@
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
+                        <h5>To download sample agreement draft, click here.</h5><button class="btn bg-info bg-opacity-10 text-info"><i class="fa-solid fa-file-pdf"></i></button>
                         <mat-paginator #paginator [pageSizeOptions]="[10]" [length]="totalRows" (page)="pageChanged($event)"
                         showFirstLastButtons></mat-paginator>
                     </div>
